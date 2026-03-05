@@ -1,0 +1,76 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --background: #fdfbf7;
+    --foreground: #1c1c1c;
+    --primary: #8b5a2b;
+    --primary-foreground: #ffffff;
+    --muted: #f3f0e8;
+    --muted-foreground: #6b665c;
+    --border: #e6e2d8;
+  }
+
+  .dark {
+    --background: #121212;
+    --foreground: #e0e0e0;
+    --primary: #c18850;
+    --primary-foreground: #121212;
+    --muted: #1e1e1e;
+    --muted-foreground: #a0a0a0;
+    --border: #333333;
+  }
+}
+
+@layer base {
+  body {
+    background-color: var(--background);
+    color: var(--foreground);
+    font-family: "Tajawal", sans-serif;
+    direction: rtl;
+    text-align: right;
+  }
+}
+
+/* Beautiful custom scrollbar for long reading */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background-color: var(--border);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background-color: var(--muted-foreground);
+}
+
+.prose h1,
+.prose h2,
+.prose h3 {
+  color: var(--primary);
+  margin-top: 1.5rem;
+  margin-bottom: 0.75rem;
+  font-weight: 700;
+}
+
+.prose p {
+  line-height: 1.8;
+  margin-bottom: 1.25rem;
+  font-size: 1.125rem;
+}
+
+/* Quote style for important notes */
+.prose blockquote {
+  border-right: 4px solid var(--primary);
+  border-left: none; /* override rtl tailwind issues if any */
+  padding-right: 1rem;
+  margin-right: 0;
+  font-style: italic;
+  color: var(--muted-foreground);
+  background: var(--muted);
+  padding: 1rem;
+  border-radius: 0.5rem;
+}

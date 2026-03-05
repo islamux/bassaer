@@ -34,3 +34,20 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Python
+venv/
+__pycache__/
+*.pyc
+
+# Basaar web local paths
+web/.next/
+web/node_modules/
+web/.pnp
+web/.pnp.js
+web/coverage
+web/.env.local
+web/.env.development.local
+web/.env.test.local
+web/.env.production.local
+web/.vercel
