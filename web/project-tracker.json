@@ -1,0 +1,21 @@
+{
+  "project": {
+    "name": "بصائر - Basaar Arabic Digital Book",
+    "start_date": "2026-04-22",
+    "target_date": "2026-07-01",
+    "current_week": 1,
+    "schedule_status": "on_track",
+    "overall_progress": 0
+  },
+  "milestones": [],
+  "agents": [],
+  "agent_log": [],
+  "schedule": {
+    "phases": [
+      { "id": "content_quality", "title": "Content Quality", "start_week": 1, "end_week": 3 },
+      { "id": "ui_polish", "title": "UI Polish", "start_week": 2, "end_week": 5 },
+      { "id": "features", "title": "Feature Enhancement", "start_week": 4, "end_week": 8 },
+      { "id": "production", "title": "Production", "start_week": 7, "end_week": 10 }
+    ]
+  }
+}
