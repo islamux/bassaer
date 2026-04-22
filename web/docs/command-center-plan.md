@@ -1,7 +1,7 @@
 # Basaar (بصائر) Command Center — Adaptation Plan
 
 > Adapted from `command-center-blueprint.md` for the Basaar Arabic Digital Book project.
-> This is a **plan only** — do not execute. Use this document to guide implementation later.
+> **Phases 1-4 + 9 are DONE. Resume from Phase 5 (Section 7).**
 
 ---
 
@@ -188,28 +188,67 @@ Performance, deployment, SEO, error monitoring, analytics.
 
 Execute these phases in order. Each references the original blueprint with Basaar-specific notes.
 
-### PHASE 1: TRACKER SCHEMA
+### PHASE 1: TRACKER SCHEMA — DONE
 
-Same as blueprint. Use the Basaar tracker config above. Place `project-tracker.json` at project root.
+> Completed 2026-04-22. `project-tracker.json` created at `web/` with Basaar config and 4 schedule phases.
 
-### PHASE 2: MCP SERVER
+### PHASE 2: MCP SERVER — DONE
 
-Same as blueprint. Point `PROJECT_ROOT` to:
-```
-/media/islamux/Variety/JavaScriptProjects/bassaer-antigravity/web
-```
+> Completed 2026-04-22. Built at `command-center-mcp/` with all 24 tools + CLI. `npm run build` passes.
 
-### PHASE 3: ELECTRON SHELL
+### PHASE 3: ELECTRON SHELL — DONE
 
-Same as blueprint. Separate from the Next.js app. No changes needed.
+> Completed 2026-04-22. Built at `command-center/` with electron-vite, file watcher, IPC handlers. `npm run build` passes.
 
-### PHASE 4-9: STORE, VIEWS, DESIGN SYSTEM
+### PHASE 4: STORE + TAB SYSTEM — DONE
 
-Same as blueprint. No changes needed. When hydrated with Basaar domains, swim lanes will show: Content (amber), UI/UX (green), Features (indigo), Scripts (teal), Infrastructure (violet).
+> Completed 2026-04-22. Zustand store with selectors, write-back debounce, external listener. TabBar + StatusBar + theme toggle in App.tsx.
+
+### PHASE 9: DESIGN SYSTEM — DONE
+
+> Completed 2026-04-22. Tailwind CSS v4 theme with dark/light modes, color tokens, custom scrollbar, Inter + JetBrains Mono fonts.
+
+---
+
+### PHASE 5: SWIM LANE VIEW — START HERE
+
+> **RESUME POINT**: Continue from here. Build the SVG-based Gantt-like swim lane timeline view.
+> Reference: `docs/command-center-blueprint.md` lines 1289-1474
+>
+> Files to create in `command-center/src/renderer/`:
+> - `views/SwimLaneView.tsx` — Main view with week grid, NOW marker, domain lanes, milestone nodes (SVG)
+> - `components/MilestoneNode.tsx` — SVG circle with progress arc
+> - `components/MilestoneDetailPanel.tsx` — Slide-out panel (480px) with schedule, subtasks, dependencies, notes
+> - `components/ProgressRing.tsx` — Reusable SVG progress ring component
+>
+> Key constants: WEEK_W=100, LANE_H=200, LABEL_W=140, NODE_R=20, KEY_NODE_R=26, PANEL_W=480
+> Uses: `selectCurrentWeekFractional`, `selectDomains`, `getDomainColor` from store.ts
+
+### PHASE 6: TASK BOARD VIEW
+
+> Kanban with 5 columns (todo, in_progress, review, done, blocked), milestone carousel, drag-drop via @dnd-kit.
+> Reference: `docs/command-center-blueprint.md` lines 1478-1624
+
+### PHASE 7: AGENT HUB VIEW
+
+> Connected agents panel + activity feed + context injection + today's summary.
+> Reference: `docs/command-center-blueprint.md` lines 1628-1783
+
+### PHASE 8: CALENDAR VIEW
+
+> 7-column week grid showing completed tasks. Week navigation. Today indicator.
+> Reference: `docs/command-center-blueprint.md` lines 1787-1856
 
 ### PHASE 10: WORKFLOW + AGENT ROLES
 
-Same as blueprint, plus the Basaar-specific agent roles below.
+> Create workflow docs (`docs/workflow.md`), agent role definitions, and MCP config (`.mcp.json`).
+> Reference: `docs/command-center-blueprint.md` lines 1991-2216
+> Plus the Basaar-specific agent roles from Section 9 below.
+
+### HYDRATE
+
+> After all 10 phases complete, populate `project-tracker.json` with the milestones and tasks from Section 8 below.
+> Then register 6 agents: `orchestrator`, `explorer`, `researcher`, `post-build-auditor`, `arabic-specialist`, `nextjs-specialist`.
 
 ---
 
