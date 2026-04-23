@@ -1,7 +1,7 @@
 # Basaar (بصائر) Command Center — Adaptation Plan
 
 > Adapted from `command-center-blueprint.md` for the Basaar Arabic Digital Book project.
-> **Phases 1-4 + 9 are DONE. Resume from Phase 5 (Section 7).**
+> **ALL PHASES 1-10 COMPLETED ✅. Ready for hydration and agent registration.**
 
 ---
 
@@ -210,34 +210,70 @@ Execute these phases in order. Each references the original blueprint with Basaa
 
 ---
 
-### PHASE 5: SWIM LANE VIEW — START HERE
+### PHASE 5: SWIM LANE VIEW — DONE ✅
 
-> **RESUME POINT**: Continue from here. Build the SVG-based Gantt-like swim lane timeline view.
-> Reference: `docs/command-center-blueprint.md` lines 1289-1474
+> Completed 2026-04-23. Built SVG-based Gantt-like swim lane timeline view with:
+> - Week grid with headers and NOW marker
+> - Domain-specific swim lanes with milestone nodes
+> - Phase background bands and connection lines
+> - Major milestone markers and detail panels
+> - Auto-scroll to current week
 >
-> Files to create in `command-center/src/renderer/`:
-> - `views/SwimLaneView.tsx` — Main view with week grid, NOW marker, domain lanes, milestone nodes (SVG)
-> - `components/MilestoneNode.tsx` — SVG circle with progress arc
-> - `components/MilestoneDetailPanel.tsx` — Slide-out panel (480px) with schedule, subtasks, dependencies, notes
-> - `components/ProgressRing.tsx` — Reusable SVG progress ring component
+> Files created:
+> - `views/SwimLaneView.tsx` (main view)
+> - `components/MilestoneNode.tsx` (SVG nodes)
+> - `components/MilestoneDetailPanel.tsx` (480px slide-out)
+> - `components/ProgressRing.tsx` (reusable component)
 >
-> Key constants: WEEK_W=100, LANE_H=200, LABEL_W=140, NODE_R=20, KEY_NODE_R=26, PANEL_W=480
-> Uses: `selectCurrentWeekFractional`, `selectDomains`, `getDomainColor` from store.ts
+> Constants: WEEK_W=100, LANE_H=200, LABEL_W=140, NODE_R=20, KEY_NODE_R=26, PANEL_W=480
 
-### PHASE 6: TASK BOARD VIEW
+### PHASE 6: TASK BOARD VIEW — DONE ✅
 
-> Kanban with 5 columns (todo, in_progress, review, done, blocked), milestone carousel, drag-drop via @dnd-kit.
-> Reference: `docs/command-center-blueprint.md` lines 1478-1624
+> Completed 2026-04-23. Built Kanban board with:
+> - 5 columns (TO DO, IN PROGRESS, REVIEW, DONE, BLOCKED)
+> - Milestone navigation with progress rings
+> - Task filtering (All, My Tasks, Agent Tasks, Blocked)
+> - Drag-and-drop between columns with @dnd-kit
+> - Task detail modal with comprehensive editing
+>
+> Files created:
+> - `views/TaskBoardView.tsx` (main view)
+> - `components/ContextBar.tsx` (milestone navigation)
+> - `components/FilterBar.tsx` (filter controls)
+> - `components/KanbanColumn.tsx` (individual columns)
+> - `components/TaskCard.tsx` (draggable cards)
+> - `components/TaskDetailModal.tsx` (full-screen editor)
 
-### PHASE 7: AGENT HUB VIEW
+### PHASE 7: AGENT HUB VIEW — DONE ✅
 
-> Connected agents panel + activity feed + context injection + today's summary.
-> Reference: `docs/command-center-blueprint.md` lines 1628-1783
+> Completed 2026-04-23. Built agent monitoring dashboard with:
+> - Connected agents panel with hierarchical display
+> - Activity feed with filtering and search
+> - Agent performance metrics
+> - Shared state file information
+> - Context injection with copy-to-clipboard
+> - Today's summary statistics
+>
+> Files created:
+> - `views/AgentHubView.tsx` (main view)
+> - `components/AgentCard.tsx` (agent display)
+> - `components/ActivityFeed.tsx` (activity log)
+> - `components/SharedStateInfo.tsx` (tracker info)
+> - `components/ContextInjection.tsx` (context display)
+> - `components/TodaysSummary.tsx` (daily stats)
 
-### PHASE 8: CALENDAR VIEW
+### PHASE 8: CALENDAR VIEW — DONE ✅
 
-> 7-column week grid showing completed tasks. Week navigation. Today indicator.
-> Reference: `docs/command-center-blueprint.md` lines 1787-1856
+> Completed 2026-04-23. Built weekly calendar with:
+> - 7-column grid (Monday-Sunday)
+> - Week navigation (Previous/Next/Today)
+> - Task chips grouped by completion date
+> - Today indicator and first-of-month highlighting
+> - Empty state handling
+>
+> Files created:
+> - `views/CalendarView.tsx` (main view)
+> - `components/TaskChip.tsx` (task display)
 
 ### PHASE 10: WORKFLOW + AGENT ROLES — DONE
 
@@ -454,6 +490,7 @@ In addition to the standard Explorer, Researcher, and Post-Build Auditor:
 
 ✅ Build the Command Center skeleton following blueprint Phases 1-10
 ✅ Create workflow documentation and agent role definitions
+✅ Add, commit, and push all Command Center files to git
 2. Hydrate with the Basaar milestones and tasks from Section 8
 3. Register agents: `orchestrator`, `explorer`, `researcher`, `post-build-auditor`, `arabic-specialist`, `nextjs-specialist`
 4. Start working through milestones in week order
@@ -474,3 +511,7 @@ In addition to the standard Explorer, Researcher, and Post-Build Auditor:
 | Web Stack | Next.js 15 + React 19 + Tailwind CSS v4 + TypeScript |
 | Agent Roles | 6 (standard 3 + Arabic Specialist + Next.js Specialist + Orchestrator) |
 | Implementation Status | ✅ Phases 1-10 Complete |
+| Git Status | ✅ Added, committed, and pushed to feature/command-center |
+| Build Status | ✅ All TypeScript compilation passing |
+| Components | 14 reusable UI components |
+| Views | 4 main views (Swim Lane, Task Board, Agent Hub, Calendar) |
