@@ -239,9 +239,9 @@ Execute these phases in order. Each references the original blueprint with Basaa
 > 7-column week grid showing completed tasks. Week navigation. Today indicator.
 > Reference: `docs/command-center-blueprint.md` lines 1787-1856
 
-### PHASE 10: WORKFLOW + AGENT ROLES
+### PHASE 10: WORKFLOW + AGENT ROLES — DONE
 
-> Create workflow docs (`docs/workflow.md`), agent role definitions, and MCP config (`.mcp.json`).
+> Completed 2026-04-23. Created workflow docs (`docs/workflow.md`), agent role definitions (`docs/agent-roles.md`), and MCP config (`.mcp.json`).
 > Reference: `docs/command-center-blueprint.md` lines 1991-2216
 > Plus the Basaar-specific agent roles from Section 9 below.
 
@@ -452,7 +452,8 @@ In addition to the standard Explorer, Researcher, and Post-Build Auditor:
 
 ## 11. Execution Order
 
-1. Build the Command Center skeleton following blueprint Phases 1-10
+✅ Build the Command Center skeleton following blueprint Phases 1-10
+✅ Create workflow documentation and agent role definitions
 2. Hydrate with the Basaar milestones and tasks from Section 8
 3. Register agents: `orchestrator`, `explorer`, `researcher`, `post-build-auditor`, `arabic-specialist`, `nextjs-specialist`
 4. Start working through milestones in week order
@@ -472,3 +473,4 @@ In addition to the standard Explorer, Researcher, and Post-Build Auditor:
 | Timeline | 10 weeks |
 | Web Stack | Next.js 15 + React 19 + Tailwind CSS v4 + TypeScript |
 | Agent Roles | 6 (standard 3 + Arabic Specialist + Next.js Specialist + Orchestrator) |
+| Implementation Status | ✅ Phases 1-10 Complete |

@@ -227,9 +227,9 @@ export const useStore = create<AppState>((set, get) => ({
     const next = JSON.parse(JSON.stringify(tracker))
     updater(next)
 
-    const total = next.milestones.reduce((s, m) => s + m.subtasks.length, 0)
-    const done = next.milestones.reduce((s, m) =>
-      s + m.subtasks.filter(t => t.done).length, 0)
+    const total = next.milestones.reduce((sum: number, m: Milestone) => sum + m.subtasks.length, 0)
+    const done = next.milestones.reduce((sum: number, m: Milestone) =>
+      sum + m.subtasks.filter((t: Subtask) => t.done).length, 0)
     next.project.overall_progress = total > 0 ? parseFloat((done / total).toFixed(4)) : 0
     next.project.current_week = selectCurrentWeek(next)
     next.project.schedule_status = selectScheduleStatus(next)
@@ -241,7 +241,7 @@ export const useStore = create<AppState>((set, get) => ({
   setActiveTab: (tab) => set({ activeTab: tab }),
   setSelectedMilestoneId: (id) => set({ selectedMilestoneId: id }),
   setLoading: (v) => set({ loading: v }),
-  setError: (err) => set({ error }),
+  setError: (err) => set({ error: err }),
   setSynced: (v) => set({ synced: v }),
 
   toggleTheme: () => {

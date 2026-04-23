@@ -1,5 +1,9 @@
 import React, { useEffect } from 'react'
 import { useStore, initExternalListener, selectCurrentWeek, selectCurrentPhase, selectScheduleStatus, selectOverallProgress, selectTotalTasks, type TabId } from './store'
+import { SwimLaneView } from './views/SwimLaneView'
+import { TaskBoardView } from './views/TaskBoardView'
+import { AgentHubView } from './views/AgentHubView'
+import { CalendarView } from './views/CalendarView'
 
 const TABS: { id: TabId; label: string; icon: string }[] = [
   { id: 'swim-lane', label: 'Swim Lane', icon: '⬡' },
@@ -122,26 +126,10 @@ function ErrorView({ error }: { error: string }) {
 function ActiveView({ tab }: { tab: TabId }) {
   return (
     <div className="flex-1 overflow-auto">
-      {tab === 'swim-lane' && (
-        <div className="flex items-center justify-center h-full text-muted text-sm">
-          Swim Lane view — Phase 5
-        </div>
-      )}
-      {tab === 'task-board' && (
-        <div className="flex items-center justify-center h-full text-muted text-sm">
-          Task Board view — Phase 6
-        </div>
-      )}
-      {tab === 'agent-hub' && (
-        <div className="flex items-center justify-center h-full text-muted text-sm">
-          Agent Hub view — Phase 7
-        </div>
-      )}
-      {tab === 'calendar' && (
-        <div className="flex items-center justify-center h-full text-muted text-sm">
-          Calendar view — Phase 8
-        </div>
-      )}
+      {tab === 'swim-lane' && <SwimLaneView />}
+      {tab === 'task-board' && <TaskBoardView />}
+      {tab === 'agent-hub' && <AgentHubView />}
+      {tab === 'calendar' && <CalendarView />}
     </div>
   )
 }
