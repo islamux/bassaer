@@ -5,7 +5,7 @@
     "target_date": "2026-07-01",
     "current_week": 1,
     "schedule_status": "on_track",
-    "overall_progress": 0.45
+    "overall_progress": 0.50
   },
   "milestones": [
     {
@@ -114,6 +114,16 @@
           "priority": "P2",
           "execution_mode": "agent",
           "completed_at": "2026-04-24T17:25:00.000Z"
+        },
+        {
+          "id": "content_qa_004",
+          "label": "Recover missing intro.md content from PDF",
+          "status": "done",
+          "done": true,
+          "assignee": "gemini-cli",
+          "priority": "P1",
+          "execution_mode": "agent",
+          "completed_at": "2026-04-25T14:30:00.000Z"
         }
       ],
       "dependencies": [],
