@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Tajawal } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
+import { getAllChapters } from "@/lib/contentLoader";
 
 const tajawal = Tajawal({ 
   subsets: ["arabic"],
@@ -19,10 +20,12 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const chapters = getAllChapters();
+
   return (
     <html lang="ar" dir="rtl" className={tajawal.variable}>
       <body className={`${tajawal.className} bg-[var(--background)] text-[var(--foreground)] antialiased transition-colors duration-300`}>
-        <Navbar />
+        <Navbar chapters={chapters} />
         <main className="min-h-screen pt-16">
           {children}
         </main>
