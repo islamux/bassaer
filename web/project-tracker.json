@@ -5,7 +5,7 @@
     "target_date": "2026-07-01",
     "current_week": 1,
     "schedule_status": "on_track",
-    "overall_progress": 0.50
+    "overall_progress": 0.55
   },
   "milestones": [
     {
@@ -124,6 +124,16 @@
           "priority": "P1",
           "execution_mode": "agent",
           "completed_at": "2026-04-25T14:30:00.000Z"
+        },
+        {
+          "id": "content_qa_005",
+          "label": "Deep linguistic audit and manual-refinement pass starting from Intro",
+          "status": "done",
+          "done": true,
+          "assignee": "gemini-cli",
+          "priority": "P1",
+          "execution_mode": "agent",
+          "completed_at": "2026-04-25T16:00:00.000Z"
         }
       ],
       "dependencies": [],
