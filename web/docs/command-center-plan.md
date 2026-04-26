@@ -497,7 +497,7 @@ In addition to the standard Explorer, Researcher, and Post-Build Auditor:
 
 ---
 
-## 12. Summary
+## 11. Summary
 
 | Item | Value |
 |---|---|
@@ -516,8 +516,33 @@ In addition to the standard Explorer, Researcher, and Post-Build Auditor:
 | Components | 15 reusable UI components (added MobileMenu) |
 | Views | 4 main views (Swim Lane, Task Board, Agent Hub, Calendar) |
 
-### Recent Adjustments (April 25, 2026)
+### Recent Adjustments (April 26, 2026)
+- **High-Priority Linguistic Recovery:** Initiated a major recovery phase to eliminate remaining OCR artifacts and restore corrupted Quranic verses across all chapters.
 - **Arabic Text Recovery:** Consolidated multiple fix scripts into `fix_arabic_comprehensive_v3.py`. Resolved widespread corruption (broken 'Ya', honorifics, presentation forms).
 - **Mobile Navigation:** Implemented `MobileMenu` drawer to solve RTL navigation issues on small screens.
 - **Intro Content Recovery:** Successfully recovered missing content in `intro.md` from PDF source.
 - **Linguistic Quality:** Initiated a manual-refinement and deep audit pass starting from the Introduction to catch remaining OCR artifacts.
+
+---
+
+## 12. OCR Fix Workflow (MANDATORY)
+
+**⚠️ CRITICAL: Always use Python scripts in `/scripts/` for OCR fixes. NEVER use manual sed/bash commands.**
+
+### Workflow:
+1. **Discover OCR issue** → Note the pattern (e.g., `الثابن` → `الثاني`)
+2. **Add to Python script** → Edit `scripts/comprehensive_arabic_fix.py`
+3. **Run the script** → `python3 scripts/comprehensive_arabic_fix.py`
+4. **Run recovery pipeline** → `python3 scripts/arabic_recovery_pipeline.py`
+5. **Verify** → Check output and re-run if needed
+
+### Key Scripts:
+- `scripts/comprehensive_arabic_fix.py` (620+ lines - main fix dictionary)
+- `scripts/arabic_recovery_pipeline.py` (107 lines - latest recovery)
+- `scripts/audit_arabic_content.py` (for finding issues)
+
+### Why Python Scripts:
+- Systematic and reproducible
+- All fixes in one place for future use
+- Can be run on all files at once
+- Easy to modify patterns when new issues discovered
