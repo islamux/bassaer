@@ -5,7 +5,7 @@
     "target_date": "2026-07-01",
     "current_week": 1,
     "schedule_status": "on_track",
-    "overall_progress": 0.60
+    "overall_progress": 0.44
   },
   "milestones": [
     {
@@ -281,8 +281,8 @@
       "phase": "content_quality",
       "planned_start": "2026-04-29",
       "planned_end": "2026-05-05",
-      "actual_start": null,
-      "actual_end": null,
+      "actual_start": "2026-04-26",
+      "actual_end": "2026-04-26",
       "drift_days": 0,
       "is_key_milestone": false,
       "key_milestone_label": null,
@@ -294,7 +294,9 @@
           "done": true,
           "assignee": "arabic-specialist",
           "priority": "P1",
-          "execution_mode": "agent"
+          "execution_mode": "agent",
+          "completed_at": "2026-04-26T20:55:00.000Z",
+          "completed_by": "arabic-specialist"
         },
         {
           "id": "content_proofread_002",
@@ -303,7 +305,9 @@
           "done": true,
           "assignee": "arabic-specialist",
           "priority": "P1",
-          "execution_mode": "agent"
+          "execution_mode": "agent",
+          "completed_at": "2026-04-26T20:56:00.000Z",
+          "completed_by": "arabic-specialist"
         },
         {
           "id": "content_proofread_003",
@@ -312,7 +316,9 @@
           "done": true,
           "assignee": "arabic-specialist",
           "priority": "P1",
-          "execution_mode": "agent"
+          "execution_mode": "agent",
+          "completed_at": "2026-04-26T20:57:00.000Z",
+          "completed_by": "arabic-specialist"
         },
         {
           "id": "content_proofread_004",
@@ -321,7 +327,9 @@
           "done": true,
           "assignee": "arabic-specialist",
           "priority": "P2",
-          "execution_mode": "agent"
+          "execution_mode": "agent",
+          "completed_at": "2026-04-26T20:58:00.000Z",
+          "completed_by": "arabic-specialist"
         }
       ],
       "dependencies": [],
