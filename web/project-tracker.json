@@ -383,7 +383,7 @@
           "completed_at": "2026-04-27T12:40:00.000Z",
           "completed_by": "gemini-cli"
         },
-{
+        {
           "id": "ch6_ocr_004",
           "label": "Fix chapter-6 OCR artifacts",
           "status": "done",
@@ -1367,6 +1367,18 @@
         "content",
         "ui",
         "a11y"
+      ]
+    },
+    {
+      "id": "log_1777315913",
+      "agent_id": "opencode",
+      "action": "session_start",
+      "target_type": null,
+      "target_id": null,
+      "description": "Integrated OpenCode AI plugin with Command Center",
+      "timestamp": "2026-04-27T21:51:53.219499",
+      "tags": [
+        "manual"
       ]
     }
   ],

@@ -151,22 +151,61 @@ def update_task(task_id, status, agent_id='orchestrator', description=None):
         return True
     return False
 
+def log_action(agent_id, action, description, target_id=None, target_type=None, tags=None):
+    data = load_tracker()
+    if not data:
+        return False
+    
+    log_entry = {
+        "id": f"log_{int(datetime.now().timestamp())}",
+        "agent_id": agent_id,
+        "action": action,
+        "target_type": target_type,
+        "target_id": target_id,
+        "description": description,
+        "timestamp": datetime.now().isoformat(),
+        "tags": tags or ["manual"]
+    }
+    data['agent_log'].append(log_entry)
+    
+    with open(TRACKER_PATH, 'w', encoding='utf-8') as f:
+        json.dump(data, f, indent=2, ensure_ascii=False)
+    return True
+
 def main():
-    if len(sys.argv) > 1 and sys.argv[1] == 'update':
-        if len(sys.argv) < 4:
-            print("Usage: ./scripts/cc-dash.py update <task_id> <status> [agent_id] [description]")
-            sys.exit(1)
-        
-        task_id = sys.argv[2]
-        status = sys.argv[3]
-        agent_id = sys.argv[4] if len(sys.argv) > 4 else 'orchestrator'
-        description = sys.argv[5] if len(sys.argv) > 5 else None
-        
-        if update_task(task_id, status, agent_id, description):
-            print(f"Successfully updated {task_id} to {status}")
-        else:
-            print(f"Task {task_id} not found")
-        sys.exit(0)
+    if len(sys.argv) > 1:
+        if sys.argv[1] == 'update':
+            if len(sys.argv) < 4:
+                print("Usage: ./scripts/cc-dash.py update <task_id> <status> [agent_id] [description]")
+                sys.exit(1)
+            
+            task_id = sys.argv[2]
+            status = sys.argv[3]
+            agent_id = sys.argv[4] if len(sys.argv) > 4 else 'orchestrator'
+            description = sys.argv[5] if len(sys.argv) > 5 else None
+            
+            if update_task(task_id, status, agent_id, description):
+                print(f"Successfully updated {task_id} to {status}")
+            else:
+                print(f"Task {task_id} not found")
+            sys.exit(0)
+            
+        elif sys.argv[1] == 'log':
+            if len(sys.argv) < 4:
+                print("Usage: ./scripts/cc-dash.py log <agent_id> <description> [action] [target_id] [target_type]")
+                sys.exit(1)
+            
+            agent_id = sys.argv[2]
+            description = sys.argv[3]
+            action = sys.argv[4] if len(sys.argv) > 4 else 'manual_log'
+            target_id = sys.argv[5] if len(sys.argv) > 5 else None
+            target_type = sys.argv[6] if len(sys.argv) > 6 else None
+            
+            if log_action(agent_id, action, description, target_id=target_id, target_type=target_type):
+                print(f"Successfully logged activity for {agent_id}")
+            else:
+                print(f"Failed to log activity")
+            sys.exit(0)
 
     data = load_tracker()
     if not data:
