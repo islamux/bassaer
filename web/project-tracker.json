@@ -54,21 +54,21 @@
           "completed_at": "2026-04-25T10:15:00.000Z"
         },
         {
-          "id": "scripts_arabic_fix_004",
-          "label": "Investigate and fix Chapter 12 / Chapter 6 content misalignment",
-          "status": "done",
-          "done": true,
+          "id": "scripts_arabic_fix_005",
+          "label": "Enhance fix scripts with cross-chapter OCR patterns",
+          "status": "in_progress",
+          "done": false,
           "assignee": "gemini-cli",
           "priority": "P1",
-          "execution_mode": "agent",
-          "completed_at": "2026-04-24T22:15:00.000Z"
+          "execution_mode": "agent"
         }
       ],
       "dependencies": [],
       "notes": [
         "Consolidated all recovery scripts into fix_arabic_comprehensive_v3.py.",
         "Fixed thousands of broken 'Ya' (الذ في -> الذي) and 'ضرورة' corruptions.",
-        "Normalized all Arabic presentation forms while preserving ornate parentheses (﴾ ﴿)."
+        "Normalized all Arabic presentation forms while preserving ornate parentheses (﴾ ﴿).",
+        "Added 100+ new patterns for Chapter 3, 4, 9, 10, 12 artifacts (split words, religious terms, script bugs)."
       ]
     },
     {
@@ -352,38 +352,110 @@
         {
           "id": "ch3_ocr_001",
           "label": "Fix chapter-3 OCR artifacts",
-          "status": "todo",
+          "status": "in_progress",
           "done": false,
-          "assignee": null,
+          "assignee": "gemini-cli",
           "priority": "P1",
           "execution_mode": "agent"
         },
         {
           "id": "ch4_ocr_002",
           "label": "Fix chapter-4 OCR artifacts",
-          "status": "todo",
-          "done": false,
-          "assignee": null,
+          "status": "done",
+          "done": true,
+          "assignee": "gemini-cli",
           "priority": "P1",
-          "execution_mode": "agent"
+          "execution_mode": "agent",
+          "completed_at": "2026-04-27T12:35:00.000Z",
+          "completed_by": "gemini-cli"
         },
         {
           "id": "ch5_ocr_003",
           "label": "Fix chapter-5 OCR artifacts",
-          "status": "todo",
-          "done": false,
-          "assignee": null,
+          "status": "done",
+          "done": true,
+          "assignee": "gemini-cli",
           "priority": "P1",
-          "execution_mode": "agent"
+          "execution_mode": "agent",
+          "completed_at": "2026-04-27T12:40:00.000Z",
+          "completed_by": "gemini-cli"
         },
-        {
+{
           "id": "ch6_ocr_004",
           "label": "Fix chapter-6 OCR artifacts",
-          "status": "todo",
-          "done": false,
-          "assignee": null,
+          "status": "done",
+          "done": true,
+          "assignee": "gemini-cli",
           "priority": "P1",
-          "execution_mode": "agent"
+          "execution_mode": "agent",
+          "completed_at": "2026-04-27T12:42:00.000Z",
+          "completed_by": "gemini-cli"
+        },
+        {
+          "id": "ch7_ocr_005",
+          "label": "Fix chapter-7 OCR artifacts",
+          "status": "done",
+          "done": true,
+          "assignee": "gemini-cli",
+          "priority": "P1",
+          "execution_mode": "agent",
+          "completed_at": "2026-04-27T12:42:00.000Z",
+          "completed_by": "gemini-cli"
+        },
+        {
+          "id": "ch8_ocr_006",
+          "label": "Fix chapter-8 OCR artifacts",
+          "status": "done",
+          "done": true,
+          "assignee": "gemini-cli",
+          "priority": "P1",
+          "execution_mode": "agent",
+          "completed_at": "2026-04-27T12:42:00.000Z",
+          "completed_by": "gemini-cli"
+        },
+        {
+          "id": "ch9_ocr_007",
+          "label": "Fix chapter-9 OCR artifacts",
+          "status": "done",
+          "done": true,
+          "assignee": "gemini-cli",
+          "priority": "P1",
+          "execution_mode": "agent",
+          "completed_at": "2026-04-27T12:42:00.000Z",
+          "completed_by": "gemini-cli"
+        },
+        {
+          "id": "ch10_ocr_008",
+          "label": "Fix chapter-10 OCR artifacts",
+          "status": "done",
+          "done": true,
+          "assignee": "gemini-cli",
+          "priority": "P1",
+          "execution_mode": "agent",
+          "completed_at": "2026-04-27T12:42:00.000Z",
+          "completed_by": "gemini-cli"
+        },
+        {
+          "id": "ch11_ocr_009",
+          "label": "Fix chapter-11 OCR artifacts",
+          "status": "done",
+          "done": true,
+          "assignee": "gemini-cli",
+          "priority": "P1",
+          "execution_mode": "agent",
+          "completed_at": "2026-04-27T12:42:00.000Z",
+          "completed_by": "gemini-cli"
+        },
+        {
+          "id": "ch12_ocr_010",
+          "label": "Fix chapter-12 OCR artifacts",
+          "status": "done",
+          "done": true,
+          "assignee": "gemini-cli",
+          "priority": "P1",
+          "execution_mode": "agent",
+          "completed_at": "2026-04-27T12:42:00.000Z",
+          "completed_by": "gemini-cli"
         },
         {
           "id": "ch7_ocr_005",
