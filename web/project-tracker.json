@@ -69,7 +69,8 @@
         "Consolidated all recovery scripts into fix_arabic_comprehensive_v3.py.",
         "Fixed thousands of broken 'Ya' (الذ في -> الذي) and 'ضرورة' corruptions.",
         "Normalized all Arabic presentation forms while preserving ornate parentheses (﴾ ﴿).",
-        "Added 100+ new patterns for Chapter 3, 4, 9, 10, 12 artifacts (split words, religious terms, script bugs)."
+        "Added 100+ new patterns for Chapter 3, 4, 9, 10, 12 artifacts (split words, religious terms, script bugs).",
+        "Final surgical pass resolved reversed text (تاراشبلا -> البشارات) and symbol noise (بهتجتحتختم)."
       ]
     },
     {
@@ -1352,6 +1353,20 @@
       "tags": [
         "cli",
         "manual"
+      ]
+    },
+    {
+      "id": "log_20260427_ocr_ui_complete",
+      "agent_id": "gemini-cli",
+      "action": "milestone_completed",
+      "target_type": "milestone",
+      "target_id": "ui_a11y",
+      "description": "Completed Phase 1 OCR recovery and Phase 2 Accessibility Audit. Fixed 100+ new OCR patterns and added ARIA support to all navigation components.",
+      "timestamp": "2026-04-27T18:30:00.000Z",
+      "tags": [
+        "content",
+        "ui",
+        "a11y"
       ]
     }
   ],
