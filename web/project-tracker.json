@@ -5,7 +5,7 @@
     "target_date": "2026-07-01",
     "current_week": 1,
     "schedule_status": "on_track",
-    "overall_progress": 0.44
+    "overall_progress": 0.56
   },
   "milestones": [
     {
@@ -56,11 +56,12 @@
         {
           "id": "scripts_arabic_fix_005",
           "label": "Enhance fix scripts with cross-chapter OCR patterns",
-          "status": "in_progress",
-          "done": false,
+          "status": "done",
+          "done": true,
           "assignee": "gemini-cli",
           "priority": "P1",
-          "execution_mode": "agent"
+          "execution_mode": "agent",
+          "completed_at": "2026-04-27T17:45:00.000Z"
         }
       ],
       "dependencies": [],
@@ -352,11 +353,12 @@
         {
           "id": "ch3_ocr_001",
           "label": "Fix chapter-3 OCR artifacts",
-          "status": "in_progress",
-          "done": false,
+          "status": "done",
+          "done": true,
           "assignee": "gemini-cli",
           "priority": "P1",
-          "execution_mode": "agent"
+          "execution_mode": "agent",
+          "completed_at": "2026-04-27T17:46:00.000Z"
         },
         {
           "id": "ch4_ocr_002",
