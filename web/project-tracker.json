@@ -336,6 +336,116 @@
       "notes": []
     },
     {
+      "id": "content_ocr_chapters",
+      "title": "Chapter OCR Sweep & Fix",
+      "domain": "Content",
+      "week": 3,
+      "phase": "content_quality",
+      "planned_start": "2026-05-06",
+      "planned_end": "2026-05-12",
+      "actual_start": null,
+      "actual_end": null,
+      "drift_days": 0,
+      "is_key_milestone": false,
+      "key_milestone_label": null,
+      "subtasks": [
+        {
+          "id": "ch3_ocr_001",
+          "label": "Fix chapter-3 OCR artifacts",
+          "status": "todo",
+          "done": false,
+          "assignee": null,
+          "priority": "P1",
+          "execution_mode": "agent"
+        },
+        {
+          "id": "ch4_ocr_002",
+          "label": "Fix chapter-4 OCR artifacts",
+          "status": "todo",
+          "done": false,
+          "assignee": null,
+          "priority": "P1",
+          "execution_mode": "agent"
+        },
+        {
+          "id": "ch5_ocr_003",
+          "label": "Fix chapter-5 OCR artifacts",
+          "status": "todo",
+          "done": false,
+          "assignee": null,
+          "priority": "P1",
+          "execution_mode": "agent"
+        },
+        {
+          "id": "ch6_ocr_004",
+          "label": "Fix chapter-6 OCR artifacts",
+          "status": "todo",
+          "done": false,
+          "assignee": null,
+          "priority": "P1",
+          "execution_mode": "agent"
+        },
+        {
+          "id": "ch7_ocr_005",
+          "label": "Fix chapter-7 OCR artifacts",
+          "status": "todo",
+          "done": false,
+          "assignee": null,
+          "priority": "P1",
+          "execution_mode": "agent"
+        },
+        {
+          "id": "ch8_ocr_006",
+          "label": "Fix chapter-8 OCR artifacts",
+          "status": "todo",
+          "done": false,
+          "assignee": null,
+          "priority": "P1",
+          "execution_mode": "agent"
+        },
+        {
+          "id": "ch9_ocr_007",
+          "label": "Fix chapter-9 OCR artifacts",
+          "status": "todo",
+          "done": false,
+          "assignee": null,
+          "priority": "P1",
+          "execution_mode": "agent"
+        },
+        {
+          "id": "ch10_ocr_008",
+          "label": "Fix chapter-10 OCR artifacts",
+          "status": "todo",
+          "done": false,
+          "assignee": null,
+          "priority": "P1",
+          "execution_mode": "agent"
+        },
+        {
+          "id": "ch11_ocr_009",
+          "label": "Fix chapter-11 OCR artifacts",
+          "status": "todo",
+          "done": false,
+          "assignee": null,
+          "priority": "P1",
+          "execution_mode": "agent"
+        },
+        {
+          "id": "ch12_ocr_010",
+          "label": "Fix chapter-12 OCR artifacts",
+          "status": "todo",
+          "done": false,
+          "assignee": null,
+          "priority": "P1",
+          "execution_mode": "agent"
+        }
+      ],
+      "dependencies": [
+        "content_proofread"
+      ],
+      "notes": []
+    },
+    {
       "id": "content_images",
       "title": "Image Processing & Placement",
       "domain": "Content",
