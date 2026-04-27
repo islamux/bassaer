@@ -9,7 +9,22 @@ CONTENT_DIR = Path('content')
 def normalize_presentation_forms(content):
     """Normalizes Arabic Presentation Forms A and B to standard Arabic."""
     # This uses unicodedata to normalize NFKC which maps compatibility forms to standard forms
-    return unicodedata.normalize('NFKC', content)
+    # Also handle some specific ornate characters that might be missed
+    content = unicodedata.normalize('NFKC', content)
+    
+    # Manual mappings for stubborn presentation forms if NFKC isn't enough
+    stubborn_forms = {
+        '\uFE81': '\u0622', # ARABIC LETTER ALEF WITH MADDA ABOVE ISOLATED FORM
+        '\uFE8D': '\u0627', # ARABIC LETTER ALEF ISOLATED FORM
+        '\uFE8E': '\u0627', # ARABIC LETTER ALEF FINAL FORM
+        '\uFEE1': '\u0645', # ARABIC LETTER MEEM ISOLATED FORM
+        '\uFEE2': '\u0645', # ARABIC LETTER MEEM FINAL FORM
+        # Add more if needed after audit
+    }
+    for old, new in stubborn_forms.items():
+        content = content.replace(old, new)
+        
+    return content
 
 def fix_broken_ya(content):
     """Fixes common 'Ya' spacing errors like 'الذ في' -> 'الذي'."""
@@ -18,38 +33,32 @@ def fix_broken_ya(content):
         (r'الذ في', 'الذي'),
         (r'يعن في', 'يعني'),
         (r'تعن في', 'تعني'),
-        (r'عل في', 'علي'), # Note: might be 'على' or 'علي', but usually 'علي' in this context
+        (r'عل في', 'علي'),
         (r'ف في', 'في'),
         (r'ه في', 'هي'),
         (r'اللااكتراث في', 'اللااكتراثي'),
         (r'الربوب في', 'الربوبي'),
         (r'الهيومان في', 'الهيوماني'),
-        (r'اللاديني في', 'اللادينيين'), # Special case
-        (r'أو في', 'أي'), # Often 'أي' becomes 'أو في'
+        (r'اللاديني في', 'اللادينيين'),
+        (r'أو في', 'أي'),
         (r'ب في', 'بي'),
         (r'ل في', 'لي'),
+        (r'النر في', 'التي'),
+        (r'والنر في', 'والتي'),
     ]
     for old, new in patterns:
         content = content.replace(old, new)
     
     # Generic fix for words ending in ' في' that should probably be 'ي'
-    # Use with caution: word must be at least 2 chars before ' في'
     content = re.sub(r'(\w{2,}) في\b', r'\1ي', content)
     
     # Specific fix for honorific corruption 'ضرورة' back to 'رضي'
     # Based on the audit finding: "رض في الله عائشة ضرورة:عنها"
-    # This happens when 'رضي' was misidentified.
-    
-    # Patterns for religious honorifics
     content = re.sub(r'رضي الله عن(ه|ها) ضرورة', r'رضي الله عن\1', content)
     content = re.sub(r'رضي الله (عنه|عنها) ضرورة', r'رضي الله \1', content)
     content = re.sub(r'رض في الله (عنه|عنها) ضرورة', r'رضي الله \1', content)
     content = re.sub(r'رض في الله (عنه|عنها)', r'رضي الله \1', content)
     content = re.sub(r'ضرورة:(عنه|عنها)', r' \1', content)
-    
-    # Common words corrupted to 'ضرورة' that should be 'رضي' or similar
-    # e.g. 'رضي' (part of honorific)
-    # but be careful not to break 'بالضرورة' (which is usually correct)
     
     # Revert 'ضرورة' to 'رضي' when followed by 'الله'
     content = content.replace('ضرورة الله', 'رضي الله')
@@ -57,6 +66,12 @@ def fix_broken_ya(content):
     # Clean up artifacts like 'ضرورة:عنها'
     content = content.replace('ضرورة:عنها', 'رضي الله عنها')
     content = content.replace('ضرورة:عنه', 'رضي الله عنه')
+    
+    # Common words corrupted to ضرورة
+    content = content.replace('اللاتر نام', 'الالتزام')
+    content = content.replace('بالضرورة', 'TEMP_B_DORORA') # Protect valid usage
+    content = content.replace('ضرورة', 'رضي الله عنه') # Most others are errors
+    content = content.replace('TEMP_B_DORORA', 'بالضرورة')
     
     return content
 
