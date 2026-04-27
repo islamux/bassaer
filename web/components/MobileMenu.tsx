@@ -23,15 +23,20 @@ export default function MobileMenu({ isOpen, onClose, chapters }: MobileMenuProp
       
       {/* Drawer */}
       <div 
+        id="mobile-menu"
         className={`fixed top-0 right-0 bottom-0 z-[70] w-80 bg-[var(--background)] shadow-2xl transition-transform duration-300 md:hidden ${
           isOpen ? "translate-x-0" : "translate-x-full"
         }`}
+        role="dialog"
+        aria-modal="true"
+        aria-label="قائمة المحتويات"
       >
         <div className="flex items-center justify-between p-4 border-b border-[var(--border)]">
           <h2 className="text-xl font-bold text-[var(--primary)]">فهرس المحتويات</h2>
           <button 
             onClick={onClose}
             className="p-2 rounded-full hover:bg-[var(--muted)] text-[var(--muted-foreground)] transition-colors"
+            aria-label="إغلاق القائمة"
           >
             <X className="w-6 h-6" />
           </button>

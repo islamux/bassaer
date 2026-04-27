@@ -5,7 +5,10 @@ export default function Sidebar() {
   const chapters = getAllChapters();
 
   return (
-    <aside className="w-72 fixed right-0 top-16 bottom-0 hidden lg:block overflow-y-auto bg-[var(--background)] border-l border-[var(--border)] p-6 transition-colors duration-300">
+    <aside 
+      className="w-72 fixed right-0 top-16 bottom-0 hidden lg:block overflow-y-auto bg-[var(--background)] border-l border-[var(--border)] p-6 transition-colors duration-300"
+      aria-label="فهرس المحتويات الجانبي"
+    >
       <div className="space-y-6">
         <div>
           <h3 className="text-xl font-bold tracking-tight text-[var(--primary)] mb-4">فهرس المحتويات</h3>
