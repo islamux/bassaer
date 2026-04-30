@@ -53,25 +53,32 @@ def fix_broken_ya(content):
     content = re.sub(r'(\w{2,}) في\b', r'\1ي', content)
     
     # Specific fix for honorific corruption 'ضرورة' back to 'رضي'
-    # Based on the audit finding: "رض في الله عائشة ضرورة:عنها"
     content = re.sub(r'رضي الله عن(ه|ها) ضرورة', r'رضي الله عن\1', content)
     content = re.sub(r'رضي الله (عنه|عنها) ضرورة', r'رضي الله \1', content)
     content = re.sub(r'رض في الله (عنه|عنها) ضرورة', r'رضي الله \1', content)
     content = re.sub(r'رض في الله (عنه|عنها)', r'رضي الله \1', content)
-    content = re.sub(r'ضرورة:(عنه|عنها)', r' \1', content)
+    content = re.sub(r'ضرورة:(عنه|عنها)', r'رضي الله \1', content)
     
     # Revert 'ضرورة' to 'رضي' when followed by 'الله'
     content = content.replace('ضرورة الله', 'رضي الله')
     
-    # Clean up artifacts like 'ضرورة:عنها'
+    # Protect valid usage
+    content = content.replace('بالضرورة', 'TEMP_B_DORORA')
+    content = content.replace('الضرورة', 'TEMP_AL_DORORA')
+    
+    # Specific common OCR corruptions to ضرورة
+    content = content.replace('رضي الله عنه ضرورة', 'رضي الله عنه')
+    
+    # Cleanup artifacts like 'ضرورة:عنها'
     content = content.replace('ضرورة:عنها', 'رضي الله عنها')
     content = content.replace('ضرورة:عنه', 'رضي الله عنه')
     
+    # Restore valid usage
+    content = content.replace('TEMP_B_DORORA', 'بالضرورة')
+    content = content.replace('TEMP_AL_DORORA', 'الضرورة')
+    
     # Common words corrupted to ضرورة
     content = content.replace('اللاتر نام', 'الالتزام')
-    content = content.replace('بالضرورة', 'TEMP_B_DORORA') # Protect valid usage
-    content = content.replace('ضرورة', 'رضي الله عنه') # Most others are errors
-    content = content.replace('TEMP_B_DORORA', 'بالضرورة')
     
     return content
 

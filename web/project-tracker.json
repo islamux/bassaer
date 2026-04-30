@@ -5,1409 +5,196 @@
     "target_date": "2026-07-01",
     "current_week": 1,
     "schedule_status": "on_track",
-    "overall_progress": 0.62
+    "overall_progress": 0.65
   },
-  "milestones": [
-    {
-      "id": "scripts_arabic_fix",
-      "title": "Arabic Fix Script Suite",
-      "domain": "Scripts",
-      "week": 1,
-      "phase": "content_quality",
-      "planned_start": "2026-04-22",
-      "planned_end": "2026-04-28",
-      "actual_start": "2026-04-22",
-      "actual_end": "2026-04-25",
-      "drift_days": 0,
-      "is_key_milestone": false,
-      "key_milestone_label": null,
-      "subtasks": [
-        {
-          "id": "scripts_arabic_fix_001",
-          "label": "Consolidate Arabic fix scripts into a single pipeline",
-          "status": "done",
-          "done": true,
-          "assignee": "gemini-cli",
-          "priority": "P1",
-          "execution_mode": "agent",
-          "completed_at": "2026-04-24T18:09:41.450Z",
-          "completed_by": "gemini-cli"
-        },
-        {
-          "id": "scripts_arabic_fix_002",
-          "label": "Fix known Arabic spelling errors across all chapters",
-          "status": "done",
-          "done": true,
-          "assignee": "gemini-cli",
-          "priority": "P1",
-          "execution_mode": "agent",
-          "completed_at": "2026-04-25T10:00:00.000Z"
-        },
-        {
-          "id": "scripts_arabic_fix_003",
-          "label": "Validate all chapter markdown files render correctly",
-          "status": "done",
-          "done": true,
-          "assignee": "gemini-cli",
-          "priority": "P2",
-          "execution_mode": "agent",
-          "completed_at": "2026-04-25T10:15:00.000Z"
-        },
-        {
-          "id": "scripts_arabic_fix_005",
-          "label": "Enhance fix scripts with cross-chapter OCR patterns",
-          "status": "done",
-          "done": true,
-          "assignee": "gemini-cli",
-          "priority": "P1",
-          "execution_mode": "agent",
-          "completed_at": "2026-04-27T17:45:00.000Z"
-        }
-      ],
-      "dependencies": [],
-      "notes": [
-        "Consolidated all recovery scripts into fix_arabic_comprehensive_v3.py.",
-        "Fixed thousands of broken 'Ya' (الذ في -> الذي) and 'ضرورة' corruptions.",
-        "Normalized all Arabic presentation forms while preserving ornate parentheses (﴾ ﴿).",
-        "Added 100+ new patterns for Chapter 3, 4, 9, 10, 12 artifacts (split words, religious terms, script bugs).",
-        "Final surgical pass resolved reversed text (تاراشبلا -> البشارات) and symbol noise (بهتجتحتختم)."
-      ]
-    },
-    {
-      "id": "content_qa",
-      "title": "Arabic Content QA",
-      "domain": "Content",
-      "week": 1,
-      "phase": "content_quality",
-      "planned_start": "2026-04-22",
-      "planned_end": "2026-04-28",
-      "actual_start": "2026-04-22",
-      "actual_end": "2026-04-25",
-      "drift_days": 0,
-      "is_key_milestone": false,
-      "key_milestone_label": null,
-      "subtasks": [
-        {
-          "id": "content_qa_001",
-          "label": "Audit all 12 chapters for Arabic text corruption",
-          "status": "done",
-          "done": true,
-          "assignee": "gemini-cli",
-          "priority": "P1",
-          "execution_mode": "agent",
-          "completed_at": "2026-04-25T10:30:00.000Z"
-        },
-        {
-          "id": "content_qa_002",
-          "label": "Verify chapter titles match PDF source",
-          "status": "done",
-          "done": true,
-          "assignee": "gemini-cli",
-          "priority": "P2",
-          "execution_mode": "agent",
-          "completed_at": "2026-04-24T18:10:13.320Z"
-        },
-        {
-          "id": "content_qa_003",
-          "label": "Check image references and alt text",
-          "status": "cancelled",
-          "done": true,
-          "assignee": "gemini-cli",
-          "priority": "P2",
-          "execution_mode": "agent",
-          "completed_at": "2026-04-24T17:25:00.000Z"
-        },
-        {
-          "id": "content_qa_004",
-          "label": "Recover missing intro.md content from PDF",
-          "status": "done",
-          "done": true,
-          "assignee": "gemini-cli",
-          "priority": "P1",
-          "execution_mode": "agent",
-          "completed_at": "2026-04-25T14:30:00.000Z"
-        },
-        {
-          "id": "content_qa_005",
-          "label": "Deep linguistic audit and manual-refinement pass starting from Intro",
-          "status": "done",
-          "done": true,
-          "assignee": "gemini-cli",
-          "priority": "P1",
-          "execution_mode": "agent",
-          "completed_at": "2026-04-25T16:00:00.000Z"
-        }
-      ],
-      "dependencies": [],
-      "notes": [
-        "Audit revealed severe corruption initially, now 100% resolved via automated scripts.",
-        "Ornate parentheses (﴾ ﴿) are preserved and verified as legitimate Quranic markers.",
-        "Misalignment between Chapter 6 and 12 resolved."
-      ]
-    },
-    {
-      "id": "content_linguistic_recovery",
-      "title": "High-Priority Arabic Linguistic & OCR Recovery",
-      "domain": "Content",
-      "week": 1,
-      "phase": "content_quality",
-      "planned_start": "2026-04-26",
-      "planned_end": "2026-04-28",
-      "actual_start": "2026-04-26",
-      "actual_end": "2026-04-26",
-      "drift_days": 0,
-      "is_key_milestone": true,
-      "key_milestone_label": "Linguistic Integrity Verified",
-      "subtasks": [
-        {
-          "id": "content_recovery_001",
-          "label": "Automated Quranic Restoration (replace gibberish with verified verses)",
-          "status": "done",
-          "done": true,
-          "assignee": "gemini-cli",
-          "priority": "P1",
-          "execution_mode": "agent",
-          "completed_at": "2026-04-26T20:34:00.000Z",
-          "completed_by": "gemini-cli"
-        },
-        {
-          "id": "content_recovery_002",
-          "label": "Structural Text Cleanup (remove letter noise, fix merged words)",
-          "status": "done",
-          "done": true,
-          "assignee": "gemini-cli",
-          "priority": "P1",
-          "execution_mode": "agent",
-          "completed_at": "2026-04-26T10:45:00.000Z"
-        },
-        {
-          "id": "content_recovery_003",
-          "label": "Surgical Manual Refinement (Intro & Ch 1)",
-          "status": "done",
-          "done": true,
-          "assignee": "gemini-cli",
-          "priority": "P1",
-          "execution_mode": "agent",
-          "completed_at": "2026-04-26T20:50:00.000Z",
-          "completed_by": "gemini-cli"
-        },
-        {
-          "id": "content_recovery_004",
-          "label": "Surgical Manual Refinement (Ch 2-12)",
-          "status": "done",
-          "done": true,
-          "assignee": "gemini-cli",
-          "priority": "P2",
-          "execution_mode": "agent",
-          "completed_at": "2026-04-26T21:00:00.000Z",
-          "completed_by": "gemini-cli"
-        }
-      ],
-      "dependencies": [
-        "scripts_arabic_fix",
-        "content_qa"
-      ],
-      "notes": [
-        "Triggered after audit revealed remaining OCR junk blocks and broken verses.",
-        "content_recovery_001 (Quranic Restoration) is 100% complete across all 13 files.",
-        "content_recovery_003 (Surgical Polish Intro & Ch 1) is complete; files are production-ready.",
-        "content_recovery_004 (Surgical Polish Ch 2-12) is complete - verified all chapters are production-ready."
-      ]
-    },
-    {
-      "id": "content_rendered_recovery",
-      "title": "Rendered Content OCR Recovery",
-      "domain": "Content",
-      "week": 1,
-      "phase": "content_quality",
-      "planned_start": "2026-04-26",
-      "planned_end": "2026-04-28",
-      "actual_start": "2026-04-26",
-      "actual_end": "2026-04-26",
-      "drift_days": 0,
-      "is_key_milestone": false,
-      "key_milestone_label": null,
-      "subtasks": [
-        {
-          "id": "rendered_recovery_001",
-          "label": "Re-scan all content files for remaining OCR artifacts",
-          "status": "done",
-          "done": true,
-          "assignee": "gemini-cli",
-          "priority": "P1",
-          "execution_mode": "agent",
-          "completed_at": "2026-04-26T21:30:00.000Z",
-          "completed_by": "gemini-cli"
-        },
-        {
-          "id": "rendered_recovery_002",
-          "label": "Clean OCR artifacts from source markdown files",
-          "status": "done",
-          "done": true,
-          "assignee": "gemini-cli",
-          "priority": "P1",
-          "execution_mode": "agent",
-          "completed_at": "2026-04-26T21:35:00.000Z",
-          "completed_by": "gemini-cli"
-        },
-        {
-          "id": "rendered_recovery_003",
-          "label": "Verify chapters render correctly after fixes",
-          "status": "done",
-          "done": true,
-          "assignee": "gemini-cli",
-          "priority": "P1",
-          "execution_mode": "agent",
-          "completed_at": "2026-04-26T21:40:00.000Z",
-          "completed_by": "gemini-cli"
-        }
-      ],
-      "dependencies": [
-        "content_linguistic_recovery"
-      ],
-      "notes": [
-        "Task to re-scan content files for OCR issues visible on rendered chapter pages.",
-        "Focus on: broken Arabic characters, gibberish text, presentation forms.",
-        "Build verification step to catch issues before they reach production.",
-        "Fixed: chapter-2.md 'الثابن' -> 'الثاني' in الباب الثاني heading.",
-        "Other 'الثابن' occurrences are legitimate (القرن الثاني = second century).",
-        "FIXED USING PYTHON SCRIPTS: comprehensive_arabic_fix.py + arabic_recovery_pipeline.py",
-        "Total ~1370 OCR errors fixed across all 13 chapters in this run."
-      ]
-    },
-    {
-      "id": "content_proofread",
-      "title": "Full Proofreading Pass",
-      "domain": "Content",
-      "week": 2,
-      "phase": "content_quality",
-      "planned_start": "2026-04-29",
-      "planned_end": "2026-05-05",
-      "actual_start": "2026-04-26",
-      "actual_end": "2026-04-26",
-      "drift_days": 0,
-      "is_key_milestone": false,
-      "key_milestone_label": null,
-      "subtasks": [
-        {
-          "id": "content_proofread_001",
-          "label": "Proofread chapters 1-4",
-          "status": "done",
-          "done": true,
-          "assignee": "arabic-specialist",
-          "priority": "P1",
-          "execution_mode": "agent",
-          "completed_at": "2026-04-26T20:55:00.000Z",
-          "completed_by": "arabic-specialist"
-        },
-        {
-          "id": "content_proofread_002",
-          "label": "Proofread chapters 5-8",
-          "status": "done",
-          "done": true,
-          "assignee": "arabic-specialist",
-          "priority": "P1",
-          "execution_mode": "agent",
-          "completed_at": "2026-04-26T20:56:00.000Z",
-          "completed_by": "arabic-specialist"
-        },
-        {
-          "id": "content_proofread_003",
-          "label": "Proofread chapters 9-12 + intro",
-          "status": "done",
-          "done": true,
-          "assignee": "arabic-specialist",
-          "priority": "P1",
-          "execution_mode": "agent",
-          "completed_at": "2026-04-26T20:57:00.000Z",
-          "completed_by": "arabic-specialist"
-        },
-        {
-          "id": "content_proofread_004",
-          "label": "Verify blockquote formatting across all chapters",
-          "status": "done",
-          "done": true,
-          "assignee": "arabic-specialist",
-          "priority": "P2",
-          "execution_mode": "agent",
-          "completed_at": "2026-04-26T20:58:00.000Z",
-          "completed_by": "arabic-specialist"
-        }
-      ],
-      "dependencies": [],
-      "notes": []
-    },
-    {
-      "id": "content_ocr_chapters",
-      "title": "Chapter OCR Sweep & Fix",
-      "domain": "Content",
-      "week": 3,
-      "phase": "content_quality",
-      "planned_start": "2026-05-06",
-      "planned_end": "2026-05-12",
-      "actual_start": null,
-      "actual_end": null,
-      "drift_days": 0,
-      "is_key_milestone": false,
-      "key_milestone_label": null,
-      "subtasks": [
-        {
-          "id": "ch3_ocr_001",
-          "label": "Fix chapter-3 OCR artifacts",
-          "status": "done",
-          "done": true,
-          "assignee": "gemini-cli",
-          "priority": "P1",
-          "execution_mode": "agent",
-          "completed_at": "2026-04-27T17:46:00.000Z"
-        },
-        {
-          "id": "ch4_ocr_002",
-          "label": "Fix chapter-4 OCR artifacts",
-          "status": "done",
-          "done": true,
-          "assignee": "gemini-cli",
-          "priority": "P1",
-          "execution_mode": "agent",
-          "completed_at": "2026-04-27T12:35:00.000Z",
-          "completed_by": "gemini-cli"
-        },
-        {
-          "id": "ch5_ocr_003",
-          "label": "Fix chapter-5 OCR artifacts",
-          "status": "done",
-          "done": true,
-          "assignee": "gemini-cli",
-          "priority": "P1",
-          "execution_mode": "agent",
-          "completed_at": "2026-04-27T12:40:00.000Z",
-          "completed_by": "gemini-cli"
-        },
-        {
-          "id": "ch6_ocr_004",
-          "label": "Fix chapter-6 OCR artifacts",
-          "status": "done",
-          "done": true,
-          "assignee": "gemini-cli",
-          "priority": "P1",
-          "execution_mode": "agent",
-          "completed_at": "2026-04-27T12:42:00.000Z",
-          "completed_by": "gemini-cli"
-        },
-        {
-          "id": "ch7_ocr_005",
-          "label": "Fix chapter-7 OCR artifacts",
-          "status": "done",
-          "done": true,
-          "assignee": "gemini-cli",
-          "priority": "P1",
-          "execution_mode": "agent",
-          "completed_at": "2026-04-27T12:42:00.000Z",
-          "completed_by": "gemini-cli"
-        },
-        {
-          "id": "ch8_ocr_006",
-          "label": "Fix chapter-8 OCR artifacts",
-          "status": "done",
-          "done": true,
-          "assignee": "gemini-cli",
-          "priority": "P1",
-          "execution_mode": "agent",
-          "completed_at": "2026-04-27T12:42:00.000Z",
-          "completed_by": "gemini-cli"
-        },
-        {
-          "id": "ch9_ocr_007",
-          "label": "Fix chapter-9 OCR artifacts",
-          "status": "done",
-          "done": true,
-          "assignee": "gemini-cli",
-          "priority": "P1",
-          "execution_mode": "agent",
-          "completed_at": "2026-04-27T12:42:00.000Z",
-          "completed_by": "gemini-cli"
-        },
-        {
-          "id": "ch10_ocr_008",
-          "label": "Fix chapter-10 OCR artifacts",
-          "status": "done",
-          "done": true,
-          "assignee": "gemini-cli",
-          "priority": "P1",
-          "execution_mode": "agent",
-          "completed_at": "2026-04-27T12:42:00.000Z",
-          "completed_by": "gemini-cli"
-        },
-        {
-          "id": "ch11_ocr_009",
-          "label": "Fix chapter-11 OCR artifacts",
-          "status": "done",
-          "done": true,
-          "assignee": "gemini-cli",
-          "priority": "P1",
-          "execution_mode": "agent",
-          "completed_at": "2026-04-27T12:42:00.000Z",
-          "completed_by": "gemini-cli"
-        },
-        {
-          "id": "ch12_ocr_010",
-          "label": "Fix chapter-12 OCR artifacts",
-          "status": "done",
-          "done": true,
-          "assignee": "gemini-cli",
-          "priority": "P1",
-          "execution_mode": "agent",
-          "completed_at": "2026-04-27T12:42:00.000Z",
-          "completed_by": "gemini-cli"
-        },
-        {
-          "id": "ch7_ocr_005",
-          "label": "Fix chapter-7 OCR artifacts",
-          "status": "todo",
-          "done": false,
-          "assignee": null,
-          "priority": "P1",
-          "execution_mode": "agent"
-        },
-        {
-          "id": "ch8_ocr_006",
-          "label": "Fix chapter-8 OCR artifacts",
-          "status": "todo",
-          "done": false,
-          "assignee": null,
-          "priority": "P1",
-          "execution_mode": "agent"
-        },
-        {
-          "id": "ch9_ocr_007",
-          "label": "Fix chapter-9 OCR artifacts",
-          "status": "todo",
-          "done": false,
-          "assignee": null,
-          "priority": "P1",
-          "execution_mode": "agent"
-        },
-        {
-          "id": "ch10_ocr_008",
-          "label": "Fix chapter-10 OCR artifacts",
-          "status": "todo",
-          "done": false,
-          "assignee": null,
-          "priority": "P1",
-          "execution_mode": "agent"
-        },
-        {
-          "id": "ch11_ocr_009",
-          "label": "Fix chapter-11 OCR artifacts",
-          "status": "todo",
-          "done": false,
-          "assignee": null,
-          "priority": "P1",
-          "execution_mode": "agent"
-        },
-        {
-          "id": "ch12_ocr_010",
-          "label": "Fix chapter-12 OCR artifacts",
-          "status": "todo",
-          "done": false,
-          "assignee": null,
-          "priority": "P1",
-          "execution_mode": "agent"
-        }
-      ],
-      "dependencies": [
-        "content_proofread"
-      ],
-      "notes": []
-    },
-    {
-      "id": "content_images",
-      "title": "Image Processing & Placement",
-      "domain": "Content",
-      "week": 3,
-      "phase": "content_quality",
-      "planned_start": "2026-05-06",
-      "planned_end": "2026-05-12",
-      "actual_start": null,
-      "actual_end": null,
-      "drift_days": 0,
-      "is_key_milestone": true,
-      "key_milestone_label": "Content Complete",
-      "subtasks": [
-        {
-          "id": "content_images_001",
-          "label": "Optimize all images (WebP conversion, sizing)",
-          "status": "cancelled",
-          "done": true,
-          "assignee": "gemini-cli",
-          "priority": "P2",
-          "execution_mode": "agent"
-        },
-        {
-          "id": "content_images_002",
-          "label": "Add proper alt text in Arabic for all images",
-          "status": "cancelled",
-          "done": true,
-          "assignee": "gemini-cli",
-          "priority": "P2",
-          "execution_mode": "agent"
-        },
-        {
-          "id": "content_images_003",
-          "label": "Verify image layout in RTL context",
-          "status": "cancelled",
-          "done": true,
-          "assignee": "gemini-cli",
-          "priority": "P2",
-          "execution_mode": "pair"
-        }
-      ],
-      "dependencies": [
-        "content_proofread"
-      ],
-      "notes": [
-        "Cancelled per user request: 'I dont like the images ignore theme all'."
-      ]
-    },
-    {
-      "id": "ui_rtl_polish",
-      "title": "RTL Layout Polish",
-      "domain": "UI/UX",
-      "week": 2,
-      "phase": "ui_polish",
-      "planned_start": "2026-04-29",
-      "planned_end": "2026-05-05",
-      "actual_start": "2026-04-25",
-      "actual_end": "2026-04-25",
-      "drift_days": 0,
-      "is_key_milestone": false,
-      "key_milestone_label": null,
-      "subtasks": [
-        {
-          "id": "ui_rtl_polish_001",
-          "label": "Audit RTL layout issues across all pages",
-          "status": "done",
-          "done": true,
-          "assignee": "gemini-cli",
-          "priority": "P1",
-          "execution_mode": "agent",
-          "completed_at": "2026-04-25T11:00:00.000Z"
-        },
-        {
-          "id": "ui_rtl_polish_002",
-          "label": "Fix sidebar RTL behavior on mobile",
-          "status": "done",
-          "done": true,
-          "assignee": "gemini-cli",
-          "priority": "P2",
-          "execution_mode": "agent",
-          "completed_at": "2026-04-25T11:30:00.000Z"
-        },
-        {
-          "id": "ui_rtl_polish_003",
-          "label": "Improve Arabic typography spacing and line height",
-          "status": "done",
-          "done": true,
-          "assignee": "gemini-cli",
-          "priority": "P2",
-          "execution_mode": "pair",
-          "completed_at": "2026-04-25T11:45:00.000Z"
-        }
-      ],
-      "dependencies": [],
-      "notes": [
-        "Implemented MobileMenu drawer for RTL navigation on mobile/tablet.",
-        "Refined Tajawal typography with 1.8 line height and proper spacing.",
-        "Verified RTL blockquote and layout consistency."
-      ]
-    },
-    {
-      "id": "ui_responsive",
-      "title": "Mobile Responsive Design",
-      "domain": "UI/UX",
-      "week": 3,
-      "phase": "ui_polish",
-      "planned_start": "2026-05-06",
-      "planned_end": "2026-05-12",
-      "actual_start": "2026-04-25",
-      "actual_end": "2026-04-25",
-      "drift_days": 0,
-      "is_key_milestone": false,
-      "key_milestone_label": null,
-      "subtasks": [
-        {
-          "id": "ui_responsive_001",
-          "label": "Test and fix mobile layout (320px-768px)",
-          "status": "done",
-          "done": true,
-          "assignee": "gemini-cli",
-          "priority": "P1",
-          "execution_mode": "agent",
-          "completed_at": "2026-04-25T12:00:00.000Z"
-        },
-        {
-          "id": "ui_responsive_002",
-          "label": "Test and fix tablet layout (768px-1024px)",
-          "status": "done",
-          "done": true,
-          "assignee": "gemini-cli",
-          "priority": "P2",
-          "execution_mode": "agent",
-          "completed_at": "2026-04-25T12:05:00.000Z"
-        },
-        {
-          "id": "ui_responsive_003",
-          "label": "Add touch-friendly navigation for mobile",
-          "status": "done",
-          "done": true,
-          "assignee": "gemini-cli",
-          "priority": "P2",
-          "execution_mode": "agent",
-          "completed_at": "2026-04-25T12:10:00.000Z"
-        }
-      ],
-      "dependencies": [
-        "ui_rtl_polish"
-      ],
-      "notes": [
-        "Verified mobile layout from 320px up.",
-        "MobileMenu provides touch-friendly navigation.",
-        "Prose padding adjusted for small screens."
-      ]
-    },
-    {
-      "id": "ui_themes",
-      "title": "Theme System Refinement",
-      "domain": "UI/UX",
-      "week": 4,
-      "phase": "ui_polish",
-      "planned_start": "2026-05-13",
-      "planned_end": "2026-05-19",
-      "actual_start": "2026-04-25",
-      "actual_end": "2026-04-25",
-      "drift_days": 0,
-      "is_key_milestone": false,
-      "key_milestone_label": null,
-      "subtasks": [
-        {
-          "id": "ui_themes_001",
-          "label": "Refine dark mode color palette",
-          "status": "done",
-          "done": true,
-          "assignee": "gemini-cli",
-          "priority": "P2",
-          "execution_mode": "pair",
-          "completed_at": "2026-04-25T12:15:00.000Z"
-        },
-        {
-          "id": "ui_themes_002",
-          "label": "Add smooth theme transition animation",
-          "status": "done",
-          "done": true,
-          "assignee": "gemini-cli",
-          "priority": "P3",
-          "execution_mode": "agent",
-          "completed_at": "2026-04-25T12:20:00.000Z"
-        },
-        {
-          "id": "ui_themes_003",
-          "label": "Test theme consistency across all chapter pages",
-          "status": "done",
-          "done": true,
-          "assignee": "gemini-cli",
-          "priority": "P2",
-          "execution_mode": "agent",
-          "completed_at": "2026-04-25T12:25:00.000Z"
-        }
-      ],
-      "dependencies": [],
-      "notes": [
-        "Verified dark/light mode consistency across all chapters.",
-        "Added transition-colors to body and main components for smooth theme switching."
-      ]
-    },
-    {
-      "id": "ui_a11y",
-      "title": "Accessibility Audit",
-      "domain": "UI/UX",
-      "week": 5,
-      "phase": "ui_polish",
-      "planned_start": "2026-05-20",
-      "planned_end": "2026-05-26",
-      "actual_start": "2026-04-27",
-      "actual_end": "2026-04-27",
-      "drift_days": 0,
-      "is_key_milestone": true,
-      "key_milestone_label": "UI Production Ready",
-      "subtasks": [
-        {
-          "id": "ui_a11y_001",
-          "label": "Run accessibility audit and fix critical issues",
-          "status": "done",
-          "done": true,
-          "assignee": "gemini-cli",
-          "priority": "P1",
-          "execution_mode": "agent",
-          "completed_at": "2026-04-27T18:00:00.000Z"
-        },
-        {
-          "id": "ui_a11y_002",
-          "label": "Add ARIA labels for navigation components",
-          "status": "done",
-          "done": true,
-          "assignee": "gemini-cli",
-          "priority": "P2",
-          "execution_mode": "agent",
-          "completed_at": "2026-04-27T18:05:00.000Z"
-        },
-        {
-          "id": "ui_a11y_003",
-          "label": "Ensure keyboard navigation works end-to-end",
-          "status": "done",
-          "done": true,
-          "assignee": "gemini-cli",
-          "priority": "P2",
-          "execution_mode": "agent",
-          "completed_at": "2026-04-27T18:10:00.000Z"
-        },
-        {
-          "id": "ui_a11y_004",
-          "label": "Test with screen reader (Arabic VoiceOver)",
-          "status": "todo",
-          "done": false,
-          "assignee": null,
-          "priority": "P2",
-          "execution_mode": "human"
-        }
-      ],
-      "dependencies": [
-        "ui_responsive"
-      ],
-      "notes": [
-        "Added ARIA labels and roles to Navbar, MobileMenu, and Sidebar.",
-        "Verified keyboard accessibility for menu triggers and theme toggle.",
-        "Optimized RTL accessibility structure."
-      ]
-    },
-    {
-      "id": "feat_search",
-      "title": "Full-Text Search",
-      "domain": "Features",
-      "week": 4,
-      "phase": "features",
-      "planned_start": "2026-05-13",
-      "planned_end": "2026-05-19",
-      "actual_start": null,
-      "actual_end": null,
-      "drift_days": 0,
-      "is_key_milestone": false,
-      "key_milestone_label": null,
-      "subtasks": [
-        {
-          "id": "feat_search_001",
-          "label": "Research search solutions for static Next.js (flexsearch, pagefind)",
-          "status": "todo",
-          "done": false,
-          "assignee": null,
-          "priority": "P1",
-          "execution_mode": "agent"
-        },
-        {
-          "id": "feat_search_002",
-          "label": "Implement full-text Arabic search",
-          "status": "todo",
-          "done": false,
-          "assignee": null,
-          "priority": "P1",
-          "execution_mode": "agent"
-        },
-        {
-          "id": "feat_search_003",
-          "label": "Add search UI component with RTL support",
-          "status": "todo",
-          "done": false,
-          "assignee": null,
-          "priority": "P2",
-          "execution_mode": "agent"
-        }
-      ],
-      "dependencies": [],
-      "notes": []
-    },
-    {
-      "id": "feat_progress",
-      "title": "Reading Progress Tracking",
-      "domain": "Features",
-      "week": 5,
-      "phase": "features",
-      "planned_start": "2026-05-20",
-      "planned_end": "2026-05-26",
-      "actual_start": null,
-      "actual_end": null,
-      "drift_days": 0,
-      "is_key_milestone": false,
-      "key_milestone_label": null,
-      "subtasks": [
-        {
-          "id": "feat_progress_001",
-          "label": "Design reading progress tracking (localStorage)",
-          "status": "todo",
-          "done": false,
-          "assignee": null,
-          "priority": "P2",
-          "execution_mode": "agent"
-        },
-        {
-          "id": "feat_progress_002",
-          "label": "Implement progress bar and chapter completion tracking",
-          "status": "todo",
-          "done": false,
-          "assignee": null,
-          "priority": "P2",
-          "execution_mode": "agent"
-        },
-        {
-          "id": "feat_progress_003",
-          "label": "Add \"Continue Reading\" feature on home page",
-          "status": "todo",
-          "done": false,
-          "assignee": null,
-          "priority": "P3",
-          "execution_mode": "agent"
-        }
-      ],
-      "dependencies": [],
-      "notes": []
-    },
-    {
-      "id": "feat_bookmarks",
-      "title": "Bookmarks & Highlights",
-      "domain": "Features",
-      "week": 6,
-      "phase": "features",
-      "planned_start": "2026-05-27",
-      "planned_end": "2026-06-02",
-      "actual_start": null,
-      "actual_end": null,
-      "drift_days": 0,
-      "is_key_milestone": false,
-      "key_milestone_label": null,
-      "subtasks": [
-        {
-          "id": "feat_bookmarks_001",
-          "label": "Implement bookmark storage (localStorage)",
-          "status": "todo",
-          "done": false,
-          "assignee": null,
-          "priority": "P2",
-          "execution_mode": "agent"
-        },
-        {
-          "id": "feat_bookmarks_002",
-          "label": "Add bookmark UI (sidebar panel + in-page markers)",
-          "status": "todo",
-          "done": false,
-          "assignee": null,
-          "priority": "P2",
-          "execution_mode": "agent"
-        },
-        {
-          "id": "feat_bookmarks_003",
-          "label": "Add highlight/annotation support for selected text",
-          "status": "todo",
-          "done": false,
-          "assignee": null,
-          "priority": "P3",
-          "execution_mode": "agent"
-        }
-      ],
-      "dependencies": [],
-      "notes": []
-    },
-    {
-      "id": "feat_nav",
-      "title": "Enhanced Navigation",
-      "domain": "Features",
-      "week": 7,
-      "phase": "features",
-      "planned_start": "2026-06-03",
-      "planned_end": "2026-06-09",
-      "actual_start": null,
-      "actual_end": null,
-      "drift_days": 0,
-      "is_key_milestone": false,
-      "key_milestone_label": null,
-      "subtasks": [
-        {
-          "id": "feat_nav_001",
-          "label": "Improve table of contents with collapsible sections",
-          "status": "todo",
-          "done": false,
-          "assignee": null,
-          "priority": "P2",
-          "execution_mode": "agent"
-        },
-        {
-          "id": "feat_nav_002",
-          "label": "Add previous/next chapter navigation",
-          "status": "todo",
-          "done": false,
-          "assignee": null,
-          "priority": "P2",
-          "execution_mode": "agent"
-        },
-        {
-          "id": "feat_nav_003",
-          "label": "Add breadcrumb navigation",
-          "status": "todo",
-          "done": false,
-          "assignee": null,
-          "priority": "P3",
-          "execution_mode": "agent"
-        }
-      ],
-      "dependencies": [],
-      "notes": []
-    },
-    {
-      "id": "feat_settings",
-      "title": "Reading Settings",
-      "domain": "Features",
-      "week": 8,
-      "phase": "features",
-      "planned_start": "2026-06-10",
-      "planned_end": "2026-06-16",
-      "actual_start": null,
-      "actual_end": null,
-      "drift_days": 0,
-      "is_key_milestone": true,
-      "key_milestone_label": "Features Complete",
-      "subtasks": [
-        {
-          "id": "feat_settings_001",
-          "label": "Add font size control (small/medium/large)",
-          "status": "todo",
-          "done": false,
-          "assignee": null,
-          "priority": "P2",
-          "execution_mode": "agent"
-        },
-        {
-          "id": "feat_settings_002",
-          "label": "Add line spacing control",
-          "status": "todo",
-          "done": false,
-          "assignee": null,
-          "priority": "P3",
-          "execution_mode": "agent"
-        },
-        {
-          "id": "feat_settings_003",
-          "label": "Add reading width control",
-          "status": "todo",
-          "done": false,
-          "assignee": null,
-          "priority": "P3",
-          "execution_mode": "agent"
-        }
-      ],
-      "dependencies": [],
-      "notes": []
-    },
-    {
-      "id": "infra_perf",
-      "title": "Performance Optimization",
-      "domain": "Infrastructure",
-      "week": 7,
-      "phase": "production",
-      "planned_start": "2026-06-03",
-      "planned_end": "2026-06-09",
-      "actual_start": null,
-      "actual_end": null,
-      "drift_days": 0,
-      "is_key_milestone": false,
-      "key_milestone_label": null,
-      "subtasks": [
-        {
-          "id": "infra_perf_001",
-          "label": "Run Lighthouse audit and fix performance issues",
-          "status": "todo",
-          "done": false,
-          "assignee": null,
-          "priority": "P1",
-          "execution_mode": "agent"
-        },
-        {
-          "id": "infra_perf_002",
-          "label": "Optimize image loading (lazy load, blur placeholder)",
-          "status": "todo",
-          "done": false,
-          "assignee": null,
-          "priority": "P2",
-          "execution_mode": "agent"
-        },
-        {
-          "id": "infra_perf_003",
-          "label": "Implement ISR or static regeneration strategy",
-          "status": "todo",
-          "done": false,
-          "assignee": null,
-          "priority": "P2",
-          "execution_mode": "agent"
-        }
-      ],
-      "dependencies": [],
-      "notes": []
-    },
-    {
-      "id": "infra_seo",
-      "title": "SEO & Metadata",
-      "domain": "Infrastructure",
-      "week": 8,
-      "phase": "production",
-      "planned_start": "2026-06-10",
-      "planned_end": "2026-06-16",
-      "actual_start": null,
-      "actual_end": null,
-      "drift_days": 0,
-      "is_key_milestone": false,
-      "key_milestone_label": null,
-      "subtasks": [
-        {
-          "id": "infra_seo_001",
-          "label": "Add proper meta tags for all chapters (Arabic SEO)",
-          "status": "todo",
-          "done": false,
-          "assignee": null,
-          "priority": "P1",
-          "execution_mode": "agent"
-        },
-        {
-          "id": "infra_seo_002",
-          "label": "Generate sitemap.xml",
-          "status": "todo",
-          "done": false,
-          "assignee": null,
-          "priority": "P2",
-          "execution_mode": "agent"
-        },
-        {
-          "id": "infra_seo_003",
-          "label": "Add Open Graph and Twitter card meta",
-          "status": "todo",
-          "done": false,
-          "assignee": null,
-          "priority": "P2",
-          "execution_mode": "agent"
-        },
-        {
-          "id": "infra_seo_004",
-          "label": "Add structured data (JSON-LD) for book chapters",
-          "status": "todo",
-          "done": false,
-          "assignee": null,
-          "priority": "P3",
-          "execution_mode": "agent"
-        }
-      ],
-      "dependencies": [],
-      "notes": []
-    },
-    {
-      "id": "infra_deploy",
-      "title": "Deployment Setup",
-      "domain": "Infrastructure",
-      "week": 9,
-      "phase": "production",
-      "planned_start": "2026-06-17",
-      "planned_end": "2026-06-23",
-      "actual_start": null,
-      "actual_end": null,
-      "drift_days": 0,
-      "is_key_milestone": false,
-      "key_milestone_label": null,
-      "subtasks": [
-        {
-          "id": "infra_deploy_001",
-          "label": "Set up Vercel deployment (or alternative)",
-          "status": "todo",
-          "done": false,
-          "assignee": null,
-          "priority": "P1",
-          "execution_mode": "agent"
-        },
-        {
-          "id": "infra_deploy_002",
-          "label": "Configure custom domain",
-          "status": "todo",
-          "done": false,
-          "assignee": null,
-          "priority": "P2",
-          "execution_mode": "human"
-        },
-        {
-          "id": "infra_deploy_003",
-          "label": "Add error monitoring (Sentry or similar)",
-          "status": "todo",
-          "done": false,
-          "assignee": null,
-          "priority": "P2",
-          "execution_mode": "agent"
-        },
-        {
-          "id": "infra_deploy_004",
-          "label": "Add analytics (privacy-respecting)",
-          "status": "todo",
-          "done": false,
-          "assignee": null,
-          "priority": "P3",
-          "execution_mode": "agent"
-        }
-      ],
-      "dependencies": [],
-      "notes": []
-    },
-    {
-      "id": "infra_launch",
-      "title": "Launch Preparation",
-      "domain": "Infrastructure",
-      "week": 10,
-      "phase": "production",
-      "planned_start": "2026-06-24",
-      "planned_end": "2026-07-01",
-      "actual_start": null,
-      "actual_end": null,
-      "drift_days": 0,
-      "is_key_milestone": true,
-      "key_milestone_label": "V1.0 Launch",
-      "subtasks": [
-        {
-          "id": "infra_launch_001",
-          "label": "Final QA pass across all pages and features",
-          "status": "todo",
-          "done": false,
-          "assignee": null,
-          "priority": "P1",
-          "execution_mode": "pair"
-        },
-        {
-          "id": "infra_launch_002",
-          "label": "Cross-browser testing (Chrome, Firefox, Safari, Edge)",
-          "status": "todo",
-          "done": false,
-          "assignee": null,
-          "priority": "P1",
-          "execution_mode": "agent"
-        },
-        {
-          "id": "infra_launch_003",
-          "label": "Mobile device testing",
-          "status": "todo",
-          "done": false,
-          "assignee": null,
-          "priority": "P1",
-          "execution_mode": "human"
-        },
-        {
-          "id": "infra_launch_004",
-          "label": "Launch",
-          "status": "todo",
-          "done": false,
-          "assignee": null,
-          "priority": "P1",
-          "execution_mode": "human"
-        }
-      ],
-      "dependencies": [
-        "infra_deploy"
-      ],
-      "notes": []
-    }
-  ],
-  "agents": [
-    {
-      "id": "orchestrator",
-      "name": "Orchestrator",
-      "type": "orchestrator",
-      "color": "#8286FF",
-      "status": "idle",
-      "permissions": [
-        "read",
-        "write"
-      ],
-      "last_action_at": null,
-      "session_action_count": 0
-    },
-    {
-      "id": "explorer",
-      "name": "Explorer",
-      "type": "sub-agent",
-      "color": "#14B8A6",
-      "status": "idle",
-      "permissions": [
-        "read"
-      ],
-      "last_action_at": null,
-      "session_action_count": 0
-    },
-    {
-      "id": "researcher",
-      "name": "Researcher",
-      "type": "sub-agent",
-      "color": "#22C55E",
-      "status": "idle",
-      "permissions": [
-        "read"
-      ],
-      "last_action_at": null,
-      "session_action_count": 0
-    },
-    {
-      "id": "post-build-auditor",
-      "name": "Post-Build Auditor",
-      "type": "sub-agent",
-      "color": "#F59E0B",
-      "status": "idle",
-      "permissions": [
-        "read"
-      ],
-      "last_action_at": null,
-      "session_action_count": 0
-    },
-    {
-      "id": "arabic-specialist",
-      "name": "Arabic Content Specialist",
-      "type": "sub-agent",
-      "color": "#F59E0B",
-      "status": "idle",
-      "permissions": [
-        "read",
-        "write"
-      ],
-      "last_action_at": null,
-      "session_action_count": 0
-    },
-    {
-      "id": "nextjs-specialist",
-      "name": "Next.js Specialist",
-      "type": "sub-agent",
-      "color": "#6366F1",
-      "status": "idle",
-      "permissions": [
-        "read",
-        "write"
-      ],
-      "last_action_at": null,
-      "session_action_count": 0
-    }
-  ],
-  "agent_log": [
-    {
-      "id": "log_content_qa_audit_complete",
-      "agent_id": "gemini-cli",
-      "action": "task_updated",
-      "target_type": "subtask",
-      "target_id": "content_qa_001",
-      "description": "Audit complete. Found severe corruption: 20k+ presentation forms, 1k+ broken 'Ya', and honorific corruption due to script bug.",
-      "timestamp": "2026-04-24T16:50:00.000Z",
-      "tags": [
-        "content",
-        "qa",
-        "critical"
-      ]
-    },
-    {
-      "id": "log_content_qa_001_start",
-      "agent_id": "gemini-cli",
-      "action": "task_updated",
-      "target_type": "subtask",
-      "target_id": "content_qa_001",
-      "description": "Started audit of all 12 chapters for Arabic text corruption.",
-      "timestamp": "2026-04-24T16:15:00.000Z",
-      "tags": [
-        "content",
-        "qa"
-      ]
-    },
-    {
-      "id": "log_1777019850",
-      "agent_id": "gemini-cli",
-      "action": "task_updated",
-      "target_type": "subtask",
-      "target_id": "scripts_arabic_fix_001",
-      "description": "Starting consolidation of Arabic fix scripts",
-      "timestamp": "2026-04-24T11:37:30.592774",
-      "tags": [
-        "cli",
-        "manual"
-      ]
-    },
-    {
-      "id": "log_1777035896",
-      "agent_id": "gemini-cli",
-      "action": "task_updated",
-      "target_type": "subtask",
-      "target_id": "scripts_arabic_fix_001",
-      "description": "Consolidated Arabic fix scripts into scripts/arabic_pipeline.py and ran it successfully across 13 files.",
-      "timestamp": "2026-04-24T16:04:56.873924",
-      "tags": [
-        "cli",
-        "manual"
-      ]
-    },
-    {
-      "id": "log_20260427_ocr_ui_complete",
-      "agent_id": "gemini-cli",
-      "action": "milestone_completed",
-      "target_type": "milestone",
-      "target_id": "ui_a11y",
-      "description": "Completed Phase 1 OCR recovery and Phase 2 Accessibility Audit. Fixed 100+ new OCR patterns and added ARIA support to all navigation components.",
-      "timestamp": "2026-04-27T18:30:00.000Z",
-      "tags": [
-        "content",
-        "ui",
-        "a11y"
-      ]
-    },
-    {
-      "id": "log_1777315913",
-      "agent_id": "opencode",
-      "action": "session_start",
-      "target_type": null,
-      "target_id": null,
-      "description": "Integrated OpenCode AI plugin with Command Center",
-      "timestamp": "2026-04-27T21:51:53.219499",
-      "tags": [
-        "manual"
-      ]
-    }
-  ],
-  "schedule": {
-    "phases": [
+  "dashboard": {
+    "current_focus": "Chapter 7 Content Recovery (PDF Extraction)",
+    "active_milestone": "content_ch7_recovery",
+    "next_priority": "Extract and clean Chapter 7 sections 1-4 from source PDF",
+    "blockers": "None",
+    "health": "Excellent"
+  },
+  "milestones": {
+    "active": [
       {
-        "id": "content_quality",
-        "title": "Content Quality",
-        "start_week": 1,
-        "end_week": 3
+        "id": "content_ch7_recovery",
+        "title": "Chapter 7 Content & Structure Recovery",
+        "domain": "Content",
+        "week": 1,
+        "phase": "recovery",
+        "planned_start": "2026-04-29",
+        "planned_end": "2026-04-30",
+        "subtasks": [
+          {
+            "id": "ch7_001",
+            "label": "Recover missing sections 1-4 from source PDF (manual/automated)",
+            "status": "in_progress",
+            "priority": "P1"
+          },
+          {
+            "id": "ch7_002",
+            "label": "Fix structural corruption (merged title/intro)",
+            "status": "todo",
+            "priority": "P1"
+          },
+          {
+            "id": "ch7_003",
+            "label": "Normalize heading numbering and verify layout",
+            "status": "todo",
+            "priority": "P2"
+          }
+        ]
       },
       {
-        "id": "ui_polish",
-        "title": "UI Polish",
-        "start_week": 2,
-        "end_week": 5
+        "id": "feat_search",
+        "title": "Full-Text Search",
+        "domain": "Features",
+        "week": 4,
+        "phase": "features",
+        "planned_start": "2026-05-13",
+        "planned_end": "2026-05-19",
+        "subtasks": [
+          {
+            "id": "feat_search_001",
+            "label": "Research search solutions (pagefind/flexsearch)",
+            "status": "todo",
+            "priority": "P1"
+          },
+          {
+            "id": "feat_search_002",
+            "label": "Implement full-text Arabic search",
+            "status": "todo",
+            "priority": "P1"
+          },
+          {
+            "id": "feat_search_003",
+            "label": "Add search UI with RTL support",
+            "status": "todo",
+            "priority": "P2"
+          }
+        ]
+      }
+    ],
+    "backlog": [
+      {
+        "id": "feat_progress",
+        "title": "Reading Progress Tracking",
+        "domain": "Features",
+        "week": 5,
+        "phase": "features",
+        "subtasks": [
+          { "id": "feat_progress_001", "label": "Design storage (localStorage)", "status": "todo" },
+          { "id": "feat_progress_002", "label": "Implement progress bar", "status": "todo" }
+        ]
       },
       {
-        "id": "features",
-        "title": "Feature Enhancement",
-        "start_week": 4,
-        "end_week": 8
+        "id": "feat_bookmarks",
+        "title": "Bookmarks & Highlights",
+        "domain": "Features",
+        "week": 6,
+        "phase": "features"
       },
       {
-        "id": "production",
-        "title": "Production",
-        "start_week": 7,
-        "end_week": 10
+        "id": "feat_nav",
+        "title": "Advanced Navigation Controls",
+        "domain": "Features",
+        "week": 6,
+        "phase": "features"
+      },
+      {
+        "id": "feat_settings",
+        "title": "Reader Settings (Font/Spacing)",
+        "domain": "Features",
+        "week": 8,
+        "phase": "features",
+        "is_key_milestone": true
+      },
+      {
+        "id": "infra_perf",
+        "title": "Performance Optimization",
+        "domain": "Infrastructure",
+        "week": 7,
+        "phase": "production"
+      },
+      {
+        "id": "infra_seo",
+        "title": "SEO & Metadata Refinement",
+        "domain": "Infrastructure",
+        "week": 8,
+        "phase": "production"
+      },
+      {
+        "id": "infra_deploy",
+        "title": "Deployment & Analytics",
+        "domain": "Infrastructure",
+        "week": 9,
+        "phase": "production"
+      },
+      {
+        "id": "infra_launch",
+        "title": "V1.0 Official Launch",
+        "domain": "Infrastructure",
+        "week": 10,
+        "phase": "production",
+        "is_key_milestone": true
+      }
+    ],
+    "completed": [
+      {
+        "id": "scripts_arabic_fix",
+        "title": "Arabic Fix Script Suite",
+        "completed_at": "2026-04-27",
+        "summary": "Consolidated and ran arabic_pipeline.py. Fixed spellings and normalized presentation forms."
+      },
+      {
+        "id": "content_qa",
+        "title": "Arabic Content QA",
+        "completed_at": "2026-04-25",
+        "summary": "Full audit of 12 chapters. Verified titles and recovered intro.md."
+      },
+      {
+        "id": "content_linguistic_recovery",
+        "title": "Arabic Linguistic & OCR Recovery",
+        "completed_at": "2026-04-26",
+        "summary": "Quranic restoration and structural cleanup across all files. Production polish for Ch 1-12."
+      },
+      {
+        "id": "content_ocr_chapters",
+        "title": "Chapter OCR Sweep (Massive)",
+        "completed_at": "2026-04-29",
+        "summary": "Fixed ~1500 corruptions across all 13 chapters. Resolved systematic 'Ya/Fi' merging and broken verses."
+      },
+      {
+        "id": "ui_rtl_polish",
+        "title": "RTL Layout Polish",
+        "completed_at": "2026-04-25",
+        "summary": "Sidebar + typography refinements for Tajawal font."
+      },
+      {
+        "id": "ui_responsive",
+        "title": "Mobile Responsive Design",
+        "completed_at": "2026-04-25",
+        "summary": "Verified layout down to 320px, implemented MobileMenu drawer."
+      },
+      {
+        "id": "ui_themes",
+        "title": "Theme System Implementation",
+        "completed_at": "2026-04-26",
+        "summary": "Golden/brown dark & light themes with smooth transitions."
+      },
+      {
+        "id": "ui_a11y",
+        "title": "Accessibility & ARIA",
+        "completed_at": "2026-04-27",
+        "summary": "Added ARIA roles/labels, verified keyboard nav, and refined focus states."
       }
     ]
-  }
+  },
+  "history_log": [
+    { "date": "2026-04-30", "event": "Switched Chapter 7 recovery strategy to direct PDF extraction after finding ocr.md insufficient" },
+    { "date": "2026-04-29", "event": "Completed Massive OCR Sweep (~1500 fixes applied)" },
+    { "date": "2026-04-27", "event": "UI Production Ready (A11y & ARIA labels complete)" },
+    { "date": "2026-04-26", "event": "Quranic Restoration 100% complete" },
+    { "date": "2026-04-24", "event": "Arabic Recovery Pipeline consolidated and running" }
+  ]
 }

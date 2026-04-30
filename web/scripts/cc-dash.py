@@ -72,32 +72,42 @@ def get_components(data):
     task_table.add_column("Status", width=15, justify="center")
 
     active_count = 0
-    for m in data['milestones']:
-        if m['week'] <= proj['current_week'] + 1: 
-            for t in m['subtasks']:
+    milestones_data = data['milestones']
+    if isinstance(milestones_data, dict):
+        milestone_list = milestones_data.get('active', []) + milestones_data.get('backlog', [])
+    else:
+        milestone_list = milestones_data
+
+    for m in milestone_list:
+        if m.get('week', 0) <= proj['current_week'] + 1: 
+            for t in m.get('subtasks', []):
                 if t['status'] != 'done' and active_count < 15:
                     status_style = get_status_color(t['status'])
                     task_table.add_row(
                         t['id'],
                         t['label'],
-                        f"[bold]{t['priority']}[/bold]",
-                        m['domain'],
+                        f"[bold]{t.get('priority', 'P2')}[/bold]",
+                        m.get('domain', 'General'),
                         f"[{status_style}]{t['status'].replace('_', ' ').upper()}[/]"
                     )
                     active_count += 1
 
     # Agent Log Panel
     log_table = Table(show_header=True, expand=True, box=box.ROUNDED, title="Recent Activity")
-    log_table.add_column("Agent", width=15)
-    log_table.add_column("Action", ratio=1)
-    log_table.add_column("Time", width=20, style="dim")
+    log_table.add_column("Agent/Date", width=15)
+    log_table.add_column("Action/Event", ratio=1)
+    log_table.add_column("Time/Info", width=20, style="dim")
 
-    recent_logs = data['agent_log'][-5:]
+    recent_logs = data.get('agent_log', data.get('history_log', []))[-5:]
     for log in reversed(recent_logs):
+        agent = log.get('agent_id', log.get('date', 'system'))
+        description = log.get('description', log.get('event', ''))
+        timestamp = log.get('timestamp', '')
+        
         log_table.add_row(
-            f"[bold]{log['agent_id']}[/bold]",
-            log['description'],
-            log['timestamp'][:19].replace('T', ' ')
+            f"[bold]{agent}[/bold]",
+            description,
+            timestamp[:19].replace('T', ' ')
         )
     
     if not recent_logs:
@@ -110,39 +120,55 @@ def update_task(task_id, status, agent_id='orchestrator', description=None):
     if not data:
         return False
     
+    milestones_data = data['milestones']
+    if isinstance(milestones_data, dict):
+        categories = milestones_data.values()
+    else:
+        categories = [milestones_data]
+    
     found = False
-    for m in data['milestones']:
-        for t in m['subtasks']:
-            if t['id'] == task_id:
-                t['status'] = status
-                t['done'] = (status == 'done')
-                if t['done']:
-                    t['completed_at'] = datetime.now().isoformat()
-                    t['completed_by'] = agent_id
-                
-                # Log action
-                if not description:
-                    description = f"Updated task {task_id} to {status}"
-                
-                log_entry = {
-                    "id": f"log_{int(datetime.now().timestamp())}",
-                    "agent_id": agent_id,
-                    "action": "task_updated",
-                    "target_type": "subtask",
-                    "target_id": task_id,
-                    "description": description,
-                    "timestamp": datetime.now().isoformat(),
-                    "tags": ["cli", "manual"]
-                }
-                data['agent_log'].append(log_entry)
-                
-                # Update progress
-                total_tasks = sum(len(m['subtasks']) for m in data['milestones'])
-                done_tasks = sum(sum(1 for t in m['subtasks'] if t['done']) for m in data['milestones'])
-                data['project']['overall_progress'] = done_tasks / total_tasks if total_tasks > 0 else 0
-                
-                found = True
-                break
+    for category in categories:
+        for m in category:
+            if 'subtasks' not in m: continue
+            for t in m['subtasks']:
+                if t['id'] == task_id:
+                    t['status'] = status
+                    t['done'] = (status == 'done')
+                    if t['done']:
+                        t['completed_at'] = datetime.now().isoformat()
+                        t['completed_by'] = agent_id
+                    
+                    # Log action
+                    if not description:
+                        description = f"Updated task {task_id} to {status}"
+                    
+                    log_entry = {
+                        "id": f"log_{int(datetime.now().timestamp())}",
+                        "agent_id": agent_id,
+                        "action": "task_updated",
+                        "target_type": "subtask",
+                        "target_id": task_id,
+                        "description": description,
+                        "timestamp": datetime.now().isoformat(),
+                        "tags": ["cli", "manual"]
+                    }
+                    data.setdefault('agent_log', []).append(log_entry)
+                    
+                    # Update progress
+                    all_milestones = []
+                    if isinstance(milestones_data, dict):
+                        for cat in milestones_data.values():
+                            all_milestones.extend(cat)
+                    else:
+                        all_milestones = milestones_data
+                    
+                    total_tasks = sum(len(m.get('subtasks', [])) for m in all_milestones)
+                    done_tasks = sum(sum(1 for t in m.get('subtasks', []) if t.get('done') or t.get('status') == 'done') for m in all_milestones)
+                    data['project']['overall_progress'] = done_tasks / total_tasks if total_tasks > 0 else 0
+                    
+                    found = True
+                    break
+            if found: break
         if found: break
     
     if found:
@@ -166,7 +192,7 @@ def log_action(agent_id, action, description, target_id=None, target_type=None, 
         "timestamp": datetime.now().isoformat(),
         "tags": tags or ["manual"]
     }
-    data['agent_log'].append(log_entry)
+    data.setdefault('agent_log', []).append(log_entry)
     
     with open(TRACKER_PATH, 'w', encoding='utf-8') as f:
         json.dump(data, f, indent=2, ensure_ascii=False)
