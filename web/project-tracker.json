@@ -191,6 +191,7 @@
     ]
   },
   "history_log": [
+    { "date": "2026-04-30", "event": "Recovered Chapter 7 Sections 1-4 and fixed structural header corruption" },
     { "date": "2026-04-30", "event": "Switched Chapter 7 recovery strategy to direct PDF extraction after finding ocr.md insufficient" },
     { "date": "2026-04-29", "event": "Completed Massive OCR Sweep (~1500 fixes applied)" },
     { "date": "2026-04-27", "event": "UI Production Ready (A11y & ARIA labels complete)" },
