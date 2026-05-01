@@ -8,9 +8,9 @@
     "overall_progress": 0.65
   },
   "dashboard": {
-    "current_focus": "Chapter 7 Content Recovery (PDF Extraction)",
+    "current_focus": "Chapter 7 Content Recovery (Section 9+)",
     "active_milestone": "content_ch7_recovery",
-    "next_priority": "Extract and clean Chapter 7 sections 1-4 from source PDF",
+    "next_priority": "Extract and clean Chapter 7 sections 9-12 from source PDF",
     "blockers": "None",
     "health": "Excellent"
   },
@@ -28,20 +28,32 @@
           {
             "id": "ch7_001",
             "label": "Recover missing sections 1-4 from source PDF (manual/automated)",
-            "status": "in_progress",
+            "status": "done",
             "priority": "P1"
           },
           {
             "id": "ch7_002",
             "label": "Fix structural corruption (merged title/intro)",
-            "status": "todo",
+            "status": "done",
             "priority": "P1"
           },
           {
             "id": "ch7_003",
             "label": "Normalize heading numbering and verify layout",
-            "status": "todo",
+            "status": "done",
             "priority": "P2"
+          },
+          {
+            "id": "ch7_004",
+            "label": "Extract and clean Chapter 7 sections 5-8 from source PDF",
+            "status": "done",
+            "priority": "P1"
+          },
+          {
+            "id": "ch7_005",
+            "label": "Extract and clean Chapter 7 sections 9-12 from source PDF",
+            "status": "todo",
+            "priority": "P1"
           }
         ]
       },
@@ -191,11 +203,13 @@
     ]
   },
   "history_log": [
-    { "date": "2026-04-30", "event": "Recovered Chapter 7 Sections 1-4 and fixed structural header corruption" },
-    { "date": "2026-04-30", "event": "Switched Chapter 7 recovery strategy to direct PDF extraction after finding ocr.md insufficient" },
-    { "date": "2026-04-29", "event": "Completed Massive OCR Sweep (~1500 fixes applied)" },
-    { "date": "2026-04-27", "event": "UI Production Ready (A11y & ARIA labels complete)" },
+    { "date": "2026-04-24", "event": "Arabic Recovery Pipeline consolidated and running" },
     { "date": "2026-04-26", "event": "Quranic Restoration 100% complete" },
-    { "date": "2026-04-24", "event": "Arabic Recovery Pipeline consolidated and running" }
+    { "date": "2026-04-27", "event": "UI Production Ready (A11y & ARIA labels complete)" },
+    { "date": "2026-04-29", "event": "Completed Massive OCR Sweep (~1500 fixes applied)" },
+    { "date": "2026-04-30", "event": "Switched Chapter 7 recovery strategy to direct PDF extraction after finding ocr.md insufficient" },
+    { "date": "2026-04-30", "event": "Recovered Chapter 7 Sections 1-4 and fixed structural header corruption" },
+    { "date": "2026-05-01", "event": "Normalized heading numbering (1-18) and verified layout for Chapter 7" },
+    { "date": "2026-05-01", "event": "Extracted and cleaned Chapter 7 sections 5-8 from source PDF" }
   ]
 }

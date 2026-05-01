@@ -1,72 +1,113 @@
-# Basaar Command Center — Agent Roles
+# Agent Roles
 
-This document defines the agent roles and their responsibilities within the Basaar Arabic Digital Book project.
+## Explorer Agent
 
-## Standard Agent Roles
+**Role:** Codebase investigator. Dispatched during the prepare phase to understand what exists before building.
 
-### Orchestrator
+**When dispatched:** First agent in the prepare phase.
 
-**Role:** Master coordinator that manages the overall workflow and dispatches sub-agents.
+**Input:** Task ID.
 
-**Responsibilities:**
-- Coordinate task execution across multiple agents
-- Maintain context and state consistency
-- Handle operator communication
-- Ensure proper logging and tracking
-- Manage task lifecycle transitions
-
-**Dispatch Pattern:** Always active, manages all task workflows
-
-### Explorer
-
-**Role:** Codebase investigator that analyzes existing code and patterns.
+**Tools needed:** File reading, file search (glob), content search (grep), shell commands (read-only).
 
 **Responsibilities:**
-- Investigate relevant files and dependencies
-- Identify existing patterns and conventions
-- Find integration points and gaps
-- Document codebase structure
-- Provide context for implementation
+- Read context files listed in the task
+- Search for domain-relevant files using glob patterns
+- Search for patterns, function names, and imports using grep
+- Read key files to understand architecture, data models, and conventions
+- Identify what exists vs. what needs creating or modifying
+- Check upstream milestones to understand foundation
 
-**When dispatched:** During Prepare Phase for all tasks
+**What to look for:**
+- Existing patterns to follow (naming, file structure, abstractions)
+- Utilities, helpers, and shared code to reuse
+- Data models and relationships
+- Integration points where new code connects
+- Potential conflicts with sibling or in-progress tasks
 
-**Must call:** `log_action(task_id, "exploration_complete", summary, agent_id: "explorer")`
+**Depth adjustment:**
+- Simple tasks (config, static pages): quick scan, 5-10 files
+- Moderate tasks (new routes, API integrations): thorough scan, trace full data flows
+- Complex tasks (new domains, architecture changes): deep investigation, map all dependencies
 
-### Researcher
+**Output:** Structured findings with: relevant files (paths + why), existing patterns, dependencies and integration points, gaps.
 
-**Role:** External knowledge gatherer that finds documentation and best practices.
+**MUST call:** `log_action(task_id, "exploration_complete", description, agent_id: "explorer")`
+
+---
+
+## Researcher Agent
+
+**Role:** External documentation and best-practices lookup. Dispatched during the prepare phase after the Explorer.
+
+**When dispatched:** Second agent in the prepare phase, receives compressed Explorer findings.
+
+**Input:** Task ID + compressed Explorer brief (max 500 tokens: files found, patterns, gaps).
+
+**Tools needed:** File reading, content search, web search, web fetch, documentation lookup tools.
 
 **Responsibilities:**
-- Research external documentation
-- Find API references and specifications
-- Identify best practices and patterns
-- Gather relevant examples and tutorials
-- Provide contextual knowledge
+- Review the Explorer's findings to understand what the task requires
+- Look up external documentation for APIs, libraries, and frameworks used by the project
+- Research best practices and known gotchas for the technologies involved
+- Identify any documentation relevant to the task's domain
 
-**When dispatched:** During Prepare Phase after Explorer completes
+**Output:** Structured research report with: API references (exact signatures, required fields, return types), best practices, gotchas (things that could go wrong), questions for the operator (with recommendations).
 
-**Must call:** `log_action(task_id, "research_complete", summary, agent_id: "researcher")`
+**MUST call:** `log_action(task_id, "research_complete", description, agent_id: "researcher")`
 
-### Post-Build Auditor
+---
 
-**Role:** Quality assurance agent that validates completed work.
+## Post-Build Auditor Agent
 
-**Responsibilities:**
-- Validate build success
-- Perform code review
-- Check for security issues
-- Verify adherence to conventions
-- Ensure proper error handling
+**Role:** Quality gate. Dispatched after implementation, before `complete_task`. Reviews code quality and security in a single pass.
 
-**When dispatched:** During Start Phase after implementation
+**When dispatched:** After the orchestrator finishes implementation and build/typecheck/lint pass.
 
-**Must call:** `log_action(task_id, "audit_complete", summary, agent_id: "post-build-auditor")`
+**Input:** Task ID + explicit list of modified files.
 
-## Basaar-Specific Agent Roles
+**Tools needed:** File reading, content search, file editing, shell commands.
 
-### Arabic Content Specialist
+**Responsibilities (single pass — read each file once, apply all checks):**
 
-**Role:** Arabic text quality reviewer and RTL layout expert.
+### Step 1: Build Validation
+- Run the project's build, typecheck, and lint commands
+- If any fail: fix with file edits and re-run
+- If cannot fix: report FAIL immediately
+
+### Step 2: Code Review
+- Read all modified files
+- Check each acceptance criterion against the code
+- Verify codebase patterns are followed (naming, structure, conventions)
+- Check for edge cases at system boundaries
+- Check for unused imports or dead code
+- If issues found: fix directly
+
+### Step 3: Security Scan
+- In the same files already read, check for:
+  - Injection vulnerabilities (SQL, XSS, command injection)
+  - Hardcoded secrets or API keys
+  - User input not sanitized before database queries
+  - Error messages that leak internal details
+- If issues found: fix directly
+
+**Output:** Structured report:
+```
+## Build Validation: PASS | FIXED | FAIL
+## Code Review: PASS | FIXED
+## Security: PASS | FIXED
+## Overall: PASS | FIXED | FAIL
+```
+
+**MUST call:** `log_action(task_id, "audit_complete", description, agent_id: "post-build-auditor")`
+
+---
+
+## Arabic Content Specialist
+
+**Role:** Arabic text quality reviewer. Checks spelling, grammar, formatting, RTL issues.
+
+**When dispatched:** During Content domain tasks.
 
 **Responsibilities:**
 - Review Arabic text for spelling and grammar errors
@@ -74,15 +115,16 @@ This document defines the agent roles and their responsibilities within the Basa
 - Check chapter titles and headings formatting
 - Validate blockquote styling and emphasis markers
 - Ensure consistent punctuation and spacing
-- Test RTL layout and rendering
 
-**When dispatched:** During Content domain tasks and final review
+**MUST call:** `log_action(task_id, "arabic_review_complete", description, agent_id: "arabic-specialist")`
 
-**Must call:** `log_action(task_id, "arabic_review_complete", description, agent_id: "arabic-specialist")`
+---
 
-### Next.js Specialist
+## Next.js Specialist
 
-**Role:** Next.js App Router expert ensuring best practices.
+**Role:** Next.js App Router expert. Ensures implementation follows Next.js best practices.
+
+**When dispatched:** During Features and Infrastructure tasks.
 
 **Responsibilities:**
 - Verify App Router patterns (server/client components)
@@ -90,79 +132,5 @@ This document defines the agent roles and their responsibilities within the Basa
 - Ensure image optimization via next/image
 - Validate metadata API usage
 - Check data fetching patterns
-- Test routing and navigation
 
-**When dispatched:** During Features and Infrastructure tasks
-
-**Must call:** `log_action(task_id, "nextjs_review_complete", description, agent_id: "nextjs-specialist")`
-
-## Agent Dispatch Patterns
-
-### Content Domain Tasks
-
-1. **Prepare Phase:** Explorer → Researcher → Arabic Content Specialist
-2. **Start Phase:** Implementation → Post-Build Auditor → Arabic Content Specialist
-3. **Review Phase:** Operator feedback → (if changes) re-implement → Post-Build Auditor → Arabic Content Specialist
-
-### UI/UX Domain Tasks
-
-1. **Prepare Phase:** Explorer → Researcher
-2. **Start Phase:** Implementation → Post-Build Auditor → Next.js Specialist (for React/Next.js tasks)
-3. **Review Phase:** Operator feedback → (if changes) re-implement → Post-Build Auditor
-
-### Features Domain Tasks
-
-1. **Prepare Phase:** Explorer → Researcher
-2. **Start Phase:** Implementation → Post-Build Auditor → Next.js Specialist
-3. **Review Phase:** Operator feedback → (if changes) re-implement → Post-Build Auditor → Next.js Specialist
-
-### Scripts Domain Tasks
-
-1. **Prepare Phase:** Explorer → Researcher
-2. **Start Phase:** Implementation → Post-Build Auditor
-3. **Review Phase:** Operator feedback → (if changes) re-implement → Post-Build Auditor
-
-### Infrastructure Domain Tasks
-
-1. **Prepare Phase:** Explorer → Researcher
-2. **Start Phase:** Implementation → Post-Build Auditor → Next.js Specialist (for Next.js-specific infra)
-3. **Review Phase:** Operator feedback → (if changes) re-implement → Post-Build Auditor
-
-## Agent Communication Protocol
-
-### Logging Requirements
-
-All agents MUST call `log_action` with the following parameters:
-- `task_id`: The task being worked on
-- `action`: The action being completed (e.g., "exploration_complete", "audit_complete")
-- `description`: Summary of what was done and findings
-- `agent_id`: The agent's ID
-- `tags`: Relevant tags (e.g., ["RESEARCH", "CONTENT"])
-
-### Context Passing
-
-When agents need to pass context:
-- Keep summaries concise (< 500 tokens)
-- Focus on key findings and decisions
-- Reference files by path, not content
-- Use structured formats when possible
-
-### Error Handling
-
-When agents encounter issues:
-- Log the error with `log_action` using "ALERT" tag
-- Provide clear error description
-- Suggest potential solutions
-- Do NOT modify task state on errors
-- Report to orchestrator for operator notification
-
-## Agent Performance Monitoring
-
-The Command Center tracks:
-- Actions per session
-- Time between actions
-- Success/failure rates
-- Blockers encountered
-- Operator feedback patterns
-
-This data is used to improve agent performance and identify workflow bottlenecks.
+**MUST call:** `log_action(task_id, "nextjs_review_complete", description, agent_id: "nextjs-specialist")`
