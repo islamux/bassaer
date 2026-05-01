@@ -57,10 +57,18 @@
           },
           {
             "id": "ch7_006",
-            "title": "Extract and clean Chapter 7 sections 13-16",
-            "status": "todo",
+            "status": "done",
             "assignee": "arabic-specialist",
-            "notes": "Using manual extraction to prevent structural corruption."
+            "notes": "Using manual extraction to prevent structural corruption.",
+            "label": "Extract and clean Chapter 7 sections 13-16",
+            "priority": "P1"
+          },
+          {
+            "id": "ch7_007",
+            "label": "Extract and clean Chapter 7 sections 17-18",
+            "status": "todo",
+            "priority": "P1",
+            "assignee": "arabic-specialist"
           }
         ]
       },
@@ -253,6 +261,11 @@
     {
       "date": "2026-05-01",
       "action": "Recovered Chapter 7 Sections 9-12 from source PDF",
+      "agent": "arabic-specialist"
+    },
+    {
+      "date": "2026-05-01",
+      "action": "Recovered Chapter 7 Sections 13-16 from source PDF and updated tracker",
       "agent": "arabic-specialist"
     }
   ]
