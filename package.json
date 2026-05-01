@@ -1,0 +1,11 @@
+{
+  "name": "bassaer-antigravity",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "cc": "./scripts/cc-dash.py",
+    "cc:watch": "./scripts/cc-dash.py --watch",
+    "cc:update": "./scripts/cc-dash.py update",
+    "cc:log": "./scripts/cc-dash.py log"
+  }
+}
