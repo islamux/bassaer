@@ -8,9 +8,9 @@
     "overall_progress": 0.65
   },
   "dashboard": {
-    "current_focus": "Chapter 7 Content Recovery (Section 9+)",
-    "active_milestone": "content_ch7_recovery",
-    "next_priority": "Extract and clean Chapter 7 sections 9-12 from source PDF",
+    "current_focus": "Search Feature Implementation",
+    "active_milestone": "feat_search",
+    "next_priority": "Researching search solutions (Pagefind/Flexsearch) for Arabic content",
     "blockers": "None",
     "health": "Excellent"
   },
@@ -116,6 +116,24 @@
         "week": 10,
         "phase": "production",
         "is_key_milestone": true
+      },
+      {
+        "id": "content_ch9_recovery",
+        "title": "Chapter 9 Content & Structure Recovery",
+        "domain": "Content",
+        "week": 3,
+        "phase": "recovery",
+        "planned_start": "2026-05-05",
+        "planned_end": "2026-05-12",
+        "subtasks": [
+          {
+            "id": "ch9_001",
+            "label": "Extract and clean Chapter 9 Sections (Sections 132-180+)",
+            "status": "todo",
+            "priority": "P1",
+            "assignee": "arabic-specialist"
+          }
+        ]
       }
     ],
     "completed": [
@@ -222,6 +240,73 @@
             "assignee": "arabic-specialist"
           }
         ]
+      },
+      {
+        "id": "doc_agents_runbook",
+        "title": "Project Documentation & Agent Runbook",
+        "domain": "documentation",
+        "week": "current",
+        "phase": "operational",
+        "planned_start": "2026-05-01",
+        "planned_end": "2026-05-02",
+        "subtasks": [
+          {
+            "id": "doc_001",
+            "label": "Create AGENTS.md with Command Center CLI documentation and Agent Personas",
+            "status": "done",
+            "priority": "P0",
+            "assignee": "orchestrator",
+            "notes": "HIGH PRIORITY: Define monorepo structure and pnpm cc commands."
+          }
+        ]
+      },
+      {
+        "id": "content_ch8_recovery",
+        "title": "Chapter 8 Content & Structure Recovery",
+        "domain": "Content",
+        "week": 2,
+        "phase": "recovery",
+        "planned_start": "2026-05-01",
+        "planned_end": "2026-05-02",
+        "subtasks": [
+          {
+            "id": "ch8_001",
+            "label": "Extract and clean Chapter 8 Section 1 (Question 127)",
+            "status": "done",
+            "priority": "P1",
+            "assignee": "arabic-specialist"
+          },
+          {
+            "id": "ch8_002",
+            "label": "Extract and clean Chapter 8 Section 2 (Question 128)",
+            "status": "done",
+            "priority": "P1",
+            "assignee": "arabic-specialist"
+          },
+          {
+            "id": "ch8_003",
+            "label": "Extract and clean Chapter 8 Section 3 (Question 129)",
+            "status": "done",
+            "priority": "P1",
+            "assignee": "arabic-specialist"
+          },
+          {
+            "id": "ch8_004",
+            "label": "Extract and clean Chapter 8 Section 4 (Question 130)",
+            "status": "done",
+            "priority": "P1",
+            "assignee": "arabic-specialist"
+          },
+          {
+            "id": "ch8_005",
+            "label": "Extract and clean Chapter 8 Section 5 (Question 131)",
+            "status": "done",
+            "priority": "P1",
+            "assignee": "arabic-specialist"
+          }
+        ],
+        "status": "completed",
+        "completed_at": "2026-05-01"
       }
     ]
   },
@@ -272,6 +357,41 @@
       "date": "2026-05-01",
       "action": "Completed Chapter 7 recovery by extracting and cleaning Sections 17-18 from source PDF",
       "agent": "arabic-specialist"
+    },
+    {
+      "date": "2026-05-01",
+      "action": "Created AGENTS.md runbook with Command Center CLI documentation and Agent Personas",
+      "agent": "orchestrator"
+    },
+    {
+      "date": "2026-05-01",
+      "event": "Completed recovery of Chapter 8 Section 1",
+      "agent": "arabic-specialist"
+    },
+    {
+      "date": "2026-05-01",
+      "event": "Completed recovery of Chapter 8 Section 2",
+      "agent": "arabic-specialist"
+    },
+    {
+      "date": "2026-05-01",
+      "event": "Completed recovery of Chapter 8 Section 3",
+      "agent": "arabic-specialist"
+    },
+    {
+      "date": "2026-05-01",
+      "event": "Completed recovery of Chapter 8 Section 4",
+      "agent": "arabic-specialist"
+    },
+    {
+      "date": "2026-05-01",
+      "event": "Completed recovery of Chapter 8 (Sections 1-5). Content is now contiguous and production-ready.",
+      "agent": "arabic-specialist"
+    },
+    {
+      "date": "2026-05-01",
+      "event": "Updated tracker dashboard and added Chapter 9 to backlog.",
+      "agent": "orchestrator"
     }
   ]
 }
