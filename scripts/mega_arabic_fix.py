@@ -101,8 +101,8 @@ def clean_arabic_text(text):
         
     # JS Word based lookarounds translated
     def replace_word(word, replacement, content):
-        pattern = r'(?<=^|[^\u0621-\u064A\d_])' + word + r'(?=[^\u0621-\u064A\d_]|$)'
-        return re.sub(pattern, replacement, content)
+        pattern = r'(^|[^\u0621-\u064A\d_])' + word + r'(?=[^\u0621-\u064A\d_]|$)'
+        return re.sub(pattern, r'\g<1>' + replacement, content)
 
     text = replace_word(r'أال', r'ألا', text)
     text = replace_word(r'إال', r'إلا', text)
