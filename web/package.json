@@ -6,11 +6,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint",
-    "cc": "./scripts/cc-dash.py",
-    "cc:watch": "./scripts/cc-dash.py --watch",
-    "cc:update": "./scripts/cc-dash.py update",
-    "cc:log": "./scripts/cc-dash.py log"
+    "lint": "next lint"
   },
   "dependencies": {
     "lucide-react": "^0.460.0",

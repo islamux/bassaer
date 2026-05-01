@@ -1,0 +1,4 @@
+packages:
+  - "web"
+  - "command-center"
+  - "command-center-mcp"
