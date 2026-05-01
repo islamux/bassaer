@@ -7,10 +7,10 @@ with open(tracker_path, 'r', encoding='utf-8') as f:
     data = json.load(f)
 
 for milestone in data['milestones']['active']:
-    if milestone['id'] == 'content_ch7_recovery':
-        # Mark ch7_007 as done
+    if milestone['id'] == 'doc_agents_runbook':
+        # Mark doc_001 as done
         for task in milestone['subtasks']:
-            if task['id'] == 'ch7_007':
+            if task['id'] == 'doc_001':
                 task['status'] = 'done'
         break
 
@@ -18,8 +18,8 @@ for milestone in data['milestones']['active']:
 today = datetime.now().strftime("%Y-%m-%d")
 log_entry = {
     "date": today,
-    "action": "Completed Chapter 7 recovery by extracting and cleaning Sections 17-18 from source PDF",
-    "agent": "arabic-specialist"
+    "action": "Created AGENTS.md runbook with Command Center CLI documentation and Agent Personas",
+    "agent": "orchestrator"
 }
 data['history_log'].append(log_entry)
 
