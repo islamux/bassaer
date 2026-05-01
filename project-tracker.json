@@ -17,62 +17,6 @@
   "milestones": {
     "active": [
       {
-        "id": "content_ch7_recovery",
-        "title": "Chapter 7 Content & Structure Recovery",
-        "domain": "Content",
-        "week": 1,
-        "phase": "recovery",
-        "planned_start": "2026-04-29",
-        "planned_end": "2026-04-30",
-        "subtasks": [
-          {
-            "id": "ch7_001",
-            "label": "Recover missing sections 1-4 from source PDF (manual/automated)",
-            "status": "done",
-            "priority": "P1"
-          },
-          {
-            "id": "ch7_002",
-            "label": "Fix structural corruption (merged title/intro)",
-            "status": "done",
-            "priority": "P1"
-          },
-          {
-            "id": "ch7_003",
-            "label": "Normalize heading numbering and verify layout",
-            "status": "done",
-            "priority": "P2"
-          },
-          {
-            "id": "ch7_004",
-            "label": "Extract and clean Chapter 7 sections 5-8 from source PDF",
-            "status": "done",
-            "priority": "P1"
-          },
-          {
-            "id": "ch7_005",
-            "label": "Extract and clean Chapter 7 sections 9-12 from source PDF",
-            "status": "done",
-            "priority": "P1"
-          },
-          {
-            "id": "ch7_006",
-            "status": "done",
-            "assignee": "arabic-specialist",
-            "notes": "Using manual extraction to prevent structural corruption.",
-            "label": "Extract and clean Chapter 7 sections 13-16",
-            "priority": "P1"
-          },
-          {
-            "id": "ch7_007",
-            "label": "Extract and clean Chapter 7 sections 17-18",
-            "status": "done",
-            "priority": "P1",
-            "assignee": "arabic-specialist"
-          }
-        ]
-      },
-      {
         "id": "feat_search",
         "title": "Full-Text Search",
         "domain": "Features",
@@ -222,6 +166,62 @@
         "title": "Accessibility & ARIA",
         "completed_at": "2026-04-27",
         "summary": "Added ARIA roles/labels, verified keyboard nav, and refined focus states."
+      },
+      {
+        "id": "content_ch7_recovery",
+        "title": "Chapter 7 Content & Structure Recovery",
+        "domain": "Content",
+        "week": 1,
+        "phase": "recovery",
+        "planned_start": "2026-04-29",
+        "planned_end": "2026-04-30",
+        "subtasks": [
+          {
+            "id": "ch7_001",
+            "label": "Recover missing sections 1-4 from source PDF (manual/automated)",
+            "status": "done",
+            "priority": "P1"
+          },
+          {
+            "id": "ch7_002",
+            "label": "Fix structural corruption (merged title/intro)",
+            "status": "done",
+            "priority": "P1"
+          },
+          {
+            "id": "ch7_003",
+            "label": "Normalize heading numbering and verify layout",
+            "status": "done",
+            "priority": "P2"
+          },
+          {
+            "id": "ch7_004",
+            "label": "Extract and clean Chapter 7 sections 5-8 from source PDF",
+            "status": "done",
+            "priority": "P1"
+          },
+          {
+            "id": "ch7_005",
+            "label": "Extract and clean Chapter 7 sections 9-12 from source PDF",
+            "status": "done",
+            "priority": "P1"
+          },
+          {
+            "id": "ch7_006",
+            "status": "done",
+            "assignee": "arabic-specialist",
+            "notes": "Using manual extraction to prevent structural corruption.",
+            "label": "Extract and clean Chapter 7 sections 13-16",
+            "priority": "P1"
+          },
+          {
+            "id": "ch7_007",
+            "label": "Extract and clean Chapter 7 sections 17-18",
+            "status": "done",
+            "priority": "P1",
+            "assignee": "arabic-specialist"
+          }
+        ]
       }
     ]
   },
