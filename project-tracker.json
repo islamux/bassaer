@@ -8,40 +8,86 @@
     "overall_progress": 0.65
   },
   "dashboard": {
-    "current_focus": "Search Feature Implementation",
-    "active_milestone": "feat_search",
-    "next_priority": "Researching search solutions (Pagefind/Flexsearch) for Arabic content",
+    "current_focus": "Full Content Recovery (Chapters 9-13)",
+    "active_milestone": "content_ch9_recovery",
+    "next_priority": "P0: Surgical cleaning of Chapter 9 (Sections 132-180+)",
     "blockers": "None",
     "health": "Excellent"
   },
   "milestones": {
     "active": [
       {
+        "id": "content_ch9_recovery",
+        "title": "Chapter 9 Content & Structure Recovery",
+        "domain": "Content",
+        "week": 3,
+        "phase": "recovery",
+        "planned_start": "2026-05-01",
+        "planned_end": "2026-05-12",
+        "subtasks": [
+          {
+            "id": "ch9_001",
+            "label": "Extract and clean Chapter 9 Section 132 (The Problem of Evil)",
+            "status": "done",
+            "priority": "P1",
+            "assignee": "arabic-specialist"
+          },
+          {
+            "id": "ch9_002",
+            "label": "Extract and clean Chapter 9 Sections 133-140",
+            "status": "done",
+            "priority": "P1",
+            "assignee": "arabic-specialist"
+          },
+          {
+            "id": "ch9_003",
+            "label": "Extract and clean Chapter 9 Sections 141-150",
+            "status": "done",
+            "priority": "P1",
+            "assignee": "arabic-specialist"
+          },
+          {
+            "id": "ch9_004",
+            "label": "Extract and clean Chapter 9 Sections 151-160",
+            "status": "done",
+            "priority": "P1",
+            "assignee": "arabic-specialist"
+          },
+          {
+            "id": "ch9_005",
+            "label": "Extract and clean Chapter 9 Sections 161-170",
+            "status": "done",
+            "priority": "P1",
+            "assignee": "arabic-specialist"
+          }
+        ]
+      },
+      {
         "id": "feat_search",
         "title": "Full-Text Search",
         "domain": "Features",
-        "week": 4,
+        "week": 6,
         "phase": "features",
-        "planned_start": "2026-05-13",
-        "planned_end": "2026-05-19",
+        "planned_start": "2026-05-20",
+        "planned_end": "2026-05-27",
         "subtasks": [
           {
             "id": "feat_search_001",
             "label": "Research search solutions (pagefind/flexsearch)",
             "status": "todo",
-            "priority": "P1"
+            "priority": "P2"
           },
           {
             "id": "feat_search_002",
             "label": "Implement full-text Arabic search",
             "status": "todo",
-            "priority": "P1"
+            "priority": "P2"
           },
           {
             "id": "feat_search_003",
             "label": "Add search UI with RTL support",
             "status": "todo",
-            "priority": "P2"
+            "priority": "P3"
           }
         ]
       }
@@ -116,24 +162,6 @@
         "week": 10,
         "phase": "production",
         "is_key_milestone": true
-      },
-      {
-        "id": "content_ch9_recovery",
-        "title": "Chapter 9 Content & Structure Recovery",
-        "domain": "Content",
-        "week": 3,
-        "phase": "recovery",
-        "planned_start": "2026-05-05",
-        "planned_end": "2026-05-12",
-        "subtasks": [
-          {
-            "id": "ch9_001",
-            "label": "Extract and clean Chapter 9 Sections (Sections 132-180+)",
-            "status": "todo",
-            "priority": "P1",
-            "assignee": "arabic-specialist"
-          }
-        ]
       }
     ],
     "completed": [
@@ -392,6 +420,36 @@
       "date": "2026-05-01",
       "event": "Updated tracker dashboard and added Chapter 9 to backlog.",
       "agent": "orchestrator"
+    },
+    {
+      "date": "2026-05-01",
+      "event": "Recovered Chapter 9 Section 132 (The Problem of Evil). Fixed structural corruption and normalized formatting.",
+      "agent": "arabic-specialist"
+    },
+    {
+      "date": "2026-05-01",
+      "event": "Recovered Chapter 9 Sections 133-140 (How we know God, Rational Rules, etc.). Content is now contiguous for the first 9 sections of Ch 9.",
+      "agent": "arabic-specialist"
+    },
+    {
+      "date": "2026-05-01",
+      "event": "Recovered Chapter 9 Sections 141-150 (Laws vs Creator, Culture vs Civilization, Relativism, etc.). Total recovered sections: 19.",
+      "agent": "arabic-specialist"
+    },
+    {
+      "date": "2026-05-01",
+      "event": "Recovered Chapter 9 Sections 151-160 (Free Will, Temporal Lobe Epilepsy Rebuttal, Syriac Legend, Dhu al-Qarnayn Identity, Islamic Influence on Judaism). Total recovered sections: 29.",
+      "agent": "arabic-specialist"
+    },
+    {
+      "date": "2026-05-01",
+      "event": "Recovered Chapter 9 Sections 161-171 (San'a Manuscripts, Recitations, Abrogation, Slavery/Sabiya, Criminal Law, Hijab). Total recovered sections: 40.",
+      "agent": "arabic-specialist"
+    },
+    {
+      "date": "2026-05-01",
+      "event": "Completed Chapter 9 Recovery (Sections 172-196: Prophet's Marriages, Jihad/Qurayza Rebuttal, Apostasy Law, Child Marriage, Scientific Backwardness, Atheist Morals, Archaeological Proofs, Mitochondrial Eve, Homo Fossil Myths). Total Sections: 65. Milestone MS_003 fully completed.",
+      "agent": "arabic-specialist"
     }
   ]
 }
