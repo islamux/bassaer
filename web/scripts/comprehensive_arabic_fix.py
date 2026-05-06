@@ -944,7 +944,7 @@ def main():
     
     if not os.path.exists(content_dir):
         # Try alternative path
-        content_dir = '/media/islamux/Variety/JavaScriptProjects/bassaer-antigravity/web/content'
+        content_dir = '/media/islamux/Variety/JavaScriptProjects/bassaer/web/content'
     
     if not os.path.exists(content_dir):
         print(f"Error: Content directory not found: {content_dir}")

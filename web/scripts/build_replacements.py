@@ -1,7 +1,7 @@
 import re
 import os
 
-content_dir = "/media/islamux/Variety/JavaScriptProjects/bassaer-antigravity/web/content"
+content_dir = "/media/islamux/Variety/JavaScriptProjects/bassaer/web/content"
 chapters = ["chapter-5.md", "chapter-6.md", "chapter-7.md", "chapter-8.md"]
 
 words_to_check = [

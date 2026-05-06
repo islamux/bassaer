@@ -167,6 +167,12 @@
     ],
     "completed": [
       {
+        "id": "infra_rename_project",
+        "title": "Rename Project to Basaar",
+        "completed_at": "2026-05-06",
+        "summary": "Renamed local directory to bassaer, updated all internal absolute paths, and regenerated virtual environments."
+      },
+      {
         "id": "scripts_arabic_fix",
         "title": "Arabic Fix Script Suite",
         "completed_at": "2026-04-27",

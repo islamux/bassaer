@@ -2,7 +2,7 @@
 import os
 import re
 
-CONTENT_DIR = '/media/islamux/Variety/JavaScriptProjects/bassaer-antigravity/web/content'
+CONTENT_DIR = '/media/islamux/Variety/JavaScriptProjects/bassaer/web/content'
 
 def clean_text(text):
     # Order: specific to general

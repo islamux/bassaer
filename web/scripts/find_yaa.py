@@ -1,7 +1,7 @@
 import re
 import collections
 
-filepath = "/media/islamux/Variety/JavaScriptProjects/bassaer-antigravity/web/content/chapter-9.md"
+filepath = "/media/islamux/Variety/JavaScriptProjects/bassaer/web/content/chapter-9.md"
 
 with open(filepath, 'r', encoding='utf-8') as f:
     text = f.read()

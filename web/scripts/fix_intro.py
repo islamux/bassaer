@@ -2,7 +2,7 @@ import fitz
 import os
 import re
 
-PDF_PATH = '/media/islamux/Variety/JavaScriptProjects/bassaer-antigravity/add_images_plan/ar-basaar.pdf'
+PDF_PATH = '/media/islamux/Variety/JavaScriptProjects/bassaer/add_images_plan/ar-basaar.pdf'
 OUTPUT_FILE = 'content/intro.md'
 
 if not os.path.exists(PDF_PATH):

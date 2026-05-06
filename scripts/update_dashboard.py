@@ -1,6 +1,6 @@
 import json
 
-tracker_path = '/media/islamux/Variety/JavaScriptProjects/bassaer-antigravity/project-tracker.json'
+tracker_path = '/media/islamux/Variety/JavaScriptProjects/bassaer/project-tracker.json'
 
 with open(tracker_path, 'r', encoding='utf-8') as f:
     data = json.load(f)

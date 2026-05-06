@@ -4,7 +4,7 @@ import re
 from pathlib import Path
 
 def fix_honorifics():
-    content_dir = Path('/media/islamux/Variety/JavaScriptProjects/bassaer-antigravity/web/content')
+    content_dir = Path('/media/islamux/Variety/JavaScriptProjects/bassaer/web/content')
     md_files = list(content_dir.glob('*.md'))
 
     patterns = [
