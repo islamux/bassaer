@@ -6,6 +6,8 @@
     "cc": "./scripts/cc-dash.py",
     "cc:watch": "./scripts/cc-dash.py --watch",
     "cc:update": "./scripts/cc-dash.py update",
-    "cc:log": "./scripts/cc-dash.py log"
+    "cc:log": "./scripts/cc-dash.py log",
+    "cc:mcp": "cd command-center-mcp && node dist/index.js",
+    "ccui": "node command-center-tui/dist/index.js"
   }
 }

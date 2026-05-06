@@ -1,4 +1,4 @@
 packages:
   - "web"
-  - "command-center"
   - "command-center-mcp"
+  - "command-center-tui"
