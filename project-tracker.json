@@ -58,7 +58,12 @@
       { "id": "infra_deploy", "title": "Deployment & Analytics", "domain": "Infrastructure", "week": 9, "phase": "production" },
       { "id": "infra_launch", "title": "V1.0 Official Launch", "domain": "Infrastructure", "week": 10, "phase": "production", "is_key_milestone": true }
     ],
-    "completed": [
+      {
+        "id": "content_ch12_recovery",
+        "title": "Chapter 12 Content & Structure Recovery",
+        "completed_at": "2026-05-06",
+        "summary": "Recovered Chapter 12 from source, formatted, and validated content."
+      },
       {
         "id": "content_ch11_recovery",
         "title": "Chapter 11 Content & Structure Recovery",
@@ -81,7 +86,11 @@
       { "id": "content_ch9_recovery", "title": "Chapter 9 Content & Structure Recovery", "domain": "Content", "week": 3, "phase": "recovery", "completed_at": "2026-05-02" }
     ]
   },
-  "history_log": [
+    {
+      "date": "2026-05-06",
+      "action": "Recovered Chapter 12 content, formatted, and validated.",
+      "agent": "arabic-specialist"
+    },
     { "date": "2026-05-06", "action": "Added infra_cc_migration milestone (P1) — Command Center Architecture Migration. Starting Phase 1.", "agent": "orchestrator" },
     { "date": "2026-05-06", "action": "Recovered Chapter 10 content, formatted, and validated.", "agent": "arabic-specialist" },
     { "date": "2026-05-06", "action": "Started Chapter 11 content recovery.", "agent": "arabic-specialist" }
