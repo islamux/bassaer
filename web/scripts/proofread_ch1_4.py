@@ -3,7 +3,7 @@ import os
 import re
 
 def proofread_chapters():
-    content_dir = "/media/islamux/Variety/JavaScriptProjects/bassaer-antigravity/web/content"
+    content_dir = "/media/islamux/Variety/JavaScriptProjects/bassaer/web/content"
     chapters = ["chapter-1.md", "chapter-2.md", "chapter-3.md", "chapter-4.md"]
     
     replacements = {

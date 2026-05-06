@@ -9,7 +9,7 @@ import re
 import sys
 from collections import defaultdict
 
-CONTENT_DIR = '/media/islamux/Variety/JavaScriptProjects/bassaer-antigravity/web/content'
+CONTENT_DIR = '/media/islamux/Variety/JavaScriptProjects/bassaer/web/content'
 
 corrections_log = defaultdict(int)
 

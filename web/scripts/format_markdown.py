@@ -1,7 +1,7 @@
 import os
 import re
 
-content_dir = '/media/islamux/Variety/JavaScriptProjects/bassaer-antigravity/web/content'
+content_dir = '/media/islamux/Variety/JavaScriptProjects/bassaer/web/content'
 
 def process_file(filepath):
     with open(filepath, 'r', encoding='utf-8') as f:

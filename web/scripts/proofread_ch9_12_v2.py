@@ -3,11 +3,11 @@ import os
 import re
 
 filepaths = [
-    "/media/islamux/Variety/JavaScriptProjects/bassaer-antigravity/web/content/chapter-9.md",
-    "/media/islamux/Variety/JavaScriptProjects/bassaer-antigravity/web/content/chapter-10.md",
-    "/media/islamux/Variety/JavaScriptProjects/bassaer-antigravity/web/content/chapter-11.md",
-    "/media/islamux/Variety/JavaScriptProjects/bassaer-antigravity/web/content/chapter-12.md",
-    "/media/islamux/Variety/JavaScriptProjects/bassaer-antigravity/web/content/intro.md"
+    "/media/islamux/Variety/JavaScriptProjects/bassaer/web/content/chapter-9.md",
+    "/media/islamux/Variety/JavaScriptProjects/bassaer/web/content/chapter-10.md",
+    "/media/islamux/Variety/JavaScriptProjects/bassaer/web/content/chapter-11.md",
+    "/media/islamux/Variety/JavaScriptProjects/bassaer/web/content/chapter-12.md",
+    "/media/islamux/Variety/JavaScriptProjects/bassaer/web/content/intro.md"
 ]
 
 replacements = {

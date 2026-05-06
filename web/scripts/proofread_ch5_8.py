@@ -2,10 +2,10 @@
 import os
 
 filepaths = [
-    "/media/islamux/Variety/JavaScriptProjects/bassaer-antigravity/web/content/chapter-5.md",
-    "/media/islamux/Variety/JavaScriptProjects/bassaer-antigravity/web/content/chapter-6.md",
-    "/media/islamux/Variety/JavaScriptProjects/bassaer-antigravity/web/content/chapter-7.md",
-    "/media/islamux/Variety/JavaScriptProjects/bassaer-antigravity/web/content/chapter-8.md"
+    "/media/islamux/Variety/JavaScriptProjects/bassaer/web/content/chapter-5.md",
+    "/media/islamux/Variety/JavaScriptProjects/bassaer/web/content/chapter-6.md",
+    "/media/islamux/Variety/JavaScriptProjects/bassaer/web/content/chapter-7.md",
+    "/media/islamux/Variety/JavaScriptProjects/bassaer/web/content/chapter-8.md"
 ]
 
 replacements = {

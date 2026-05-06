@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 import os
 
-filepath = "/media/islamux/Variety/JavaScriptProjects/bassaer-antigravity/web/content/chapter-1.md"
+filepath = "/media/islamux/Variety/JavaScriptProjects/bassaer/web/content/chapter-1.md"
 
 with open(filepath, 'r', encoding='utf-8') as f:
     text = f.read()

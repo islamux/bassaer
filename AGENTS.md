@@ -14,7 +14,7 @@ The project has been restructured into a monorepo to safely orchestrate multiple
 * **`/web`**: The main Next.js web application and the Fusha Arabic content repository.
 * **`/scripts`**: Python utility scripts (e.g., `cc-dash.py` for terminal UI dashboards).
 
-> **CRITICAL RULE:** All Command Center CLI commands **must** be executed from the **root directory** (`/media/islamux/Variety/JavaScriptProjects/bassaer-antigravity/`). Do not run them from within `/web`.
+> **CRITICAL RULE:** All Command Center CLI commands **must** be executed from the **root directory** (`/media/islamux/Variety/JavaScriptProjects/bassaer/`). Do not run them from within `/web`.
 
 ---
 

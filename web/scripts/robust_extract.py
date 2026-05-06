@@ -2,8 +2,8 @@ import fitz
 import os
 import re
 
-os.makedirs('/media/islamux/Variety/JavaScriptProjects/bassaer-antigravity/web/content', exist_ok=True)
-doc = fitz.open('/media/islamux/Variety/JavaScriptProjects/bassaer-antigravity/add_images_plan/ar-basaar.pdf')
+os.makedirs('/media/islamux/Variety/JavaScriptProjects/bassaer/web/content', exist_ok=True)
+doc = fitz.open('/media/islamux/Variety/JavaScriptProjects/bassaer/add_images_plan/ar-basaar.pdf')
 
 # Define exactly which pages start new chapters (0-indexed page numbers)
 chapter_start_pages = [23, 133, 169, 278, 314, 336, 352, 398, 419, 657, 875]
@@ -47,7 +47,7 @@ for i, content_lines in enumerate(chapter_contents):
         continue # Skip intro
     
     filename = f'chapter-{i}.md'
-    filepath = os.path.join('/media/islamux/Variety/JavaScriptProjects/bassaer-antigravity/web/content', filename)
+    filepath = os.path.join('/media/islamux/Variety/JavaScriptProjects/bassaer/web/content', filename)
     
     with open(filepath, 'w', encoding='utf-8') as f:
         # We need to format questions. In the pdf, questions are like "1 -", "2 -", etc.

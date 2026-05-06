@@ -38,7 +38,7 @@ deactivate () {
 # unset irrelevant variables
 deactivate nondestructive
 
-VIRTUAL_ENV=/media/islamux/Variety/JavaScriptProjects/bassaer-antigravity/web/.cc-venv
+VIRTUAL_ENV=/media/islamux/Variety/JavaScriptProjects/bassaer/.cc-venv
 export VIRTUAL_ENV
 
 _OLD_VIRTUAL_PATH="$PATH"
