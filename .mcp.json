@@ -1,10 +1,9 @@
 {
   "command-center": {
-    "command": "command-center-mcp",
+    "command": "node",
+    "args": ["/media/islamux/Variety/JavaScriptProjects/bassaer-antigravity/command-center-mcp/dist/index.js"],
     "env": {
-      "PROJECT_ROOT": "/media/islamux/Variety/JavaScriptProjects/bassaer-antigravity/web",
-      "TRACKER_PATH": "project-tracker.json",
-      "AGENT_LOG_PATH": "agent-log.json"
+      "PROJECT_ROOT": "/media/islamux/Variety/JavaScriptProjects/bassaer-antigravity"
     },
     "agents": {
       "orchestrator": {

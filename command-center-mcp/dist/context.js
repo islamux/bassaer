@@ -65,7 +65,7 @@ export function buildTaskContext(state, subtask, milestone) {
         }
         lines.push('');
     }
-    const taskHistory = state.agent_log.filter(l => l.target_id === subtask.id);
+    const taskHistory = (state.agent_log || []).filter((l) => l.target_id === subtask.id);
     if (taskHistory.length > 0) {
         lines.push('## Revision History');
         for (const entry of taskHistory.slice(-20)) {
@@ -108,7 +108,7 @@ export function buildTaskContext(state, subtask, milestone) {
         lines.push('');
     }
     const milestoneTasks = milestone.subtasks;
-    const doneCount = milestoneTasks.filter(t => t.done).length;
+    const doneCount = milestoneTasks.filter((t) => t.done).length;
     lines.push('## Exit Criteria');
     lines.push(`Milestone "${milestone.title}" is complete when all subtasks are done (${doneCount}/${milestoneTasks.length} complete).`);
     lines.push('');
@@ -140,7 +140,7 @@ export function buildTaskSummary(state, subtask, milestone) {
         lines.push('**Context Files:** ' + subtask.context_files.map(f => `\`${f}\``).join(', '));
         lines.push('');
     }
-    const taskHistory = state.agent_log.filter(l => l.target_id === subtask.id);
+    const taskHistory = (state.agent_log || []).filter((l) => l.target_id === subtask.id);
     if (taskHistory.length > 0) {
         lines.push('**Recent History:**');
         for (const entry of taskHistory.slice(-5)) {
@@ -152,6 +152,7 @@ export function buildTaskSummary(state, subtask, milestone) {
 }
 export function buildProjectStatus(state) {
     const { project, milestones } = state;
+    const all = [...milestones.active, ...milestones.backlog].map((m) => ({ ...m, subtasks: m.subtasks || [] }));
     const lines = [];
     lines.push(`# Project Status: ${project.name}`);
     lines.push('');
@@ -161,7 +162,7 @@ export function buildProjectStatus(state) {
     lines.push(`- **Schedule Status:** ${project.schedule_status}`);
     lines.push(`- **Overall Progress:** ${project.overall_progress}%`);
     lines.push('');
-    const allTasks = milestones.flatMap(m => m.subtasks);
+    const allTasks = all.flatMap((m) => m.subtasks);
     const byStatus = {};
     for (const t of allTasks) {
         byStatus[t.status] = (byStatus[t.status] || 0) + 1;
@@ -171,14 +172,28 @@ export function buildProjectStatus(state) {
         lines.push(`- ${status}: ${count}`);
     }
     lines.push('');
-    const keyMilestones = milestones.filter(m => m.is_key_milestone);
+    lines.push('## Milestone Summary');
+    lines.push(`- **Active:** ${milestones.active.length}`);
+    lines.push(`- **Backlog:** ${milestones.backlog.length}`);
+    lines.push(`- **Completed:** ${milestones.completed.length}`);
+    lines.push('');
+    const keyMilestones = all.filter((m) => m.is_key_milestone);
     if (keyMilestones.length > 0) {
         lines.push('## Key Milestones');
         for (const m of keyMilestones) {
-            const done = m.subtasks.filter(t => t.done).length;
+            const done = m.subtasks.filter((t) => t.done).length;
             const total = m.subtasks.length;
-            lines.push(`- **${m.key_milestone_label ?? m.title}** (week ${m.week}) — drift: ${m.drift_days}d — progress: ${total > 0 ? Math.round((done / total) * 100) : 0}%`);
+            lines.push(`- **${m.key_milestone_label ?? m.title}** (week ${m.week}) — drift: ${m.drift_days ?? 0}d — progress: ${total > 0 ? Math.round((done / total) * 100) : 0}%`);
         }
+        lines.push('');
+    }
+    if (state.dashboard) {
+        lines.push('## Dashboard');
+        lines.push(`- **Focus:** ${state.dashboard.current_focus}`);
+        lines.push(`- **Active Milestone:** ${state.dashboard.active_milestone}`);
+        lines.push(`- **Next Priority:** ${state.dashboard.next_priority}`);
+        lines.push(`- **Blockers:** ${state.dashboard.blockers}`);
+        lines.push(`- **Health:** ${state.dashboard.health}`);
         lines.push('');
     }
     return lines.join('\n');
@@ -224,16 +239,18 @@ export function buildMilestoneOverview(milestone, state) {
     return lines.join('\n');
 }
 function findTaskInState(state, taskId) {
-    for (const m of state.milestones) {
-        const s = m.subtasks.find(t => t.id === taskId);
+    const all = [...state.milestones.active, ...state.milestones.backlog];
+    for (const m of all) {
+        const s = m.subtasks.find((t) => t.id === taskId);
         if (s)
             return { subtask: s, milestone: m };
     }
     return null;
 }
 function findDownstreamDeps(state, taskId) {
+    const all = [...state.milestones.active, ...state.milestones.backlog];
     const results = [];
-    for (const m of state.milestones) {
+    for (const m of all) {
         for (const s of m.subtasks) {
             if (s.depends_on.includes(taskId)) {
                 results.push({ subtask: s, milestone: m });
