@@ -15,7 +15,12 @@
     "health": "Excellent"
   },
   "milestones": {
-    "active": [
+      {
+        "id": "content_ch10_recovery",
+        "title": "Chapter 10 Content & Structure Recovery",
+        "completed_at": "2026-05-06",
+        "summary": "Recovered Chapter 10 from source, formatted, and validated content."
+      },
       {
         "id": "infra_cc_migration",
         "title": "Command Center Architecture Migration",
@@ -442,10 +447,16 @@
       "agent": "arabic-specialist"
     },
     {
-      "date": "2026-05-01",
-      "action": "Created AGENTS.md runbook with Command Center CLI documentation and Agent Personas",
+      "date": "2026-05-06",
+      "action": "Added infra_cc_migration milestone (P1) — Command Center Architecture Migration based on audit from docs/commandCenterUpdate/. Starting Phase 1: Critical Stabilization.",
       "agent": "orchestrator"
     },
+    {
+      "date": "2026-05-06",
+      "action": "Recovered Chapter 10 content, formatted, and validated.",
+      "agent": "arabic-specialist"
+    },
+
     {
       "date": "2026-05-01",
       "event": "Completed recovery of Chapter 8 Section 1",
