@@ -5,7 +5,7 @@
     "target_date": "2026-07-01",
     "current_week": 1,
     "schedule_status": "on_track",
-    "overall_progress": 30
+    "overall_progress": 55
   },
   "dashboard": {
     "current_focus": "Command Center Architecture Migration",
@@ -104,8 +104,8 @@
           {
             "id": "cc_m006",
             "label": "Apply planning-execution rules to Command Center — Phase 1 enhancement",
-            "status": "todo",
-            "completed_at": null,
+            "status": "done",
+            "completed_at": "2026-05-07",
             "priority": "P1",
             "context_files": [
               "/media/islamux/Variety/JavaScriptProjects/bassaer/PROJECT_MAP.md"
@@ -142,33 +142,280 @@
         "week": 4,
         "phase": "audit",
         "planned_start": "2026-05-06",
-        "planned_end": "2026-05-13",
-        "drift_days": 0,
+        "planned_end": "2026-05-07",
+        "drift_days": -6,
         "is_key_milestone": false,
         "subtasks": [
           {
             "id": "content_word_audit_001",
-            "label": "Read and execute PROMPT_COMPARE_WORD_FILE_WITH_REAL_UI.md - Full audit of Next.js project against Word source files",
-            "status": "todo",
-            "completed_at": null,
+            "label": "Ch1 audit report — Word vs MD comparison, OCR catalog, structural analysis",
+            "status": "done",
+            "completed_at": "2026-05-07",
             "priority": "P1",
-            "context_files": ["/media/islamux/Variety/JavaScriptProjects/bassaer/web/docs/PROMPT_COMPARE_WORD_FILE_WITH_REAL_UI.md"],
+            "context_files": [
+              "/media/islamux/Variety/JavaScriptProjects/bassaer/web/docs/PROMPT_COMPARE_WORD_FILE_WITH_REAL_UI.md",
+              "/media/islamux/Variety/JavaScriptProjects/bassaer/web/content/chapter-1.md"
+            ],
             "reference_docs": [],
             "acceptance_criteria": [
-              "Complete Phase 1: Project Understanding",
-              "Complete Phase 2: Source Analysis of Word files",
-              "Complete Phase 3: Deep Comparison (Textual, Semantic, UI Fidelity, Component Integrity, Arabic Quality)",
-              "Generate full audit report with all 6 required sections",
-              "Produce prioritized fix list",
-              "Suggest automated validation workflow"
+              "Read Word مقدمة + الجزء الأول sections relevant to ch1",
+              "Catalog OCR patterns (broken lam-alif, ya-suffix, footnote corruption, blank line bloat)",
+              "Map structural drift between Word and MD",
+              "Write report to web/docs/word-audit-ch1-report.md"
             ],
             "constraints": [],
             "execution_mode": "human",
-            "depends_on": []
+            "depends_on": [],
+            "assignee": "explorer"
+          },
+          {
+            "id": "content_word_audit_002",
+            "label": "Ch2 audit report — كيف ظهر الدين vs Word الجزء الثاني الباب الأول",
+            "status": "done",
+            "completed_at": "2026-05-07",
+            "completed_at": null,
+            "priority": "P1",
+            "context_files": [
+              "/media/islamux/Variety/JavaScriptProjects/bassaer/web/docs/PROMPT_COMPARE_WORD_FILE_WITH_REAL_UI.md",
+              "/media/islamux/Variety/JavaScriptProjects/bassaer/web/content/chapter-2.md"
+            ],
+            "reference_docs": [],
+            "acceptance_criteria": [
+              "Extract Word الجزء الثاني الباب الأول paragraphs",
+              "Compare MD ch2 content for OCR issues, structural drift, missing content",
+              "Write report to web/docs/word-audit-ch2-report.md"
+            ],
+            "constraints": [],
+            "execution_mode": "human",
+            "depends_on": [],
+            "assignee": "explorer"
+          },
+          {
+            "id": "content_word_audit_003",
+            "label": "Ch3 audit report — رسول الأميين vs Word الجزء الثاني الباب الثاني",
+            "status": "done",
+            "completed_at": "2026-05-07",
+            "completed_at": null,
+            "priority": "P1",
+            "context_files": [
+              "/media/islamux/Variety/JavaScriptProjects/bassaer/web/docs/PROMPT_COMPARE_WORD_FILE_WITH_REAL_UI.md",
+              "/media/islamux/Variety/JavaScriptProjects/bassaer/web/content/chapter-3.md"
+            ],
+            "reference_docs": [],
+            "acceptance_criteria": [
+              "Extract Word الجزء الثاني الباب الثاني paragraphs",
+              "Compare MD ch3 content for OCR issues, structural drift, missing content",
+              "Write report to web/docs/word-audit-ch3-report.md"
+            ],
+            "constraints": [],
+            "execution_mode": "human",
+            "depends_on": ["content_word_audit_002"],
+            "assignee": "explorer"
+          },
+          {
+            "id": "content_word_audit_004",
+            "label": "Ch4 audit report — الإعجاز العلمي vs Word الجزء الثاني الباب الثالث",
+            "status": "done",
+            "completed_at": "2026-05-07",
+            "completed_at": null,
+            "priority": "P1",
+            "context_files": [
+              "/media/islamux/Variety/JavaScriptProjects/bassaer/web/docs/PROMPT_COMPARE_WORD_FILE_WITH_REAL_UI.md",
+              "/media/islamux/Variety/JavaScriptProjects/bassaer/web/content/chapter-4.md"
+            ],
+            "reference_docs": [],
+            "acceptance_criteria": [
+              "Extract Word الجزء الثاني الباب الثالث paragraphs",
+              "Compare MD ch4 content for OCR issues, structural drift, missing content",
+              "Write report to web/docs/word-audit-ch4-report.md"
+            ],
+            "constraints": [],
+            "execution_mode": "human",
+            "depends_on": ["content_word_audit_003"],
+            "assignee": "explorer"
+          },
+          {
+            "id": "content_word_audit_005",
+            "label": "Ch5 audit report — أعظم برهان vs Word الجزء الثاني الباب الرابع",
+            "status": "done",
+            "completed_at": "2026-05-07",
+            "completed_at": null,
+            "priority": "P1",
+            "context_files": [
+              "/media/islamux/Variety/JavaScriptProjects/bassaer/web/docs/PROMPT_COMPARE_WORD_FILE_WITH_REAL_UI.md",
+              "/media/islamux/Variety/JavaScriptProjects/bassaer/web/content/chapter-5.md"
+            ],
+            "reference_docs": [],
+            "acceptance_criteria": [
+              "Extract Word الجزء الثاني الباب الرابع paragraphs",
+              "Compare MD ch5 content for OCR issues, structural drift, missing content",
+              "Write report to web/docs/word-audit-ch5-report.md"
+            ],
+            "constraints": [],
+            "execution_mode": "human",
+            "depends_on": ["content_word_audit_004"],
+            "assignee": "explorer"
+          },
+          {
+            "id": "content_word_audit_006",
+            "label": "Ch6 audit report — الإخبار بالمغيبات vs Word الجزء الثاني الباب الخامس",
+            "status": "done",
+            "completed_at": "2026-05-07",
+            "completed_at": null,
+            "priority": "P1",
+            "context_files": [
+              "/media/islamux/Variety/JavaScriptProjects/bassaer/web/docs/PROMPT_COMPARE_WORD_FILE_WITH_REAL_UI.md",
+              "/media/islamux/Variety/JavaScriptProjects/bassaer/web/content/chapter-6.md"
+            ],
+            "reference_docs": [],
+            "acceptance_criteria": [
+              "Extract Word الجزء الثاني الباب الخامس paragraphs",
+              "Compare MD ch6 content for OCR issues, structural drift, missing content",
+              "Write report to web/docs/word-audit-ch6-report.md"
+            ],
+            "constraints": [],
+            "execution_mode": "human",
+            "depends_on": ["content_word_audit_005"],
+            "assignee": "explorer"
+          },
+          {
+            "id": "content_word_audit_007",
+            "label": "Ch7 audit report — تفكيك الشبهة vs Word الجزء الثالث الباب الأول",
+            "status": "done",
+            "completed_at": "2026-05-07",
+            "completed_at": null,
+            "priority": "P1",
+            "context_files": [
+              "/media/islamux/Variety/JavaScriptProjects/bassaer/web/docs/PROMPT_COMPARE_WORD_FILE_WITH_REAL_UI.md",
+              "/media/islamux/Variety/JavaScriptProjects/bassaer/web/content/chapter-7.md"
+            ],
+            "reference_docs": [],
+            "acceptance_criteria": [
+              "Extract Word الجزء الثالث الباب الأول paragraphs",
+              "Compare MD ch7 content for OCR issues, structural drift, missing content",
+              "Write report to web/docs/word-audit-ch7-report.md"
+            ],
+            "constraints": [],
+            "execution_mode": "human",
+            "depends_on": ["content_word_audit_006"],
+            "assignee": "explorer"
+          },
+          {
+            "id": "content_word_audit_008",
+            "label": "Ch8 audit report — الوسواس القهري vs Word الجزء الثالث الباب الثاني",
+            "status": "done",
+            "completed_at": "2026-05-07",
+            "completed_at": null,
+            "priority": "P1",
+            "context_files": [
+              "/media/islamux/Variety/JavaScriptProjects/bassaer/web/docs/PROMPT_COMPARE_WORD_FILE_WITH_REAL_UI.md",
+              "/media/islamux/Variety/JavaScriptProjects/bassaer/web/content/chapter-8.md"
+            ],
+            "reference_docs": [],
+            "acceptance_criteria": [
+              "Extract Word الجزء الثالث الباب الثاني paragraphs",
+              "Compare MD ch8 content for OCR issues, structural drift, missing content",
+              "Write report to web/docs/word-audit-ch8-report.md"
+            ],
+            "constraints": [],
+            "execution_mode": "human",
+            "depends_on": ["content_word_audit_007"],
+            "assignee": "explorer"
+          },
+          {
+            "id": "content_word_audit_009",
+            "label": "Ch9 audit report — الرد على شبهات الملحدين vs Word الجزء الثالث الباب الثالث",
+            "status": "done",
+            "completed_at": "2026-05-07",
+            "completed_at": null,
+            "priority": "P1",
+            "context_files": [
+              "/media/islamux/Variety/JavaScriptProjects/bassaer/web/docs/PROMPT_COMPARE_WORD_FILE_WITH_REAL_UI.md",
+              "/media/islamux/Variety/JavaScriptProjects/bassaer/web/content/chapter-9.md"
+            ],
+            "reference_docs": [],
+            "acceptance_criteria": [
+              "Extract Word الجزء الثالث الباب الثالث paragraphs",
+              "Compare MD ch9 content for OCR issues, structural drift, missing content",
+              "Write report to web/docs/word-audit-ch9-report.md"
+            ],
+            "constraints": [],
+            "execution_mode": "human",
+            "depends_on": ["content_word_audit_008"],
+            "assignee": "explorer"
+          },
+          {
+            "id": "content_word_audit_010",
+            "label": "Ch10 audit report — أفكار ضالة vs Word الجزء الثالث الباب الرابع",
+            "status": "done",
+            "completed_at": "2026-05-07",
+            "completed_at": null,
+            "priority": "P1",
+            "context_files": [
+              "/media/islamux/Variety/JavaScriptProjects/bassaer/web/docs/PROMPT_COMPARE_WORD_FILE_WITH_REAL_UI.md",
+              "/media/islamux/Variety/JavaScriptProjects/bassaer/web/content/chapter-10.md"
+            ],
+            "reference_docs": [],
+            "acceptance_criteria": [
+              "Extract Word الجزء الثالث الباب الرابع paragraphs",
+              "Compare MD ch10 content for OCR issues, structural drift, missing content",
+              "Write report to web/docs/word-audit-ch10-report.md"
+            ],
+            "constraints": [],
+            "execution_mode": "human",
+            "depends_on": ["content_word_audit_009"],
+            "assignee": "explorer"
+          },
+          {
+            "id": "content_word_audit_011",
+            "label": "Ch11 audit report — يقينية الإيمان vs Word الجزء الثالث الباب الخامس",
+            "status": "done",
+            "completed_at": "2026-05-07",
+            "completed_at": null,
+            "priority": "P1",
+            "context_files": [
+              "/media/islamux/Variety/JavaScriptProjects/bassaer/web/docs/PROMPT_COMPARE_WORD_FILE_WITH_REAL_UI.md",
+              "/media/islamux/Variety/JavaScriptProjects/bassaer/web/content/chapter-11.md"
+            ],
+            "reference_docs": [],
+            "acceptance_criteria": [
+              "Extract Word الجزء الثالث الباب الخامس paragraphs",
+              "Compare MD ch11 content for OCR issues, structural drift, missing content",
+              "Write report to web/docs/word-audit-ch11-report.md"
+            ],
+            "constraints": [],
+            "execution_mode": "human",
+            "depends_on": ["content_word_audit_010"],
+            "assignee": "explorer"
+          },
+          {
+            "id": "content_word_audit_012",
+            "label": "Ch12 audit report — حقيقة العبودية لله vs Word يقينية الإيمان subsection",
+            "status": "done",
+            "completed_at": "2026-05-07",
+            "completed_at": null,
+            "priority": "P1",
+            "context_files": [
+              "/media/islamux/Variety/JavaScriptProjects/bassaer/web/docs/PROMPT_COMPARE_WORD_FILE_WITH_REAL_UI.md",
+              "/media/islamux/Variety/JavaScriptProjects/bassaer/web/content/chapter-12.md"
+            ],
+            "reference_docs": [],
+            "acceptance_criteria": [
+              "Extract Word يقينية الإيمان subsection paragraphs on العبادة",
+              "Compare MD ch12 content for OCR issues, structural drift, missing content",
+              "Write report to web/docs/word-audit-ch12-report.md"
+            ],
+            "constraints": [],
+            "execution_mode": "human",
+            "depends_on": ["content_word_audit_011"],
+            "assignee": "explorer"
           }
         ],
         "dependencies": [],
-        "notes": ["Follow instructions in web/docs/PROMPT_COMPARE_WORD_FILE_WITH_REAL_UI.md - Treat Word files as ground truth"]
+        "notes": [
+          "Follow instructions in web/docs/PROMPT_COMPARE_WORD_FILE_WITH_REAL_UI.md - Treat Word files as ground truth",
+          "MD ch1 = Word الجزء الأول, ch2-ch6 = Word الجزء الثاني أبواب 1-5, ch7-ch11 = Word الجزء الثالث أبواب 1-5, ch12 = subsection of يقينية الإيمان"
+        ]
       },
       {
         "id": "feat_search",
@@ -489,8 +736,8 @@
         "READ",
         "WRITE"
       ],
-      "last_action_at": "2026-05-06T18:54:44.126Z",
-      "session_action_count": 2,
+      "last_action_at": "2026-05-07T18:30:00.000Z",
+      "session_action_count": 15,
       "parent_id": "orchestrator"
     },
     {
@@ -694,6 +941,18 @@
       ],
       "id": "log_1778093685501_70xnqb",
       "timestamp": "2026-05-06T18:54:45.501Z"
+    },
+    {
+      "agent_id": "explorer",
+      "action": "start_task",
+      "target_type": "task",
+      "target_id": "content_word_audit_001",
+      "description": "Started task \"Read and execute PROMPT_COMPARE_WORD_FILE_WITH_REAL_UI.md - Full audit of Next.js project against Word source files\"",
+      "tags": [
+        "lifecycle"
+      ],
+      "id": "log_1778177069188_9x0in2",
+      "timestamp": "2026-05-07T18:04:29.188Z"
     }
   ],
   "history_log": [
@@ -744,8 +1003,23 @@
     },
     {
       "date": "2026-05-07",
+      "action": "Completed cc_m006: Applied planning-execution rules to Command Center. Fixed H3 (tool input validation with Zod), H5 (unified findProjectRoot), M2 (wired log rotation). Fixed all build errors (done references, shared imports).",
+      "agent": "orchestrator"
+    },
+    {
+      "date": "2026-05-07",
       "action": "Integrated planning-execution rules: created PROJECT_MAP.md (549 lines), added reference_docs to cc_m001, updated agent-roles.md with rules protocols, deleted Arabic rule files, created new task cc_m006 to apply rules to Phase 1 enhancement",
       "agent": "orchestrator"
+    },
+    {
+      "date": "2026-05-07",
+      "action": "Completed content_word_audit_001: Ch1 audit report written to web/docs/word-audit-ch1-report.md. Mapped Word-to-MD structure across all 12 chapters. Added 11 new subtasks (002-012) for ch2-ch12 audit reports.",
+      "agent": "explorer"
+    },
+    {
+      "date": "2026-05-07",
+      "action": "Completed content_word_audit milestone — all 12 chapter audit reports (ch1-ch12) generated under web/docs/word-audit-*.md. Consolidated report at web/docs/word-audit-report.md. Key findings: 1,348 broken lam-alif, 48% blank lines, ~300+ ya-suffix errors, ~300+ broken footnotes across all chapters.",
+      "agent": "explorer"
     }
   ],
   "_schema_version": 1

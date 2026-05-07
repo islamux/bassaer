@@ -19,7 +19,7 @@ export function buildTaskContext(state: TrackerState, subtask: Subtask, mileston
   lines.push(`**Priority:** ${subtask.priority}`)
   lines.push(`**Execution Mode:** ${subtask.execution_mode}`)
   lines.push(`**Assignee:** ${subtask.assignee ?? 'unassigned'}`)
-  lines.push(`**Done:** ${subtask.done}`)
+  lines.push(`**Done:** ${subtask.status === 'done'}`)
   lines.push('')
 
   lines.push(`## Milestone: ${milestone.title}`)
@@ -123,7 +123,7 @@ export function buildTaskContext(state: TrackerState, subtask: Subtask, mileston
   }
 
   const milestoneTasks = milestone.subtasks
-  const doneCount = milestoneTasks.filter((t: Subtask) => t.done).length
+  const doneCount = milestoneTasks.filter((t: Subtask) => t.status === 'done').length
   lines.push('## Exit Criteria')
   lines.push(`Milestone "${milestone.title}" is complete when all subtasks are done (${doneCount}/${milestoneTasks.length} complete).`)
   lines.push('')
@@ -207,7 +207,7 @@ export function buildProjectStatus(state: TrackerState): string {
   if (keyMilestones.length > 0) {
     lines.push('## Key Milestones')
     for (const m of keyMilestones) {
-      const done = m.subtasks.filter((t: Subtask) => t.done).length
+      const done = m.subtasks.filter((t: Subtask) => t.status === 'done').length
       const total = m.subtasks.length
       lines.push(`- **${m.key_milestone_label ?? m.title}** (week ${m.week}) — drift: ${m.drift_days ?? 0}d — progress: ${total > 0 ? Math.round((done / total) * 100) : 0}%`)
     }
@@ -248,7 +248,7 @@ export function buildMilestoneOverview(milestone: Milestone, state: TrackerState
     lines.push('')
   }
 
-  const done = milestone.subtasks.filter(t => t.done).length
+  const done = milestone.subtasks.filter(t => t.status === 'done').length
   const total = milestone.subtasks.length
   lines.push(`## Progress: ${done}/${total} tasks complete (${total > 0 ? Math.round((done / total) * 100) : 0}%)`)
   lines.push('')

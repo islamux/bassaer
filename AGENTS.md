@@ -30,6 +30,37 @@ The Command Center provides a set of centralized scripts defined in the root `pa
 | `pnpm cc:watch` | Starts the development server for the React/Electron Command Center desktop app in watch mode. |
 | `pnpm cc:mcp` | Starts the MCP server, exposing the tracker data for programmatic AI access. |
 
+### Information Commands
+
+| Command | Description |
+| :--- | :--- |
+| `pnpm cc:status` | Get project status overview (week, progress, schedule) |
+| `pnpm cc:list [--milestone_id] [--status] [--domain]` | List and filter tasks |
+| `pnpm cc:agents` | List all registered agents |
+| `pnpm cc:activity [--agent_id] [--limit]` | Recent activity feed |
+| `pnpm cc:task <id>` | Get full context for a specific task (~8K tokens) |
+| `pnpm cc:mstone <id>` | Get milestone overview with progress |
+
+### Task Lifecycle Commands
+
+| Command | Description |
+| :--- | :--- |
+| `pnpm cc:start <task_id> [--agent_id]` | Start a task (set status to `in_progress`) |
+| `pnpm cc:complete <task_id> <summary>` | Mark task as ready for review |
+| `pnpm cc:approve <task_id> [feedback]` | Approve and mark done |
+| `pnpm cc:reject <task_id> <feedback>` | Reject, send back to `in_progress` |
+| `pnpm cc:reset <task_id>` | Reset task to `todo` |
+| `pnpm cc:block <task_id> <reason>` | Block a task |
+| `pnpm cc:unblock <task_id> [--resolution]` | Unblock a task |
+
+### Agent Management
+
+| Command | Description |
+| :--- | :--- |
+| `pnpm cc:register-agent <id> <name> <type> [--color] [--parent_id] [--permissions]` | Register or update an agent |
+
+> **Tip:** All `pnpm cc:*` commands set `PROJECT_ROOT` automatically. Run from the root directory.
+
 ### Utility Commands
 
 | Command | Description |

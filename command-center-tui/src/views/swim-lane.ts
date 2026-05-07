@@ -18,7 +18,9 @@ export function createSwimLane(screen: Widgets.Screen, state: TrackerState | nul
     style: { bg: '#1a1a2e', fg: '#e0e0e0' },
   })
 
-  function render(s: TrackerState | null, idx: number) {
+  ;(box as any)._milestoneIdx = milestoneIdx
+
+  function render(s: TrackerState | null) {
     if (!s) {
       box.setContent('{center}{red-fg}No data{/}{/}')
       return
@@ -77,7 +79,7 @@ export function createSwimLane(screen: Widgets.Screen, state: TrackerState | nul
     box.setContent(lines.join('\n'))
   }
 
-  render(state, milestoneIdx)
+  render(state)
   ;(box as any)._render = render
   return box
 }

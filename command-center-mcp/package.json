@@ -13,7 +13,8 @@
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.12.1",
-    "zod": "^4.4.3"
+    "zod": "^4.4.3",
+    "command-center-shared": "file:../command-center-shared"
   },
   "devDependencies": {
     "@types/node": "^22.0.0",

@@ -66,31 +66,37 @@ screen.key(['t'], () => {
 
 let tabBar: Widgets.BoxElement | null = null
 let statusBar: Widgets.BoxElement | null = null
+let lastTab = -1
+let lastMilestoneIdx = -1
 
-function renderAll() {
-  if (currentView) {
-    screen.remove(currentView)
-    currentView.destroy()
-    currentView = null
-  }
-  if (tabBar) {
-    screen.remove(tabBar)
-    tabBar.destroy()
-  }
-  if (statusBar) {
-    screen.remove(statusBar)
-    statusBar.destroy()
-  }
-
-  tabBar = createTabBar(screen, activeTab, () => {})
-  statusBar = createStatusBar(screen, store.state)
-
+function renderAll(fullRebuild = false) {
   const s = store.state
-  switch (activeTab) {
-    case 0: currentView = createSwimLane(screen, s, milestoneIdx); break
-    case 1: currentView = createTaskBoard(screen, s, milestoneIdx); break
-    case 2: currentView = createAgentHub(screen, s); break
-    case 3: currentView = createCalendar(screen, s); break
+  const milestoneChanged = milestoneIdx !== lastMilestoneIdx
+  const needsRebuild = fullRebuild || activeTab !== lastTab || milestoneChanged
+
+  if (needsRebuild) {
+    lastTab = activeTab
+    lastMilestoneIdx = milestoneIdx
+    if (currentView) {
+      screen.remove(currentView)
+      currentView.destroy()
+      currentView = null
+    }
+    switch (activeTab) {
+      case 0: currentView = createSwimLane(screen, s, milestoneIdx); break
+      case 1: currentView = createTaskBoard(screen, s, milestoneIdx); break
+      case 2: currentView = createAgentHub(screen, s); break
+      case 3: currentView = createCalendar(screen, s); break
+    }
+    if (tabBar) { screen.remove(tabBar); tabBar.destroy() }
+    if (statusBar) { screen.remove(statusBar); statusBar.destroy() }
+    tabBar = createTabBar(screen, activeTab, () => {})
+    statusBar = createStatusBar(screen, s)
+  } else {
+    const renderFn = (currentView as any)?._render
+    if (renderFn) renderFn(s)
+    const statusRenderFn = (statusBar as any)?._render
+    if (statusRenderFn) statusRenderFn(s)
   }
 
   currentView?.focus()

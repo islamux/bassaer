@@ -2,6 +2,9 @@ import fs from 'fs'
 import path from 'path'
 
 export function findProjectRoot(): string | null {
+  if (process.env.PROJECT_ROOT && fs.existsSync(path.join(process.env.PROJECT_ROOT, 'project-tracker.json'))) {
+    return process.env.PROJECT_ROOT
+  }
   let dir = process.cwd()
   while (dir !== '/') {
     if (fs.existsSync(path.join(dir, 'project-tracker.json'))) {
