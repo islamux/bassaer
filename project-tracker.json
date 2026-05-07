@@ -8,99 +8,14 @@
     "overall_progress": 65
   },
   "dashboard": {
-    "current_focus": "Feature development — search, progress tracking, bookmarks",
-    "active_milestone": "content_ocr_fix",
-    "next_priority": "feat_search (Full-Text Search) — week 6 starting 2026-05-20",
+    "current_focus": "Full-Text Search — research solutions",
+    "active_milestone": "feat_search",
+    "next_priority": "feat_search_002 (Implement full-text Arabic search)",
     "blockers": "None",
     "health": "Excellent"
   },
   "milestones": {
     "active": [
-      {
-        "id": "content_ocr_fix",
-        "title": "Content OCR Fixes (lam-alif, blanks, ya-suffix, footnotes)",
-        "domain": "Content",
-        "week": 5,
-        "phase": "recovery",
-        "planned_start": "2026-05-07",
-        "planned_end": "2026-05-10",
-        "drift_days": 0,
-        "is_key_milestone": false,
-        "subtasks": [
-          {
-            "id": "ocr_fix_001",
-            "label": "Write fix_lam_alif.py — merge broken lam-alif pairs across all chapters",
-            "status": "done",
-            "completed_at": "2026-05-07",
-            "assignee": "arabic-specialist",
-            "priority": "P1"
-          },
-          {
-            "id": "ocr_fix_002",
-            "label": "Write fix_blank_lines.py — collapse 3+ blank lines to 1 across all chapters",
-            "status": "done",
-            "completed_at": "2026-05-07",
-            "assignee": "arabic-specialist",
-            "priority": "P1"
-          },
-          {
-            "id": "ocr_fix_003",
-            "label": "Write fix_ya_suffix.py — fix context-aware ya-suffix corruption",
-            "status": "done",
-            "completed_at": "2026-05-07",
-            "assignee": "arabic-specialist",
-            "priority": "P1"
-          },
-          {
-            "id": "ocr_fix_004",
-            "label": "Write fix_footnotes.py — normalize footnote formatting",
-            "status": "done",
-            "completed_at": "2026-05-07",
-            "assignee": "arabic-specialist",
-            "priority": "P1"
-          },
-          {
-            "id": "ocr_fix_005",
-            "label": "Run all fix scripts against web/content/*.md and verify counts",
-            "status": "done",
-            "completed_at": "2026-05-07",
-            "assignee": "arabic-specialist",
-            "priority": "P1"
-          },
-          {
-            "id": "ocr_fix_006",
-            "label": "Manual review ch9, ch10, ch3 (worst-affected chapters)",
-            "status": "done",
-            "completed_at": "2026-05-07",
-            "assignee": "arabic-specialist",
-            "priority": "P1",
-            "notes": "Lam-alif, blanks, footnotes, ya-suffix patterns well-fixed. Remaining: deeper OCR garbles (merged words, broken words with spaces) beyond fix scope."
-          },
-          {
-            "id": "ocr_fix_007",
-            "label": "Review remaining chapters (ch1,2,4,5,6,7,8,11,12) for edge cases",
-            "status": "done",
-            "completed_at": "2026-05-07",
-            "assignee": "arabic-specialist",
-            "priority": "P2",
-            "notes": "Spot-checked all remaining chapters. Systematic patterns fixed consistently. Some deeper OCR artifacts remain in ch1 and ch7 (minor)."
-          },
-          {
-            "id": "ocr_fix_008",
-            "label": "Build verification — pnpm web:build, check rendered output",
-            "status": "done",
-            "completed_at": "2026-05-07",
-            "assignee": "post-build-auditor",
-            "priority": "P1"
-          }
-        ],
-        "dependencies": [],
-        "notes": [
-          "Follow patterns identified in word-audit-report.md",
-          "All automated scripts must be run against web/content/*.md",
-          "Manual review required for worst-affected chapters: ch3, ch9, ch10"
-        ]
-      },
       {
         "id": "content_word_audit",
         "title": "Word Source vs UI Comparison Audit",
@@ -564,6 +479,15 @@
       }
     ],
     "completed": [
+      {
+        "id": "content_ocr_fix",
+        "title": "Content OCR Fixes (lam-alif, blanks, ya-suffix, footnotes)",
+        "completed_at": "2026-05-07",
+        "summary": "Completed all 8 subtasks: wrote 4 fix scripts (fix_lam_alif.py, fix_blank_lines.py, fix_ya_suffix.py, fix_footnotes.py), applied to all 12 chapters + intro. Results: 1,979 lam-alif merges, 4,581 blank lines removed (48% → ~9%), 448 ya-suffix corrections, 148 footnote normalizations. Manual review of ch9/ch10/ch3 + remaining chapters. Build succeeded (17/17 pages).",
+        "domain": "Content",
+        "week": 5,
+        "phase": "recovery"
+      },
       {
         "id": "infra_cc_migration",
         "title": "Command Center Architecture Migration",
