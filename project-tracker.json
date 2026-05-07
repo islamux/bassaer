@@ -3,137 +3,103 @@
     "name": "بصائر - Basaar Arabic Digital Book",
     "start_date": "2026-04-22",
     "target_date": "2026-07-01",
-    "current_week": 1,
+    "current_week": 5,
     "schedule_status": "on_track",
-    "overall_progress": 55
+    "overall_progress": 65
   },
   "dashboard": {
-    "current_focus": "Command Center Architecture Migration",
-    "active_milestone": "infra_cc_migration",
-    "next_priority": "V1.0 Launch — remaining feature backlog (search, progress, bookmarks, settings)",
+    "current_focus": "Feature development — search, progress tracking, bookmarks",
+    "active_milestone": "content_ocr_fix",
+    "next_priority": "feat_search (Full-Text Search) — week 6 starting 2026-05-20",
     "blockers": "None",
     "health": "Excellent"
   },
   "milestones": {
     "active": [
       {
-        "id": "infra_cc_migration",
-        "title": "Command Center Architecture Migration",
-        "domain": "Infrastructure",
-        "week": 4,
-        "phase": "architecture",
-        "planned_start": "2026-05-06",
-        "planned_end": "2026-05-20",
+        "id": "content_ocr_fix",
+        "title": "Content OCR Fixes (lam-alif, blanks, ya-suffix, footnotes)",
+        "domain": "Content",
+        "week": 5,
+        "phase": "recovery",
+        "planned_start": "2026-05-07",
+        "planned_end": "2026-05-10",
         "drift_days": 0,
-        "is_key_milestone": true,
+        "is_key_milestone": false,
         "subtasks": [
           {
-            "id": "cc_m001",
-            "label": "Phase 1: Critical Stabilization — Extract shared service layer, atomic writes, Zod validation, wire undo log",
-            "status": "done",
-            "assignee": "orchestrator",
-            "completed_at": "2026-05-06",
-            "priority": "P1",
-            "context_files": [],
-            "reference_docs": [
-              "/media/islamux/Variety/JavaScriptProjects/bassaer/web/docs/planning-en.md",
-              "/media/islamux/Variety/JavaScriptProjects/bassaer/web/docs/edit-en.md",
-              "/media/islamux/Variety/JavaScriptProjects/bassaer/web/docs/execute-en.md"
-            ],
-            "acceptance_criteria": [],
-            "constraints": [],
-            "execution_mode": "human",
-            "depends_on": []
-          },
-          {
-            "id": "cc_m002",
-            "label": "Phase 2: Architecture Cleanup — Create shared package, thin CLI/MCP wrappers, remove done field, fix ID generation",
-            "status": "done",
-            "assignee": "orchestrator",
-            "completed_at": "2026-05-06",
-            "priority": "P1",
-            "context_files": [],
-            "reference_docs": [],
-            "acceptance_criteria": [],
-            "constraints": [],
-            "execution_mode": "human",
-            "depends_on": []
-          },
-          {
-            "id": "cc_m003",
-            "label": "Phase 3: Scalability — Agent log rotation, file locking, task index, proper migration framework",
-            "status": "done",
-            "assignee": "orchestrator",
-            "completed_at": "2026-05-06",
-            "priority": "P2",
-            "context_files": [],
-            "reference_docs": [],
-            "acceptance_criteria": [],
-            "constraints": [],
-            "execution_mode": "human",
-            "depends_on": []
-          },
-          {
-            "id": "cc_m004",
-            "label": "Phase 4: Agent System — Agent dispatch engine, permission enforcement, heartbeat, result validation",
-            "status": "done",
-            "assignee": "orchestrator",
-            "completed_at": "2026-05-06",
-            "priority": "P2",
-            "context_files": [],
-            "reference_docs": [],
-            "acceptance_criteria": [],
-            "constraints": [],
-            "execution_mode": "human",
-            "depends_on": []
-          },
-          {
-            "id": "cc_m005",
-            "label": "Phase 5: DX Improvements — TUI incremental rendering, keyboard flows, search/filter, export",
-            "status": "done",
-            "assignee": "orchestrator",
-            "completed_at": "2026-05-06",
-            "priority": "P3",
-            "context_files": [],
-            "reference_docs": [],
-            "acceptance_criteria": [],
-            "constraints": [],
-            "execution_mode": "human",
-            "depends_on": []
-          },
-          {
-            "id": "cc_m006",
-            "label": "Apply planning-execution rules to Command Center — Phase 1 enhancement",
+            "id": "ocr_fix_001",
+            "label": "Write fix_lam_alif.py — merge broken lam-alif pairs across all chapters",
             "status": "done",
             "completed_at": "2026-05-07",
+            "assignee": "arabic-specialist",
+            "priority": "P1"
+          },
+          {
+            "id": "ocr_fix_002",
+            "label": "Write fix_blank_lines.py — collapse 3+ blank lines to 1 across all chapters",
+            "status": "done",
+            "completed_at": "2026-05-07",
+            "assignee": "arabic-specialist",
+            "priority": "P1"
+          },
+          {
+            "id": "ocr_fix_003",
+            "label": "Write fix_ya_suffix.py — fix context-aware ya-suffix corruption",
+            "status": "done",
+            "completed_at": "2026-05-07",
+            "assignee": "arabic-specialist",
+            "priority": "P1"
+          },
+          {
+            "id": "ocr_fix_004",
+            "label": "Write fix_footnotes.py — normalize footnote formatting",
+            "status": "done",
+            "completed_at": "2026-05-07",
+            "assignee": "arabic-specialist",
+            "priority": "P1"
+          },
+          {
+            "id": "ocr_fix_005",
+            "label": "Run all fix scripts against web/content/*.md and verify counts",
+            "status": "done",
+            "completed_at": "2026-05-07",
+            "assignee": "arabic-specialist",
+            "priority": "P1"
+          },
+          {
+            "id": "ocr_fix_006",
+            "label": "Manual review ch9, ch10, ch3 (worst-affected chapters)",
+            "status": "done",
+            "completed_at": "2026-05-07",
+            "assignee": "arabic-specialist",
             "priority": "P1",
-            "context_files": [
-              "/media/islamux/Variety/JavaScriptProjects/bassaer/PROJECT_MAP.md"
-            ],
-            "reference_docs": [
-              "/media/islamux/Variety/JavaScriptProjects/bassaer/web/docs/planning-en.md",
-              "/media/islamux/Variety/JavaScriptProjects/bassaer/web/docs/edit-en.md",
-              "/media/islamux/Variety/JavaScriptProjects/bassaer/web/docs/excute-en.md"
-            ],
-            "acceptance_criteria": [
-              "Read PROJECT_MAP.md [ORPHANS & PENDING] section",
-              "Apply edit-en.md Protocol1: Impact Analysis on C1-C3, H1-H5",
-              "Apply excute-en.md Protocol1: Production-Ready code for Phase 1 gaps",
-              "Update PROJECT_MAP.md [ORPHANS & PENDING] after each fix",
-              "Verify no regressions (build, typecheck, lint)",
-              "Update [ORPHANS & PENDING] section — remove completed items"
-            ],
-            "constraints": [
-              "Follow Simplicity First principle from planning-en.md",
-              "Use DRY principle — reuse shared/ layer where appropriate",
-              "No speculative features beyond Phase 1 scope"
-            ],
-            "execution_mode": "human",
-            "depends_on": []
+            "notes": "Lam-alif, blanks, footnotes, ya-suffix patterns well-fixed. Remaining: deeper OCR garbles (merged words, broken words with spaces) beyond fix scope."
+          },
+          {
+            "id": "ocr_fix_007",
+            "label": "Review remaining chapters (ch1,2,4,5,6,7,8,11,12) for edge cases",
+            "status": "done",
+            "completed_at": "2026-05-07",
+            "assignee": "arabic-specialist",
+            "priority": "P2",
+            "notes": "Spot-checked all remaining chapters. Systematic patterns fixed consistently. Some deeper OCR artifacts remain in ch1 and ch7 (minor)."
+          },
+          {
+            "id": "ocr_fix_008",
+            "label": "Build verification — pnpm web:build, check rendered output",
+            "status": "done",
+            "completed_at": "2026-05-07",
+            "assignee": "post-build-auditor",
+            "priority": "P1"
           }
         ],
         "dependencies": [],
-        "notes": []
+        "notes": [
+          "Follow patterns identified in word-audit-report.md",
+          "All automated scripts must be run against web/content/*.md",
+          "Manual review required for worst-affected chapters: ch3, ch9, ch10"
+        ]
       },
       {
         "id": "content_word_audit",
@@ -599,6 +565,15 @@
     ],
     "completed": [
       {
+        "id": "infra_cc_migration",
+        "title": "Command Center Architecture Migration",
+        "completed_at": "2026-05-07",
+        "summary": "Completed all 6 phases: service layer extraction, architecture cleanup, scalability (log rotation, file locking, task index), agent system (dispatch engine, permissions, heartbeat), DX improvements (TUI incremental rendering, keyboard flows, search/filter, export), and planning-execution rules integration (cc_m006).",
+        "domain": "Infrastructure",
+        "week": 4,
+        "phase": "architecture"
+      },
+      {
         "id": "infra_rename_project",
         "title": "Rename Project to Basaar",
         "completed_at": "2026-05-06",
@@ -1020,6 +995,11 @@
       "date": "2026-05-07",
       "action": "Completed content_word_audit milestone — all 12 chapter audit reports (ch1-ch12) generated under web/docs/word-audit-*.md. Consolidated report at web/docs/word-audit-report.md. Key findings: 1,348 broken lam-alif, 48% blank lines, ~300+ ya-suffix errors, ~300+ broken footnotes across all chapters.",
       "agent": "explorer"
+    },
+    {
+      "date": "2026-05-07",
+      "action": "Completed content_ocr_fix milestone — wrote 4 fix scripts (fix_lam_alif.py, fix_blank_lines.py, fix_ya_suffix.py, fix_footnotes.py), applied to all 12 chapters + intro. Results: 1,979 lam-alif merges, 4,581 blank lines removed (48% → ~9% avg), 448 ya-suffix corrections, 148 footnote normalizations. Build verification: pnpm build succeeded (17/17 pages). Remaining issues: deeper OCR garbles (merged/broken words) not addressed by systematic patterns.",
+      "agent": "arabic-specialist"
     }
   ],
   "_schema_version": 1
