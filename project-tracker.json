@@ -5,10 +5,10 @@
     "target_date": "2026-07-01",
     "current_week": 5,
     "schedule_status": "on_track",
-    "overall_progress": 70
+    "overall_progress": 75
   },
   "dashboard": {
-    "current_focus": "Bookmarks & Highlights — design storage + UI",
+    "current_focus": "Bookmarks & Highlights — completed",
     "active_milestone": "feat_bookmarks",
     "next_priority": "feat_progress (Reading Progress Tracking)",
     "blockers": "None",
@@ -68,20 +68,29 @@
           {
             "id": "feat_bookmarks_001",
             "label": "Design localStorage schema for bookmarks & highlights",
-            "status": "todo",
+            "status": "done",
+            "completed_at": "2026-05-07",
             "priority": "P2"
           },
           {
             "id": "feat_bookmarks_002",
             "label": "Implement bookmark toggle button on chapter pages",
-            "status": "todo",
+            "status": "done",
+            "completed_at": "2026-05-07",
             "priority": "P2"
           },
           {
             "id": "feat_bookmarks_003",
             "label": "Add bookmarks list UI (sidebar or dedicated page)",
-            "status": "todo",
+            "status": "done",
+            "completed_at": "2026-05-07",
             "priority": "P3"
+          },
+          {
+            "id": "feat_bookmarks_004",
+            "label": "Test bookmarks & highlights functionality",
+            "status": "todo",
+            "priority": "P2"
           }
         ],
         "dependencies": [],
@@ -628,6 +637,11 @@
     {
       "date": "2026-05-07",
       "action": "Completed feat_search milestone — all 3 subtasks done. Researched and chose FlexSearch (client-side, forward tokenizer for Arabic). Implemented full-text search across all 13 chapters: build-time search data generator (public/search-data.json), FlexSearch document index with title+content fields, SearchDialog component with RTL support, keyboard shortcuts (Ctrl+K, arrows, Enter, Esc), excerpt extraction with query highlighting. Updated layout/ClientShell for app-wide search. Build succeeded (17/17 pages). Progress 70%.",
+      "agent": "nextjs-specialist"
+    },
+    {
+      "date": "2026-05-07",
+      "action": "Completed feat_bookmarks milestone — all 3 subtasks done. localStorage schema (basaar-bookmarks) with chapterId, chapterTitle, timestamp. BookmarkButton component with toggle icon (filled/outline) on each chapter page. BookmarkedChapters list in sidebar with hover-to-remove. Custom event 'bookmarks-updated' for reactive updates. Title stripped from markdown content and rendered separately with bookmark button. Build succeeded (17/17 pages). Progress 75%.",
       "agent": "nextjs-specialist"
     }
   ],

@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { getAllChapters } from "@/lib/contentLoader";
+import BookmarkedChapters from "./BookmarkedChapters";
 
 export default function Sidebar() {
   const chapters = getAllChapters();
@@ -10,6 +11,7 @@ export default function Sidebar() {
       aria-label="فهرس المحتويات الجانبي"
     >
       <div className="space-y-6">
+        <BookmarkedChapters />
         <div>
           <h3 className="text-xl font-bold tracking-tight text-[var(--primary)] mb-4">فهرس المحتويات</h3>
           <ul className="space-y-4">
@@ -23,7 +25,6 @@ export default function Sidebar() {
                     {chapter.title}
                   </span>
                 </Link>
-                {/* Optional: we could load subheadings but here we just list chapters */}
               </li>
             ))}
           </ul>
