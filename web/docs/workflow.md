@@ -50,7 +50,7 @@ When the operator says "prepare task X":
    - Researcher looks up external docs, API references, best practices
    - Researcher MUST call `log_action(task_id, "research_complete", summary, agent_id: "researcher")`
 4. **Ask operator** clarifying questions if ambiguity remains
-5. **Write prompt file** at `docs/prompts/{task_id}.md`
+5. **Write prompt file** at `web/docs/prompts/{task_id}.md` (if prompts dir exists) or store in task's `builder_prompt` field
 6. **Enrich task:** Call `enrich_task(task_id)` with updated acceptance criteria, constraints, context files
 7. **Task stays in `todo`** — do NOT call `start_task`
 

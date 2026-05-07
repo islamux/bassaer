@@ -1,6 +1,6 @@
 # Basaar Command Center — Agent Roles
 
-This document defines the specialized AI agent roles used in the Basaar project. Agents interact with the project via MCP tools and follow the state machine defined in `docs/workflow.md`.
+This document defines the specialized AI agent roles used in the Basaar project. Agents interact with the project via MCP tools and follow the state machine defined in `web/docs/workflow.md`.
 
 ---
 

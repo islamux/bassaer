@@ -10,7 +10,7 @@
 
 ## Overall Quality Score: 5.5 / 10
 
-The Command Center is a functional prototype with an ambitious vision — an MCP-powered project tracker with a TUI dashboard and agent orchestration. The core data model is well-conceived and the task lifecycle state machine is sound. However, the implementation suffers from critical code duplication, zero runtime validation, fragile coupling between MCP tools and CLI, and a TUI that was originally designed for Python/Textual but shipped as Node.js/blessed with significant quality gaps.
+The Command Center is a functional system with an ambitious vision — an MCP-powered project tracker with a TUI dashboard and agent orchestration. The core data model is well-conceived and the task lifecycle state machine is sound. However, the implementation suffers from critical code duplication, zero runtime validation, fragile coupling between MCP tools and CLI, and a TUI built with Node.js/blessed that has quality gaps.
 
 ### Main Strengths
 
@@ -28,7 +28,7 @@ The Command Center is a functional prototype with an ambitious vision — an MCP
 3. **Duplicate type definitions.** `tracker.ts` (MCP) and `types.ts` (TUI) define identical interfaces independently. Divergence is inevitable.
 4. **No concurrency protection.** Multiple agents (or CLI + MCP simultaneously) can race on `writeTracker`. No file locking, no atomic writes, no conflict detection.
 5. **TUI rendering issues.** Every view rebuilds from scratch on every render (destroy + recreate all blessed widgets). This causes flickering and loses scroll position and focus state.
-6. **Blueprint-implementation mismatch.** The blueprint (`command-center-blueprint.md`) specifies Python/Textual/Pydantic/Watchdog. The actual implementation is Node.js/blessed/chokidar. The blueprint is now misleading documentation.
+6. **Blueprint-implementation alignment.** The blueprint (`command-center-blueprint.md`) now accurately describes the Node.js/blessed implementation. The TUI is built with Node.js/blessed/chokidar.
 7. **Unsafe type assertions.** Pervasive `as string`, `as Subtask`, `as any` casts throughout the codebase with no validation of the actual values.
 
 ### Critical Risks
