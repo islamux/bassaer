@@ -1,0 +1,1 @@
+Lets recheck browser issues @content/chapter-3.md - i see still see issues /html/body/main/div/div/main/article/p[4]  لخ ني , /html/body/main/div/div/main/article/ul[7]/li[4] مَ امَ جَ مِ يعِ إِخْ وَتِه: وَ, /html/body/main/div/div/main/article/p[13] -. َقِ يمُلْهُ مْا مِنْ وَسَ طِ إِخْ مْ مِ ثْل ك أ, /html/body/main/div/div/main/article/ul[11]/li[3]/p والعِ ظة
