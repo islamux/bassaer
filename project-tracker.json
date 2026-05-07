@@ -15,47 +15,7 @@
     "health": "Excellent"
   },
   "milestones": {
-    "active": [],
-    "backlog": [
-      {
-        "id": "feat_progress",
-        "title": "Reading Progress Tracking",
-        "domain": "Features",
-        "week": 5,
-        "phase": "features",
-        "drift_days": 0,
-        "is_key_milestone": false,
-        "subtasks": [
-          {
-            "id": "feat_progress_001",
-            "label": "Design storage (localStorage)",
-            "status": "todo",
-            "completed_at": null,
-            "priority": "P2",
-            "context_files": [],
-            "reference_docs": [],
-            "acceptance_criteria": [],
-            "constraints": [],
-            "execution_mode": "human",
-            "depends_on": []
-          },
-          {
-            "id": "feat_progress_002",
-            "label": "Implement progress bar",
-            "status": "todo",
-            "completed_at": null,
-            "priority": "P2",
-            "context_files": [],
-            "reference_docs": [],
-            "acceptance_criteria": [],
-            "constraints": [],
-            "execution_mode": "human",
-            "depends_on": []
-          }
-        ],
-        "dependencies": [],
-        "notes": []
-      },
+    "active": [
       {
         "id": "feat_bookmarks",
         "title": "Bookmarks & Highlights",
@@ -91,6 +51,47 @@
             "label": "Test bookmarks & highlights functionality",
             "status": "todo",
             "priority": "P2"
+          }
+        ],
+        "dependencies": [],
+        "notes": []
+      }
+    ],
+    "backlog": [
+      {
+        "id": "feat_progress",
+        "title": "Reading Progress Tracking",
+        "domain": "Features",
+        "week": 5,
+        "phase": "features",
+        "drift_days": 0,
+        "is_key_milestone": false,
+        "subtasks": [
+          {
+            "id": "feat_progress_001",
+            "label": "Design storage (localStorage)",
+            "status": "todo",
+            "completed_at": null,
+            "priority": "P2",
+            "context_files": [],
+            "reference_docs": [],
+            "acceptance_criteria": [],
+            "constraints": [],
+            "execution_mode": "human",
+            "depends_on": []
+          },
+          {
+            "id": "feat_progress_002",
+            "label": "Implement progress bar",
+            "status": "todo",
+            "completed_at": null,
+            "priority": "P2",
+            "context_files": [],
+            "reference_docs": [],
+            "acceptance_criteria": [],
+            "constraints": [],
+            "execution_mode": "human",
+            "depends_on": []
           }
         ],
         "dependencies": [],
