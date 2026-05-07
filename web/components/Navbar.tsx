@@ -8,9 +8,10 @@ import MobileMenu from "./MobileMenu";
 
 interface NavbarProps {
   chapters: ChapterMeta[];
+  onSearchOpen?: () => void;
 }
 
-export default function Navbar({ chapters }: NavbarProps) {
+export default function Navbar({ chapters, onSearchOpen }: NavbarProps) {
   const [isDark, setIsDark] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   
@@ -48,6 +49,7 @@ export default function Navbar({ chapters }: NavbarProps) {
           
           <div className="flex items-center gap-4">
             <button 
+              onClick={onSearchOpen}
               className="p-2 rounded-full hover:bg-[var(--muted)] text-[var(--muted-foreground)] transition-colors"
               aria-label="بحث في الكتاب"
             >

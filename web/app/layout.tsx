@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Tajawal } from "next/font/google";
 import "./globals.css";
-import Navbar from "@/components/Navbar";
+import ClientShell from "@/components/ClientShell";
 import { getAllChapters } from "@/lib/contentLoader";
 
 const tajawal = Tajawal({ 
@@ -25,10 +25,9 @@ export default function RootLayout({
   return (
     <html lang="ar" dir="rtl" className={tajawal.variable}>
       <body className={`${tajawal.className} bg-[var(--background)] text-[var(--foreground)] antialiased transition-colors duration-300`}>
-        <Navbar chapters={chapters} />
-        <main className="min-h-screen pt-16">
+        <ClientShell chapters={chapters}>
           {children}
-        </main>
+        </ClientShell>
       </body>
     </html>
   );
