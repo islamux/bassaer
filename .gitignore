@@ -51,3 +51,5 @@ __pycache__/
 # Documentation build
 _docs/
 _build/
+content/ar-basaar.docx
+content/.~lock*
