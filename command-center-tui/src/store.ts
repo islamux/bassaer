@@ -1,8 +1,8 @@
 import fs from 'fs'
 import { EventEmitter } from 'events'
 import { getTrackerPath } from './config.js'
-import { TrackerStateSchema } from 'command-center-shared/src/schema.js'
-import type { TrackerState } from 'command-center-shared/src/types.js'
+import { TrackerStateSchema } from 'command-center-shared'
+import type { TrackerState } from 'command-center-shared'
 
 export class Store extends EventEmitter {
   private _state: TrackerState | null = null
