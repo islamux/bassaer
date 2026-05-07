@@ -1,5 +1,5 @@
 import { EventEmitter } from 'events';
-import type { TrackerState } from './types.js';
+import type { TrackerState } from 'command-center-shared/src/types.js';
 export declare class Store extends EventEmitter {
     private _state;
     private _trackerPath;

@@ -1,12 +1,14 @@
 import { readRaw, writeAtomic, withLock } from '../storage/tracker-file.js'
 import { createBackup } from '../storage/backup.js'
 import { TrackerStateSchema } from '../schema.js'
+import { runMigrations } from './migration.service.js'
 import type { TrackerState, Subtask, Milestone, AgentLogEntry, HistoryLogEntry, FoundTask, ServiceResult, CompletedMilestone } from '../types.js'
 
 export function readTracker(): TrackerState {
   const raw = readRaw()
   const parsed = JSON.parse(raw)
-  return TrackerStateSchema.parse(parsed) as TrackerState
+  const state = TrackerStateSchema.parse(parsed) as TrackerState
+  return runMigrations(state)
 }
 
 export function allMilestones(state: TrackerState): Milestone[] {
