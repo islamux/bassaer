@@ -40,7 +40,7 @@ export function createTaskBoard(screen, state, milestoneIdx) {
         const key = current.is_key_milestone ? ' ★' : '';
         lines.push(`{bold}${current.title}${key}{/}${indicator}{muted}(${current.id}) — ${current.domain} — ${current.phase}{/}`);
         lines.push('');
-        const done = subtasks.filter(t => t.done).length;
+        const done = subtasks.filter(t => t.status === 'done').length;
         const total = subtasks.length;
         lines.push(`Progress: ${done}/${total} {muted}│ [ ] navigate  [s] cycle status  [Enter] details{/}`);
         lines.push('─'.repeat(80));

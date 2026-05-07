@@ -26,7 +26,7 @@ export function createSwimLane(screen, state, milestoneIdx) {
         lines.push('{bold} ACTIVE MILESTONES{/}');
         lines.push('─'.repeat(70));
         for (const m of s.milestones.active) {
-            const done = (m.subtasks || []).filter(t => t.done).length;
+            const done = (m.subtasks || []).filter(t => t.status === 'done').length;
             const total = (m.subtasks || []).length;
             const pct = total > 0 ? Math.round((done / total) * 100) : 0;
             const bar = progressBar(pct, 20);
@@ -45,7 +45,7 @@ export function createSwimLane(screen, state, milestoneIdx) {
         lines.push('{bold} BACKLOG{/}');
         lines.push('─'.repeat(70));
         for (const m of s.milestones.backlog) {
-            const done = (m.subtasks || []).filter(t => t.done).length;
+            const done = (m.subtasks || []).filter(t => t.status === 'done').length;
             const total = (m.subtasks || []).length;
             const key = m.is_key_milestone ? ' ★' : '';
             lines.push(`  {muted}${m.title}${key} (${m.id}) — ${done}/${total} tasks — ${m.phase}{/}`);

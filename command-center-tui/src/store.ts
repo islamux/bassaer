@@ -1,7 +1,8 @@
 import fs from 'fs'
 import { EventEmitter } from 'events'
 import { getTrackerPath } from './config.js'
-import type { TrackerState } from './types.js'
+import { TrackerStateSchema } from 'command-center-shared/src/schema.js'
+import type { TrackerState } from 'command-center-shared/src/types.js'
 
 export class Store extends EventEmitter {
   private _state: TrackerState | null = null
@@ -20,7 +21,8 @@ export class Store extends EventEmitter {
   loadFromDisk(): boolean {
     try {
       const raw = fs.readFileSync(this._trackerPath, 'utf-8')
-      this._state = JSON.parse(raw) as TrackerState
+      const parsed = JSON.parse(raw)
+      this._state = TrackerStateSchema.parse(parsed) as TrackerState
       this.emit('change', this._state)
       return true
     } catch {

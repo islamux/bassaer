@@ -1,7 +1,2 @@
-export function allMilestones(state) {
-    return [
-        ...state.milestones.active,
-        ...state.milestones.backlog,
-    ].map(m => ({ ...m, subtasks: m.subtasks || [] }));
-}
+export { allMilestones } from 'command-center-shared/src/types.js';
 //# sourceMappingURL=types.js.map
