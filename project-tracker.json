@@ -100,6 +100,36 @@
             "constraints": [],
             "execution_mode": "human",
             "depends_on": []
+          },
+          {
+            "id": "cc_m006",
+            "label": "Apply planning-execution rules to Command Center — Phase 1 enhancement",
+            "status": "todo",
+            "completed_at": null,
+            "priority": "P1",
+            "context_files": [
+              "/media/islamux/Variety/JavaScriptProjects/bassaer/PROJECT_MAP.md"
+            ],
+            "reference_docs": [
+              "/media/islamux/Variety/JavaScriptProjects/bassaer/web/docs/planning-en.md",
+              "/media/islamux/Variety/JavaScriptProjects/bassaer/web/docs/edit-en.md",
+              "/media/islamux/Variety/JavaScriptProjects/bassaer/web/docs/excute-en.md"
+            ],
+            "acceptance_criteria": [
+              "Read PROJECT_MAP.md [ORPHANS & PENDING] section",
+              "Apply edit-en.md Protocol1: Impact Analysis on C1-C3, H1-H5",
+              "Apply excute-en.md Protocol1: Production-Ready code for Phase 1 gaps",
+              "Update PROJECT_MAP.md [ORPHANS & PENDING] after each fix",
+              "Verify no regressions (build, typecheck, lint)",
+              "Update [ORPHANS & PENDING] section — remove completed items"
+            ],
+            "constraints": [
+              "Follow Simplicity First principle from planning-en.md",
+              "Use DRY principle — reuse shared/ layer where appropriate",
+              "No speculative features beyond Phase 1 scope"
+            ],
+            "execution_mode": "human",
+            "depends_on": []
           }
         ],
         "dependencies": [],
@@ -709,9 +739,17 @@
     },
     {
       "date": "2026-05-06",
-      "action": "Added HIGH P1 task (content_word_audit_001): Read and execute PROMPT_COMPARE_WORD_FILE_WITH_REAL_UI.md - Full audit of Next.js project against Word source files. Milestone content_word_audit added to active.",
+      "action": "Added HIGH P1 task content_word_audit_001 for Word source vs UI comparison audit",
+      "agent": "orchestrator"
+    },
+    {
+      "date": "2026-05-07",
+      "action": "Integrated planning-execution rules: created PROJECT_MAP.md (549 lines), added reference_docs to cc_m001, updated agent-roles.md with rules protocols, deleted Arabic rule files, created new task cc_m006 to apply rules to Phase 1 enhancement",
       "agent": "orchestrator"
     }
+  ],
+  "_schema_version": 1
+}
   ],
   "_schema_version": 1
 }
