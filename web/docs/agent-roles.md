@@ -13,6 +13,8 @@ This document defines the specialized AI agent roles used in the Basaar project.
     - Search for domain-relevant files and patterns.
     - Identify existing abstractions and utilities to reuse.
     - Map dependencies and integration points.
+    - Read `PROJECT_MAP.md` for system architecture before investigation.
+    - Apply `edit-en.md` Protocol1: Perform impact analysis before any changes.
 - **Completion Marker:** `log_action(task_id, "exploration_complete", summary, agent_id: "explorer")`
 
 ### Researcher Agent
@@ -32,6 +34,8 @@ This document defines the specialized AI agent roles used in the Basaar project.
     - Check for security vulnerabilities and unsanitized inputs.
     - Verify adherence to project conventions.
     - Fix minor issues directly if possible.
+    - Apply `execute-en.md` Protocol1: Ensure Production-Ready code quality.
+    - Apply `execute-en.md` Protocol2: Self-verification before marking complete.
 - **Completion Marker:** `log_action(task_id, "audit_complete", summary, agent_id: "post-build-auditor")`
 
 ---

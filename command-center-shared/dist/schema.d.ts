@@ -1,0 +1,501 @@
+import { z } from 'zod';
+export declare const SubtaskStatusSchema: z.ZodEnum<{
+    todo: "todo";
+    in_progress: "in_progress";
+    review: "review";
+    done: "done";
+    blocked: "blocked";
+}>;
+export declare const PrioritySchema: z.ZodString;
+export declare const ExecutionModeSchema: z.ZodEnum<{
+    human: "human";
+    agent: "agent";
+    pair: "pair";
+}>;
+export declare const SubtaskSchema: z.ZodObject<{
+    id: z.ZodString;
+    label: z.ZodString;
+    status: z.ZodDefault<z.ZodOptional<z.ZodEnum<{
+        todo: "todo";
+        in_progress: "in_progress";
+        review: "review";
+        done: "done";
+        blocked: "blocked";
+    }>>>;
+    assignee: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+    blocked_by: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+    blocked_reason: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+    completed_at: z.ZodDefault<z.ZodOptional<z.ZodNullable<z.ZodString>>>;
+    completed_by: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+    priority: z.ZodDefault<z.ZodOptional<z.ZodString>>;
+    notes: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+    prompt: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+    context_files: z.ZodDefault<z.ZodOptional<z.ZodArray<z.ZodString>>>;
+    reference_docs: z.ZodDefault<z.ZodOptional<z.ZodArray<z.ZodString>>>;
+    acceptance_criteria: z.ZodDefault<z.ZodOptional<z.ZodArray<z.ZodString>>>;
+    constraints: z.ZodDefault<z.ZodOptional<z.ZodArray<z.ZodString>>>;
+    agent_target: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+    execution_mode: z.ZodDefault<z.ZodOptional<z.ZodEnum<{
+        human: "human";
+        agent: "agent";
+        pair: "pair";
+    }>>>;
+    depends_on: z.ZodDefault<z.ZodOptional<z.ZodArray<z.ZodString>>>;
+    last_run_id: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+    builder_prompt: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+}, z.core.$strip>;
+export declare const MilestoneSchema: z.ZodObject<{
+    id: z.ZodString;
+    title: z.ZodString;
+    domain: z.ZodString;
+    week: z.ZodDefault<z.ZodOptional<z.ZodUnion<readonly [z.ZodNumber, z.ZodString]>>>;
+    phase: z.ZodDefault<z.ZodOptional<z.ZodString>>;
+    planned_start: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+    planned_end: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+    actual_start: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+    actual_end: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+    drift_days: z.ZodDefault<z.ZodOptional<z.ZodNumber>>;
+    is_key_milestone: z.ZodDefault<z.ZodOptional<z.ZodBoolean>>;
+    key_milestone_label: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+    subtasks: z.ZodDefault<z.ZodOptional<z.ZodArray<z.ZodObject<{
+        id: z.ZodString;
+        label: z.ZodString;
+        status: z.ZodDefault<z.ZodOptional<z.ZodEnum<{
+            todo: "todo";
+            in_progress: "in_progress";
+            review: "review";
+            done: "done";
+            blocked: "blocked";
+        }>>>;
+        assignee: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+        blocked_by: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+        blocked_reason: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+        completed_at: z.ZodDefault<z.ZodOptional<z.ZodNullable<z.ZodString>>>;
+        completed_by: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+        priority: z.ZodDefault<z.ZodOptional<z.ZodString>>;
+        notes: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+        prompt: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+        context_files: z.ZodDefault<z.ZodOptional<z.ZodArray<z.ZodString>>>;
+        reference_docs: z.ZodDefault<z.ZodOptional<z.ZodArray<z.ZodString>>>;
+        acceptance_criteria: z.ZodDefault<z.ZodOptional<z.ZodArray<z.ZodString>>>;
+        constraints: z.ZodDefault<z.ZodOptional<z.ZodArray<z.ZodString>>>;
+        agent_target: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+        execution_mode: z.ZodDefault<z.ZodOptional<z.ZodEnum<{
+            human: "human";
+            agent: "agent";
+            pair: "pair";
+        }>>>;
+        depends_on: z.ZodDefault<z.ZodOptional<z.ZodArray<z.ZodString>>>;
+        last_run_id: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+        builder_prompt: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+    }, z.core.$strip>>>>;
+    dependencies: z.ZodDefault<z.ZodOptional<z.ZodArray<z.ZodString>>>;
+    notes: z.ZodDefault<z.ZodOptional<z.ZodArray<z.ZodString>>>;
+    status: z.ZodOptional<z.ZodString>;
+    completed_at: z.ZodOptional<z.ZodString>;
+    summary: z.ZodOptional<z.ZodString>;
+}, z.core.$strip>;
+export declare const CompletedMilestoneSchema: z.ZodObject<{
+    id: z.ZodString;
+    title: z.ZodString;
+    completed_at: z.ZodDefault<z.ZodOptional<z.ZodString>>;
+    summary: z.ZodDefault<z.ZodOptional<z.ZodString>>;
+    domain: z.ZodOptional<z.ZodString>;
+    week: z.ZodOptional<z.ZodUnion<readonly [z.ZodNumber, z.ZodString]>>;
+    phase: z.ZodOptional<z.ZodString>;
+    planned_start: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+    planned_end: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+    subtasks: z.ZodOptional<z.ZodArray<z.ZodObject<{
+        id: z.ZodString;
+        label: z.ZodString;
+        status: z.ZodDefault<z.ZodOptional<z.ZodEnum<{
+            todo: "todo";
+            in_progress: "in_progress";
+            review: "review";
+            done: "done";
+            blocked: "blocked";
+        }>>>;
+        assignee: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+        blocked_by: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+        blocked_reason: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+        completed_at: z.ZodDefault<z.ZodOptional<z.ZodNullable<z.ZodString>>>;
+        completed_by: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+        priority: z.ZodDefault<z.ZodOptional<z.ZodString>>;
+        notes: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+        prompt: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+        context_files: z.ZodDefault<z.ZodOptional<z.ZodArray<z.ZodString>>>;
+        reference_docs: z.ZodDefault<z.ZodOptional<z.ZodArray<z.ZodString>>>;
+        acceptance_criteria: z.ZodDefault<z.ZodOptional<z.ZodArray<z.ZodString>>>;
+        constraints: z.ZodDefault<z.ZodOptional<z.ZodArray<z.ZodString>>>;
+        agent_target: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+        execution_mode: z.ZodDefault<z.ZodOptional<z.ZodEnum<{
+            human: "human";
+            agent: "agent";
+            pair: "pair";
+        }>>>;
+        depends_on: z.ZodDefault<z.ZodOptional<z.ZodArray<z.ZodString>>>;
+        last_run_id: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+        builder_prompt: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+    }, z.core.$strip>>>;
+    status: z.ZodOptional<z.ZodString>;
+    planned_start_date: z.ZodOptional<z.ZodString>;
+    planned_end_date: z.ZodOptional<z.ZodString>;
+}, z.core.$strip>;
+export declare const CategorizedMilestonesSchema: z.ZodObject<{
+    active: z.ZodArray<z.ZodObject<{
+        id: z.ZodString;
+        title: z.ZodString;
+        domain: z.ZodString;
+        week: z.ZodDefault<z.ZodOptional<z.ZodUnion<readonly [z.ZodNumber, z.ZodString]>>>;
+        phase: z.ZodDefault<z.ZodOptional<z.ZodString>>;
+        planned_start: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+        planned_end: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+        actual_start: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+        actual_end: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+        drift_days: z.ZodDefault<z.ZodOptional<z.ZodNumber>>;
+        is_key_milestone: z.ZodDefault<z.ZodOptional<z.ZodBoolean>>;
+        key_milestone_label: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+        subtasks: z.ZodDefault<z.ZodOptional<z.ZodArray<z.ZodObject<{
+            id: z.ZodString;
+            label: z.ZodString;
+            status: z.ZodDefault<z.ZodOptional<z.ZodEnum<{
+                todo: "todo";
+                in_progress: "in_progress";
+                review: "review";
+                done: "done";
+                blocked: "blocked";
+            }>>>;
+            assignee: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+            blocked_by: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+            blocked_reason: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+            completed_at: z.ZodDefault<z.ZodOptional<z.ZodNullable<z.ZodString>>>;
+            completed_by: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+            priority: z.ZodDefault<z.ZodOptional<z.ZodString>>;
+            notes: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+            prompt: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+            context_files: z.ZodDefault<z.ZodOptional<z.ZodArray<z.ZodString>>>;
+            reference_docs: z.ZodDefault<z.ZodOptional<z.ZodArray<z.ZodString>>>;
+            acceptance_criteria: z.ZodDefault<z.ZodOptional<z.ZodArray<z.ZodString>>>;
+            constraints: z.ZodDefault<z.ZodOptional<z.ZodArray<z.ZodString>>>;
+            agent_target: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+            execution_mode: z.ZodDefault<z.ZodOptional<z.ZodEnum<{
+                human: "human";
+                agent: "agent";
+                pair: "pair";
+            }>>>;
+            depends_on: z.ZodDefault<z.ZodOptional<z.ZodArray<z.ZodString>>>;
+            last_run_id: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+            builder_prompt: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+        }, z.core.$strip>>>>;
+        dependencies: z.ZodDefault<z.ZodOptional<z.ZodArray<z.ZodString>>>;
+        notes: z.ZodDefault<z.ZodOptional<z.ZodArray<z.ZodString>>>;
+        status: z.ZodOptional<z.ZodString>;
+        completed_at: z.ZodOptional<z.ZodString>;
+        summary: z.ZodOptional<z.ZodString>;
+    }, z.core.$strip>>;
+    backlog: z.ZodArray<z.ZodObject<{
+        id: z.ZodString;
+        title: z.ZodString;
+        domain: z.ZodString;
+        week: z.ZodDefault<z.ZodOptional<z.ZodUnion<readonly [z.ZodNumber, z.ZodString]>>>;
+        phase: z.ZodDefault<z.ZodOptional<z.ZodString>>;
+        planned_start: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+        planned_end: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+        actual_start: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+        actual_end: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+        drift_days: z.ZodDefault<z.ZodOptional<z.ZodNumber>>;
+        is_key_milestone: z.ZodDefault<z.ZodOptional<z.ZodBoolean>>;
+        key_milestone_label: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+        subtasks: z.ZodDefault<z.ZodOptional<z.ZodArray<z.ZodObject<{
+            id: z.ZodString;
+            label: z.ZodString;
+            status: z.ZodDefault<z.ZodOptional<z.ZodEnum<{
+                todo: "todo";
+                in_progress: "in_progress";
+                review: "review";
+                done: "done";
+                blocked: "blocked";
+            }>>>;
+            assignee: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+            blocked_by: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+            blocked_reason: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+            completed_at: z.ZodDefault<z.ZodOptional<z.ZodNullable<z.ZodString>>>;
+            completed_by: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+            priority: z.ZodDefault<z.ZodOptional<z.ZodString>>;
+            notes: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+            prompt: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+            context_files: z.ZodDefault<z.ZodOptional<z.ZodArray<z.ZodString>>>;
+            reference_docs: z.ZodDefault<z.ZodOptional<z.ZodArray<z.ZodString>>>;
+            acceptance_criteria: z.ZodDefault<z.ZodOptional<z.ZodArray<z.ZodString>>>;
+            constraints: z.ZodDefault<z.ZodOptional<z.ZodArray<z.ZodString>>>;
+            agent_target: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+            execution_mode: z.ZodDefault<z.ZodOptional<z.ZodEnum<{
+                human: "human";
+                agent: "agent";
+                pair: "pair";
+            }>>>;
+            depends_on: z.ZodDefault<z.ZodOptional<z.ZodArray<z.ZodString>>>;
+            last_run_id: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+            builder_prompt: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+        }, z.core.$strip>>>>;
+        dependencies: z.ZodDefault<z.ZodOptional<z.ZodArray<z.ZodString>>>;
+        notes: z.ZodDefault<z.ZodOptional<z.ZodArray<z.ZodString>>>;
+        status: z.ZodOptional<z.ZodString>;
+        completed_at: z.ZodOptional<z.ZodString>;
+        summary: z.ZodOptional<z.ZodString>;
+    }, z.core.$strip>>;
+    completed: z.ZodArray<z.ZodObject<{
+        id: z.ZodString;
+        title: z.ZodString;
+        completed_at: z.ZodDefault<z.ZodOptional<z.ZodString>>;
+        summary: z.ZodDefault<z.ZodOptional<z.ZodString>>;
+        domain: z.ZodOptional<z.ZodString>;
+        week: z.ZodOptional<z.ZodUnion<readonly [z.ZodNumber, z.ZodString]>>;
+        phase: z.ZodOptional<z.ZodString>;
+        planned_start: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+        planned_end: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+        subtasks: z.ZodOptional<z.ZodArray<z.ZodObject<{
+            id: z.ZodString;
+            label: z.ZodString;
+            status: z.ZodDefault<z.ZodOptional<z.ZodEnum<{
+                todo: "todo";
+                in_progress: "in_progress";
+                review: "review";
+                done: "done";
+                blocked: "blocked";
+            }>>>;
+            assignee: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+            blocked_by: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+            blocked_reason: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+            completed_at: z.ZodDefault<z.ZodOptional<z.ZodNullable<z.ZodString>>>;
+            completed_by: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+            priority: z.ZodDefault<z.ZodOptional<z.ZodString>>;
+            notes: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+            prompt: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+            context_files: z.ZodDefault<z.ZodOptional<z.ZodArray<z.ZodString>>>;
+            reference_docs: z.ZodDefault<z.ZodOptional<z.ZodArray<z.ZodString>>>;
+            acceptance_criteria: z.ZodDefault<z.ZodOptional<z.ZodArray<z.ZodString>>>;
+            constraints: z.ZodDefault<z.ZodOptional<z.ZodArray<z.ZodString>>>;
+            agent_target: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+            execution_mode: z.ZodDefault<z.ZodOptional<z.ZodEnum<{
+                human: "human";
+                agent: "agent";
+                pair: "pair";
+            }>>>;
+            depends_on: z.ZodDefault<z.ZodOptional<z.ZodArray<z.ZodString>>>;
+            last_run_id: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+            builder_prompt: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+        }, z.core.$strip>>>;
+        status: z.ZodOptional<z.ZodString>;
+        planned_start_date: z.ZodOptional<z.ZodString>;
+        planned_end_date: z.ZodOptional<z.ZodString>;
+    }, z.core.$strip>>;
+}, z.core.$strip>;
+export declare const DashboardSchema: z.ZodOptional<z.ZodObject<{
+    current_focus: z.ZodString;
+    active_milestone: z.ZodString;
+    next_priority: z.ZodString;
+    blockers: z.ZodString;
+    health: z.ZodString;
+}, z.core.$strip>>;
+export declare const ProjectMetaSchema: z.ZodObject<{
+    name: z.ZodString;
+    start_date: z.ZodString;
+    target_date: z.ZodString;
+    current_week: z.ZodNumber;
+    schedule_status: z.ZodEnum<{
+        on_track: "on_track";
+        behind: "behind";
+        ahead: "ahead";
+    }>;
+    overall_progress: z.ZodNumber;
+}, z.core.$strip>;
+export declare const HistoryLogEntrySchema: z.ZodObject<{
+    date: z.ZodString;
+    event: z.ZodOptional<z.ZodString>;
+    action: z.ZodOptional<z.ZodString>;
+    agent: z.ZodOptional<z.ZodString>;
+}, z.core.$strip>;
+export declare const TrackerStateSchema: z.ZodObject<{
+    project: z.ZodObject<{
+        name: z.ZodString;
+        start_date: z.ZodString;
+        target_date: z.ZodString;
+        current_week: z.ZodNumber;
+        schedule_status: z.ZodEnum<{
+            on_track: "on_track";
+            behind: "behind";
+            ahead: "ahead";
+        }>;
+        overall_progress: z.ZodNumber;
+    }, z.core.$strip>;
+    dashboard: z.ZodOptional<z.ZodObject<{
+        current_focus: z.ZodString;
+        active_milestone: z.ZodString;
+        next_priority: z.ZodString;
+        blockers: z.ZodString;
+        health: z.ZodString;
+    }, z.core.$strip>>;
+    milestones: z.ZodObject<{
+        active: z.ZodArray<z.ZodObject<{
+            id: z.ZodString;
+            title: z.ZodString;
+            domain: z.ZodString;
+            week: z.ZodDefault<z.ZodOptional<z.ZodUnion<readonly [z.ZodNumber, z.ZodString]>>>;
+            phase: z.ZodDefault<z.ZodOptional<z.ZodString>>;
+            planned_start: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+            planned_end: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+            actual_start: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+            actual_end: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+            drift_days: z.ZodDefault<z.ZodOptional<z.ZodNumber>>;
+            is_key_milestone: z.ZodDefault<z.ZodOptional<z.ZodBoolean>>;
+            key_milestone_label: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+            subtasks: z.ZodDefault<z.ZodOptional<z.ZodArray<z.ZodObject<{
+                id: z.ZodString;
+                label: z.ZodString;
+                status: z.ZodDefault<z.ZodOptional<z.ZodEnum<{
+                    todo: "todo";
+                    in_progress: "in_progress";
+                    review: "review";
+                    done: "done";
+                    blocked: "blocked";
+                }>>>;
+                assignee: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+                blocked_by: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+                blocked_reason: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+                completed_at: z.ZodDefault<z.ZodOptional<z.ZodNullable<z.ZodString>>>;
+                completed_by: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+                priority: z.ZodDefault<z.ZodOptional<z.ZodString>>;
+                notes: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+                prompt: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+                context_files: z.ZodDefault<z.ZodOptional<z.ZodArray<z.ZodString>>>;
+                reference_docs: z.ZodDefault<z.ZodOptional<z.ZodArray<z.ZodString>>>;
+                acceptance_criteria: z.ZodDefault<z.ZodOptional<z.ZodArray<z.ZodString>>>;
+                constraints: z.ZodDefault<z.ZodOptional<z.ZodArray<z.ZodString>>>;
+                agent_target: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+                execution_mode: z.ZodDefault<z.ZodOptional<z.ZodEnum<{
+                    human: "human";
+                    agent: "agent";
+                    pair: "pair";
+                }>>>;
+                depends_on: z.ZodDefault<z.ZodOptional<z.ZodArray<z.ZodString>>>;
+                last_run_id: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+                builder_prompt: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+            }, z.core.$strip>>>>;
+            dependencies: z.ZodDefault<z.ZodOptional<z.ZodArray<z.ZodString>>>;
+            notes: z.ZodDefault<z.ZodOptional<z.ZodArray<z.ZodString>>>;
+            status: z.ZodOptional<z.ZodString>;
+            completed_at: z.ZodOptional<z.ZodString>;
+            summary: z.ZodOptional<z.ZodString>;
+        }, z.core.$strip>>;
+        backlog: z.ZodArray<z.ZodObject<{
+            id: z.ZodString;
+            title: z.ZodString;
+            domain: z.ZodString;
+            week: z.ZodDefault<z.ZodOptional<z.ZodUnion<readonly [z.ZodNumber, z.ZodString]>>>;
+            phase: z.ZodDefault<z.ZodOptional<z.ZodString>>;
+            planned_start: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+            planned_end: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+            actual_start: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+            actual_end: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+            drift_days: z.ZodDefault<z.ZodOptional<z.ZodNumber>>;
+            is_key_milestone: z.ZodDefault<z.ZodOptional<z.ZodBoolean>>;
+            key_milestone_label: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+            subtasks: z.ZodDefault<z.ZodOptional<z.ZodArray<z.ZodObject<{
+                id: z.ZodString;
+                label: z.ZodString;
+                status: z.ZodDefault<z.ZodOptional<z.ZodEnum<{
+                    todo: "todo";
+                    in_progress: "in_progress";
+                    review: "review";
+                    done: "done";
+                    blocked: "blocked";
+                }>>>;
+                assignee: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+                blocked_by: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+                blocked_reason: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+                completed_at: z.ZodDefault<z.ZodOptional<z.ZodNullable<z.ZodString>>>;
+                completed_by: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+                priority: z.ZodDefault<z.ZodOptional<z.ZodString>>;
+                notes: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+                prompt: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+                context_files: z.ZodDefault<z.ZodOptional<z.ZodArray<z.ZodString>>>;
+                reference_docs: z.ZodDefault<z.ZodOptional<z.ZodArray<z.ZodString>>>;
+                acceptance_criteria: z.ZodDefault<z.ZodOptional<z.ZodArray<z.ZodString>>>;
+                constraints: z.ZodDefault<z.ZodOptional<z.ZodArray<z.ZodString>>>;
+                agent_target: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+                execution_mode: z.ZodDefault<z.ZodOptional<z.ZodEnum<{
+                    human: "human";
+                    agent: "agent";
+                    pair: "pair";
+                }>>>;
+                depends_on: z.ZodDefault<z.ZodOptional<z.ZodArray<z.ZodString>>>;
+                last_run_id: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+                builder_prompt: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+            }, z.core.$strip>>>>;
+            dependencies: z.ZodDefault<z.ZodOptional<z.ZodArray<z.ZodString>>>;
+            notes: z.ZodDefault<z.ZodOptional<z.ZodArray<z.ZodString>>>;
+            status: z.ZodOptional<z.ZodString>;
+            completed_at: z.ZodOptional<z.ZodString>;
+            summary: z.ZodOptional<z.ZodString>;
+        }, z.core.$strip>>;
+        completed: z.ZodArray<z.ZodObject<{
+            id: z.ZodString;
+            title: z.ZodString;
+            completed_at: z.ZodDefault<z.ZodOptional<z.ZodString>>;
+            summary: z.ZodDefault<z.ZodOptional<z.ZodString>>;
+            domain: z.ZodOptional<z.ZodString>;
+            week: z.ZodOptional<z.ZodUnion<readonly [z.ZodNumber, z.ZodString]>>;
+            phase: z.ZodOptional<z.ZodString>;
+            planned_start: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+            planned_end: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+            subtasks: z.ZodOptional<z.ZodArray<z.ZodObject<{
+                id: z.ZodString;
+                label: z.ZodString;
+                status: z.ZodDefault<z.ZodOptional<z.ZodEnum<{
+                    todo: "todo";
+                    in_progress: "in_progress";
+                    review: "review";
+                    done: "done";
+                    blocked: "blocked";
+                }>>>;
+                assignee: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+                blocked_by: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+                blocked_reason: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+                completed_at: z.ZodDefault<z.ZodOptional<z.ZodNullable<z.ZodString>>>;
+                completed_by: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+                priority: z.ZodDefault<z.ZodOptional<z.ZodString>>;
+                notes: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+                prompt: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+                context_files: z.ZodDefault<z.ZodOptional<z.ZodArray<z.ZodString>>>;
+                reference_docs: z.ZodDefault<z.ZodOptional<z.ZodArray<z.ZodString>>>;
+                acceptance_criteria: z.ZodDefault<z.ZodOptional<z.ZodArray<z.ZodString>>>;
+                constraints: z.ZodDefault<z.ZodOptional<z.ZodArray<z.ZodString>>>;
+                agent_target: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+                execution_mode: z.ZodDefault<z.ZodOptional<z.ZodEnum<{
+                    human: "human";
+                    agent: "agent";
+                    pair: "pair";
+                }>>>;
+                depends_on: z.ZodDefault<z.ZodOptional<z.ZodArray<z.ZodString>>>;
+                last_run_id: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+                builder_prompt: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+            }, z.core.$strip>>>;
+            status: z.ZodOptional<z.ZodString>;
+            planned_start_date: z.ZodOptional<z.ZodString>;
+            planned_end_date: z.ZodOptional<z.ZodString>;
+        }, z.core.$strip>>;
+    }, z.core.$strip>;
+    agents: z.ZodOptional<z.ZodArray<z.ZodAny>>;
+    agent_log: z.ZodOptional<z.ZodArray<z.ZodAny>>;
+    history_log: z.ZodOptional<z.ZodArray<z.ZodObject<{
+        date: z.ZodString;
+        event: z.ZodOptional<z.ZodString>;
+        action: z.ZodOptional<z.ZodString>;
+        agent: z.ZodOptional<z.ZodString>;
+    }, z.core.$strip>>>;
+    schedule: z.ZodOptional<z.ZodObject<{
+        phases: z.ZodArray<z.ZodAny>;
+    }, z.core.$strip>>;
+}, z.core.$strip>;
+//# sourceMappingURL=schema.d.ts.map

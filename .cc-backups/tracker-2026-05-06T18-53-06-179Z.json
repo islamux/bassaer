@@ -1,0 +1,454 @@
+{
+  "project": {
+    "name": "بصائر - Basaar Arabic Digital Book",
+    "start_date": "2026-04-22",
+    "target_date": "2026-07-01",
+    "current_week": 1,
+    "schedule_status": "on_track",
+    "overall_progress": 30
+  },
+  "dashboard": {
+    "current_focus": "Command Center Architecture Migration",
+    "active_milestone": "infra_cc_migration",
+    "next_priority": "P2: Phase 4 — Agent System (dispatch engine, permissions, heartbeat, result validation)",
+    "blockers": "None",
+    "health": "Excellent"
+  },
+  "milestones": {
+    "active": [
+      {
+        "id": "infra_cc_migration",
+        "title": "Command Center Architecture Migration",
+        "domain": "Infrastructure",
+        "week": 4,
+        "phase": "architecture",
+        "planned_start": "2026-05-06",
+        "planned_end": "2026-05-20",
+        "drift_days": 0,
+        "is_key_milestone": true,
+        "subtasks": [
+          {
+            "id": "cc_m001",
+            "label": "Phase 1: Critical Stabilization — Extract shared service layer, atomic writes, Zod validation, wire undo log",
+            "status": "done",
+            "assignee": "orchestrator",
+            "completed_at": "2026-05-06",
+            "priority": "P1",
+            "context_files": [],
+            "reference_docs": [],
+            "acceptance_criteria": [],
+            "constraints": [],
+            "execution_mode": "human",
+            "depends_on": []
+          },
+          {
+            "id": "cc_m002",
+            "label": "Phase 2: Architecture Cleanup — Create shared package, thin CLI/MCP wrappers, remove done field, fix ID generation",
+            "status": "done",
+            "assignee": "orchestrator",
+            "completed_at": "2026-05-06",
+            "priority": "P1",
+            "context_files": [],
+            "reference_docs": [],
+            "acceptance_criteria": [],
+            "constraints": [],
+            "execution_mode": "human",
+            "depends_on": []
+          },
+          {
+            "id": "cc_m003",
+            "label": "Phase 3: Scalability — Agent log rotation, file locking, task index, proper migration framework",
+            "status": "done",
+            "assignee": "orchestrator",
+            "completed_at": "2026-05-06",
+            "priority": "P2",
+            "context_files": [],
+            "reference_docs": [],
+            "acceptance_criteria": [],
+            "constraints": [],
+            "execution_mode": "human",
+            "depends_on": []
+          },
+          {
+            "id": "cc_m004",
+            "label": "Phase 4: Agent System — Agent dispatch engine, permission enforcement, heartbeat, result validation",
+            "status": "in_progress",
+            "assignee": "orchestrator",
+            "completed_at": null,
+            "priority": "P2",
+            "context_files": [],
+            "reference_docs": [],
+            "acceptance_criteria": [],
+            "constraints": [],
+            "execution_mode": "human",
+            "depends_on": []
+          },
+          {
+            "id": "cc_m005",
+            "label": "Phase 5: DX Improvements — TUI incremental rendering, keyboard flows, search/filter, export",
+            "status": "todo",
+            "assignee": "orchestrator",
+            "completed_at": null,
+            "priority": "P3",
+            "context_files": [],
+            "reference_docs": [],
+            "acceptance_criteria": [],
+            "constraints": [],
+            "execution_mode": "human",
+            "depends_on": []
+          }
+        ],
+        "dependencies": [],
+        "notes": []
+      },
+      {
+        "id": "feat_search",
+        "title": "Full-Text Search",
+        "domain": "Features",
+        "week": 6,
+        "phase": "features",
+        "planned_start": "2026-05-20",
+        "planned_end": "2026-05-27",
+        "drift_days": 0,
+        "is_key_milestone": false,
+        "subtasks": [
+          {
+            "id": "feat_search_001",
+            "label": "Research search solutions (pagefind/flexsearch)",
+            "status": "todo",
+            "completed_at": null,
+            "priority": "P2",
+            "context_files": [],
+            "reference_docs": [],
+            "acceptance_criteria": [],
+            "constraints": [],
+            "execution_mode": "human",
+            "depends_on": []
+          },
+          {
+            "id": "feat_search_002",
+            "label": "Implement full-text Arabic search",
+            "status": "todo",
+            "completed_at": null,
+            "priority": "P2",
+            "context_files": [],
+            "reference_docs": [],
+            "acceptance_criteria": [],
+            "constraints": [],
+            "execution_mode": "human",
+            "depends_on": []
+          },
+          {
+            "id": "feat_search_003",
+            "label": "Add search UI with RTL support",
+            "status": "todo",
+            "completed_at": null,
+            "priority": "P3",
+            "context_files": [],
+            "reference_docs": [],
+            "acceptance_criteria": [],
+            "constraints": [],
+            "execution_mode": "human",
+            "depends_on": []
+          }
+        ],
+        "dependencies": [],
+        "notes": []
+      }
+    ],
+    "backlog": [
+      {
+        "id": "feat_progress",
+        "title": "Reading Progress Tracking",
+        "domain": "Features",
+        "week": 5,
+        "phase": "features",
+        "drift_days": 0,
+        "is_key_milestone": false,
+        "subtasks": [
+          {
+            "id": "feat_progress_001",
+            "label": "Design storage (localStorage)",
+            "status": "todo",
+            "completed_at": null,
+            "priority": "P2",
+            "context_files": [],
+            "reference_docs": [],
+            "acceptance_criteria": [],
+            "constraints": [],
+            "execution_mode": "human",
+            "depends_on": []
+          },
+          {
+            "id": "feat_progress_002",
+            "label": "Implement progress bar",
+            "status": "todo",
+            "completed_at": null,
+            "priority": "P2",
+            "context_files": [],
+            "reference_docs": [],
+            "acceptance_criteria": [],
+            "constraints": [],
+            "execution_mode": "human",
+            "depends_on": []
+          }
+        ],
+        "dependencies": [],
+        "notes": []
+      },
+      {
+        "id": "feat_bookmarks",
+        "title": "Bookmarks & Highlights",
+        "domain": "Features",
+        "week": 6,
+        "phase": "features",
+        "drift_days": 0,
+        "is_key_milestone": false,
+        "subtasks": [],
+        "dependencies": [],
+        "notes": []
+      },
+      {
+        "id": "feat_nav",
+        "title": "Advanced Navigation Controls",
+        "domain": "Features",
+        "week": 6,
+        "phase": "features",
+        "drift_days": 0,
+        "is_key_milestone": false,
+        "subtasks": [],
+        "dependencies": [],
+        "notes": []
+      },
+      {
+        "id": "feat_settings",
+        "title": "Reader Settings (Font/Spacing)",
+        "domain": "Features",
+        "week": 8,
+        "phase": "features",
+        "drift_days": 0,
+        "is_key_milestone": true,
+        "subtasks": [],
+        "dependencies": [],
+        "notes": []
+      },
+      {
+        "id": "infra_perf",
+        "title": "Performance Optimization",
+        "domain": "Infrastructure",
+        "week": 7,
+        "phase": "production",
+        "drift_days": 0,
+        "is_key_milestone": false,
+        "subtasks": [],
+        "dependencies": [],
+        "notes": []
+      },
+      {
+        "id": "infra_seo",
+        "title": "SEO & Metadata Refinement",
+        "domain": "Infrastructure",
+        "week": 8,
+        "phase": "production",
+        "drift_days": 0,
+        "is_key_milestone": false,
+        "subtasks": [],
+        "dependencies": [],
+        "notes": []
+      },
+      {
+        "id": "infra_deploy",
+        "title": "Deployment & Analytics",
+        "domain": "Infrastructure",
+        "week": 9,
+        "phase": "production",
+        "drift_days": 0,
+        "is_key_milestone": false,
+        "subtasks": [],
+        "dependencies": [],
+        "notes": []
+      },
+      {
+        "id": "infra_launch",
+        "title": "V1.0 Official Launch",
+        "domain": "Infrastructure",
+        "week": 10,
+        "phase": "production",
+        "drift_days": 0,
+        "is_key_milestone": true,
+        "subtasks": [],
+        "dependencies": [],
+        "notes": []
+      }
+    ],
+    "completed": [
+      {
+        "id": "infra_rename_project",
+        "title": "Rename Project to Basaar",
+        "completed_at": "2026-05-06",
+        "summary": "Renamed local directory to bassaer, updated all internal absolute paths, and regenerated virtual environments."
+      },
+      {
+        "id": "content_ch12_recovery",
+        "title": "Chapter 12 Content & Structure Recovery",
+        "completed_at": "2026-05-06",
+        "summary": "Recovered Chapter 12 from source, formatted, and validated content."
+      },
+      {
+        "id": "content_ch11_recovery",
+        "title": "Chapter 11 Content & Structure Recovery",
+        "completed_at": "2026-05-06",
+        "summary": "Recovered Chapter 11 from source, formatted, and validated content."
+      },
+      {
+        "id": "content_ch10_recovery",
+        "title": "Chapter 10 Content & Structure Recovery",
+        "completed_at": "2026-05-06",
+        "summary": "Recovered Chapter 10 from source, formatted, and validated content."
+      },
+      {
+        "id": "scripts_arabic_fix",
+        "title": "Arabic Fix Script Suite",
+        "completed_at": "2026-04-27",
+        "summary": "Consolidated and ran arabic_pipeline.py. Fixed spellings and normalized presentation forms."
+      },
+      {
+        "id": "content_qa",
+        "title": "Arabic Content QA",
+        "completed_at": "2026-04-25",
+        "summary": "Full audit of 12 chapters. Verified titles and recovered intro.md."
+      },
+      {
+        "id": "content_linguistic_recovery",
+        "title": "Arabic Linguistic & OCR Recovery",
+        "completed_at": "2026-04-26",
+        "summary": "Quranic restoration and structural cleanup across all files. Production polish for Ch 1-12."
+      },
+      {
+        "id": "content_ocr_chapters",
+        "title": "Chapter OCR Sweep (Massive)",
+        "completed_at": "2026-04-29",
+        "summary": "Fixed ~1500 corruptions across all 13 chapters. Resolved systematic 'Ya/Fi' merging and broken verses."
+      },
+      {
+        "id": "ui_rtl_polish",
+        "title": "RTL Layout Polish",
+        "completed_at": "2026-04-25",
+        "summary": "Sidebar + typography refinements for Tajawal font."
+      },
+      {
+        "id": "ui_responsive",
+        "title": "Mobile Responsive Design",
+        "completed_at": "2026-04-25",
+        "summary": "Verified layout down to 320px, implemented MobileMenu drawer."
+      },
+      {
+        "id": "ui_themes",
+        "title": "Theme System Implementation",
+        "completed_at": "2026-04-26",
+        "summary": "Golden/brown dark & light themes with smooth transitions."
+      },
+      {
+        "id": "ui_a11y",
+        "title": "Accessibility & ARIA",
+        "completed_at": "2026-04-27",
+        "summary": "Added ARIA roles/labels, verified keyboard nav, and refined focus states."
+      },
+      {
+        "id": "content_ch7_recovery",
+        "title": "Chapter 7 Content & Structure Recovery",
+        "completed_at": "2026-04-30",
+        "summary": "",
+        "domain": "Content",
+        "week": 1,
+        "phase": "recovery"
+      },
+      {
+        "id": "doc_agents_runbook",
+        "title": "Project Documentation & Agent Runbook",
+        "completed_at": "2026-05-01",
+        "summary": "",
+        "domain": "documentation",
+        "week": "current",
+        "phase": "operational"
+      },
+      {
+        "id": "content_ch8_recovery",
+        "title": "Chapter 8 Content & Structure Recovery",
+        "completed_at": "2026-05-01",
+        "summary": "",
+        "domain": "Content",
+        "week": 2,
+        "phase": "recovery"
+      },
+      {
+        "id": "content_ch9_recovery",
+        "title": "Chapter 9 Content & Structure Recovery",
+        "completed_at": "2026-05-02",
+        "summary": "",
+        "domain": "Content",
+        "week": 3,
+        "phase": "recovery"
+      }
+    ]
+  },
+  "history_log": [
+    {
+      "date": "2026-05-06",
+      "action": "Recovered Chapter 12 content, formatted, and validated.",
+      "agent": "arabic-specialist"
+    },
+    {
+      "date": "2026-05-06",
+      "action": "Recovered Chapter 11 content, formatted, and validated.",
+      "agent": "arabic-specialist"
+    },
+    {
+      "date": "2026-05-06",
+      "action": "Recovered Chapter 10 content, formatted, and validated.",
+      "agent": "arabic-specialist"
+    },
+    {
+      "date": "2026-05-06",
+      "action": "Completed Phase 3: Scalability — agent log rotation, improved file locking (reentrancy, stale detection, signal handlers), task index for O(1) lookups, schema migration framework.",
+      "agent": "orchestrator"
+    },
+    {
+      "date": "2026-05-06",
+      "action": "Completed Phase 2: Architecture Cleanup — created shared package, thin CLI wrappers, removed done field, fixed ID generation.",
+      "agent": "orchestrator"
+    },
+    {
+      "date": "2026-05-06",
+      "action": "Added infra_cc_migration milestone (P1) — Command Center Architecture Migration. Starting Phase 1.",
+      "agent": "orchestrator"
+    }
+  ],
+  "_schema_version": 1,
+  "agents": [
+    {
+      "id": "orchestrator",
+      "name": "Basaar Orchestrator",
+      "type": "orchestrator",
+      "color": "#585CF0",
+      "status": "active",
+      "permissions": "READ,WRITE,EXECUTE,DISPATCH,APPROVE,ADMIN",
+      "last_action_at": "2026-05-06T18:52:55.180Z",
+      "session_action_count": 1
+    }
+  ],
+  "agent_log": [
+    {
+      "agent_id": "orchestrator",
+      "action": "register_agent",
+      "target_type": "agent",
+      "target_id": "orchestrator",
+      "description": "Registered agent \"Basaar Orchestrator\" (orchestrator)",
+      "tags": [
+        "agent"
+      ],
+      "id": "log_1778093575181_mhoqpc",
+      "timestamp": "2026-05-06T18:52:55.181Z"
+    }
+  ]
+}
