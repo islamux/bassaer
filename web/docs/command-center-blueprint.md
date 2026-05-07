@@ -14,7 +14,7 @@ Two deliverables:
 
 1. **MCP Server** — A globally-installed Node.js package exposing 24 tools over stdio. AI agents call these tools to read project state, manage tasks, dispatch sub-agents, and log activity. Also includes a CLI for shell access to the same tools.
 
-2. **Electron Desktop App** — A cross-platform (macOS, Windows, Linux) dashboard with 4 tabs: Swim Lane (strategic timeline), Task Board (tactical Kanban), Agent Hub (real-time agent monitoring), and Calendar (completion history). The app watches a single JSON tracker file for changes and renders project state in real time.
+2. **TUI Terminal App** — A terminal dashboard built with Node.js + blessed with 4 views: Swim Lane (strategic timeline), Task Board (tactical Kanban), Agent Hub (real-time agent monitoring), and Calendar (completion history). The app watches `project-tracker.json` via chokidar and renders project state in real time.
 
 Both deliverables share a single source of truth: `project-tracker.json`, a JSON file that lives at the root of the user's project. The MCP server reads/writes it via tool calls. The Electron app watches it via `fs.watch` and renders it. External agents update it through the MCP server. The Electron app also writes back when the operator makes changes in the UI (dragging tasks, editing dates, etc.).
 
@@ -49,7 +49,7 @@ Both deliverables share a single source of truth: `project-tracker.json`, a JSON
 
 | Layer | Technology |
 |-------|-----------|
-| Desktop App | Electron 41+ with electron-vite |
+| TUI App | Node.js + blessed |
 | UI Framework | React 19 |
 | State Management | Zustand 5 |
 | Styling | Tailwind CSS v4 |
