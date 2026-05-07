@@ -467,7 +467,7 @@ Dist (compiled):
 | Item | Location | Status |
 |------|----------|--------|
 | **Agent Dispatch** | `/media/islamux/Variety/JavaScriptProjects/bassaer/command-center-mcp/src/services/agent-dispatch.service.ts` | **INCOMPLETE** — Functions exist (`dispatchTask`, `findBestAgent`, `checkPermission`) but no MCP tool invokes them. No `dispatch_agent` tool is registered. The workflow in `.mcp.json` references `dispatch_explorer`, `dispatch_researcher`, `dispatch_auditor` which don't exist. |
-| **Migration Framework** | `/media/islamux/Variety/JavaScriptProjects/bassaer/command-center-mcp/src/services/migration.service.ts` | **NO-OP** — `runMigrations()` exists but is never called. The `CURRENT_SCHEMA_VERSION = 1` with a single stub migration (`remove_done_field` which doesn't apply to current schema). No actual schema transformation is implemented. |
+| **Migration Framework** | `/media/islamux/Variety/JavaScriptProjects/bassaer/command-center-mcp/src/services/migration.service.ts` | **NOW WIRED** — `runMigrations()` is called in `readTracker()`. The `CURRENT_SCHEMA_VERSION = 1` with stub migration. Future migrations will auto-apply. |
 | **Agent Permission Enforcement** | `/media/islamux/Variety/JavaScriptProjects/bassaer/command-center-mcp/src/services/agent-dispatch.service.ts` (line 90-93) | **INCOMPLETE** — `checkPermission()` function exists but is never called in tool handlers. Agents have `permissions: string[]` but all agents can perform all operations regardless of permissions. |
 | **Agent Heartbeat/Health** | `/media/islamux/Variety/JavaScriptProjects/bassaer/command-center-mcp/src/services/agent-dispatch.service.ts` (line 107-135) | **INCOMPLETE** — `updateHeartbeat()` and `checkAgentHeartbeats()` exist but are never called. No periodic heartbeat mechanism is implemented. Agent "active" status in TUI is based on `last_action_at` but no automatic status updates occur. |
 | **Log Rotation** | `/media/islamux/Variety/JavaScriptProjects/bassaer/command-center-mcp/src/storage/log-rotation.ts` | **INCOMPLETE** — `rotateAgentLog()` function exists but is never called. The `agent_log` array in `project-tracker.json` grows without bound. |
@@ -490,14 +490,14 @@ Dist (compiled):
 |----|-------|----------|---------------------------|
 | **C1** | **Concurrent Write Corruption** | `tracker-file.ts:writeAtomic()`, `store.ts:loadFromDisk()` | **PARTIALLY FIXED** — `writeAtomic()` now uses temp file + `renameSync` (atomic on POSIX). `withLock()` implements PID-based file locking with 5s timeout. However, the TUI only reads (doesn't write directly), so the lock mainly protects MCP/CLI writes. |
 | **C2** | **CLI/MCP Logic Divergence** | `cli.ts` (176 lines) vs `tools.ts` (486 lines) | **PARTIALLY FIXED** — Both now call shared service functions in `services/*.service.ts`. The CLI is a thin wrapper (176 lines) and `tools.ts` is reduced to tool definitions + handlers that call services. However, some duplication may remain in the `switch` statements. |
-| **C3** | **`migrateTracker` is a No-Op** | `migration.service.ts` | **STILL A NO-OP** — `runMigrations()` exists but is never called in `readTracker()`. The function only sets `_schema_version = 1` without actual schema transformations. |
+| **C3** | **`migrateTracker` is a No-Op** | `migration.service.ts` | **FIXED** — `runMigrations()` is now called in `tracker.service.ts:readTracker()` (line 10). Schema validation + migration now works. |
 
 #### High Priority Issues
 
 | ID | Issue | Location | Status in Current Codebase |
 |----|-------|----------|---------------------------|
-| **H1** | **Zero Runtime Validation** | All files calling `readTracker()` | **PARTIALLY FIXED** — `command-center-mcp` now uses `TrackerStateSchema.parse(parsed)` (Zod validation) in `tracker.service.ts:readTracker()` (line 9). However, the **TUI still has NO validation**: `store.ts:loadFromDisk()` uses `JSON.parse(raw) as TrackerState` (unsafe cast, line 23). |
-| **H2** | **Duplicate Type Definitions** | `command-center-mcp/src/types.ts` vs `command-center-shared/src/types.ts` | **PARTIALLY FIXED** — `command-center-shared/` package now exists with proper types and Zod schemas. However, `command-center-mcp/src/types.ts` still contains duplicate definitions and is used by the MCP services. The TUI `src/types.ts` also has duplicates. Full migration to shared types is incomplete. |
+| **H1** | **Zero Runtime Validation** | All files calling `readTracker()` | **FIXED** — Both MCP (`tracker.service.ts:readTracker()` line 9: Zod `TrackerStateSchema.parse()`) and TUI (`store.ts:loadFromDisk()` line 23: Zod `TrackerStateSchema.parse()`) now have validation. Zod added to TUI dependencies. |
+| **H2** | **Duplicate Type Definitions** | `command-center-mcp/src/types.ts` vs `command-center-shared/src/types.ts` | **FIXED** — TUI `src/types.ts` now re-exports from `command-center-shared`. MCP services import from shared. No more duplicates. |
 | **H3** | **Unsafe Type Assertions** | Pervasive in `tools.ts`, `cli.ts` | **IMPROVED** — With Zod validation in `readTracker()`, parsed data is now validated. However, tool input arguments (`args.task_id as string`, etc.) still use unsafe casts without validation. `getToolDefinitions()` defines JSON Schema for MCP clients, but the actual `args` object is not validated against it at runtime. |
 | **H4** | **TUI Full Rebuild on State Change** | `index.ts:renderAll()` (line 70-98) | **NOT FIXED** — `renderAll()` still destroys and recreates ALL widgets (tabBar, statusBar, currentView) on every state change. This causes flickering and loses scroll position/focus. The audit recommends incremental updates. |
 | **H5** | **`findProjectRoot` Divergence** | MCP: `tracker-file.ts` (uses `PROJECT_ROOT` env var) vs TUI: `config.ts:findProjectRoot()` (walks up from `cwd`) | **STILL UNIFIED** — MCP uses `PROJECT_ROOT` environment variable (set in `.mcp.json`). TUI walks up from `cwd` looking for `project-tracker.json`. They could resolve to different paths in edge cases. Should be unified. |
@@ -527,16 +527,16 @@ The Basaar Command Center has evolved from the audit findings:
 5. Added Zod validation in MCP's `readTracker()`
 
 **Still Pending (from Audit):**
-1. Wire up `migration.service.ts` — call `runMigrations()` in `readTracker()`
-2. Complete migration to `command-center-shared` — remove duplicate types in MCP and TUI
-3. Add tool input validation (validate `args` against schemas)
-4. Fix TUI full rebuild — implement incremental rendering
-5. Wire up `log-rotation.ts` — call `rotateAgentLog()` when agent_log grows
-6. Implement agent dispatch — create `dispatch_agent` MCP tool
-7. Enforce agent permissions in tool handlers
-8. Add agent heartbeat mechanism
-9. Unify `findProjectRoot` between MCP and TUI
-10. Add `cc undo` command using the undo log
+ 1. ~~Wire up `migration.service.ts` — call `runMigrations()` in `readTracker()`~~ ✅ FIXED
+ 2. ~~Complete migration to `command-center-shared` — remove duplicate types in MCP and TUI~~ ✅ FIXED
+ 3. Add tool input validation (validate `args` against schemas)
+ 4. Fix TUI full rebuild — implement incremental rendering
+ 5. Wire up `log-rotation.ts` — call `rotateAgentLog()` when agent_log grows
+ 6. Implement agent dispatch — create `dispatch_agent` MCP tool
+ 7. Enforce agent permissions in tool handlers
+ 8. Add agent heartbeat mechanism
+ 9. Unify `findProjectRoot` between MCP and TUI
+ 10. Add `cc undo` command using the undo log
 
 **Files Not Yet Created (from Audit Recommendations):**
 - `command-center-mcp/src/tools/registry.ts` — centralized tool registration
