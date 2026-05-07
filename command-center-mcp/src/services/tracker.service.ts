@@ -2,7 +2,8 @@ import { readRaw, writeAtomic, withLock } from '../storage/tracker-file.js'
 import { createBackup } from '../storage/backup.js'
 import { TrackerStateSchema } from '../schema.js'
 import { runMigrations } from './migration.service.js'
-import type { TrackerState, Subtask, Milestone, AgentLogEntry, HistoryLogEntry, FoundTask, ServiceResult, CompletedMilestone } from '../types.js'
+import { rotateAgentLog } from '../storage/log-rotation.js'
+import type { TrackerState, Subtask, Milestone, AgentLogEntry, HistoryLogEntry, FoundTask, ServiceResult, CompletedMilestone } from 'command-center-shared'
 
 export function readTracker(): TrackerState {
   const raw = readRaw()
@@ -23,6 +24,10 @@ export function writeTracker(state: TrackerState, operation = 'write'): void {
     createBackup(operation)
     state.project.overall_progress = computeOverallProgress(state)
     state.project.schedule_status = computeScheduleStatus(state)
+    if (state.agent_log && state.agent_log.length > 500) {
+      const result = rotateAgentLog(state.agent_log as AgentLogEntry[])
+      state.agent_log = result.active as any[]
+    }
     writeAtomic(JSON.stringify(state, null, 2) + '\n')
   })
 }
@@ -40,7 +45,7 @@ export function computeScheduleStatus(state: TrackerState): 'on_track' | 'behind
 export function computeOverallProgress(state: TrackerState): number {
   const allTasks = allMilestones(state).flatMap((m: Milestone) => m.subtasks)
   if (allTasks.length === 0) return 0
-  const done = allTasks.filter((t: Subtask) => t.done).length
+  const done = allTasks.filter((t: Subtask) => t.status === "done").length
   return Math.round((done / allTasks.length) * 100)
 }
 
@@ -97,7 +102,7 @@ export function autoUnblockDependents(state: TrackerState, completedTaskId: stri
       ) {
         const allDepsMet = subtask.depends_on.every((depId: string) => {
           const dep = findTask(state, depId)
-          return dep && dep.subtask.done
+          return dep && dep.subtask.status === 'done'
         })
         if (allDepsMet) {
           subtask.status = 'todo'

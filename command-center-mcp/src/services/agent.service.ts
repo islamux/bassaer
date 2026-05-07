@@ -1,5 +1,5 @@
 import { readTracker, writeTracker, touchAgent, pushLog, ok, fail } from './tracker.service.js'
-import type { ServiceResult } from '../types.js'
+import type { ServiceResult } from 'command-center-shared'
 
 export function registerAgent(
   agentId: string,

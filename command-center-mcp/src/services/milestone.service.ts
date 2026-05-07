@@ -3,8 +3,8 @@ import {
   getActiveMilestoneById, touchAgent, pushLog, pushHistory,
   generateTaskId, ok, fail,
 } from './tracker.service.js'
-import type { Subtask, Milestone } from '../types.js'
-import type { ServiceResult } from '../types.js'
+import type { Subtask, Milestone } from 'command-center-shared'
+import type { ServiceResult } from 'command-center-shared'
 
 export function addMilestoneNote(milestoneId: string, note: string): ServiceResult {
   const state = readTracker()
@@ -141,7 +141,6 @@ export function addMilestoneTask(milestoneId: string, label: string, options: Re
     id: taskId,
     label,
     status: 'todo',
-    done: false,
     assignee: null,
     blocked_by: null,
     blocked_reason: null,

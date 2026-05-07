@@ -11,7 +11,7 @@ const COLUMNS = [
   { id: 'blocked', label: 'BLOCKED' },
 ]
 
-export function createTaskBoard(screen: Widgets.Screen, state: TrackerState | null, milestoneIdx: number): Widgets.BoxElement {
+export function createTaskBoard(screen: Widgets.Screen, state: TrackerState | null, _milestoneIdx: number): Widgets.BoxElement {
   const box = blessed.box({
     parent: screen,
     top: 1,
@@ -26,7 +26,7 @@ export function createTaskBoard(screen: Widgets.Screen, state: TrackerState | nu
     style: { bg: '#1a1a2e', fg: '#e0e0e0' },
   })
 
-  function render(s: TrackerState | null, idx: number) {
+  function render(s: TrackerState | null) {
     if (!s) {
       box.setContent('{center}{red-fg}No data{/}{/}')
       return
@@ -38,14 +38,14 @@ export function createTaskBoard(screen: Widgets.Screen, state: TrackerState | nu
       return
     }
 
-    const current = allMilestones[Math.min(idx, allMilestones.length - 1)]
+    const current = allMilestones[Math.min(_milestoneIdx, allMilestones.length - 1)]
     const subtasks = (current.subtasks || [])
     const lines: string[] = []
 
     lines.push('{center}{bold}{#e2b714-fg}═══ TASK BOARD ═══{/}{/}{/}')
     lines.push('')
 
-    const indicator = allMilestones.length > 1 ? ` [${idx + 1}/${allMilestones.length}] ` : ' '
+    const indicator = allMilestones.length > 1 ? ` [${_milestoneIdx + 1}/${allMilestones.length}] ` : ' '
     const key = current.is_key_milestone ? ' ★' : ''
     lines.push(`{bold}${current.title}${key}{/}${indicator}{muted}(${current.id}) — ${current.domain} — ${current.phase}{/}`)
     lines.push('')
@@ -80,7 +80,7 @@ export function createTaskBoard(screen: Widgets.Screen, state: TrackerState | nu
     box.setContent(lines.join('\n'))
   }
 
-  render(state, milestoneIdx)
+  render(state)
   ;(box as any)._render = render
   return box
 }

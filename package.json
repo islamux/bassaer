@@ -8,6 +8,21 @@
     "cc:update": "./scripts/cc-dash.py update",
     "cc:log": "./scripts/cc-dash.py log",
     "cc:mcp": "cd command-center-mcp && node dist/index.js",
-    "ccui": "node command-center-tui/dist/index.js"
+    "ccui": "node command-center-tui/dist/index.js",
+    "_cc": "PROJECT_ROOT=$(pwd) node command-center-mcp/dist/cli.js",
+    "cc:status": "pnpm _cc get_project_status",
+    "cc:start": "pnpm _cc start_task",
+    "cc:complete": "pnpm _cc complete_task",
+    "cc:approve": "pnpm _cc approve_task",
+    "cc:reject": "pnpm _cc reject_task",
+    "cc:list": "pnpm _cc list_tasks",
+    "cc:agents": "pnpm _cc list_agents",
+    "cc:activity": "pnpm _cc get_activity_feed",
+    "cc:reset": "pnpm _cc reset_task",
+    "cc:block": "pnpm _cc block_task",
+    "cc:unblock": "pnpm _cc unblock_task",
+    "cc:mstone": "pnpm _cc get_milestone_overview",
+    "cc:task": "pnpm _cc get_task_context",
+    "cc:register-agent": "pnpm _cc register_agent"
   }
 }

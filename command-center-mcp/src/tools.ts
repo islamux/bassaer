@@ -14,6 +14,7 @@ import {
   buildTaskContext, buildTaskSummary, buildProjectStatus,
   buildMilestoneOverview,
 } from './context.js'
+import { z } from 'zod'
 
 type ToolResult = { content: Array<{ type: string; text: string }>; isError?: boolean }
 
@@ -29,8 +30,49 @@ function serviceToTool(result: { ok: boolean; data?: string; error?: string }): 
   return result.ok ? ok(result.data!) : err(result.error!)
 }
 
+// Validate args against inputSchema using Zod
+function validateArgs(args: Record<string, any>, inputSchema: any): { success: boolean; data?: Record<string, any>; error?: string } {
+  try {
+    const schema = z.object(
+      Object.fromEntries(
+        Object.entries(inputSchema.properties || {}).map(([key, val]: [string, any]) => {
+          let zodType: any
+          switch (val.type) {
+            case 'string': zodType = z.string(); break
+            case 'number': zodType = z.number(); break
+            case 'boolean': zodType = z.boolean(); break
+            case 'array': zodType = z.array(z.any()); break
+            default: zodType = z.any()
+          }
+          return [key, inputSchema.required?.includes(key) ? zodType : zodType.optional()]
+        })
+      )
+    )
+    const result = schema.safeParse(args)
+    if (!result.success) {
+      return { success: false, error: `Invalid args: ${result.error.issues.map((e: any) => `${e.path.join('.')}: ${e.message}`).join(', ')}` }
+    }
+    return { success: true, data: result.data }
+  } catch (e: any) {
+    return { success: false, error: `Validation error: ${e.message}` }
+  }
+}
+
 export async function handleTool(name: string, args: Record<string, any>): Promise<ToolResult> {
   try {
+    const defs = getToolDefinitions()
+    const def = defs.find(d => d.name === name)
+    if (!def) return err(`Unknown tool: ${name}`)
+
+    // Validate args against inputSchema using Zod
+    if (def.inputSchema) {
+      const validation = validateArgs(args, def.inputSchema)
+      if (!validation.success) {
+        return err(validation.error!)
+      }
+      args = validation.data! // Use validated + coerced args
+    }
+
     switch (name) {
       // ── READ TOOLS ──────────────────────────────────────────
       case 'get_task_context': {
@@ -484,3 +526,4 @@ export function getToolDefinitions() {
     },
   ]
 }
+
