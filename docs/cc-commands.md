@@ -25,6 +25,7 @@ All commands must be run from the **project root directory**. Do not run them fr
 | `pnpm cc:block <id> <reason>` | Block a task |
 | `pnpm cc:unblock <id> [--resolution]` | Unblock a task |
 | `pnpm cc:activate <milestone_id>` | Move milestone from backlog to active |
+| `pnpm cc:complete-milestone <milestone_id>` | Move active milestone to completed |
 | `pnpm cc:register-agent <id> <name> <type>` | Register or update an agent |
 | `pnpm web:dev` | Start Next.js dev server |
 | `pnpm web:build` | Build Next.js for production |
@@ -169,6 +170,12 @@ Move a milestone from backlog to active, updating the dashboard focus.
 ```
 pnpm cc:activate infra_structure_cleanup
 pnpm cc:activate feat_auth_backend
+```
+
+### `pnpm cc:complete-milestone <milestone_id>`
+Move an active milestone to completed. All subtasks should be done before running.
+```
+pnpm cc:complete-milestone infra_structure_cleanup
 ```
 
 ---
