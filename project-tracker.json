@@ -51,6 +51,12 @@
             "label": "Test bookmarks & highlights functionality",
             "status": "todo",
             "priority": "P2"
+          },
+          {
+            "id": "feat_bookmarks_005",
+            "label": "HIGH: Fix sidebar visibility (missing z-index, visual blending, tablet gap)",
+            "status": "in_progress",
+            "priority": "P0"
           }
         ],
         "dependencies": [],

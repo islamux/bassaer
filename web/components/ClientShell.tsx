@@ -28,9 +28,9 @@ export default function ClientShell({ chapters, children }: ClientShellProps) {
     <>
       <Navbar chapters={chapters} onSearchOpen={() => setIsSearchOpen(true)} />
       <SearchDialog isOpen={isSearchOpen} onClose={() => setIsSearchOpen(false)} />
-      <main className="min-h-screen pt-16">
+      <div className="min-h-screen pt-16">
         {children}
-      </main>
+      </div>
     </>
   );
 }

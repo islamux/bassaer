@@ -7,7 +7,7 @@ export default function Sidebar() {
 
   return (
     <aside 
-      className="w-72 fixed right-0 top-16 bottom-0 hidden lg:block overflow-y-auto bg-[var(--background)] border-l border-[var(--border)] p-6 transition-colors duration-300"
+      className="w-72 fixed right-0 top-16 bottom-0 hidden lg:block z-40 overflow-y-auto bg-[var(--background)] border-l border-[var(--border)] shadow-[-4px_0_12px_rgba(0,0,0,0.05)] p-6 transition-colors duration-300"
       aria-label="فهرس المحتويات الجانبي"
     >
       <div className="space-y-6">
