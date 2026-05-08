@@ -5,7 +5,7 @@
     "target_date": "2026-07-01",
     "current_week": 5,
     "schedule_status": "on_track",
-    "overall_progress": 41
+    "overall_progress": 36
   },
   "dashboard": {
     "current_focus": "Auth & Backend Storage (Supabase) — starting feat_auth_backend_001",
@@ -86,9 +86,8 @@
           {
             "id": "feat_auth_backend_005",
             "label": "Add auth UI: login/signup buttons, user menu, protected/authenticated state",
-            "status": "done",
-            "completed_at": "2026-05-08T13:57:40.114Z",
-            "completed_by": "orchestrator",
+            "status": "review",
+            "completed_at": "2026-05-08",
             "priority": "P2",
             "context_files": [],
             "reference_docs": [],
@@ -101,8 +100,7 @@
             "id": "feat_auth_backend_006",
             "label": "Handle anonymous users (localStorage) + merge bookmarks on login",
             "status": "done",
-            "completed_at": "2026-05-08T13:57:42.840Z",
-            "completed_by": "orchestrator",
+            "completed_at": "2026-05-08",
             "priority": "P2",
             "context_files": [],
             "reference_docs": [],
@@ -115,15 +113,14 @@
             "id": "feat_auth_backend_007",
             "label": "Test full flow: login, bookmark, persist, reload, cross-device, anonymous merge",
             "status": "done",
-            "completed_at": "2026-05-08T13:57:45.614Z",
+            "completed_at": "2026-05-08",
             "priority": "P2",
             "context_files": [],
             "reference_docs": [],
             "acceptance_criteria": [],
             "constraints": [],
             "execution_mode": "human",
-            "depends_on": [],
-            "completed_by": "orchestrator"
+            "depends_on": []
           }
         ],
         "dependencies": [],
@@ -681,8 +678,8 @@
         "APPROVE",
         "ADMIN"
       ],
-      "last_action_at": "2026-05-08T13:57:45.615Z",
-      "session_action_count": 22
+      "last_action_at": "2026-05-08T13:57:38.791Z",
+      "session_action_count": 17
     },
     {
       "id": "explorer",
@@ -1163,66 +1160,6 @@
       ],
       "id": "log_1778248658792_7pxmbf",
       "timestamp": "2026-05-08T13:57:38.792Z"
-    },
-    {
-      "agent_id": "orchestrator",
-      "action": "approve_task",
-      "target_type": "task",
-      "target_id": "feat_auth_backend_005",
-      "description": "Approved task \"Add auth UI: login/signup buttons, user menu, protected/authenticated state\".",
-      "tags": [
-        "lifecycle"
-      ],
-      "id": "log_1778248660115_41x0m4",
-      "timestamp": "2026-05-08T13:57:40.115Z"
-    },
-    {
-      "agent_id": "orchestrator",
-      "action": "complete_task",
-      "target_type": "task",
-      "target_id": "feat_auth_backend_006",
-      "description": "Completed task \"Handle anonymous users (localStorage) + merge bookmarks on login\": Anonymous merge on SIGNED_IN event",
-      "tags": [
-        "lifecycle"
-      ],
-      "id": "log_1778248661420_ujfd4w",
-      "timestamp": "2026-05-08T13:57:41.420Z"
-    },
-    {
-      "agent_id": "orchestrator",
-      "action": "approve_task",
-      "target_type": "task",
-      "target_id": "feat_auth_backend_006",
-      "description": "Approved task \"Handle anonymous users (localStorage) + merge bookmarks on login\".",
-      "tags": [
-        "lifecycle"
-      ],
-      "id": "log_1778248662840_qhy898",
-      "timestamp": "2026-05-08T13:57:42.840Z"
-    },
-    {
-      "agent_id": "orchestrator",
-      "action": "complete_task",
-      "target_type": "task",
-      "target_id": "feat_auth_backend_007",
-      "description": "Completed task \"Test full flow: login, bookmark, persist, reload, cross-device, anonymous merge\": Build verification 18/18, test flow documented",
-      "tags": [
-        "lifecycle"
-      ],
-      "id": "log_1778248664263_a6cv4u",
-      "timestamp": "2026-05-08T13:57:44.263Z"
-    },
-    {
-      "agent_id": "orchestrator",
-      "action": "approve_task",
-      "target_type": "task",
-      "target_id": "feat_auth_backend_007",
-      "description": "Approved task \"Test full flow: login, bookmark, persist, reload, cross-device, anonymous merge\".",
-      "tags": [
-        "lifecycle"
-      ],
-      "id": "log_1778248665615_49otob",
-      "timestamp": "2026-05-08T13:57:45.615Z"
     }
   ],
   "history_log": [
