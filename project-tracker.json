@@ -10,7 +10,7 @@
   "dashboard": {
     "current_focus": "Bookmarks & Highlights — sidebar fixed, testing remaining",
     "active_milestone": "feat_bookmarks",
-    "next_priority": "feat_progress (Reading Progress Tracking)",
+    "next_priority": "feat_auth_backend (Auth & Backend Storage — Supabase)",
     "blockers": "None",
     "health": "Excellent"
   },
@@ -180,6 +180,66 @@
         "subtasks": [],
         "dependencies": [],
         "notes": []
+      },
+      {
+        "id": "feat_auth_backend",
+        "title": "Auth & Backend Storage (Supabase)",
+        "domain": "Features",
+        "week": 6,
+        "phase": "features",
+        "drift_days": 0,
+        "is_key_milestone": true,
+        "subtasks": [
+          {
+            "id": "feat_auth_backend_001",
+            "label": "Set up Supabase project, install SDK (@supabase/supabase-js, @supabase/ssr), configure client",
+            "status": "todo",
+            "priority": "P1"
+          },
+          {
+            "id": "feat_auth_backend_002",
+            "label": "Design DB schema (bookmarks table: user_id, chapter_id, chapter_title, created_at) + RLS policies",
+            "status": "todo",
+            "priority": "P1"
+          },
+          {
+            "id": "feat_auth_backend_003",
+            "label": "Implement Supabase auth (email magic link, Google OAuth) with Next.js App Router",
+            "status": "todo",
+            "priority": "P1"
+          },
+          {
+            "id": "feat_auth_backend_004",
+            "label": "Migrate bookmark storage: Supabase + localStorage fallback, sync on login",
+            "status": "todo",
+            "priority": "P1"
+          },
+          {
+            "id": "feat_auth_backend_005",
+            "label": "Add auth UI: login/signup buttons, user menu, protected/authenticated state",
+            "status": "todo",
+            "priority": "P2"
+          },
+          {
+            "id": "feat_auth_backend_006",
+            "label": "Handle anonymous users (localStorage) + merge bookmarks on login",
+            "status": "todo",
+            "priority": "P2"
+          },
+          {
+            "id": "feat_auth_backend_007",
+            "label": "Test full flow: login, bookmark, persist, reload, cross-device, anonymous merge",
+            "status": "todo",
+            "priority": "P2"
+          }
+        ],
+        "dependencies": [],
+        "notes": [
+          "Supabase chosen for single-service auth + PostgreSQL + RLS",
+          "Free tier: 50K MAU, 500MB DB — sufficient for current scale",
+          "localStorage as fallback for anonymous users, sync on login",
+          "Bookmark schema: bookmarks(id uuid PK, user_id FK→auth.users, chapter_id text, chapter_title text, created_at timestamptz)"
+        ]
       }
     ],
     "completed": [
@@ -661,6 +721,11 @@
       "date": "2026-05-08",
       "action": "Fixed sidebar visibility — added z-40 and shadow to Sidebar, changed nested <main> to <div> in ClientShell, fixed tablet menu gap (md:hidden → lg:hidden). Build succeeded (17/17 pages). feat_bookmarks_005 done.",
       "agent": "nextjs-specialist"
+    },
+    {
+      "date": "2026-05-08",
+      "action": "Planned feat_auth_backend milestone — Auth & Backend Storage via Supabase. 7 subtasks: Supabase setup, DB schema + RLS, auth implementation, bookmark migration (Supabase + localStorage fallback), auth UI, anonymous merge, full test flow.",
+      "agent": "orchestrator"
     }
   ],
   "_schema_version": 1
