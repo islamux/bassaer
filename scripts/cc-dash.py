@@ -5,7 +5,7 @@ import sys
 from datetime import datetime
 
 # Path to the virtual environment's python
-VENV_PYTHON = os.path.join(os.getcwd(), '.cc-venv/bin/python3')
+VENV_PYTHON = os.path.join(os.getcwd(), '.venv/bin/python3')
 
 # Check if we are running in the venv, if not, re-run with venv python
 if sys.executable != VENV_PYTHON and os.path.exists(VENV_PYTHON):

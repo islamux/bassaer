@@ -12,16 +12,6 @@ export default function AuthButton() {
   const [sent, setSent] = useState(false);
   const [error, setError] = useState("");
 
-  if (loading) {
-    return (
-      <button className="p-2 rounded-full text-[var(--muted-foreground)]" disabled>
-        <Loader2 className="w-5 h-5 animate-spin" />
-      </button>
-    );
-  }
-
-  if (user) return null;
-
   const handleMagicLink = useCallback(async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
@@ -33,6 +23,16 @@ export default function AuthButton() {
       setSent(true);
     }
   }, [email]);
+
+  if (loading) {
+    return (
+      <button className="p-2 rounded-full text-[var(--muted-foreground)]" disabled>
+        <Loader2 className="w-5 h-5 animate-spin" />
+      </button>
+    );
+  }
+
+  if (user) return null;
 
   return (
     <>

@@ -24,7 +24,7 @@ The Command Center provides a set of centralized scripts defined in the root `pa
 
 > **CRITICAL:** All `pnpm cc:*` commands must be run from the **root directory**. Do not run them from `/web`.
 
-See [web/docs/cc-commands.md](web/docs/cc-commands.md) for the full command reference with syntax, flags, and examples.
+See [docs/cc-commands.md](docs/cc-commands.md) for the full command reference with syntax, flags, and examples.
 
 ---
 

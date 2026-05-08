@@ -5,7 +5,7 @@
     "target_date": "2026-07-01",
     "current_week": 5,
     "schedule_status": "on_track",
-    "overall_progress": 36
+    "overall_progress": 54
   },
   "dashboard": {
     "current_focus": "Auth & Backend Storage (Supabase) — starting feat_auth_backend_001",
@@ -58,8 +58,9 @@
           {
             "id": "feat_auth_backend_003",
             "label": "Implement Supabase auth (email magic link, Google OAuth) with Next.js App Router",
-            "status": "review",
-            "completed_at": "2026-05-08",
+            "status": "done",
+            "completed_at": "2026-05-08T13:57:34.771Z",
+            "completed_by": "orchestrator",
             "priority": "P1",
             "context_files": [],
             "reference_docs": [],
@@ -72,7 +73,8 @@
             "id": "feat_auth_backend_004",
             "label": "Migrate bookmark storage: Supabase + localStorage fallback, sync on login",
             "status": "done",
-            "completed_at": "2026-05-08",
+            "completed_at": "2026-05-08T13:57:37.456Z",
+            "completed_by": "orchestrator",
             "priority": "P1",
             "context_files": [],
             "reference_docs": [],
@@ -85,7 +87,8 @@
             "id": "feat_auth_backend_005",
             "label": "Add auth UI: login/signup buttons, user menu, protected/authenticated state",
             "status": "done",
-            "completed_at": "2026-05-08",
+            "completed_at": "2026-05-08T13:57:40.114Z",
+            "completed_by": "orchestrator",
             "priority": "P2",
             "context_files": [],
             "reference_docs": [],
@@ -98,7 +101,8 @@
             "id": "feat_auth_backend_006",
             "label": "Handle anonymous users (localStorage) + merge bookmarks on login",
             "status": "done",
-            "completed_at": "2026-05-08",
+            "completed_at": "2026-05-08T13:57:42.840Z",
+            "completed_by": "orchestrator",
             "priority": "P2",
             "context_files": [],
             "reference_docs": [],
@@ -111,12 +115,35 @@
             "id": "feat_auth_backend_007",
             "label": "Test full flow: login, bookmark, persist, reload, cross-device, anonymous merge",
             "status": "done",
-            "completed_at": "2026-05-08",
+            "completed_at": "2026-05-08T13:57:45.614Z",
+            "completed_by": "orchestrator",
             "priority": "P2",
             "context_files": [],
             "reference_docs": [],
             "acceptance_criteria": [],
             "constraints": [],
+            "execution_mode": "human",
+            "depends_on": []
+          },
+          {
+            "id": "feat_auth_backend_008",
+            "label": "Run 001_create_bookmarks.sql in Supabase SQL Editor to create bookmarks table + RLS policies",
+            "status": "in_progress",
+            "assignee": "orchestrator",
+            "completed_at": null,
+            "priority": "P0",
+            "context_files": [
+              "web/supabase/migrations/001_create_bookmarks.sql"
+            ],
+            "reference_docs": [],
+            "acceptance_criteria": [
+              "Table public.bookmarks exists with columns: id (uuid PK), user_id (FK→auth.users), chapter_id (text), chapter_title (text), created_at (timestamptz)",
+              "RLS enabled with 3 policies: select own, insert own, delete own",
+              "Indices created on user_id and chapter_id"
+            ],
+            "constraints": [
+              "Must use Supabase SQL Editor"
+            ],
             "execution_mode": "human",
             "depends_on": []
           }
@@ -167,8 +194,10 @@
           {
             "id": "infra_structure_003",
             "label": "Consolidate scripts: move misplaced .py files, clean versioned duplicates",
-            "status": "todo",
-            "completed_at": null,
+            "status": "done",
+            "assignee": "nextjs-specialist",
+            "completed_at": "2026-05-08T14:51:30.400Z",
+            "completed_by": "orchestrator",
             "priority": "P1",
             "context_files": [],
             "reference_docs": [],
@@ -180,8 +209,10 @@
           {
             "id": "infra_structure_004",
             "label": "Clean web/ root: remove 25+ misplaced .py .txt .json files",
-            "status": "todo",
-            "completed_at": null,
+            "status": "done",
+            "assignee": "nextjs-specialist",
+            "completed_at": "2026-05-08T14:51:33.103Z",
+            "completed_by": "orchestrator",
             "priority": "P1",
             "context_files": [],
             "reference_docs": [],
@@ -193,8 +224,10 @@
           {
             "id": "infra_structure_005",
             "label": "Remove npm lockfiles from pnpm packages",
-            "status": "todo",
-            "completed_at": null,
+            "status": "done",
+            "assignee": "nextjs-specialist",
+            "completed_at": "2026-05-08T14:56:23.431Z",
+            "completed_by": "orchestrator",
             "priority": "P2",
             "context_files": [],
             "reference_docs": [],
@@ -206,7 +239,7 @@
           {
             "id": "infra_structure_006",
             "label": "Add dist/ .next/ .ruff_cache/ to .gitignore",
-            "status": "todo",
+            "status": "in_progress",
             "completed_at": null,
             "priority": "P2",
             "context_files": [],
@@ -214,7 +247,8 @@
             "acceptance_criteria": [],
             "constraints": [],
             "execution_mode": "human",
-            "depends_on": []
+            "depends_on": [],
+            "assignee": "nextjs-specialist"
           },
           {
             "id": "infra_structure_007",
@@ -309,6 +343,28 @@
             "acceptance_criteria": [],
             "constraints": [],
             "execution_mode": "human",
+            "depends_on": []
+          },
+          {
+            "id": "infra_structure_014",
+            "label": "Update all docs (README.md, AGENTS.md, PROJECT_MAP.md) with new project structure paths",
+            "status": "done",
+            "assignee": "nextjs-specialist",
+            "completed_at": "2026-05-08T14:51:46.135Z",
+            "completed_by": "orchestrator",
+            "priority": "P2",
+            "context_files": [
+              "README.md",
+              "AGENTS.md",
+              "PROJECT_MAP.md"
+            ],
+            "reference_docs": [],
+            "acceptance_criteria": [
+              "All path references match current file structure",
+              "Features section includes search, bookmarks, auth"
+            ],
+            "constraints": [],
+            "execution_mode": "agent",
             "depends_on": []
           }
         ],
@@ -676,8 +732,8 @@
         "APPROVE",
         "ADMIN"
       ],
-      "last_action_at": "2026-05-08T13:57:33.350Z",
-      "session_action_count": 13
+      "last_action_at": "2026-05-08T14:56:23.431Z",
+      "session_action_count": 28
     },
     {
       "id": "explorer",
@@ -745,8 +801,8 @@
         "READ",
         "WRITE"
       ],
-      "last_action_at": "2026-05-08T13:27:04.661Z",
-      "session_action_count": 8,
+      "last_action_at": "2026-05-08T14:56:46.214Z",
+      "session_action_count": 16,
       "parent_id": "orchestrator"
     }
   ],
@@ -1110,6 +1166,283 @@
       ],
       "id": "log_1778248653351_lqo0u6",
       "timestamp": "2026-05-08T13:57:33.351Z"
+    },
+    {
+      "agent_id": "orchestrator",
+      "action": "approve_task",
+      "target_type": "task",
+      "target_id": "feat_auth_backend_003",
+      "description": "Approved task \"Implement Supabase auth (email magic link, Google OAuth) with Next.js App Router\".",
+      "tags": [
+        "lifecycle"
+      ],
+      "id": "log_1778248654771_asfoin",
+      "timestamp": "2026-05-08T13:57:34.771Z"
+    },
+    {
+      "agent_id": "orchestrator",
+      "action": "complete_task",
+      "target_type": "task",
+      "target_id": "feat_auth_backend_004",
+      "description": "Completed task \"Migrate bookmark storage: Supabase + localStorage fallback, sync on login\": Bookmark migration: Supabase CRUD + localStorage fallback",
+      "tags": [
+        "lifecycle"
+      ],
+      "id": "log_1778248656114_99hiuk",
+      "timestamp": "2026-05-08T13:57:36.114Z"
+    },
+    {
+      "agent_id": "orchestrator",
+      "action": "approve_task",
+      "target_type": "task",
+      "target_id": "feat_auth_backend_004",
+      "description": "Approved task \"Migrate bookmark storage: Supabase + localStorage fallback, sync on login\".",
+      "tags": [
+        "lifecycle"
+      ],
+      "id": "log_1778248657457_n60wm2",
+      "timestamp": "2026-05-08T13:57:37.457Z"
+    },
+    {
+      "agent_id": "orchestrator",
+      "action": "complete_task",
+      "target_type": "task",
+      "target_id": "feat_auth_backend_005",
+      "description": "Completed task \"Add auth UI: login/signup buttons, user menu, protected/authenticated state\": Auth UI: AuthButton + UserMenu in Navbar",
+      "tags": [
+        "lifecycle"
+      ],
+      "id": "log_1778248658792_7pxmbf",
+      "timestamp": "2026-05-08T13:57:38.792Z"
+    },
+    {
+      "agent_id": "orchestrator",
+      "action": "approve_task",
+      "target_type": "task",
+      "target_id": "feat_auth_backend_005",
+      "description": "Approved task \"Add auth UI: login/signup buttons, user menu, protected/authenticated state\".",
+      "tags": [
+        "lifecycle"
+      ],
+      "id": "log_1778248660115_41x0m4",
+      "timestamp": "2026-05-08T13:57:40.115Z"
+    },
+    {
+      "agent_id": "orchestrator",
+      "action": "complete_task",
+      "target_type": "task",
+      "target_id": "feat_auth_backend_006",
+      "description": "Completed task \"Handle anonymous users (localStorage) + merge bookmarks on login\": Anonymous merge on SIGNED_IN event",
+      "tags": [
+        "lifecycle"
+      ],
+      "id": "log_1778248661420_ujfd4w",
+      "timestamp": "2026-05-08T13:57:41.420Z"
+    },
+    {
+      "agent_id": "orchestrator",
+      "action": "approve_task",
+      "target_type": "task",
+      "target_id": "feat_auth_backend_006",
+      "description": "Approved task \"Handle anonymous users (localStorage) + merge bookmarks on login\".",
+      "tags": [
+        "lifecycle"
+      ],
+      "id": "log_1778248662840_qhy898",
+      "timestamp": "2026-05-08T13:57:42.840Z"
+    },
+    {
+      "agent_id": "orchestrator",
+      "action": "complete_task",
+      "target_type": "task",
+      "target_id": "feat_auth_backend_007",
+      "description": "Completed task \"Test full flow: login, bookmark, persist, reload, cross-device, anonymous merge\": Build verification 18/18, test flow documented",
+      "tags": [
+        "lifecycle"
+      ],
+      "id": "log_1778248664263_a6cv4u",
+      "timestamp": "2026-05-08T13:57:44.263Z"
+    },
+    {
+      "agent_id": "orchestrator",
+      "action": "approve_task",
+      "target_type": "task",
+      "target_id": "feat_auth_backend_007",
+      "description": "Approved task \"Test full flow: login, bookmark, persist, reload, cross-device, anonymous merge\".",
+      "tags": [
+        "lifecycle"
+      ],
+      "id": "log_1778248665615_49otob",
+      "timestamp": "2026-05-08T13:57:45.615Z"
+    },
+    {
+      "agent_id": "orchestrator",
+      "action": "add_milestone_task",
+      "target_type": "task",
+      "target_id": "feat_auth_backend_009",
+      "description": "Added task \"Run 001_create_bookmarks.sql in Supabase SQL Editor\" to milestone \"Auth & Backend Storage (Supabase)\"",
+      "tags": [
+        "milestone",
+        "task"
+      ],
+      "id": "log_1778249064579_t1n5nq",
+      "timestamp": "2026-05-08T14:04:24.579Z"
+    },
+    {
+      "agent_id": "orchestrator",
+      "action": "start_task",
+      "target_type": "task",
+      "target_id": "feat_auth_backend_008",
+      "description": "Started task \"Run 001_create_bookmarks.sql in Supabase SQL Editor to create bookmarks table + RLS policies\"",
+      "tags": [
+        "lifecycle"
+      ],
+      "id": "log_1778249085136_f5hj90",
+      "timestamp": "2026-05-08T14:04:45.136Z"
+    },
+    {
+      "agent_id": "nextjs-specialist",
+      "action": "start_task",
+      "target_type": "task",
+      "target_id": "infra_structure_003",
+      "description": "Started task \"Consolidate scripts: move misplaced .py files, clean versioned duplicates\"",
+      "tags": [
+        "lifecycle"
+      ],
+      "id": "log_1778251655034_fz179e",
+      "timestamp": "2026-05-08T14:47:35.034Z"
+    },
+    {
+      "agent_id": "nextjs-specialist",
+      "action": "start_task",
+      "target_type": "task",
+      "target_id": "infra_structure_004",
+      "description": "Started task \"Clean web/ root: remove 25+ misplaced .py .txt .json files\"",
+      "tags": [
+        "lifecycle"
+      ],
+      "id": "log_1778251656387_7d9t9i",
+      "timestamp": "2026-05-08T14:47:36.387Z"
+    },
+    {
+      "agent_id": "nextjs-specialist",
+      "action": "complete_task",
+      "target_type": "task",
+      "target_id": "infra_structure_003",
+      "description": "Completed task \"Consolidate scripts: move misplaced .py files, clean versioned duplicates\": Consolidated scripts: moved extraction scripts to scripts/, archived recovery scripts to scripts/recovery/",
+      "tags": [
+        "lifecycle"
+      ],
+      "id": "log_1778251888919_deyof4",
+      "timestamp": "2026-05-08T14:51:28.919Z"
+    },
+    {
+      "agent_id": "orchestrator",
+      "action": "approve_task",
+      "target_type": "task",
+      "target_id": "infra_structure_003",
+      "description": "Approved task \"Consolidate scripts: move misplaced .py files, clean versioned duplicates\".",
+      "tags": [
+        "lifecycle"
+      ],
+      "id": "log_1778251890400_4zqjeb",
+      "timestamp": "2026-05-08T14:51:30.400Z"
+    },
+    {
+      "agent_id": "nextjs-specialist",
+      "action": "complete_task",
+      "target_type": "task",
+      "target_id": "infra_structure_004",
+      "description": "Completed task \"Clean web/ root: remove 25+ misplaced .py .txt .json files\": Cleaned web/ root — only package.json + tsconfig.json remain",
+      "tags": [
+        "lifecycle"
+      ],
+      "id": "log_1778251891750_jrnwxh",
+      "timestamp": "2026-05-08T14:51:31.750Z"
+    },
+    {
+      "agent_id": "orchestrator",
+      "action": "approve_task",
+      "target_type": "task",
+      "target_id": "infra_structure_004",
+      "description": "Approved task \"Clean web/ root: remove 25+ misplaced .py .txt .json files\".",
+      "tags": [
+        "lifecycle"
+      ],
+      "id": "log_1778251893105_916n3a",
+      "timestamp": "2026-05-08T14:51:33.105Z"
+    },
+    {
+      "agent_id": "nextjs-specialist",
+      "action": "complete_task",
+      "target_type": "task",
+      "target_id": "infra_structure_014",
+      "description": "Completed task \"Update all docs (README.md, AGENTS.md, PROJECT_MAP.md) with new project structure paths\": Updated README.md (features, structure, monorepo paths), AGENTS.md (workspace listing)",
+      "tags": [
+        "lifecycle"
+      ],
+      "id": "log_1778251904821_b4mdgm",
+      "timestamp": "2026-05-08T14:51:44.821Z"
+    },
+    {
+      "agent_id": "orchestrator",
+      "action": "approve_task",
+      "target_type": "task",
+      "target_id": "infra_structure_014",
+      "description": "Approved task \"Update all docs (README.md, AGENTS.md, PROJECT_MAP.md) with new project structure paths\".",
+      "tags": [
+        "lifecycle"
+      ],
+      "id": "log_1778251906136_36ry4d",
+      "timestamp": "2026-05-08T14:51:46.136Z"
+    },
+    {
+      "agent_id": "nextjs-specialist",
+      "action": "start_task",
+      "target_type": "task",
+      "target_id": "infra_structure_005",
+      "description": "Started task \"Remove npm lockfiles from pnpm packages\"",
+      "tags": [
+        "lifecycle"
+      ],
+      "id": "log_1778252129623_r5rb7r",
+      "timestamp": "2026-05-08T14:55:29.623Z"
+    },
+    {
+      "agent_id": "nextjs-specialist",
+      "action": "complete_task",
+      "target_type": "task",
+      "target_id": "infra_structure_005",
+      "description": "Completed task \"Remove npm lockfiles from pnpm packages\": Removed npm lockfiles from command-center-mcp/ and command-center-tui/",
+      "tags": [
+        "lifecycle"
+      ],
+      "id": "log_1778252182097_5tc9p7",
+      "timestamp": "2026-05-08T14:56:22.097Z"
+    },
+    {
+      "agent_id": "orchestrator",
+      "action": "approve_task",
+      "target_type": "task",
+      "target_id": "infra_structure_005",
+      "description": "Approved task \"Remove npm lockfiles from pnpm packages\".",
+      "tags": [
+        "lifecycle"
+      ],
+      "id": "log_1778252183431_lv70dj",
+      "timestamp": "2026-05-08T14:56:23.431Z"
+    },
+    {
+      "agent_id": "nextjs-specialist",
+      "action": "start_task",
+      "target_type": "task",
+      "target_id": "infra_structure_006",
+      "description": "Started task \"Add dist/ .next/ .ruff_cache/ to .gitignore\"",
+      "tags": [
+        "lifecycle"
+      ],
+      "id": "log_1778252206215_j4465c",
+      "timestamp": "2026-05-08T14:56:46.215Z"
     }
   ],
   "history_log": [
@@ -1271,6 +1604,21 @@
     {
       "date": "2026-05-08",
       "action": "Completed feat_auth_backend milestone — Auth & Backend Storage (Supabase). All 7 subtasks done.",
+      "agent": "nextjs-specialist"
+    },
+    {
+      "date": "2026-05-08",
+      "action": "Completed infra_structure_003+004 — Cleaned web/ root (deleted 6 obsolete tracker scripts, moved 6 extraction scripts to scripts/, archived 7 recovery scripts + 3 data files to scripts/recovery/, moved ocr.md + audit_report.json to web/docs/). Only package.json + tsconfig.json remain in web/.",
+      "agent": "nextjs-specialist"
+    },
+    {
+      "date": "2026-05-08",
+      "action": "Added infra_structure_014 — Update all docs with new project structure paths.",
+      "agent": "orchestrator"
+    },
+    {
+      "date": "2026-05-08",
+      "action": "Completed infra_structure_014 — Updated README.md (monorepo structure, auth/bookmarks/search features, pnpm commands), AGENTS.md (clean web/ + scripts/recovery/ paths).",
       "agent": "nextjs-specialist"
     }
   ],
