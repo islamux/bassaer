@@ -5,7 +5,7 @@
     "target_date": "2026-07-01",
     "current_week": 5,
     "schedule_status": "on_track",
-    "overall_progress": 14
+    "overall_progress": 30
   },
   "dashboard": {
     "current_focus": "Auth & Backend Storage (Supabase) — starting feat_auth_backend_001",
@@ -43,7 +43,7 @@
           {
             "id": "feat_auth_backend_002",
             "label": "Design DB schema (bookmarks table: user_id, chapter_id, chapter_title, created_at) + RLS policies",
-            "status": "in_progress",
+            "status": "todo",
             "completed_at": null,
             "priority": "P1",
             "context_files": [],
@@ -51,8 +51,7 @@
             "acceptance_criteria": [],
             "constraints": [],
             "execution_mode": "human",
-            "depends_on": [],
-            "assignee": "nextjs-specialist"
+            "depends_on": []
           },
           {
             "id": "feat_auth_backend_003",
@@ -286,14 +285,14 @@
             "status": "done",
             "assignee": "nextjs-specialist",
             "completed_at": "2026-05-08T07:42:34.113Z",
-            "completed_by": "orchestrator",
             "priority": "P1",
             "context_files": [],
             "reference_docs": [],
             "acceptance_criteria": [],
             "constraints": [],
             "execution_mode": "human",
-            "depends_on": []
+            "depends_on": [],
+            "completed_by": "orchestrator"
           },
           {
             "id": "infra_structure_013",
@@ -576,17 +575,16 @@
       {
         "id": "feat_bookmarks",
         "title": "Bookmarks & Highlights",
-        "completed_at": "2026-05-08",
-        "summary": "",
         "domain": "Features",
         "week": 6,
         "phase": "features",
+        "drift_days": 0,
+        "is_key_milestone": false,
         "subtasks": [
           {
             "id": "feat_bookmarks_001",
             "label": "Design localStorage schema for bookmarks & highlights",
             "status": "done",
-            "done": false,
             "completed_at": "2026-05-07",
             "priority": "P2",
             "context_files": [],
@@ -600,7 +598,6 @@
             "id": "feat_bookmarks_002",
             "label": "Implement bookmark toggle button on chapter pages",
             "status": "done",
-            "done": false,
             "completed_at": "2026-05-07",
             "priority": "P2",
             "context_files": [],
@@ -614,7 +611,6 @@
             "id": "feat_bookmarks_003",
             "label": "Add bookmarks list UI (sidebar or dedicated page)",
             "status": "done",
-            "done": false,
             "completed_at": "2026-05-07",
             "priority": "P3",
             "context_files": [],
@@ -628,7 +624,6 @@
             "id": "feat_bookmarks_004",
             "label": "Test bookmarks & highlights: verify list visible in sidebar (desktop) + MobileMenu missing BookmarkedChapters",
             "status": "done",
-            "done": false,
             "assignee": "orchestrator",
             "completed_at": "2026-05-08T06:49:08.042Z",
             "completed_by": "orchestrator",
@@ -645,7 +640,6 @@
             "id": "feat_bookmarks_005",
             "label": "HIGH: Fix sidebar visibility (missing z-index, visual blending, tablet gap)",
             "status": "done",
-            "done": false,
             "completed_at": "2026-05-08",
             "priority": "P0",
             "context_files": [],
@@ -656,6 +650,9 @@
             "depends_on": []
           }
         ],
+        "dependencies": [],
+        "notes": [],
+        "completed_at": "2026-05-08",
         "status": "completed"
       }
     ]
@@ -744,8 +741,8 @@
         "READ",
         "WRITE"
       ],
-      "last_action_at": "2026-05-08T13:23:41.634Z",
-      "session_action_count": 7,
+      "last_action_at": "2026-05-08T07:42:32.706Z",
+      "session_action_count": 6,
       "parent_id": "orchestrator"
     }
   ],
@@ -1061,18 +1058,6 @@
       ],
       "id": "log_1778226154114_040538",
       "timestamp": "2026-05-08T07:42:34.114Z"
-    },
-    {
-      "agent_id": "nextjs-specialist",
-      "action": "start_task",
-      "target_type": "task",
-      "target_id": "feat_auth_backend_002",
-      "description": "Started task \"Design DB schema (bookmarks table: user_id, chapter_id, chapter_title, created_at) + RLS policies\"",
-      "tags": [
-        "lifecycle"
-      ],
-      "id": "log_1778246621634_lj4h7a",
-      "timestamp": "2026-05-08T13:23:41.634Z"
     }
   ],
   "history_log": [
