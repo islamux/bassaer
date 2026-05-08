@@ -175,6 +175,36 @@ export function addMilestoneTask(milestoneId: string, label: string, options: Re
   return ok(`Task \`${taskId}\` added to milestone \`${milestone.id}\`.`)
 }
 
+export function activateMilestone(milestoneId: string): ServiceResult {
+  const state = readTracker()
+  const idx = state.milestones.backlog.findIndex((m: Milestone) => m.id === milestoneId)
+  if (idx === -1) return fail(`Backlog milestone not found: ${milestoneId}`)
+
+  const milestone = state.milestones.backlog.splice(idx, 1)[0]
+  state.milestones.active.push(milestone)
+  if (state.dashboard) {
+    state.dashboard.active_milestone = milestone.id
+    state.dashboard.next_priority = milestone.title
+  }
+
+  const agentId = 'orchestrator'
+  touchAgent(state, agentId)
+  pushLog(state, {
+    agent_id: agentId,
+    action: 'activate_milestone',
+    target_type: 'milestone',
+    target_id: milestone.id,
+    description: `Activated milestone "${milestone.title}" — moved from backlog to active`,
+    tags: ['milestone'],
+  })
+  pushHistory(state, {
+    action: `Moved milestone "${milestone.title}" from backlog to active`,
+    agent: agentId,
+  })
+  writeTracker(state, 'activate_milestone')
+  return ok(`Milestone \`${milestoneId}\` activated: ${milestone.title}`)
+}
+
 export function moveMilestoneToCompleted(milestoneId: string): ServiceResult {
   const state = readTracker()
   const idx = state.milestones.active.findIndex((m: Milestone) => m.id === milestoneId)

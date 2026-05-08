@@ -53,11 +53,11 @@ export function approveTask(taskId, feedback) {
     }
     const agentId = 'orchestrator';
     const now = new Date().toISOString();
-    subtask.done = true;
+    subtask.status = 'done';
     subtask.status = 'done';
     subtask.completed_at = now;
     subtask.completed_by = agentId;
-    const allDone = milestone.subtasks.every((t) => t.done);
+    const allDone = milestone.subtasks.every((t) => t.status === 'done');
     if (allDone && !milestone.actual_end) {
         milestone.actual_end = now.split('T')[0];
     }
@@ -110,7 +110,7 @@ export function resetTask(taskId) {
     const { subtask } = found;
     const agentId = 'orchestrator';
     subtask.status = 'todo';
-    subtask.done = false;
+    subtask.status = 'todo';
     subtask.assignee = null;
     subtask.completed_at = null;
     subtask.completed_by = null;

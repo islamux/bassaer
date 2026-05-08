@@ -1,10 +1,13 @@
 import { readRaw, writeAtomic, withLock } from '../storage/tracker-file.js';
 import { createBackup } from '../storage/backup.js';
 import { TrackerStateSchema } from '../schema.js';
+import { runMigrations } from './migration.service.js';
+import { rotateAgentLog } from '../storage/log-rotation.js';
 export function readTracker() {
     const raw = readRaw();
     const parsed = JSON.parse(raw);
-    return TrackerStateSchema.parse(parsed);
+    const state = TrackerStateSchema.parse(parsed);
+    return runMigrations(state);
 }
 export function allMilestones(state) {
     return [
@@ -17,6 +20,10 @@ export function writeTracker(state, operation = 'write') {
         createBackup(operation);
         state.project.overall_progress = computeOverallProgress(state);
         state.project.schedule_status = computeScheduleStatus(state);
+        if (state.agent_log && state.agent_log.length > 500) {
+            const result = rotateAgentLog(state.agent_log);
+            state.agent_log = result.active;
+        }
         writeAtomic(JSON.stringify(state, null, 2) + '\n');
     });
 }
@@ -36,7 +43,7 @@ export function computeOverallProgress(state) {
     const allTasks = allMilestones(state).flatMap((m) => m.subtasks);
     if (allTasks.length === 0)
         return 0;
-    const done = allTasks.filter((t) => t.done).length;
+    const done = allTasks.filter((t) => t.status === "done").length;
     return Math.round((done / allTasks.length) * 100);
 }
 export function findTask(state, taskId) {
@@ -88,7 +95,7 @@ export function autoUnblockDependents(state, completedTaskId, _completedMileston
                 subtask.blocked_by === completedTaskId) {
                 const allDepsMet = subtask.depends_on.every((depId) => {
                     const dep = findTask(state, depId);
-                    return dep && dep.subtask.done;
+                    return dep && dep.subtask.status === 'done';
                 });
                 if (allDepsMet) {
                     subtask.status = 'todo';

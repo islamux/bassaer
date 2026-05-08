@@ -1,4 +1,4 @@
-import type { TrackerState, Milestone, AgentLogEntry, HistoryLogEntry, FoundTask, ServiceResult } from '../types.js';
+import type { TrackerState, Milestone, AgentLogEntry, HistoryLogEntry, FoundTask, ServiceResult } from 'command-center-shared';
 export declare function readTracker(): TrackerState;
 export declare function allMilestones(state: TrackerState): Milestone[];
 export declare function writeTracker(state: TrackerState, operation?: string): void;

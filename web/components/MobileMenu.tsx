@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { X } from "lucide-react";
 import { ChapterMeta } from "@/lib/contentLoader";
+import BookmarkedChapters from "./BookmarkedChapters";
 
 interface MobileMenuProps {
   isOpen: boolean;
@@ -43,6 +44,7 @@ export default function MobileMenu({ isOpen, onClose, chapters }: MobileMenuProp
         </div>
         
         <div className="p-4 overflow-y-auto h-[calc(100vh-4rem)]">
+          <BookmarkedChapters />
           <ul className="space-y-4">
             {chapters.map((chapter) => (
               <li key={chapter.id}>

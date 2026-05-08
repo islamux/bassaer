@@ -6,7 +6,7 @@ import {
 } from './services/task.service.js'
 import {
   addMilestoneNote, setMilestoneDates, updateDrift,
-  createMilestone, addMilestoneTask,
+  createMilestone, addMilestoneTask, activateMilestone,
 } from './services/milestone.service.js'
 import { registerAgent } from './services/agent.service.js'
 import type { Agent, AgentLogEntry, Milestone, Subtask } from './types.js'
@@ -159,6 +159,8 @@ export async function handleTool(name: string, args: Record<string, any>): Promi
         return serviceToTool(setMilestoneDates(args.milestone_id, args))
       case 'update_drift':
         return serviceToTool(updateDrift(args.milestone_id, args.drift_days))
+      case 'activate_milestone':
+        return serviceToTool(activateMilestone(args.milestone_id))
       case 'create_milestone':
         return serviceToTool(createMilestone(args.id, args.title, args))
       case 'add_milestone_task':
@@ -506,6 +508,17 @@ export function getToolDefinitions() {
           execution_mode: { type: 'string', description: 'Execution mode (human, agent, pair)' },
         },
         required: ['milestone_id', 'label'],
+      },
+    },
+    {
+      name: 'activate_milestone',
+      description: 'Move a milestone from backlog to active, updating dashboard focus',
+      inputSchema: {
+        type: 'object' as const,
+        properties: {
+          milestone_id: { type: 'string', description: 'Milestone ID to activate' },
+        },
+        required: ['milestone_id'],
       },
     },
     {

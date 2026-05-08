@@ -1,4 +1,4 @@
-import type { ServiceResult } from '../types.js';
+import type { ServiceResult } from 'command-center-shared';
 export declare function startTask(taskId: string, agentId?: string): ServiceResult;
 export declare function completeTask(taskId: string, summary: string, agentId?: string): ServiceResult;
 export declare function approveTask(taskId: string, feedback?: string): ServiceResult;
