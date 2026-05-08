@@ -51,11 +51,7 @@
             "label": "Test bookmarks & highlights: verify list visible in sidebar (desktop) + MobileMenu missing BookmarkedChapters",
             "status": "todo",
             "priority": "P2",
-            "notes": [
-              "Desktop (1024px+): Bookmarks show in right sidebar under المفضلة header — BookmarkedChapters component",
-              "Mobile/Tablet (<1024px): MobileMenu drawer has NO BookmarkedChapters — needs to be added",
-              "Also consider a dedicated /bookmarks page for full bookmark manager"
-            ]
+            "notes": "Desktop (1024px+): Bookmarks show in right sidebar. Mobile/Tablet (<1024px): MobileMenu drawer missing BookmarkedChapters. Consider dedicated /bookmarks page."
           },
           {
             "id": "feat_bookmarks_005",
