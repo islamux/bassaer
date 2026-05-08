@@ -5,7 +5,7 @@
     "target_date": "2026-07-01",
     "current_week": 5,
     "schedule_status": "on_track",
-    "overall_progress": 39
+    "overall_progress": 50
   },
   "dashboard": {
     "current_focus": "Auth & Backend Storage (Supabase) — starting feat_auth_backend_001",
@@ -129,6 +129,7 @@
             "id": "feat_auth_backend_008",
             "label": "Run 001_create_bookmarks.sql in Supabase SQL Editor to create bookmarks table + RLS policies",
             "status": "in_progress",
+            "assignee": "orchestrator",
             "completed_at": null,
             "priority": "P0",
             "context_files": [
@@ -144,8 +145,7 @@
               "Must use Supabase SQL Editor"
             ],
             "execution_mode": "human",
-            "depends_on": [],
-            "assignee": "orchestrator"
+            "depends_on": []
           }
         ],
         "dependencies": [],
@@ -194,8 +194,10 @@
           {
             "id": "infra_structure_003",
             "label": "Consolidate scripts: move misplaced .py files, clean versioned duplicates",
-            "status": "todo",
-            "completed_at": null,
+            "status": "done",
+            "assignee": "nextjs-specialist",
+            "completed_at": "2026-05-08T14:51:30.400Z",
+            "completed_by": "orchestrator",
             "priority": "P1",
             "context_files": [],
             "reference_docs": [],
@@ -207,8 +209,10 @@
           {
             "id": "infra_structure_004",
             "label": "Clean web/ root: remove 25+ misplaced .py .txt .json files",
-            "status": "todo",
-            "completed_at": null,
+            "status": "done",
+            "assignee": "nextjs-specialist",
+            "completed_at": "2026-05-08T14:51:33.103Z",
+            "completed_by": "orchestrator",
             "priority": "P1",
             "context_files": [],
             "reference_docs": [],
@@ -337,6 +341,28 @@
             "constraints": [],
             "execution_mode": "human",
             "depends_on": []
+          },
+          {
+            "id": "infra_structure_014",
+            "label": "Update all docs (README.md, AGENTS.md, PROJECT_MAP.md) with new project structure paths",
+            "status": "done",
+            "assignee": "nextjs-specialist",
+            "completed_at": "2026-05-08T14:51:46.135Z",
+            "priority": "P2",
+            "context_files": [
+              "README.md",
+              "AGENTS.md",
+              "PROJECT_MAP.md"
+            ],
+            "reference_docs": [],
+            "acceptance_criteria": [
+              "All path references match current file structure",
+              "Features section includes search, bookmarks, auth"
+            ],
+            "constraints": [],
+            "execution_mode": "agent",
+            "depends_on": [],
+            "completed_by": "orchestrator"
           }
         ],
         "dependencies": [],
@@ -703,8 +729,8 @@
         "APPROVE",
         "ADMIN"
       ],
-      "last_action_at": "2026-05-08T14:04:45.135Z",
-      "session_action_count": 24
+      "last_action_at": "2026-05-08T14:51:46.136Z",
+      "session_action_count": 27
     },
     {
       "id": "explorer",
@@ -772,8 +798,8 @@
         "READ",
         "WRITE"
       ],
-      "last_action_at": "2026-05-08T13:27:04.661Z",
-      "session_action_count": 8,
+      "last_action_at": "2026-05-08T14:51:44.820Z",
+      "session_action_count": 13,
       "parent_id": "orchestrator"
     }
   ],
@@ -1270,6 +1296,102 @@
       ],
       "id": "log_1778249085136_f5hj90",
       "timestamp": "2026-05-08T14:04:45.136Z"
+    },
+    {
+      "agent_id": "nextjs-specialist",
+      "action": "start_task",
+      "target_type": "task",
+      "target_id": "infra_structure_003",
+      "description": "Started task \"Consolidate scripts: move misplaced .py files, clean versioned duplicates\"",
+      "tags": [
+        "lifecycle"
+      ],
+      "id": "log_1778251655034_fz179e",
+      "timestamp": "2026-05-08T14:47:35.034Z"
+    },
+    {
+      "agent_id": "nextjs-specialist",
+      "action": "start_task",
+      "target_type": "task",
+      "target_id": "infra_structure_004",
+      "description": "Started task \"Clean web/ root: remove 25+ misplaced .py .txt .json files\"",
+      "tags": [
+        "lifecycle"
+      ],
+      "id": "log_1778251656387_7d9t9i",
+      "timestamp": "2026-05-08T14:47:36.387Z"
+    },
+    {
+      "agent_id": "nextjs-specialist",
+      "action": "complete_task",
+      "target_type": "task",
+      "target_id": "infra_structure_003",
+      "description": "Completed task \"Consolidate scripts: move misplaced .py files, clean versioned duplicates\": Consolidated scripts: moved extraction scripts to scripts/, archived recovery scripts to scripts/recovery/",
+      "tags": [
+        "lifecycle"
+      ],
+      "id": "log_1778251888919_deyof4",
+      "timestamp": "2026-05-08T14:51:28.919Z"
+    },
+    {
+      "agent_id": "orchestrator",
+      "action": "approve_task",
+      "target_type": "task",
+      "target_id": "infra_structure_003",
+      "description": "Approved task \"Consolidate scripts: move misplaced .py files, clean versioned duplicates\".",
+      "tags": [
+        "lifecycle"
+      ],
+      "id": "log_1778251890400_4zqjeb",
+      "timestamp": "2026-05-08T14:51:30.400Z"
+    },
+    {
+      "agent_id": "nextjs-specialist",
+      "action": "complete_task",
+      "target_type": "task",
+      "target_id": "infra_structure_004",
+      "description": "Completed task \"Clean web/ root: remove 25+ misplaced .py .txt .json files\": Cleaned web/ root — only package.json + tsconfig.json remain",
+      "tags": [
+        "lifecycle"
+      ],
+      "id": "log_1778251891750_jrnwxh",
+      "timestamp": "2026-05-08T14:51:31.750Z"
+    },
+    {
+      "agent_id": "orchestrator",
+      "action": "approve_task",
+      "target_type": "task",
+      "target_id": "infra_structure_004",
+      "description": "Approved task \"Clean web/ root: remove 25+ misplaced .py .txt .json files\".",
+      "tags": [
+        "lifecycle"
+      ],
+      "id": "log_1778251893105_916n3a",
+      "timestamp": "2026-05-08T14:51:33.105Z"
+    },
+    {
+      "agent_id": "nextjs-specialist",
+      "action": "complete_task",
+      "target_type": "task",
+      "target_id": "infra_structure_014",
+      "description": "Completed task \"Update all docs (README.md, AGENTS.md, PROJECT_MAP.md) with new project structure paths\": Updated README.md (features, structure, monorepo paths), AGENTS.md (workspace listing)",
+      "tags": [
+        "lifecycle"
+      ],
+      "id": "log_1778251904821_b4mdgm",
+      "timestamp": "2026-05-08T14:51:44.821Z"
+    },
+    {
+      "agent_id": "orchestrator",
+      "action": "approve_task",
+      "target_type": "task",
+      "target_id": "infra_structure_014",
+      "description": "Approved task \"Update all docs (README.md, AGENTS.md, PROJECT_MAP.md) with new project structure paths\".",
+      "tags": [
+        "lifecycle"
+      ],
+      "id": "log_1778251906136_36ry4d",
+      "timestamp": "2026-05-08T14:51:46.136Z"
     }
   ],
   "history_log": [
@@ -1431,6 +1553,21 @@
     {
       "date": "2026-05-08",
       "action": "Completed feat_auth_backend milestone — Auth & Backend Storage (Supabase). All 7 subtasks done.",
+      "agent": "nextjs-specialist"
+    },
+    {
+      "date": "2026-05-08",
+      "action": "Completed infra_structure_003+004 — Cleaned web/ root (deleted 6 obsolete tracker scripts, moved 6 extraction scripts to scripts/, archived 7 recovery scripts + 3 data files to scripts/recovery/, moved ocr.md + audit_report.json to web/docs/). Only package.json + tsconfig.json remain in web/.",
+      "agent": "nextjs-specialist"
+    },
+    {
+      "date": "2026-05-08",
+      "action": "Added infra_structure_014 — Update all docs with new project structure paths.",
+      "agent": "orchestrator"
+    },
+    {
+      "date": "2026-05-08",
+      "action": "Completed infra_structure_014 — Updated README.md (monorepo structure, auth/bookmarks/search features, pnpm commands), AGENTS.md (clean web/ + scripts/recovery/ paths).",
       "agent": "nextjs-specialist"
     }
   ],
