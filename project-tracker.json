@@ -221,6 +221,30 @@
     ],
     "backlog": [
       {
+        "id": "infra_structure_cleanup",
+        "title": "❯ Project Structure Cleanup (move docs, content, scripts; clean web/ root)",
+        "domain": "Infrastructure",
+        "week": 6,
+        "phase": "production",
+        "drift_days": 0,
+        "is_key_milestone": true,
+        "subtasks": [
+          { "id": "infra_structure_001", "label": "Move docs → /docs/, consolidate from root + web/docs/ + web/", "status": "todo", "priority": "P1" },
+          { "id": "infra_structure_002", "label": "Move web/content/ → /content/chapters/, update contentLoader.ts path", "status": "todo", "priority": "P1" },
+          { "id": "infra_structure_003", "label": "Consolidate scripts: move misplaced .py files, clean versioned duplicates", "status": "todo", "priority": "P1" },
+          { "id": "infra_structure_004", "label": "Clean web/ root: remove 25+ misplaced .py .txt .json files", "status": "todo", "priority": "P1" },
+          { "id": "infra_structure_005", "label": "Remove npm lockfiles from pnpm packages", "status": "todo", "priority": "P2" },
+          { "id": "infra_structure_006", "label": "Add dist/ .next/ .ruff_cache/ to .gitignore", "status": "todo", "priority": "P2" },
+          { "id": "infra_structure_007", "label": "Merge Python venvs (venv/ + .cc-venv/ → .venv/)", "status": "todo", "priority": "P2" },
+          { "id": "infra_structure_008", "label": "Update README.md with new structure", "status": "todo", "priority": "P2" },
+          { "id": "infra_structure_009", "label": "Update PROJECT_MAP.md with new paths", "status": "todo", "priority": "P2" },
+          { "id": "infra_structure_010", "label": "Update AGENTS.md with new path references", "status": "todo", "priority": "P2" },
+          { "id": "infra_structure_011", "label": "Update project-tracker.json log", "status": "todo", "priority": "P2" }
+        ],
+        "dependencies": [],
+        "notes": []
+      },
+      {
         "id": "feat_progress",
         "title": "Reading Progress Tracking",
         "domain": "Features",
@@ -859,6 +883,11 @@
       "date": "2026-05-08",
       "action": "Completed feat_auth_backend_001 — Set up Supabase SDK, created browser client (lib/supabase/client.ts) and server client (lib/supabase/server.ts), documented full setup guide at web/docs/supabase-setup.md. Build passed (17/17).",
       "agent": "nextjs-specialist"
+    },
+    {
+      "date": "2026-05-08",
+      "action": "Added infra_structure_cleanup milestone (P1) — 11 subtasks: consolidate docs, content, scripts; clean web/ root; remove npm lockfiles; update .gitignore, README, PROJECT_MAP, AGENTS.",
+      "agent": "orchestrator"
     }
   ]
 }
