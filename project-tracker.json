@@ -239,7 +239,9 @@
           { "id": "infra_structure_008", "label": "Update README.md with new structure", "status": "todo", "priority": "P2" },
           { "id": "infra_structure_009", "label": "Update PROJECT_MAP.md with new paths", "status": "todo", "priority": "P2" },
           { "id": "infra_structure_010", "label": "Update AGENTS.md with new path references", "status": "todo", "priority": "P2" },
-          { "id": "infra_structure_011", "label": "Update project-tracker.json log", "status": "todo", "priority": "P2" }
+          { "id": "infra_structure_011", "label": "Update project-tracker.json log", "status": "todo", "priority": "P2" },
+          { "id": "infra_structure_012", "label": "Create cc:activate command (move milestone backlog→active via CLI)", "status": "todo", "priority": "P1" },
+          { "id": "infra_structure_013", "label": "Create single CC commands reference MD file", "status": "todo", "priority": "P2" }
         ],
         "dependencies": [],
         "notes": []
@@ -887,6 +889,11 @@
     {
       "date": "2026-05-08",
       "action": "Added infra_structure_cleanup milestone (P1) — 11 subtasks: consolidate docs, content, scripts; clean web/ root; remove npm lockfiles; update .gitignore, README, PROJECT_MAP, AGENTS.",
+      "agent": "orchestrator"
+    },
+    {
+      "date": "2026-05-08",
+      "action": "Added infra_structure_012 (cc:activate CLI command) and infra_structure_013 (CC commands reference MD) to infra_structure_cleanup milestone.",
       "agent": "orchestrator"
     }
   ]
