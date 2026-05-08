@@ -20,53 +20,11 @@ The project has been restructured into a monorepo to safely orchestrate multiple
 
 ## 🛠️ Command Center CLI (`pnpm cc`)
 
-The Command Center provides a set of centralized scripts defined in the root `package.json`. These commands are used to manage the project lifecycle, view tasks, and control sub-applications.
+The Command Center provides a set of centralized scripts defined in the root `package.json` for managing the project lifecycle, viewing tasks, and controlling sub-applications.
 
-### Core Commands
+> **CRITICAL:** All `pnpm cc:*` commands must be run from the **root directory**. Do not run them from `/web`.
 
-| Command | Description |
-| :--- | :--- |
-| `pnpm cc` | Launches the interactive terminal dashboard (`cc-dash.py`). Use this to view Active Milestones, Backlog, and the Swim Lane in your terminal. |
-| `pnpm cc:watch` | Starts the development server for the React/Electron Command Center desktop app in watch mode. |
-| `pnpm cc:mcp` | Starts the MCP server, exposing the tracker data for programmatic AI access. |
-
-### Information Commands
-
-| Command | Description |
-| :--- | :--- |
-| `pnpm cc:status` | Get project status overview (week, progress, schedule) |
-| `pnpm cc:list [--milestone_id] [--status] [--domain]` | List and filter tasks |
-| `pnpm cc:agents` | List all registered agents |
-| `pnpm cc:activity [--agent_id] [--limit]` | Recent activity feed |
-| `pnpm cc:task <id>` | Get full context for a specific task (~8K tokens) |
-| `pnpm cc:mstone <id>` | Get milestone overview with progress |
-
-### Task Lifecycle Commands
-
-| Command | Description |
-| :--- | :--- |
-| `pnpm cc:start <task_id> [--agent_id]` | Start a task (set status to `in_progress`) |
-| `pnpm cc:complete <task_id> <summary>` | Mark task as ready for review |
-| `pnpm cc:approve <task_id> [feedback]` | Approve and mark done |
-| `pnpm cc:reject <task_id> <feedback>` | Reject, send back to `in_progress` |
-| `pnpm cc:reset <task_id>` | Reset task to `todo` |
-| `pnpm cc:block <task_id> <reason>` | Block a task |
-| `pnpm cc:unblock <task_id> [--resolution]` | Unblock a task |
-
-### Agent Management
-
-| Command | Description |
-| :--- | :--- |
-| `pnpm cc:register-agent <id> <name> <type> [--color] [--parent_id] [--permissions]` | Register or update an agent |
-
-> **Tip:** All `pnpm cc:*` commands set `PROJECT_ROOT` automatically. Run from the root directory.
-
-### Utility Commands
-
-| Command | Description |
-| :--- | :--- |
-| `pnpm web:dev` | Starts the Next.js development server for the main web application. |
-| `pnpm web:build` | Builds the main web application for production. |
+See [web/docs/cc-commands.md](web/docs/cc-commands.md) for the full command reference with syntax, flags, and examples.
 
 ---
 

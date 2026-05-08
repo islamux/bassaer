@@ -70,9 +70,11 @@
           {
             "id": "feat_bookmarks_004",
             "label": "Test bookmarks & highlights: verify list visible in sidebar (desktop) + MobileMenu missing BookmarkedChapters",
-            "status": "todo",
-            "done": false,
-            "completed_at": null,
+            "status": "done",
+            "done": true,
+            "assignee": "orchestrator",
+            "completed_at": "2026-05-08T06:49:08.042Z",
+            "completed_by": "orchestrator",
             "priority": "P2",
             "notes": "Desktop (1024px+): Bookmarks show in right sidebar. Mobile/Tablet (<1024px): MobileMenu drawer missing BookmarkedChapters. Consider dedicated /bookmarks page.",
             "context_files": [],
@@ -116,14 +118,14 @@
             "done": true,
             "assignee": "orchestrator",
             "completed_at": "2026-05-08T06:16:47.977Z",
+            "completed_by": "orchestrator",
             "priority": "P1",
             "context_files": [],
             "reference_docs": [],
             "acceptance_criteria": [],
             "constraints": [],
             "execution_mode": "human",
-            "depends_on": [],
-            "completed_by": "orchestrator"
+            "depends_on": []
           },
           {
             "id": "feat_auth_backend_002",
@@ -229,19 +231,189 @@
         "drift_days": 0,
         "is_key_milestone": true,
         "subtasks": [
-          { "id": "infra_structure_001", "label": "Move docs → /docs/, consolidate from root + web/docs/ + web/", "status": "todo", "priority": "P1" },
-          { "id": "infra_structure_002", "label": "Move web/content/ → /content/chapters/, update contentLoader.ts path", "status": "todo", "priority": "P1" },
-          { "id": "infra_structure_003", "label": "Consolidate scripts: move misplaced .py files, clean versioned duplicates", "status": "todo", "priority": "P1" },
-          { "id": "infra_structure_004", "label": "Clean web/ root: remove 25+ misplaced .py .txt .json files", "status": "todo", "priority": "P1" },
-          { "id": "infra_structure_005", "label": "Remove npm lockfiles from pnpm packages", "status": "todo", "priority": "P2" },
-          { "id": "infra_structure_006", "label": "Add dist/ .next/ .ruff_cache/ to .gitignore", "status": "todo", "priority": "P2" },
-          { "id": "infra_structure_007", "label": "Merge Python venvs (venv/ + .cc-venv/ → .venv/)", "status": "todo", "priority": "P2" },
-          { "id": "infra_structure_008", "label": "Update README.md with new structure", "status": "todo", "priority": "P2" },
-          { "id": "infra_structure_009", "label": "Update PROJECT_MAP.md with new paths", "status": "todo", "priority": "P2" },
-          { "id": "infra_structure_010", "label": "Update AGENTS.md with new path references", "status": "todo", "priority": "P2" },
-          { "id": "infra_structure_011", "label": "Update project-tracker.json log", "status": "todo", "priority": "P2" },
-          { "id": "infra_structure_012", "label": "Create cc:activate command (move milestone backlog→active via CLI)", "status": "todo", "priority": "P1" },
-          { "id": "infra_structure_013", "label": "Create single CC commands reference MD file", "status": "todo", "priority": "P2" }
+          {
+            "id": "infra_structure_001",
+            "label": "Move docs → /docs/, consolidate from root + web/docs/ + web/",
+            "status": "todo",
+            "done": false,
+            "completed_at": null,
+            "priority": "P1",
+            "context_files": [],
+            "reference_docs": [],
+            "acceptance_criteria": [],
+            "constraints": [],
+            "execution_mode": "human",
+            "depends_on": []
+          },
+          {
+            "id": "infra_structure_002",
+            "label": "Move web/content/ → /content/chapters/, update contentLoader.ts path",
+            "status": "todo",
+            "done": false,
+            "completed_at": null,
+            "priority": "P1",
+            "context_files": [],
+            "reference_docs": [],
+            "acceptance_criteria": [],
+            "constraints": [],
+            "execution_mode": "human",
+            "depends_on": []
+          },
+          {
+            "id": "infra_structure_003",
+            "label": "Consolidate scripts: move misplaced .py files, clean versioned duplicates",
+            "status": "todo",
+            "done": false,
+            "completed_at": null,
+            "priority": "P1",
+            "context_files": [],
+            "reference_docs": [],
+            "acceptance_criteria": [],
+            "constraints": [],
+            "execution_mode": "human",
+            "depends_on": []
+          },
+          {
+            "id": "infra_structure_004",
+            "label": "Clean web/ root: remove 25+ misplaced .py .txt .json files",
+            "status": "todo",
+            "done": false,
+            "completed_at": null,
+            "priority": "P1",
+            "context_files": [],
+            "reference_docs": [],
+            "acceptance_criteria": [],
+            "constraints": [],
+            "execution_mode": "human",
+            "depends_on": []
+          },
+          {
+            "id": "infra_structure_005",
+            "label": "Remove npm lockfiles from pnpm packages",
+            "status": "todo",
+            "done": false,
+            "completed_at": null,
+            "priority": "P2",
+            "context_files": [],
+            "reference_docs": [],
+            "acceptance_criteria": [],
+            "constraints": [],
+            "execution_mode": "human",
+            "depends_on": []
+          },
+          {
+            "id": "infra_structure_006",
+            "label": "Add dist/ .next/ .ruff_cache/ to .gitignore",
+            "status": "todo",
+            "done": false,
+            "completed_at": null,
+            "priority": "P2",
+            "context_files": [],
+            "reference_docs": [],
+            "acceptance_criteria": [],
+            "constraints": [],
+            "execution_mode": "human",
+            "depends_on": []
+          },
+          {
+            "id": "infra_structure_007",
+            "label": "Merge Python venvs (venv/ + .cc-venv/ → .venv/)",
+            "status": "todo",
+            "done": false,
+            "completed_at": null,
+            "priority": "P2",
+            "context_files": [],
+            "reference_docs": [],
+            "acceptance_criteria": [],
+            "constraints": [],
+            "execution_mode": "human",
+            "depends_on": []
+          },
+          {
+            "id": "infra_structure_008",
+            "label": "Update README.md with new structure",
+            "status": "todo",
+            "done": false,
+            "completed_at": null,
+            "priority": "P2",
+            "context_files": [],
+            "reference_docs": [],
+            "acceptance_criteria": [],
+            "constraints": [],
+            "execution_mode": "human",
+            "depends_on": []
+          },
+          {
+            "id": "infra_structure_009",
+            "label": "Update PROJECT_MAP.md with new paths",
+            "status": "todo",
+            "done": false,
+            "completed_at": null,
+            "priority": "P2",
+            "context_files": [],
+            "reference_docs": [],
+            "acceptance_criteria": [],
+            "constraints": [],
+            "execution_mode": "human",
+            "depends_on": []
+          },
+          {
+            "id": "infra_structure_010",
+            "label": "Update AGENTS.md with new path references",
+            "status": "todo",
+            "done": false,
+            "completed_at": null,
+            "priority": "P2",
+            "context_files": [],
+            "reference_docs": [],
+            "acceptance_criteria": [],
+            "constraints": [],
+            "execution_mode": "human",
+            "depends_on": []
+          },
+          {
+            "id": "infra_structure_011",
+            "label": "Update project-tracker.json log",
+            "status": "todo",
+            "done": false,
+            "completed_at": null,
+            "priority": "P2",
+            "context_files": [],
+            "reference_docs": [],
+            "acceptance_criteria": [],
+            "constraints": [],
+            "execution_mode": "human",
+            "depends_on": []
+          },
+          {
+            "id": "infra_structure_012",
+            "label": "Create cc:activate command (move milestone backlog→active via CLI)",
+            "status": "todo",
+            "done": false,
+            "completed_at": null,
+            "priority": "P1",
+            "context_files": [],
+            "reference_docs": [],
+            "acceptance_criteria": [],
+            "constraints": [],
+            "execution_mode": "human",
+            "depends_on": []
+          },
+          {
+            "id": "infra_structure_013",
+            "label": "Create single CC commands reference MD file",
+            "status": "done",
+            "done": false,
+            "completed_at": "2026-05-08",
+            "priority": "P2",
+            "context_files": [],
+            "reference_docs": [],
+            "acceptance_criteria": [],
+            "constraints": [],
+            "execution_mode": "human",
+            "depends_on": [],
+            "assignee": "nextjs-specialist"
+          }
         ],
         "dependencies": [],
         "notes": []
@@ -522,8 +694,8 @@
         "APPROVE",
         "ADMIN"
       ],
-      "last_action_at": "2026-05-08T06:16:47.979Z",
-      "session_action_count": 5
+      "last_action_at": "2026-05-08T06:49:08.042Z",
+      "session_action_count": 8
     },
     {
       "id": "explorer",
@@ -591,8 +763,8 @@
         "READ",
         "WRITE"
       ],
-      "last_action_at": "2026-05-06T18:54:45.500Z",
-      "session_action_count": 2,
+      "last_action_at": "2026-05-08T07:27:19.894Z",
+      "session_action_count": 3,
       "parent_id": "orchestrator"
     }
   ],
@@ -788,6 +960,54 @@
       ],
       "id": "log_1778221007979_7kgtjz",
       "timestamp": "2026-05-08T06:16:47.979Z"
+    },
+    {
+      "agent_id": "orchestrator",
+      "action": "start_task",
+      "target_type": "task",
+      "target_id": "feat_bookmarks_004",
+      "description": "Started task \"Test bookmarks & highlights: verify list visible in sidebar (desktop) + MobileMenu missing BookmarkedChapters\"",
+      "tags": [
+        "lifecycle"
+      ],
+      "id": "log_1778222857877_vc3wld",
+      "timestamp": "2026-05-08T06:47:37.877Z"
+    },
+    {
+      "agent_id": "orchestrator",
+      "action": "complete_task",
+      "target_type": "task",
+      "target_id": "feat_bookmarks_004",
+      "description": "Completed task \"Test bookmarks & highlights: verify list visible in sidebar (desktop) + MobileMenu missing BookmarkedChapters\": Added BookmarkedChapters to MobileMenu drawer so bookmarks show on mobile/tablet. Build passed 17/17.",
+      "tags": [
+        "lifecycle"
+      ],
+      "id": "log_1778222946618_dtyux4",
+      "timestamp": "2026-05-08T06:49:06.618Z"
+    },
+    {
+      "agent_id": "orchestrator",
+      "action": "approve_task",
+      "target_type": "task",
+      "target_id": "feat_bookmarks_004",
+      "description": "Approved task \"Test bookmarks & highlights: verify list visible in sidebar (desktop) + MobileMenu missing BookmarkedChapters\".",
+      "tags": [
+        "lifecycle"
+      ],
+      "id": "log_1778222948043_cp0ndp",
+      "timestamp": "2026-05-08T06:49:08.043Z"
+    },
+    {
+      "agent_id": "nextjs-specialist",
+      "action": "start_task",
+      "target_type": "task",
+      "target_id": "infra_structure_013",
+      "description": "Started task \"Create single CC commands reference MD file\"",
+      "tags": [
+        "lifecycle"
+      ],
+      "id": "log_1778225239895_uibh7d",
+      "timestamp": "2026-05-08T07:27:19.895Z"
     }
   ],
   "history_log": [
@@ -895,6 +1115,11 @@
       "date": "2026-05-08",
       "action": "Added infra_structure_012 (cc:activate CLI command) and infra_structure_013 (CC commands reference MD) to infra_structure_cleanup milestone.",
       "agent": "orchestrator"
+    },
+    {
+      "date": "2026-05-08",
+      "action": "Completed infra_structure_013 — Created web/docs/cc-commands.md (full command reference with syntax, flags, examples). Updated AGENTS.md to link to new file instead of inline CLI table.",
+      "agent": "nextjs-specialist"
     }
   ]
 }
