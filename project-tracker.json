@@ -70,9 +70,9 @@
           {
             "id": "feat_bookmarks_004",
             "label": "Test bookmarks & highlights: verify list visible in sidebar (desktop) + MobileMenu missing BookmarkedChapters",
-            "status": "todo",
+            "status": "done",
             "done": false,
-            "completed_at": null,
+            "completed_at": "2026-05-08",
             "priority": "P2",
             "notes": "Desktop (1024px+): Bookmarks show in right sidebar. Mobile/Tablet (<1024px): MobileMenu drawer missing BookmarkedChapters. Consider dedicated /bookmarks page.",
             "context_files": [],
@@ -827,8 +827,10 @@
     },
     {
       "date": "2026-05-08",
-      "action": "Planned feat_auth_backend milestone — Auth & Backend Storage via Supabase. 7 subtasks: Supabase setup, DB schema + RLS, auth implementation, bookmark migration (Supabase + localStorage fallback), auth UI, anonymous merge, full test flow.",
-      "agent": "orchestrator"
+      "action": "Completed feat_bookmarks_004 — Added BookmarkedChapters to MobileMenu drawer. Bookmarks now visible on all screen sizes. Build passed (17/17).",
+      "agent": "nextjs-specialist"
     }
+  ]
+}
   ]
 }
