@@ -5,7 +5,7 @@
     "target_date": "2026-07-01",
     "current_week": 5,
     "schedule_status": "on_track",
-    "overall_progress": 7
+    "overall_progress": 0
   },
   "dashboard": {
     "current_focus": "Auth & Backend Storage (Supabase) — starting feat_auth_backend_001",
@@ -112,10 +112,9 @@
           {
             "id": "feat_auth_backend_001",
             "label": "Set up Supabase project, install SDK (@supabase/supabase-js, @supabase/ssr), configure client",
-            "status": "done",
-            "done": true,
-            "assignee": "orchestrator",
-            "completed_at": "2026-05-08T06:16:47.977Z",
+            "status": "in_progress",
+            "done": false,
+            "completed_at": null,
             "priority": "P1",
             "context_files": [],
             "reference_docs": [],
@@ -123,7 +122,7 @@
             "constraints": [],
             "execution_mode": "human",
             "depends_on": [],
-            "completed_by": "orchestrator"
+            "assignee": "orchestrator"
           },
           {
             "id": "feat_auth_backend_002",
@@ -496,8 +495,8 @@
         "APPROVE",
         "ADMIN"
       ],
-      "last_action_at": "2026-05-08T06:16:47.979Z",
-      "session_action_count": 5
+      "last_action_at": "2026-05-08T06:04:06.765Z",
+      "session_action_count": 3
     },
     {
       "id": "explorer",
@@ -738,30 +737,6 @@
       ],
       "id": "log_1778220246765_auxroa",
       "timestamp": "2026-05-08T06:04:06.765Z"
-    },
-    {
-      "agent_id": "orchestrator",
-      "action": "complete_task",
-      "target_type": "task",
-      "target_id": "feat_auth_backend_001",
-      "description": "Completed task \"Set up Supabase project, install SDK (@supabase/supabase-js, @supabase/ssr), configure client\": Set up Supabase client (client.ts + server.ts), added SDK packages, created setup guide at web/docs/supabase-setup.md",
-      "tags": [
-        "lifecycle"
-      ],
-      "id": "log_1778220997881_sh2zbq",
-      "timestamp": "2026-05-08T06:16:37.881Z"
-    },
-    {
-      "agent_id": "orchestrator",
-      "action": "approve_task",
-      "target_type": "task",
-      "target_id": "feat_auth_backend_001",
-      "description": "Approved task \"Set up Supabase project, install SDK (@supabase/supabase-js, @supabase/ssr), configure client\".",
-      "tags": [
-        "lifecycle"
-      ],
-      "id": "log_1778221007979_7kgtjz",
-      "timestamp": "2026-05-08T06:16:47.979Z"
     }
   ],
   "history_log": [
@@ -854,11 +829,6 @@
       "date": "2026-05-08",
       "action": "Planned feat_auth_backend milestone — Auth & Backend Storage via Supabase. 7 subtasks: Supabase setup, DB schema + RLS, auth implementation, bookmark migration (Supabase + localStorage fallback), auth UI, anonymous merge, full test flow.",
       "agent": "orchestrator"
-    },
-    {
-      "date": "2026-05-08",
-      "action": "Completed feat_auth_backend_001 — Set up Supabase SDK, created browser client (lib/supabase/client.ts) and server client (lib/supabase/server.ts), documented full setup guide at web/docs/supabase-setup.md. Build passed (17/17).",
-      "agent": "nextjs-specialist"
     }
   ]
 }

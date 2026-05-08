@@ -5,7 +5,7 @@
     "target_date": "2026-07-01",
     "current_week": 5,
     "schedule_status": "on_track",
-    "overall_progress": 7
+    "overall_progress": 75
   },
   "dashboard": {
     "current_focus": "Auth & Backend Storage (Supabase) — starting feat_auth_backend_001",
@@ -29,72 +29,36 @@
             "id": "feat_bookmarks_001",
             "label": "Design localStorage schema for bookmarks & highlights",
             "status": "done",
-            "done": false,
             "completed_at": "2026-05-07",
-            "priority": "P2",
-            "context_files": [],
-            "reference_docs": [],
-            "acceptance_criteria": [],
-            "constraints": [],
-            "execution_mode": "human",
-            "depends_on": []
+            "priority": "P2"
           },
           {
             "id": "feat_bookmarks_002",
             "label": "Implement bookmark toggle button on chapter pages",
             "status": "done",
-            "done": false,
             "completed_at": "2026-05-07",
-            "priority": "P2",
-            "context_files": [],
-            "reference_docs": [],
-            "acceptance_criteria": [],
-            "constraints": [],
-            "execution_mode": "human",
-            "depends_on": []
+            "priority": "P2"
           },
           {
             "id": "feat_bookmarks_003",
             "label": "Add bookmarks list UI (sidebar or dedicated page)",
             "status": "done",
-            "done": false,
             "completed_at": "2026-05-07",
-            "priority": "P3",
-            "context_files": [],
-            "reference_docs": [],
-            "acceptance_criteria": [],
-            "constraints": [],
-            "execution_mode": "human",
-            "depends_on": []
+            "priority": "P3"
           },
           {
             "id": "feat_bookmarks_004",
             "label": "Test bookmarks & highlights: verify list visible in sidebar (desktop) + MobileMenu missing BookmarkedChapters",
             "status": "todo",
-            "done": false,
-            "completed_at": null,
             "priority": "P2",
-            "notes": "Desktop (1024px+): Bookmarks show in right sidebar. Mobile/Tablet (<1024px): MobileMenu drawer missing BookmarkedChapters. Consider dedicated /bookmarks page.",
-            "context_files": [],
-            "reference_docs": [],
-            "acceptance_criteria": [],
-            "constraints": [],
-            "execution_mode": "human",
-            "depends_on": []
+            "notes": "Desktop (1024px+): Bookmarks show in right sidebar. Mobile/Tablet (<1024px): MobileMenu drawer missing BookmarkedChapters. Consider dedicated /bookmarks page."
           },
           {
             "id": "feat_bookmarks_005",
             "label": "HIGH: Fix sidebar visibility (missing z-index, visual blending, tablet gap)",
             "status": "done",
-            "done": false,
             "completed_at": "2026-05-08",
-            "priority": "P0",
-            "context_files": [],
-            "reference_docs": [],
-            "acceptance_criteria": [],
-            "constraints": [],
-            "execution_mode": "human",
-            "depends_on": []
+            "priority": "P0"
           }
         ],
         "dependencies": [],
@@ -112,102 +76,44 @@
           {
             "id": "feat_auth_backend_001",
             "label": "Set up Supabase project, install SDK (@supabase/supabase-js, @supabase/ssr), configure client",
-            "status": "done",
-            "done": true,
-            "assignee": "orchestrator",
-            "completed_at": "2026-05-08T06:16:47.977Z",
-            "priority": "P1",
-            "context_files": [],
-            "reference_docs": [],
-            "acceptance_criteria": [],
-            "constraints": [],
-            "execution_mode": "human",
-            "depends_on": [],
-            "completed_by": "orchestrator"
+            "status": "todo",
+            "priority": "P1"
           },
           {
             "id": "feat_auth_backend_002",
             "label": "Design DB schema (bookmarks table: user_id, chapter_id, chapter_title, created_at) + RLS policies",
             "status": "todo",
-            "done": false,
-            "completed_at": null,
-            "priority": "P1",
-            "context_files": [],
-            "reference_docs": [],
-            "acceptance_criteria": [],
-            "constraints": [],
-            "execution_mode": "human",
-            "depends_on": []
+            "priority": "P1"
           },
           {
             "id": "feat_auth_backend_003",
             "label": "Implement Supabase auth (email magic link, Google OAuth) with Next.js App Router",
             "status": "todo",
-            "done": false,
-            "completed_at": null,
-            "priority": "P1",
-            "context_files": [],
-            "reference_docs": [],
-            "acceptance_criteria": [],
-            "constraints": [],
-            "execution_mode": "human",
-            "depends_on": []
+            "priority": "P1"
           },
           {
             "id": "feat_auth_backend_004",
             "label": "Migrate bookmark storage: Supabase + localStorage fallback, sync on login",
             "status": "todo",
-            "done": false,
-            "completed_at": null,
-            "priority": "P1",
-            "context_files": [],
-            "reference_docs": [],
-            "acceptance_criteria": [],
-            "constraints": [],
-            "execution_mode": "human",
-            "depends_on": []
+            "priority": "P1"
           },
           {
             "id": "feat_auth_backend_005",
             "label": "Add auth UI: login/signup buttons, user menu, protected/authenticated state",
             "status": "todo",
-            "done": false,
-            "completed_at": null,
-            "priority": "P2",
-            "context_files": [],
-            "reference_docs": [],
-            "acceptance_criteria": [],
-            "constraints": [],
-            "execution_mode": "human",
-            "depends_on": []
+            "priority": "P2"
           },
           {
             "id": "feat_auth_backend_006",
             "label": "Handle anonymous users (localStorage) + merge bookmarks on login",
             "status": "todo",
-            "done": false,
-            "completed_at": null,
-            "priority": "P2",
-            "context_files": [],
-            "reference_docs": [],
-            "acceptance_criteria": [],
-            "constraints": [],
-            "execution_mode": "human",
-            "depends_on": []
+            "priority": "P2"
           },
           {
             "id": "feat_auth_backend_007",
             "label": "Test full flow: login, bookmark, persist, reload, cross-device, anonymous merge",
             "status": "todo",
-            "done": false,
-            "completed_at": null,
-            "priority": "P2",
-            "context_files": [],
-            "reference_docs": [],
-            "acceptance_criteria": [],
-            "constraints": [],
-            "execution_mode": "human",
-            "depends_on": []
+            "priority": "P2"
           }
         ],
         "dependencies": [],
@@ -233,7 +139,6 @@
             "id": "feat_progress_001",
             "label": "Design storage (localStorage)",
             "status": "todo",
-            "done": false,
             "completed_at": null,
             "priority": "P2",
             "context_files": [],
@@ -247,7 +152,6 @@
             "id": "feat_progress_002",
             "label": "Implement progress bar",
             "status": "todo",
-            "done": false,
             "completed_at": null,
             "priority": "P2",
             "context_files": [],
@@ -496,8 +400,8 @@
         "APPROVE",
         "ADMIN"
       ],
-      "last_action_at": "2026-05-08T06:16:47.979Z",
-      "session_action_count": 5
+      "last_action_at": "2026-05-06T18:54:43.841Z",
+      "session_action_count": 2
     },
     {
       "id": "explorer",
@@ -726,42 +630,6 @@
       ],
       "id": "log_1778177069188_9x0in2",
       "timestamp": "2026-05-07T18:04:29.188Z"
-    },
-    {
-      "agent_id": "orchestrator",
-      "action": "start_task",
-      "target_type": "task",
-      "target_id": "feat_auth_backend_001",
-      "description": "Started task \"Set up Supabase project, install SDK (@supabase/supabase-js, @supabase/ssr), configure client\"",
-      "tags": [
-        "lifecycle"
-      ],
-      "id": "log_1778220246765_auxroa",
-      "timestamp": "2026-05-08T06:04:06.765Z"
-    },
-    {
-      "agent_id": "orchestrator",
-      "action": "complete_task",
-      "target_type": "task",
-      "target_id": "feat_auth_backend_001",
-      "description": "Completed task \"Set up Supabase project, install SDK (@supabase/supabase-js, @supabase/ssr), configure client\": Set up Supabase client (client.ts + server.ts), added SDK packages, created setup guide at web/docs/supabase-setup.md",
-      "tags": [
-        "lifecycle"
-      ],
-      "id": "log_1778220997881_sh2zbq",
-      "timestamp": "2026-05-08T06:16:37.881Z"
-    },
-    {
-      "agent_id": "orchestrator",
-      "action": "approve_task",
-      "target_type": "task",
-      "target_id": "feat_auth_backend_001",
-      "description": "Approved task \"Set up Supabase project, install SDK (@supabase/supabase-js, @supabase/ssr), configure client\".",
-      "tags": [
-        "lifecycle"
-      ],
-      "id": "log_1778221007979_7kgtjz",
-      "timestamp": "2026-05-08T06:16:47.979Z"
     }
   ],
   "history_log": [
@@ -854,11 +722,7 @@
       "date": "2026-05-08",
       "action": "Planned feat_auth_backend milestone — Auth & Backend Storage via Supabase. 7 subtasks: Supabase setup, DB schema + RLS, auth implementation, bookmark migration (Supabase + localStorage fallback), auth UI, anonymous merge, full test flow.",
       "agent": "orchestrator"
-    },
-    {
-      "date": "2026-05-08",
-      "action": "Completed feat_auth_backend_001 — Set up Supabase SDK, created browser client (lib/supabase/client.ts) and server client (lib/supabase/server.ts), documented full setup guide at web/docs/supabase-setup.md. Build passed (17/17).",
-      "agent": "nextjs-specialist"
     }
-  ]
+  ],
+  "_schema_version": 1
 }
