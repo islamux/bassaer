@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { Bookmark } from "lucide-react";
 import { isBookmarked, toggleBookmark } from "@/lib/bookmarks";
 
@@ -13,14 +13,14 @@ export default function BookmarkButton({ chapterId, chapterTitle }: BookmarkButt
   const [active, setActive] = useState(false);
 
   useEffect(() => {
-    setActive(isBookmarked(chapterId));
+    isBookmarked(chapterId).then(setActive);
   }, [chapterId]);
 
-  const handleToggle = () => {
-    const result = toggleBookmark(chapterId, chapterTitle);
+  const handleToggle = useCallback(async () => {
+    const result = await toggleBookmark(chapterId, chapterTitle);
     setActive(result.some(b => b.chapterId === chapterId));
     window.dispatchEvent(new Event("bookmarks-updated"));
-  };
+  }, [chapterId, chapterTitle]);
 
   return (
     <button

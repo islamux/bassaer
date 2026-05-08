@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import Link from "next/link";
 import { Bookmark as BookmarkIcon, BookmarkX } from "lucide-react";
 import { getBookmarks, removeBookmark, type Bookmark } from "@/lib/bookmarks";
@@ -8,16 +8,26 @@ import { getBookmarks, removeBookmark, type Bookmark } from "@/lib/bookmarks";
 export default function BookmarkedChapters() {
   const [bookmarks, setBookmarks] = useState<Bookmark[]>([]);
 
+  const load = useCallback(async () => {
+    setBookmarks(await getBookmarks());
+  }, []);
+
   useEffect(() => {
-    setBookmarks(getBookmarks());
-    const handle = () => setBookmarks(getBookmarks());
+    load();
+    const handle = () => load();
     window.addEventListener("storage", handle);
     window.addEventListener("bookmarks-updated", handle);
     return () => {
       window.removeEventListener("storage", handle);
       window.removeEventListener("bookmarks-updated", handle);
     };
-  }, []);
+  }, [load]);
+
+  const handleRemove = useCallback(async (chapterId: string) => {
+    await removeBookmark(chapterId);
+    await load();
+    window.dispatchEvent(new Event("bookmarks-updated"));
+  }, [load]);
 
   if (bookmarks.length === 0) return null;
 
@@ -37,11 +47,7 @@ export default function BookmarkedChapters() {
               {b.chapterTitle}
             </Link>
             <button
-              onClick={() => {
-                removeBookmark(b.chapterId);
-                setBookmarks(getBookmarks());
-                window.dispatchEvent(new Event("bookmarks-updated"));
-              }}
+              onClick={() => handleRemove(b.chapterId)}
               className="opacity-0 group-hover:opacity-100 p-1 text-[var(--muted-foreground)] hover:text-red-500 transition-all"
               aria-label={`إزالة ${b.chapterTitle} من المفضلة`}
             >

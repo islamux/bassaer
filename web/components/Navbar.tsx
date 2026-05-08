@@ -5,6 +5,8 @@ import Link from "next/link";
 import { Moon, Sun, Search, Menu } from "lucide-react";
 import { ChapterMeta } from "@/lib/contentLoader";
 import MobileMenu from "./MobileMenu";
+import AuthButton from "./AuthButton";
+import UserMenu from "./UserMenu";
 
 interface NavbarProps {
   chapters: ChapterMeta[];
@@ -55,6 +57,8 @@ export default function Navbar({ chapters, onSearchOpen }: NavbarProps) {
             >
               <Search className="w-5 h-5" />
             </button>
+            <UserMenu />
+            <AuthButton />
             <button 
               onClick={toggleTheme} 
               className="p-2 rounded-full hover:bg-[var(--muted)] text-[var(--muted-foreground)] transition-colors"
