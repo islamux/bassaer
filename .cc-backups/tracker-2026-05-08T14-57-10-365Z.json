@@ -5,14 +5,14 @@
     "target_date": "2026-07-01",
     "current_week": 5,
     "schedule_status": "on_track",
-    "overall_progress": 95
+    "overall_progress": 54
   },
   "dashboard": {
-    "current_focus": "Infra cleanup: infra_structure_001 (docs), 009 (PROJECT_MAP.md), 011 (tracker log) — then feat_progress",
+    "current_focus": "Auth & Backend Storage (Supabase) — starting feat_auth_backend_001",
     "active_milestone": "infra_structure_cleanup",
-    "next_priority": "feat_auth_backend_008 (blocked: user must run SQL in Supabase Editor), then feat_progress",
-    "blockers": "feat_auth_backend_008: user needs to run web/supabase/migrations/001_create_bookmarks.sql in Supabase SQL Editor",
-    "health": "Excellent — infra_structure_cleanup: 15/15 done. feat_auth_backend: 7/8 done (one blocked)."
+    "next_priority": "❯ Project Structure Cleanup (move docs, content, scripts; clean web/ root)",
+    "blockers": "None",
+    "health": "Excellent"
   },
   "milestones": {
     "active": [
@@ -168,21 +168,12 @@
           {
             "id": "infra_structure_001",
             "label": "Move docs → /docs/, consolidate from root + web/docs/ + web/",
-            "status": "done",
-            "completed_at": "2026-05-08T16:00:00.000Z",
-            "completed_by": "orchestrator",
+            "status": "todo",
+            "completed_at": null,
             "priority": "P1",
-            "context_files": [
-              "docs/",
-              "web/docs/",
-              "AGENTS.md"
-            ],
+            "context_files": [],
             "reference_docs": [],
-            "acceptance_criteria": [
-              "28 project-wide docs moved from web/docs/ to /docs/",
-              "supabase-setup.md kept in web/docs/ (web-app specific)",
-              "AGENTS.md reference updated to docs/cc-commands.md"
-            ],
+            "acceptance_criteria": [],
             "constraints": [],
             "execution_mode": "human",
             "depends_on": []
@@ -190,10 +181,8 @@
           {
             "id": "infra_structure_002",
             "label": "Move web/content/ → /content/chapters/, update contentLoader.ts path",
-            "status": "done",
-            "assignee": "nextjs-specialist",
-            "completed_at": "2026-05-08T15:00:52.850Z",
-            "completed_by": "orchestrator",
+            "status": "todo",
+            "completed_at": null,
             "priority": "P1",
             "context_files": [],
             "reference_docs": [],
@@ -250,10 +239,9 @@
           {
             "id": "infra_structure_006",
             "label": "Add dist/ .next/ .ruff_cache/ to .gitignore",
-            "status": "done",
+            "status": "review",
             "assignee": "nextjs-specialist",
-            "completed_at": "2026-05-08T14:57:10.363Z",
-            "completed_by": "orchestrator",
+            "completed_at": null,
             "priority": "P2",
             "context_files": [],
             "reference_docs": [],
@@ -265,34 +253,21 @@
           {
             "id": "infra_structure_007",
             "label": "Merge Python venvs (venv/ + .cc-venv/ → .venv/)",
-            "status": "done",
-            "completed_at": "2026-05-08T16:00:00.000Z",
-            "completed_by": "orchestrator",
+            "status": "todo",
+            "completed_at": null,
             "priority": "P2",
-            "context_files": [
-              ".gitignore",
-              "scripts/cc-dash.py"
-            ],
+            "context_files": [],
             "reference_docs": [],
-            "acceptance_criteria": [
-              "git rm --cached venv/ .cc-venv/ (1532 files removed from tracking)",
-              ".venv/ created with python3 -m venv, rich installed",
-              "cc-dash.py path updated to .venv/bin/python3",
-              "Old venv/ and .cc-venv/ deleted",
-              "venv/, .cc-venv/, .venv/ added to .gitignore",
-              "cc-dash.py verified working"
-            ],
+            "acceptance_criteria": [],
             "constraints": [],
             "execution_mode": "human",
-            "depends_on": [],
-            "assignee": "nextjs-specialist"
+            "depends_on": []
           },
           {
             "id": "infra_structure_008",
             "label": "Update README.md with new structure",
-            "status": "done",
-            "completed_at": "2026-05-08T16:00:00.000Z",
-            "completed_by": "orchestrator",
+            "status": "todo",
+            "completed_at": null,
             "priority": "P2",
             "context_files": [],
             "reference_docs": [],
@@ -304,9 +279,8 @@
           {
             "id": "infra_structure_009",
             "label": "Update PROJECT_MAP.md with new paths",
-            "status": "done",
-            "completed_at": "2026-05-08T16:00:00.000Z",
-            "completed_by": "orchestrator",
+            "status": "todo",
+            "completed_at": null,
             "priority": "P2",
             "context_files": [],
             "reference_docs": [],
@@ -318,9 +292,8 @@
           {
             "id": "infra_structure_010",
             "label": "Update AGENTS.md with new path references",
-            "status": "done",
-            "completed_at": "2026-05-08T16:00:00.000Z",
-            "completed_by": "orchestrator",
+            "status": "todo",
+            "completed_at": null,
             "priority": "P2",
             "context_files": [],
             "reference_docs": [],
@@ -332,9 +305,8 @@
           {
             "id": "infra_structure_011",
             "label": "Update project-tracker.json log",
-            "status": "done",
-            "completed_at": "2026-05-08T16:00:00.000Z",
-            "completed_by": "orchestrator",
+            "status": "todo",
+            "completed_at": null,
             "priority": "P2",
             "context_files": [],
             "reference_docs": [],
@@ -394,29 +366,6 @@
             "constraints": [],
             "execution_mode": "agent",
             "depends_on": []
-          },
-          {
-            "id": "infra_structure_015",
-            "label": "Update web/docs/ with README after docs consolidation",
-            "status": "done",
-            "completed_at": "2026-05-08T16:00:00.000Z",
-            "completed_by": "orchestrator",
-            "priority": "P2",
-            "context_files": [
-              "web/docs/README.md",
-              "web/docs/supabase-setup.md"
-            ],
-            "reference_docs": [],
-            "acceptance_criteria": [
-              "web/docs/README.md created explaining directory purpose",
-              "Project-wide docs consolidated to /docs/",
-              "web/docs/ now contains only web-app-specific docs"
-            ],
-            "constraints": [],
-            "execution_mode": "human",
-            "depends_on": [
-              "infra_structure_001"
-            ]
           }
         ],
         "dependencies": [],
@@ -783,8 +732,8 @@
         "APPROVE",
         "ADMIN"
       ],
-      "last_action_at": "2026-05-08T15:00:52.851Z",
-      "session_action_count": 30
+      "last_action_at": "2026-05-08T14:56:23.431Z",
+      "session_action_count": 28
     },
     {
       "id": "explorer",
@@ -852,8 +801,8 @@
         "READ",
         "WRITE"
       ],
-      "last_action_at": "2026-05-08T15:01:17.290Z",
-      "session_action_count": 20,
+      "last_action_at": "2026-05-08T14:57:08.897Z",
+      "session_action_count": 17,
       "parent_id": "orchestrator"
     }
   ],
@@ -1506,66 +1455,6 @@
       ],
       "id": "log_1778252228898_mg5ri2",
       "timestamp": "2026-05-08T14:57:08.898Z"
-    },
-    {
-      "agent_id": "orchestrator",
-      "action": "approve_task",
-      "target_type": "task",
-      "target_id": "infra_structure_006",
-      "description": "Approved task \"Add dist/ .next/ .ruff_cache/ to .gitignore\".",
-      "tags": [
-        "lifecycle"
-      ],
-      "id": "log_1778252230364_h901m4",
-      "timestamp": "2026-05-08T14:57:10.364Z"
-    },
-    {
-      "agent_id": "nextjs-specialist",
-      "action": "start_task",
-      "target_type": "task",
-      "target_id": "infra_structure_002",
-      "description": "Started task \"Move web/content/ → /content/chapters/, update contentLoader.ts path\"",
-      "tags": [
-        "lifecycle"
-      ],
-      "id": "log_1778252255189_bvufiy",
-      "timestamp": "2026-05-08T14:57:35.189Z"
-    },
-    {
-      "agent_id": "nextjs-specialist",
-      "action": "complete_task",
-      "target_type": "task",
-      "target_id": "infra_structure_002",
-      "description": "Completed task \"Move web/content/ → /content/chapters/, update contentLoader.ts path\": Moved 13 chapter files web/content/*.md → content/chapters/. Updated contentLoader.ts and generate-search-data.mjs paths. Build passes.",
-      "tags": [
-        "lifecycle"
-      ],
-      "id": "log_1778252451482_87v893",
-      "timestamp": "2026-05-08T15:00:51.482Z"
-    },
-    {
-      "agent_id": "orchestrator",
-      "action": "approve_task",
-      "target_type": "task",
-      "target_id": "infra_structure_002",
-      "description": "Approved task \"Move web/content/ → /content/chapters/, update contentLoader.ts path\".",
-      "tags": [
-        "lifecycle"
-      ],
-      "id": "log_1778252452851_5pu39j",
-      "timestamp": "2026-05-08T15:00:52.851Z"
-    },
-    {
-      "agent_id": "nextjs-specialist",
-      "action": "start_task",
-      "target_type": "task",
-      "target_id": "infra_structure_007",
-      "description": "Started task \"Merge Python venvs (venv/ + .cc-venv/ → .venv/)\"",
-      "tags": [
-        "lifecycle"
-      ],
-      "id": "log_1778252477290_zyhegc",
-      "timestamp": "2026-05-08T15:01:17.291Z"
     }
   ],
   "history_log": [

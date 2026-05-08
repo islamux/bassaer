@@ -3,7 +3,7 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const contentDir = path.resolve(__dirname, '..', 'content');
+const contentDir = path.resolve(__dirname, '..', '..', 'content', 'chapters');
 const outDir = path.resolve(__dirname, '..', 'public');
 
 if (!fs.existsSync(contentDir)) {

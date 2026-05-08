@@ -1,0 +1,123 @@
+{
+  "chapter-1.md": [
+    {
+      "type": "replacement_char",
+      "count": 2,
+      "desc": "Found Unicode replacement character ()"
+    },
+    {
+      "type": "presentation_forms",
+      "count": 37,
+      "desc": "Found Arabic presentation forms (often used in Quranic fonts but break search)"
+    },
+    {
+      "type": "radiya_error",
+      "count": 3,
+      "desc": "Found 'ضرورة' which might be misidentified 'عنه/عنها'"
+    }
+  ],
+  "chapter-10.md": [
+    {
+      "type": "presentation_forms",
+      "count": 221,
+      "desc": "Found Arabic presentation forms (often used in Quranic fonts but break search)"
+    },
+    {
+      "type": "radiya_error",
+      "count": 8,
+      "desc": "Found 'ضرورة' which might be misidentified 'عنه/عنها'"
+    }
+  ],
+  "chapter-11.md": [
+    {
+      "type": "presentation_forms",
+      "count": 71,
+      "desc": "Found Arabic presentation forms (often used in Quranic fonts but break search)"
+    },
+    {
+      "type": "radiya_error",
+      "count": 1,
+      "desc": "Found 'ضرورة' which might be misidentified 'عنه/عنها'"
+    }
+  ],
+  "chapter-12.md": [
+    {
+      "type": "presentation_forms",
+      "count": 65,
+      "desc": "Found Arabic presentation forms (often used in Quranic fonts but break search)"
+    },
+    {
+      "type": "radiya_error",
+      "count": 1,
+      "desc": "Found 'ضرورة' which might be misidentified 'عنه/عنها'"
+    }
+  ],
+  "chapter-2.md": [
+    {
+      "type": "presentation_forms",
+      "count": 51,
+      "desc": "Found Arabic presentation forms (often used in Quranic fonts but break search)"
+    }
+  ],
+  "chapter-3.md": [
+    {
+      "type": "presentation_forms",
+      "count": 90,
+      "desc": "Found Arabic presentation forms (often used in Quranic fonts but break search)"
+    }
+  ],
+  "chapter-4.md": [
+    {
+      "type": "presentation_forms",
+      "count": 31,
+      "desc": "Found Arabic presentation forms (often used in Quranic fonts but break search)"
+    }
+  ],
+  "chapter-5.md": [
+    {
+      "type": "presentation_forms",
+      "count": 47,
+      "desc": "Found Arabic presentation forms (often used in Quranic fonts but break search)"
+    }
+  ],
+  "chapter-6.md": [
+    {
+      "type": "presentation_forms",
+      "count": 8,
+      "desc": "Found Arabic presentation forms (often used in Quranic fonts but break search)"
+    }
+  ],
+  "chapter-7.md": [
+    {
+      "type": "presentation_forms",
+      "count": 84,
+      "desc": "Found Arabic presentation forms (often used in Quranic fonts but break search)"
+    }
+  ],
+  "chapter-8.md": [
+    {
+      "type": "presentation_forms",
+      "count": 6,
+      "desc": "Found Arabic presentation forms (often used in Quranic fonts but break search)"
+    }
+  ],
+  "chapter-9.md": [
+    {
+      "type": "presentation_forms",
+      "count": 193,
+      "desc": "Found Arabic presentation forms (often used in Quranic fonts but break search)"
+    },
+    {
+      "type": "radiya_error",
+      "count": 4,
+      "desc": "Found 'ضرورة' which might be misidentified 'عنه/عنها'"
+    }
+  ],
+  "intro.md": [
+    {
+      "type": "presentation_forms",
+      "count": 6,
+      "desc": "Found Arabic presentation forms (often used in Quranic fonts but break search)"
+    }
+  ]
+}

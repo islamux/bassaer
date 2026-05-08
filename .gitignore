@@ -51,5 +51,16 @@ __pycache__/
 # Documentation build
 _docs/
 _build/
-content/ar-basaar.docx
-content/.~lock*
+
+# Build output directories
+dist/
+.next/
+.ruff_cache/
+
+# Tool artifacts
+.opencode/
+
+# Python virtual environments
+venv/
+.cc-venv/
+.venv/
