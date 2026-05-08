@@ -15,7 +15,7 @@ export default function MobileMenu({ isOpen, onClose, chapters }: MobileMenuProp
     <>
       {/* Backdrop */}
       <div 
-        className={`fixed inset-0 z-[60] bg-black/50 backdrop-blur-sm transition-opacity duration-300 md:hidden ${
+        className={`fixed inset-0 z-[60] bg-black/50 backdrop-blur-sm transition-opacity duration-300 lg:hidden ${
           isOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
         }`}
         onClick={onClose}
@@ -24,7 +24,7 @@ export default function MobileMenu({ isOpen, onClose, chapters }: MobileMenuProp
       {/* Drawer */}
       <div 
         id="mobile-menu"
-        className={`fixed top-0 right-0 bottom-0 z-[70] w-80 bg-[var(--background)] shadow-2xl transition-transform duration-300 md:hidden ${
+        className={`fixed top-0 right-0 bottom-0 z-[70] w-80 bg-[var(--background)] shadow-2xl transition-transform duration-300 lg:hidden ${
           isOpen ? "translate-x-0" : "translate-x-full"
         }`}
         role="dialog"
