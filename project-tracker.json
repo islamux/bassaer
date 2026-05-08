@@ -8,7 +8,7 @@
     "overall_progress": 75
   },
   "dashboard": {
-    "current_focus": "Bookmarks & Highlights — completed",
+    "current_focus": "Bookmarks & Highlights — sidebar fixed, testing remaining",
     "active_milestone": "feat_bookmarks",
     "next_priority": "feat_progress (Reading Progress Tracking)",
     "blockers": "None",
@@ -55,7 +55,8 @@
           {
             "id": "feat_bookmarks_005",
             "label": "HIGH: Fix sidebar visibility (missing z-index, visual blending, tablet gap)",
-            "status": "in_progress",
+            "status": "done",
+            "completed_at": "2026-05-08",
             "priority": "P0"
           }
         ],
@@ -649,6 +650,11 @@
     {
       "date": "2026-05-07",
       "action": "Completed feat_bookmarks milestone — all 3 subtasks done. localStorage schema (basaar-bookmarks) with chapterId, chapterTitle, timestamp. BookmarkButton component with toggle icon (filled/outline) on each chapter page. BookmarkedChapters list in sidebar with hover-to-remove. Custom event 'bookmarks-updated' for reactive updates. Title stripped from markdown content and rendered separately with bookmark button. Build succeeded (17/17 pages). Progress 75%.",
+      "agent": "nextjs-specialist"
+    },
+    {
+      "date": "2026-05-08",
+      "action": "Fixed sidebar visibility — added z-40 and shadow to Sidebar, changed nested <main> to <div> in ClientShell, fixed tablet menu gap (md:hidden → lg:hidden). Build succeeded (17/17 pages). feat_bookmarks_005 done.",
       "agent": "nextjs-specialist"
     }
   ],
