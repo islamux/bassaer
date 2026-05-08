@@ -133,6 +133,10 @@ async function main() {
       toolName = 'activate_milestone'
       toolArgs = { milestone_id: positional[0] }
       break
+    case 'complete_milestone':
+      toolName = 'complete_milestone'
+      toolArgs = { milestone_id: positional[0] }
+      break
     case 'create_milestone':
       toolName = 'create_milestone'
       toolArgs = { id: positional[0], title: positional[1] || '', ...flags }
