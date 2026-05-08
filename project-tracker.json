@@ -5,7 +5,7 @@
     "target_date": "2026-07-01",
     "current_week": 5,
     "schedule_status": "on_track",
-    "overall_progress": 41
+    "overall_progress": 39
   },
   "dashboard": {
     "current_focus": "Auth & Backend Storage (Supabase) — starting feat_auth_backend_001",
@@ -116,14 +116,36 @@
             "label": "Test full flow: login, bookmark, persist, reload, cross-device, anonymous merge",
             "status": "done",
             "completed_at": "2026-05-08T13:57:45.614Z",
+            "completed_by": "orchestrator",
             "priority": "P2",
             "context_files": [],
             "reference_docs": [],
             "acceptance_criteria": [],
             "constraints": [],
             "execution_mode": "human",
+            "depends_on": []
+          },
+          {
+            "id": "feat_auth_backend_008",
+            "label": "Run 001_create_bookmarks.sql in Supabase SQL Editor to create bookmarks table + RLS policies",
+            "status": "in_progress",
+            "completed_at": null,
+            "priority": "P0",
+            "context_files": [
+              "web/supabase/migrations/001_create_bookmarks.sql"
+            ],
+            "reference_docs": [],
+            "acceptance_criteria": [
+              "Table public.bookmarks exists with columns: id (uuid PK), user_id (FK→auth.users), chapter_id (text), chapter_title (text), created_at (timestamptz)",
+              "RLS enabled with 3 policies: select own, insert own, delete own",
+              "Indices created on user_id and chapter_id"
+            ],
+            "constraints": [
+              "Must use Supabase SQL Editor"
+            ],
+            "execution_mode": "human",
             "depends_on": [],
-            "completed_by": "orchestrator"
+            "assignee": "orchestrator"
           }
         ],
         "dependencies": [],
@@ -681,8 +703,8 @@
         "APPROVE",
         "ADMIN"
       ],
-      "last_action_at": "2026-05-08T13:57:45.615Z",
-      "session_action_count": 22
+      "last_action_at": "2026-05-08T14:04:45.135Z",
+      "session_action_count": 24
     },
     {
       "id": "explorer",
@@ -1223,6 +1245,31 @@
       ],
       "id": "log_1778248665615_49otob",
       "timestamp": "2026-05-08T13:57:45.615Z"
+    },
+    {
+      "agent_id": "orchestrator",
+      "action": "add_milestone_task",
+      "target_type": "task",
+      "target_id": "feat_auth_backend_009",
+      "description": "Added task \"Run 001_create_bookmarks.sql in Supabase SQL Editor\" to milestone \"Auth & Backend Storage (Supabase)\"",
+      "tags": [
+        "milestone",
+        "task"
+      ],
+      "id": "log_1778249064579_t1n5nq",
+      "timestamp": "2026-05-08T14:04:24.579Z"
+    },
+    {
+      "agent_id": "orchestrator",
+      "action": "start_task",
+      "target_type": "task",
+      "target_id": "feat_auth_backend_008",
+      "description": "Started task \"Run 001_create_bookmarks.sql in Supabase SQL Editor to create bookmarks table + RLS policies\"",
+      "tags": [
+        "lifecycle"
+      ],
+      "id": "log_1778249085136_f5hj90",
+      "timestamp": "2026-05-08T14:04:45.136Z"
     }
   ],
   "history_log": [
