@@ -5,7 +5,7 @@
     "target_date": "2026-07-01",
     "current_week": 5,
     "schedule_status": "on_track",
-    "overall_progress": 30
+    "overall_progress": 26
   },
   "dashboard": {
     "current_focus": "Auth & Backend Storage (Supabase) — starting feat_auth_backend_001",
@@ -364,16 +364,14 @@
             "id": "infra_structure_012",
             "label": "Create cc:activate command (move milestone backlog→active via CLI)",
             "status": "done",
-            "assignee": "nextjs-specialist",
-            "completed_at": "2026-05-08T07:42:34.113Z",
+            "completed_at": "2026-05-08",
             "priority": "P1",
             "context_files": [],
             "reference_docs": [],
             "acceptance_criteria": [],
             "constraints": [],
             "execution_mode": "human",
-            "depends_on": [],
-            "completed_by": "orchestrator"
+            "depends_on": []
           },
           {
             "id": "infra_structure_013",
@@ -670,8 +668,8 @@
         "APPROVE",
         "ADMIN"
       ],
-      "last_action_at": "2026-05-08T07:42:34.114Z",
-      "session_action_count": 11
+      "last_action_at": "2026-05-08T07:40:41.183Z",
+      "session_action_count": 10
     },
     {
       "id": "explorer",
@@ -739,8 +737,8 @@
         "READ",
         "WRITE"
       ],
-      "last_action_at": "2026-05-08T07:42:32.706Z",
-      "session_action_count": 6,
+      "last_action_at": "2026-05-08T07:31:09.434Z",
+      "session_action_count": 4,
       "parent_id": "orchestrator"
     }
   ],
@@ -1020,42 +1018,6 @@
       ],
       "id": "log_1778226041183_5b8sht",
       "timestamp": "2026-05-08T07:40:41.183Z"
-    },
-    {
-      "agent_id": "nextjs-specialist",
-      "action": "start_task",
-      "target_type": "task",
-      "target_id": "infra_structure_012",
-      "description": "Started task \"Create cc:activate command (move milestone backlog→active via CLI)\"",
-      "tags": [
-        "lifecycle"
-      ],
-      "id": "log_1778226151247_vwlhiz",
-      "timestamp": "2026-05-08T07:42:31.247Z"
-    },
-    {
-      "agent_id": "nextjs-specialist",
-      "action": "complete_task",
-      "target_type": "task",
-      "target_id": "infra_structure_012",
-      "description": "Completed task \"Create cc:activate command (move milestone backlog→active via CLI)\": Implemented cc:activate command — activates milestone backlog→active via CLI",
-      "tags": [
-        "lifecycle"
-      ],
-      "id": "log_1778226152706_cxo60s",
-      "timestamp": "2026-05-08T07:42:32.706Z"
-    },
-    {
-      "agent_id": "orchestrator",
-      "action": "approve_task",
-      "target_type": "task",
-      "target_id": "infra_structure_012",
-      "description": "Approved task \"Create cc:activate command (move milestone backlog→active via CLI)\".",
-      "tags": [
-        "lifecycle"
-      ],
-      "id": "log_1778226154114_040538",
-      "timestamp": "2026-05-08T07:42:34.114Z"
     }
   ],
   "history_log": [
@@ -1170,9 +1132,9 @@
       "agent": "nextjs-specialist"
     },
     {
-      "date": "2026-05-08",
       "action": "Moved milestone \"❯ Project Structure Cleanup (move docs, content, scripts; clean web/ root)\" from backlog to active",
-      "agent": "orchestrator"
+      "agent": "orchestrator",
+      "date": "2026-05-08"
     },
     {
       "date": "2026-05-08",

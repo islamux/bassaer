@@ -122,6 +122,10 @@ async function main() {
             toolName = 'update_drift';
             toolArgs = { milestone_id: positional[0], drift_days: positional[1] ? Number(positional[1]) : undefined, ...flags };
             break;
+        case 'activate_milestone':
+            toolName = 'activate_milestone';
+            toolArgs = { milestone_id: positional[0] };
+            break;
         case 'create_milestone':
             toolName = 'create_milestone';
             toolArgs = { id: positional[0], title: positional[1] || '', ...flags };

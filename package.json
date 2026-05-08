@@ -23,6 +23,7 @@
     "cc:unblock": "pnpm _cc unblock_task",
     "cc:mstone": "pnpm _cc get_milestone_overview",
     "cc:task": "pnpm _cc get_task_context",
-    "cc:register-agent": "pnpm _cc register_agent"
+    "cc:register-agent": "pnpm _cc register_agent",
+    "cc:activate": "pnpm _cc activate_milestone"
   }
 }

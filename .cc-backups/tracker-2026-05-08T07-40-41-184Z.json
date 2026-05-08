@@ -5,12 +5,12 @@
     "target_date": "2026-07-01",
     "current_week": 5,
     "schedule_status": "on_track",
-    "overall_progress": 30
+    "overall_progress": 11
   },
   "dashboard": {
     "current_focus": "Auth & Backend Storage (Supabase) — starting feat_auth_backend_001",
-    "active_milestone": "infra_structure_cleanup",
-    "next_priority": "❯ Project Structure Cleanup (move docs, content, scripts; clean web/ root)",
+    "active_milestone": "feat_auth_backend",
+    "next_priority": "feat_auth_backend (Auth & Backend Storage — Supabase)",
     "blockers": "None",
     "health": "Excellent"
   },
@@ -29,6 +29,7 @@
             "id": "feat_bookmarks_001",
             "label": "Design localStorage schema for bookmarks & highlights",
             "status": "done",
+            "done": false,
             "completed_at": "2026-05-07",
             "priority": "P2",
             "context_files": [],
@@ -42,6 +43,7 @@
             "id": "feat_bookmarks_002",
             "label": "Implement bookmark toggle button on chapter pages",
             "status": "done",
+            "done": false,
             "completed_at": "2026-05-07",
             "priority": "P2",
             "context_files": [],
@@ -55,6 +57,7 @@
             "id": "feat_bookmarks_003",
             "label": "Add bookmarks list UI (sidebar or dedicated page)",
             "status": "done",
+            "done": false,
             "completed_at": "2026-05-07",
             "priority": "P3",
             "context_files": [],
@@ -68,6 +71,7 @@
             "id": "feat_bookmarks_004",
             "label": "Test bookmarks & highlights: verify list visible in sidebar (desktop) + MobileMenu missing BookmarkedChapters",
             "status": "done",
+            "done": true,
             "assignee": "orchestrator",
             "completed_at": "2026-05-08T06:49:08.042Z",
             "completed_by": "orchestrator",
@@ -84,6 +88,7 @@
             "id": "feat_bookmarks_005",
             "label": "HIGH: Fix sidebar visibility (missing z-index, visual blending, tablet gap)",
             "status": "done",
+            "done": false,
             "completed_at": "2026-05-08",
             "priority": "P0",
             "context_files": [],
@@ -110,6 +115,7 @@
             "id": "feat_auth_backend_001",
             "label": "Set up Supabase project, install SDK (@supabase/supabase-js, @supabase/ssr), configure client",
             "status": "done",
+            "done": true,
             "assignee": "orchestrator",
             "completed_at": "2026-05-08T06:16:47.977Z",
             "completed_by": "orchestrator",
@@ -125,6 +131,7 @@
             "id": "feat_auth_backend_002",
             "label": "Design DB schema (bookmarks table: user_id, chapter_id, chapter_title, created_at) + RLS policies",
             "status": "todo",
+            "done": false,
             "completed_at": null,
             "priority": "P1",
             "context_files": [],
@@ -138,6 +145,7 @@
             "id": "feat_auth_backend_003",
             "label": "Implement Supabase auth (email magic link, Google OAuth) with Next.js App Router",
             "status": "todo",
+            "done": false,
             "completed_at": null,
             "priority": "P1",
             "context_files": [],
@@ -151,6 +159,7 @@
             "id": "feat_auth_backend_004",
             "label": "Migrate bookmark storage: Supabase + localStorage fallback, sync on login",
             "status": "todo",
+            "done": false,
             "completed_at": null,
             "priority": "P1",
             "context_files": [],
@@ -164,6 +173,7 @@
             "id": "feat_auth_backend_005",
             "label": "Add auth UI: login/signup buttons, user menu, protected/authenticated state",
             "status": "todo",
+            "done": false,
             "completed_at": null,
             "priority": "P2",
             "context_files": [],
@@ -177,6 +187,7 @@
             "id": "feat_auth_backend_006",
             "label": "Handle anonymous users (localStorage) + merge bookmarks on login",
             "status": "todo",
+            "done": false,
             "completed_at": null,
             "priority": "P2",
             "context_files": [],
@@ -190,6 +201,7 @@
             "id": "feat_auth_backend_007",
             "label": "Test full flow: login, bookmark, persist, reload, cross-device, anonymous merge",
             "status": "todo",
+            "done": false,
             "completed_at": null,
             "priority": "P2",
             "context_files": [],
@@ -207,7 +219,9 @@
           "localStorage as fallback for anonymous users, sync on login",
           "Bookmark schema: bookmarks(id uuid PK, user_id FK→auth.users, chapter_id text, chapter_title text, created_at timestamptz)"
         ]
-      },
+      }
+    ],
+    "backlog": [
       {
         "id": "infra_structure_cleanup",
         "title": "❯ Project Structure Cleanup (move docs, content, scripts; clean web/ root)",
@@ -221,6 +235,7 @@
             "id": "infra_structure_001",
             "label": "Move docs → /docs/, consolidate from root + web/docs/ + web/",
             "status": "todo",
+            "done": false,
             "completed_at": null,
             "priority": "P1",
             "context_files": [],
@@ -234,6 +249,7 @@
             "id": "infra_structure_002",
             "label": "Move web/content/ → /content/chapters/, update contentLoader.ts path",
             "status": "todo",
+            "done": false,
             "completed_at": null,
             "priority": "P1",
             "context_files": [],
@@ -247,6 +263,7 @@
             "id": "infra_structure_003",
             "label": "Consolidate scripts: move misplaced .py files, clean versioned duplicates",
             "status": "todo",
+            "done": false,
             "completed_at": null,
             "priority": "P1",
             "context_files": [],
@@ -260,6 +277,7 @@
             "id": "infra_structure_004",
             "label": "Clean web/ root: remove 25+ misplaced .py .txt .json files",
             "status": "todo",
+            "done": false,
             "completed_at": null,
             "priority": "P1",
             "context_files": [],
@@ -273,6 +291,7 @@
             "id": "infra_structure_005",
             "label": "Remove npm lockfiles from pnpm packages",
             "status": "todo",
+            "done": false,
             "completed_at": null,
             "priority": "P2",
             "context_files": [],
@@ -286,6 +305,7 @@
             "id": "infra_structure_006",
             "label": "Add dist/ .next/ .ruff_cache/ to .gitignore",
             "status": "todo",
+            "done": false,
             "completed_at": null,
             "priority": "P2",
             "context_files": [],
@@ -299,6 +319,7 @@
             "id": "infra_structure_007",
             "label": "Merge Python venvs (venv/ + .cc-venv/ → .venv/)",
             "status": "todo",
+            "done": false,
             "completed_at": null,
             "priority": "P2",
             "context_files": [],
@@ -312,6 +333,7 @@
             "id": "infra_structure_008",
             "label": "Update README.md with new structure",
             "status": "todo",
+            "done": false,
             "completed_at": null,
             "priority": "P2",
             "context_files": [],
@@ -325,6 +347,7 @@
             "id": "infra_structure_009",
             "label": "Update PROJECT_MAP.md with new paths",
             "status": "todo",
+            "done": false,
             "completed_at": null,
             "priority": "P2",
             "context_files": [],
@@ -338,6 +361,7 @@
             "id": "infra_structure_010",
             "label": "Update AGENTS.md with new path references",
             "status": "todo",
+            "done": false,
             "completed_at": null,
             "priority": "P2",
             "context_files": [],
@@ -351,6 +375,7 @@
             "id": "infra_structure_011",
             "label": "Update project-tracker.json log",
             "status": "todo",
+            "done": false,
             "completed_at": null,
             "priority": "P2",
             "context_files": [],
@@ -363,10 +388,25 @@
           {
             "id": "infra_structure_012",
             "label": "Create cc:activate command (move milestone backlog→active via CLI)",
-            "status": "done",
-            "assignee": "nextjs-specialist",
-            "completed_at": "2026-05-08T07:42:34.113Z",
+            "status": "todo",
+            "done": false,
+            "completed_at": null,
             "priority": "P1",
+            "context_files": [],
+            "reference_docs": [],
+            "acceptance_criteria": [],
+            "constraints": [],
+            "execution_mode": "human",
+            "depends_on": []
+          },
+          {
+            "id": "infra_structure_013",
+            "label": "Create single CC commands reference MD file",
+            "status": "done",
+            "done": true,
+            "assignee": "nextjs-specialist",
+            "completed_at": "2026-05-08T07:32:11.123Z",
+            "priority": "P2",
             "context_files": [],
             "reference_docs": [],
             "acceptance_criteria": [],
@@ -374,28 +414,11 @@
             "execution_mode": "human",
             "depends_on": [],
             "completed_by": "orchestrator"
-          },
-          {
-            "id": "infra_structure_013",
-            "label": "Create single CC commands reference MD file",
-            "status": "done",
-            "assignee": "nextjs-specialist",
-            "completed_at": "2026-05-08T07:32:11.123Z",
-            "completed_by": "orchestrator",
-            "priority": "P2",
-            "context_files": [],
-            "reference_docs": [],
-            "acceptance_criteria": [],
-            "constraints": [],
-            "execution_mode": "human",
-            "depends_on": []
           }
         ],
         "dependencies": [],
         "notes": []
-      }
-    ],
-    "backlog": [
+      },
       {
         "id": "feat_progress",
         "title": "Reading Progress Tracking",
@@ -409,6 +432,7 @@
             "id": "feat_progress_001",
             "label": "Design storage (localStorage)",
             "status": "todo",
+            "done": false,
             "completed_at": null,
             "priority": "P2",
             "context_files": [],
@@ -422,6 +446,7 @@
             "id": "feat_progress_002",
             "label": "Implement progress bar",
             "status": "todo",
+            "done": false,
             "completed_at": null,
             "priority": "P2",
             "context_files": [],
@@ -670,8 +695,8 @@
         "APPROVE",
         "ADMIN"
       ],
-      "last_action_at": "2026-05-08T07:42:34.114Z",
-      "session_action_count": 11
+      "last_action_at": "2026-05-08T07:32:11.124Z",
+      "session_action_count": 9
     },
     {
       "id": "explorer",
@@ -739,8 +764,8 @@
         "READ",
         "WRITE"
       ],
-      "last_action_at": "2026-05-08T07:42:32.706Z",
-      "session_action_count": 6,
+      "last_action_at": "2026-05-08T07:31:09.434Z",
+      "session_action_count": 4,
       "parent_id": "orchestrator"
     }
   ],
@@ -1008,54 +1033,6 @@
       ],
       "id": "log_1778225531124_xnfbzy",
       "timestamp": "2026-05-08T07:32:11.124Z"
-    },
-    {
-      "agent_id": "orchestrator",
-      "action": "activate_milestone",
-      "target_type": "milestone",
-      "target_id": "infra_structure_cleanup",
-      "description": "Activated milestone \"❯ Project Structure Cleanup (move docs, content, scripts; clean web/ root)\" — moved from backlog to active",
-      "tags": [
-        "milestone"
-      ],
-      "id": "log_1778226041183_5b8sht",
-      "timestamp": "2026-05-08T07:40:41.183Z"
-    },
-    {
-      "agent_id": "nextjs-specialist",
-      "action": "start_task",
-      "target_type": "task",
-      "target_id": "infra_structure_012",
-      "description": "Started task \"Create cc:activate command (move milestone backlog→active via CLI)\"",
-      "tags": [
-        "lifecycle"
-      ],
-      "id": "log_1778226151247_vwlhiz",
-      "timestamp": "2026-05-08T07:42:31.247Z"
-    },
-    {
-      "agent_id": "nextjs-specialist",
-      "action": "complete_task",
-      "target_type": "task",
-      "target_id": "infra_structure_012",
-      "description": "Completed task \"Create cc:activate command (move milestone backlog→active via CLI)\": Implemented cc:activate command — activates milestone backlog→active via CLI",
-      "tags": [
-        "lifecycle"
-      ],
-      "id": "log_1778226152706_cxo60s",
-      "timestamp": "2026-05-08T07:42:32.706Z"
-    },
-    {
-      "agent_id": "orchestrator",
-      "action": "approve_task",
-      "target_type": "task",
-      "target_id": "infra_structure_012",
-      "description": "Approved task \"Create cc:activate command (move milestone backlog→active via CLI)\".",
-      "tags": [
-        "lifecycle"
-      ],
-      "id": "log_1778226154114_040538",
-      "timestamp": "2026-05-08T07:42:34.114Z"
     }
   ],
   "history_log": [
@@ -1168,17 +1145,6 @@
       "date": "2026-05-08",
       "action": "Completed infra_structure_013 — Created web/docs/cc-commands.md (full command reference with syntax, flags, examples). Updated AGENTS.md to link to new file instead of inline CLI table.",
       "agent": "nextjs-specialist"
-    },
-    {
-      "date": "2026-05-08",
-      "action": "Moved milestone \"❯ Project Structure Cleanup (move docs, content, scripts; clean web/ root)\" from backlog to active",
-      "agent": "orchestrator"
-    },
-    {
-      "date": "2026-05-08",
-      "action": "Completed infra_structure_012 — Implemented cc:activate command across all layers: milestone.service.ts (activateMilestone), tools.ts (tool def + switch), cli.ts (CLI handler), root package.json (pnpm cc:activate script). Updated cc-commands.md reference.",
-      "agent": "nextjs-specialist"
     }
-  ],
-  "_schema_version": 1
+  ]
 }

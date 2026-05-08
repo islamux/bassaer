@@ -1,8 +1,9 @@
 import { readTracker, findTask, getMilestoneById, allMilestones } from './services/tracker.service.js';
 import { startTask, completeTask, approveTask, rejectTask, resetTask, blockTask, unblockTask, updateTask, logAction, enrichTask, } from './services/task.service.js';
-import { addMilestoneNote, setMilestoneDates, updateDrift, createMilestone, addMilestoneTask, } from './services/milestone.service.js';
+import { addMilestoneNote, setMilestoneDates, updateDrift, createMilestone, addMilestoneTask, activateMilestone, } from './services/milestone.service.js';
 import { registerAgent } from './services/agent.service.js';
 import { buildTaskContext, buildTaskSummary, buildProjectStatus, buildMilestoneOverview, } from './context.js';
+import { z } from 'zod';
 function ok(text) {
     return { content: [{ type: 'text', text }] };
 }
@@ -12,8 +13,52 @@ function err(text) {
 function serviceToTool(result) {
     return result.ok ? ok(result.data) : err(result.error);
 }
+// Validate args against inputSchema using Zod
+function validateArgs(args, inputSchema) {
+    try {
+        const schema = z.object(Object.fromEntries(Object.entries(inputSchema.properties || {}).map(([key, val]) => {
+            let zodType;
+            switch (val.type) {
+                case 'string':
+                    zodType = z.string();
+                    break;
+                case 'number':
+                    zodType = z.number();
+                    break;
+                case 'boolean':
+                    zodType = z.boolean();
+                    break;
+                case 'array':
+                    zodType = z.array(z.any());
+                    break;
+                default: zodType = z.any();
+            }
+            return [key, inputSchema.required?.includes(key) ? zodType : zodType.optional()];
+        })));
+        const result = schema.safeParse(args);
+        if (!result.success) {
+            return { success: false, error: `Invalid args: ${result.error.issues.map((e) => `${e.path.join('.')}: ${e.message}`).join(', ')}` };
+        }
+        return { success: true, data: result.data };
+    }
+    catch (e) {
+        return { success: false, error: `Validation error: ${e.message}` };
+    }
+}
 export async function handleTool(name, args) {
     try {
+        const defs = getToolDefinitions();
+        const def = defs.find(d => d.name === name);
+        if (!def)
+            return err(`Unknown tool: ${name}`);
+        // Validate args against inputSchema using Zod
+        if (def.inputSchema) {
+            const validation = validateArgs(args, def.inputSchema);
+            if (!validation.success) {
+                return err(validation.error);
+            }
+            args = validation.data; // Use validated + coerced args
+        }
         switch (name) {
             // ── READ TOOLS ──────────────────────────────────────────
             case 'get_task_context': {
@@ -102,6 +147,8 @@ export async function handleTool(name, args) {
                 return serviceToTool(setMilestoneDates(args.milestone_id, args));
             case 'update_drift':
                 return serviceToTool(updateDrift(args.milestone_id, args.drift_days));
+            case 'activate_milestone':
+                return serviceToTool(activateMilestone(args.milestone_id));
             case 'create_milestone':
                 return serviceToTool(createMilestone(args.id, args.title, args));
             case 'add_milestone_task':
@@ -442,6 +489,17 @@ export function getToolDefinitions() {
                     execution_mode: { type: 'string', description: 'Execution mode (human, agent, pair)' },
                 },
                 required: ['milestone_id', 'label'],
+            },
+        },
+        {
+            name: 'activate_milestone',
+            description: 'Move a milestone from backlog to active, updating dashboard focus',
+            inputSchema: {
+                type: 'object',
+                properties: {
+                    milestone_id: { type: 'string', description: 'Milestone ID to activate' },
+                },
+                required: ['milestone_id'],
             },
         },
         {

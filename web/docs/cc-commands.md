@@ -24,6 +24,7 @@ All commands must be run from the **project root directory**. Do not run them fr
 | `pnpm cc:reset <id>` | Reset task to todo |
 | `pnpm cc:block <id> <reason>` | Block a task |
 | `pnpm cc:unblock <id> [--resolution]` | Unblock a task |
+| `pnpm cc:activate <milestone_id>` | Move milestone from backlog to active |
 | `pnpm cc:register-agent <id> <name> <type>` | Register or update an agent |
 | `pnpm web:dev` | Start Next.js dev server |
 | `pnpm web:build` | Build Next.js for production |
@@ -157,6 +158,17 @@ Unblock a previously blocked task.
 ```
 pnpm cc:unblock feat_search_001
 pnpm cc:unblock feat_search_001 --resolution "FlexSearch API updated"
+```
+
+---
+
+## Milestone Lifecycle Commands
+
+### `pnpm cc:activate <milestone_id>`
+Move a milestone from backlog to active, updating the dashboard focus.
+```
+pnpm cc:activate infra_structure_cleanup
+pnpm cc:activate feat_auth_backend
 ```
 
 ---
