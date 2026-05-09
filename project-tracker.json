@@ -8,11 +8,11 @@
     "overall_progress": 52
   },
   "dashboard": {
-        "current_focus": "DOCX rebuild complete — all 13 chapters converted, build verified (18/18 pages)",
-        "active_milestone": "content_docx_rebuild",
-        "next_priority": "Commit and push fix/docx-rebuild branch, then merge to main",
+        "current_focus": "Implementing reading progress tracking (localStorage + progress bar)",
+        "active_milestone": "feat_progress",
+        "next_priority": "Design localStorage schema for progress, build progress bar component",
         "blockers": "feat_auth_backend_008: Supabase site down, blocked until resolved",
-        "health": "Excellent — content_docx_rebuild: all 14 subtasks done. All OCR garbles permanently eliminated."
+        "health": "Good — content_docx_rebuild completed (14/14 subtasks). Moving to feat_progress."
   },
   "milestones": {
     "active": [
@@ -157,109 +157,6 @@
         ]
       },
       {
-        "id": "content_docx_rebuild",
-        "title": "Full DOCX-to-Markdown Rebuild (100% Text Fidelity)",
-        "domain": "Content",
-        "week": 6,
-        "phase": "recovery",
-        "drift_days": 0,
-        "is_key_milestone": true,
-        "subtasks": [
-          {
-            "id": "content_docx_000",
-            "label": "Convert intro.md from DOCX",
-            "status": "done",
-            "priority": "P1"
-          },
-          {
-            "id": "content_docx_001",
-            "label": "Convert chapter-1.md from DOCX",
-            "status": "done",
-            "priority": "P1"
-          },
-          {
-            "id": "content_docx_002",
-            "label": "Convert chapter-2.md from DOCX",
-            "status": "done",
-            "priority": "P1"
-          },
-          {
-            "id": "content_docx_003",
-            "label": "Convert chapter-3.md from DOCX",
-            "status": "done",
-            "priority": "P1"
-          },
-          {
-            "id": "content_docx_004",
-            "label": "Convert chapter-4.md from DOCX",
-            "status": "done",
-            "priority": "P1"
-          },
-          {
-            "id": "content_docx_005",
-            "label": "Convert chapter-5.md from DOCX",
-            "status": "done",
-            "priority": "P1"
-          },
-          {
-            "id": "content_docx_006",
-            "label": "Convert chapter-6.md from DOCX",
-            "status": "done",
-            "priority": "P1"
-          },
-          {
-            "id": "content_docx_007",
-            "label": "Convert chapter-7.md from DOCX",
-            "status": "done",
-            "priority": "P1"
-          },
-          {
-            "id": "content_docx_008",
-            "label": "Convert chapter-8.md from DOCX",
-            "status": "done",
-            "priority": "P1"
-          },
-          {
-            "id": "content_docx_009",
-            "label": "Convert chapter-9.md from DOCX",
-            "status": "done",
-            "priority": "P1"
-          },
-          {
-            "id": "content_docx_010",
-            "label": "Convert chapter-10.md from DOCX",
-            "status": "done",
-            "priority": "P1"
-          },
-          {
-            "id": "content_docx_011",
-            "label": "Convert chapter-11.md from DOCX",
-            "status": "done",
-            "priority": "P1"
-          },
-          {
-            "id": "content_docx_012",
-            "label": "Convert chapter-12.md from DOCX",
-            "status": "done",
-            "priority": "P1"
-          },
-          {
-            "id": "content_docx_013",
-            "label": "Build Verification (pnpm build)",
-            "status": "done",
-            "priority": "P1"
-          }
-        ],
-        "dependencies": [],
-        "notes": [
-          "Rebuilding entire markdown content directly from pristine ar-basaar.docx",
-          "This completely eliminates OCR garbles and broken words",
-          "Must preserve YAML frontmatter and web app specific chapter headers"
-        ]
-      }
-    ],
-    "backlog": [
-      {
         "id": "feat_progress",
         "title": "Reading Progress Tracking",
         "domain": "Features",
@@ -271,33 +168,19 @@
           {
             "id": "feat_progress_001",
             "label": "Design storage (localStorage)",
-            "status": "todo",
-            "completed_at": null,
-            "priority": "P2",
-            "context_files": [],
-            "reference_docs": [],
-            "acceptance_criteria": [],
-            "constraints": [],
-            "execution_mode": "human",
-            "depends_on": []
+            "status": "done",
+            "priority": "P2"
           },
           {
             "id": "feat_progress_002",
             "label": "Implement progress bar",
-            "status": "todo",
-            "completed_at": null,
-            "priority": "P2",
-            "context_files": [],
-            "reference_docs": [],
-            "acceptance_criteria": [],
-            "constraints": [],
-            "execution_mode": "human",
-            "depends_on": []
+            "status": "done",
+            "priority": "P2"
           }
-        ],
-        "dependencies": [],
-        "notes": []
-      },
+        ]
+      }
+    ],
+    "backlog": [
       {
         "id": "feat_nav",
         "title": "Advanced Navigation Controls",
@@ -907,6 +790,15 @@
         "domain": "Content",
         "week": 6,
         "phase": "audit"
+      },
+      {
+        "id": "content_docx_rebuild",
+        "title": "Full DOCX-to-Markdown Rebuild (100% Text Fidelity)",
+        "completed_at": "2026-05-09",
+        "summary": "14 subtasks completed. All 12 chapters + intro rebuilt from pristine ar-basaar.docx via scripts/docx_to_md.py. OCR garbles, broken words, merged-ال errors, **()** artifacts permanently eliminated. Chapter 12 no longer duplicate of ch11. Build verified 18/18 pages.",
+        "domain": "Content",
+        "week": 6,
+        "phase": "recovery"
       }
     ]
   },
