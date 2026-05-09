@@ -8,11 +8,11 @@
     "overall_progress": 52
   },
   "dashboard": {
-        "current_focus": "Implementing reading progress tracking (localStorage + progress bar)",
-        "active_milestone": "feat_progress",
-        "next_priority": "Design localStorage schema for progress, build progress bar component",
+        "current_focus": "Image extraction complete — 522 images from DOCX injected into chapter markdowns",
+        "active_milestone": "content_images_extraction",
+        "next_priority": "Merge feat/images-extraction to main, decide next milestone",
         "blockers": "feat_auth_backend_008: Supabase site down, blocked until resolved",
-        "health": "Good — content_docx_rebuild completed (14/14 subtasks). Moving to feat_progress."
+        "health": "Excellent — content_images_extraction complete (14/14 subtasks). 522 images extracted, 58 MB, build 18/18."
   },
   "milestones": {
     "active": [
@@ -154,29 +154,6 @@
           "Free tier: 50K MAU, 500MB DB — sufficient for current scale",
           "localStorage as fallback for anonymous users, sync on login",
           "Bookmark schema: bookmarks(id uuid PK, user_id FK→auth.users, chapter_id text, chapter_title text, created_at timestamptz)"
-        ]
-      },
-      {
-        "id": "feat_progress",
-        "title": "Reading Progress Tracking",
-        "domain": "Features",
-        "week": 5,
-        "phase": "features",
-        "drift_days": 0,
-        "is_key_milestone": false,
-        "subtasks": [
-          {
-            "id": "feat_progress_001",
-            "label": "Design storage (localStorage)",
-            "status": "done",
-            "priority": "P2"
-          },
-          {
-            "id": "feat_progress_002",
-            "label": "Implement progress bar",
-            "status": "done",
-            "priority": "P2"
-          }
         ]
       }
     ],
@@ -796,6 +773,24 @@
         "title": "Full DOCX-to-Markdown Rebuild (100% Text Fidelity)",
         "completed_at": "2026-05-09",
         "summary": "14 subtasks completed. All 12 chapters + intro rebuilt from pristine ar-basaar.docx via scripts/docx_to_md.py. OCR garbles, broken words, merged-ال errors, **()** artifacts permanently eliminated. Chapter 12 no longer duplicate of ch11. Build verified 18/18 pages.",
+        "domain": "Content",
+        "week": 6,
+        "phase": "recovery"
+      },
+      {
+        "id": "feat_progress",
+        "title": "Reading Progress Tracking",
+        "completed_at": "2026-05-09",
+        "summary": "2/2 subtasks done. localStorage schema (basaar-reading-progress), ReadingProgressBar component with rAF-throttled scroll tracking, auto-restore on revisit, ARIA compliant. Build verified 18/18 pages.",
+        "domain": "Features",
+        "week": 6,
+        "phase": "features"
+      },
+      {
+        "id": "content_images_extraction",
+        "title": "Extract 506 Images from DOCX → Inject into Chapter Markdowns",
+        "completed_at": "2026-05-09",
+        "summary": "14/14 subtasks done. 522 images extracted (58 MB) across 12 chapters via scripts/inject_docx_images.py. Injected at correct paragraph positions in all chapter markdowns. Build verified 18/18 pages.",
         "domain": "Content",
         "week": 6,
         "phase": "recovery"
