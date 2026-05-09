@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 import { getAllChapters, getChapterData } from "@/lib/contentLoader";
 import Sidebar from "@/components/Sidebar";
 import BookmarkButton from "@/components/BookmarkButton";
+import ReadingProgressBar from "@/components/ReadingProgressBar";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 
@@ -46,6 +47,7 @@ export default async function ChapterPage({ params }: { params: Promise<{ slug: 
       <Sidebar />
       <div className="flex-1 w-full lg:pr-72 overflow-y-auto min-h-full scroll-smooth">
         <main className="max-w-4xl mx-auto px-4 py-12 sm:px-8 lg:px-12 pb-32">
+          <ReadingProgressBar chapterId={slug} />
           <div className="flex items-center justify-between mb-8">
             <h1 className="text-3xl sm:text-4xl font-bold text-[var(--primary)] tracking-tight">
               {chapterData.title}
