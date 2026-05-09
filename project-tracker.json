@@ -5,14 +5,14 @@
     "target_date": "2026-07-01",
     "current_week": 5,
     "schedule_status": "on_track",
-    "overall_progress": 52
+    "overall_progress": 54
   },
   "dashboard": {
-        "current_focus": "Fix inconsistent/broken chapter H1 titles in TOC — ch3 (no description), ch4 (broken), 4 more without colon format",
-        "active_milestone": "fix_index_titles",
-        "next_priority": "Activate fix_index_titles milestone and execute subtasks 001-005",
-        "blockers": "None",
-        "health": "Good — titles need normalization for consistent TOC display across sidebar, home page, and chapter pages."
+        "current_focus": "All chapter H1s normalized — TOC now shows consistent descriptive titles across sidebar, home, and chapter pages",
+        "active_milestone": "feat_auth_backend",
+        "next_priority": "Resolve feat_auth_backend_008 (Supabase SQL migration) when site is back up",
+        "blockers": "feat_auth_backend_008: Supabase site down, blocked until resolved",
+        "health": "Excellent — fix_index_titles completed (5/5). All 12 chapter titles now use consistent colon format."
   },
   "milestones": {
     "active": [
@@ -158,87 +158,6 @@
       }
     ],
     "backlog": [
-      {
-        "id": "fix_index_titles",
-        "title": "Fix Table of Contents & Chapter Titles",
-        "domain": "Content",
-        "week": 6,
-        "phase": "polish",
-        "drift_days": 0,
-        "is_key_milestone": true,
-        "subtasks": [
-          {
-            "id": "fix_index_titles_001",
-            "label": "Fix chapter-4.md H1 (currently just 'الباب' — broken, no number or description)",
-            "status": "todo",
-            "assignee": "arabic-specialist",
-            "priority": "P1",
-            "context_files": ["content/chapters/chapter-4.md"],
-            "acceptance_criteria": ["H1 reads '# الباب الرابع: الإعجاز العلمي في القرآن' or proper title from DOCX"],
-            "constraints": ["Must match original DOCX title — verify against ar-basaar.docx"],
-            "execution_mode": "human"
-          },
-          {
-            "id": "fix_index_titles_002",
-            "label": "Fix chapter-3.md H1 (missing descriptive subtitle — currently just 'الباب الثالث')",
-            "status": "todo",
-            "assignee": "arabic-specialist",
-            "priority": "P1",
-            "context_files": ["content/chapters/chapter-3.md"],
-            "acceptance_criteria": ["H1 includes descriptive subtitle after colon"],
-            "constraints": ["Must match original DOCX — verify against ar-basaar.docx"],
-            "execution_mode": "human"
-          },
-          {
-            "id": "fix_index_titles_003",
-            "label": "Normalize all chapter H1s to consistent '# الباب [الرقم]: [الوصف]' colon format",
-            "status": "todo",
-            "assignee": "arabic-specialist",
-            "priority": "P2",
-            "context_files": [
-              "content/chapters/chapter-2.md",
-              "content/chapters/chapter-5.md",
-              "content/chapters/chapter-6.md",
-              "content/chapters/chapter-9.md"
-            ],
-            "acceptance_criteria": ["All H1s use colon separator: '# الباب [الرقم]: [الوصف]'"],
-            "constraints": ["Do NOT change chapter-1.md (already correct)"],
-            "execution_mode": "human"
-          },
-          {
-            "id": "fix_index_titles_004",
-            "label": "Update contentLoader.ts title extraction: strip trailing punctuation, handle edge cases",
-            "status": "todo",
-            "assignee": "nextjs-specialist",
-            "priority": "P2",
-            "context_files": ["web/lib/contentLoader.ts"],
-            "acceptance_criteria": ["Edge cases (e.g. space-before-colon, no colon) handled gracefully"],
-            "constraints": [],
-            "execution_mode": "human"
-          },
-          {
-            "id": "fix_index_titles_005",
-            "label": "Verify build (18/18 pages) and confirm all titles render correctly in sidebar, home page cards, and chapter pages",
-            "status": "todo",
-            "assignee": "post-build-auditor",
-            "priority": "P1",
-            "context_files": [],
-            "acceptance_criteria": [
-              "Build passes with 18/18 pages",
-              "Sidebar shows correct descriptive titles for all chapters",
-              "Home page cards show correct titles",
-              "Chapter pages show correct H1"
-            ],
-            "constraints": [],
-            "execution_mode": "human"
-          }
-        ],
-        "dependencies": [],
-        "notes": [
-          "Only 5/12 chapters use colon format; ch4 is broken (just 'الباب'), ch3 has no description",
-          "Chapter H1s from DOCX: ch1='في الكون والحياة', ch2='كيف ظهر الدين', ch3='رسـولُ الْأُميـِّينَ', ch4='الإعجاز العلمي في القرآن', ch5='خواطر وطرائف', ch6='الإخبارُ بالغيب', ch7='تفكيك الشبهة', ch8='الوسواس القهري', ch9='الرد على أشهر شبهات الملحدين', ch10='أفكار ضالة', ch11='يقينية الإيمان', ch12='حقيقة العبودية لله'"
-        ]
-      },
       {
         "id": "feat_nav",
         "title": "Advanced Navigation Controls",
@@ -875,6 +794,15 @@
         "domain": "Content",
         "week": 6,
         "phase": "recovery"
+      },
+      {
+        "id": "fix_index_titles",
+        "title": "Fix Table of Contents & Chapter Titles",
+        "completed_at": "2026-05-09",
+        "summary": "5/5 subtasks done. Fixed ch4 broken H1 ('الباب'→'الباب الرابع: الإعجاز العلمي في القرآن'), added description to ch3 ('رسـولُ الْأُميـِّينَ'), added colon separators to ch2/ch5/ch6/ch9, added description to ch5 ('أعظمُ بُرهانٍ على صحَّةِ الإسلامِ'). All 12 chapter H1s now use consistent '# الباب [الرقم]: [الوصف]' format. Build verified 18/18 pages.",
+        "domain": "Content",
+        "week": 6,
+        "phase": "polish"
       }
     ]
   },
@@ -1888,6 +1816,11 @@
     },
     {
       "action": "Added fix_index_titles milestone to backlog — 5 subtasks: fix ch4 H1, fix ch3 H1, normalize colon format across all chapters, update contentLoader title extraction, verify build. Branch fix/index-titles created for execution.",
+      "agent": "orchestrator",
+      "date": "2026-05-09"
+    },
+    {
+      "action": "Completed fix_index_titles — all 5/5 subtasks done. Fixed ch4 broken H1 (was just 'الباب'), added descriptions to ch3 ('رسـولُ الْأُميـِّينَ') and ch5 ('أعظمُ بُرهانٍ على صحَّةِ الإسلامِ'), normalized colon format for ch2/ch6/ch9. Build verified 18/18. Pushed to fix/index-titles branch.",
       "agent": "orchestrator",
       "date": "2026-05-09"
     }
