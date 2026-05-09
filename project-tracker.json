@@ -8,11 +8,11 @@
     "overall_progress": 54
   },
   "dashboard": {
-        "current_focus": "All chapter H1s normalized — TOC now shows consistent descriptive titles across sidebar, home, and chapter pages",
-        "active_milestone": "feat_auth_backend",
-        "next_priority": "Resolve feat_auth_backend_008 (Supabase SQL migration) when site is back up",
-        "blockers": "feat_auth_backend_008: Supabase site down, blocked until resolved",
-        "health": "Excellent — fix_index_titles completed (5/5). All 12 chapter titles now use consistent colon format."
+        "current_focus": "Next.js/React upgrade plan ready — 7 subtasks defined, starting with package version bumps and auth callback fix",
+        "active_milestone": "chore/upgrade-nextjs",
+        "next_priority": "Execute Subtask 1: Fix IDE \"No Next.js version detected\" error",
+        "blockers": "feat_auth_backend_008: Supabase site down, blocked until resolved (separate track)",
+        "health": "Good — upgrade-nextjs.md plan written, milestone activated, branch ready for execution."
   },
   "milestones": {
     "active": [
@@ -154,6 +154,85 @@
           "Free tier: 50K MAU, 500MB DB — sufficient for current scale",
           "localStorage as fallback for anonymous users, sync on login",
           "Bookmark schema: bookmarks(id uuid PK, user_id FK→auth.users, chapter_id text, chapter_title text, created_at timestamptz)"
+        ]
+      },
+      {
+        "id": "chore/upgrade-nextjs",
+        "title": "Next.js/React Upgrade (15.1.7→15.5.18, react 19.0.0→19.0.6)",
+        "domain": "Infrastructure",
+        "week": 6,
+        "phase": "chore",
+        "drift_days": 0,
+        "is_key_milestone": false,
+        "subtasks": [
+          {
+            "id": "upgrade_nextjs_001",
+            "label": "Fix IDE \"No Next.js version detected\" error (VS Code rootDir setting)",
+            "status": "todo",
+            "priority": "P2",
+            "context_files": [".vscode/settings.json"],
+            "execution_mode": "human",
+            "depends_on": []
+          },
+          {
+            "id": "upgrade_nextjs_002",
+            "label": "Update package.json deps: next 15.1.7→15.5.18, react 19.0.0→19.0.6, types, eslint-config-next",
+            "status": "todo",
+            "priority": "P1",
+            "context_files": ["web/package.json"],
+            "execution_mode": "human",
+            "depends_on": []
+          },
+          {
+            "id": "upgrade_nextjs_003",
+            "label": "Fix auth callback cookie propagation bug in auth/callback/route.ts",
+            "status": "todo",
+            "priority": "P1",
+            "context_files": ["web/app/auth/callback/route.ts"],
+            "execution_mode": "human",
+            "depends_on": ["upgrade_nextjs_002"]
+          },
+          {
+            "id": "upgrade_nextjs_004",
+            "label": "Update tsconfig.json target ES2017→ES2020",
+            "status": "todo",
+            "priority": "P2",
+            "context_files": ["web/tsconfig.json"],
+            "execution_mode": "human",
+            "depends_on": []
+          },
+          {
+            "id": "upgrade_nextjs_005",
+            "label": "Update next.config.ts with serverExternalPackages",
+            "status": "todo",
+            "priority": "P2",
+            "context_files": ["web/next.config.ts"],
+            "execution_mode": "human",
+            "depends_on": []
+          },
+          {
+            "id": "upgrade_nextjs_006",
+            "label": "Install dependencies (pnpm install)",
+            "status": "todo",
+            "priority": "P1",
+            "execution_mode": "human",
+            "depends_on": ["upgrade_nextjs_002", "upgrade_nextjs_004", "upgrade_nextjs_005"]
+          },
+          {
+            "id": "upgrade_nextjs_007",
+            "label": "Build verify 18/18 pages (pnpm build)",
+            "status": "todo",
+            "priority": "P1",
+            "execution_mode": "human",
+            "depends_on": ["upgrade_nextjs_003", "upgrade_nextjs_006"]
+          }
+        ],
+        "dependencies": [],
+        "notes": [
+          "May 7, 2026 coordinated security release: 13 CVEs patched in next@15.5.18+ and react@19.0.6 (CVE-2026-23870 for DoS in React Server Components)",
+          "No 15→16 migration — staying within 15.x for minimal breaking changes",
+          "Auth callback route has pre-existing cookie propagation bug: setAll() only writes to request.cookies, not to NextResponse.redirect()",
+          "Full upgrade plan at web/docs/upgrade-nextjs.md"
         ]
       }
     ],
@@ -1821,9 +1900,19 @@
     },
     {
       "action": "Completed fix_index_titles — all 5/5 subtasks done. Fixed ch4 broken H1 (was just 'الباب'), added descriptions to ch3 ('رسـولُ الْأُميـِّينَ') and ch5 ('أعظمُ بُرهانٍ على صحَّةِ الإسلامِ'), normalized colon format for ch2/ch6/ch9. Build verified 18/18. Pushed to fix/index-titles branch.",
-      "agent": "orchestrator",
-      "date": "2026-05-09"
-    }
-  ],
+        "agent": "orchestrator",
+        "date": "2026-05-09"
+      },
+      {
+        "action": "Added chore/upgrade-nextjs milestone with 7 subtasks — Next.js 15.1.7→15.5.18, react 19.0.0→19.0.6. Full plan at web/docs/upgrade-nextjs.md.",
+        "agent": "orchestrator",
+        "date": "2026-05-09"
+      },
+      {
+        "action": "Activated chore/upgrade-nextjs milestone — moved from backlog to active. Plan mode: upgrade doc written, tracker configured, branch ready.",
+        "agent": "orchestrator",
+        "date": "2026-05-09"
+      }
+    ],
   "_schema_version": 1
 }
