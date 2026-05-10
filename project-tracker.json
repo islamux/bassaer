@@ -8,11 +8,11 @@
     "overall_progress": 55
   },
   "dashboard": {
-          "current_focus": "Next.js/React upgrade to 16.2.4 — vercel rootDirectory set, working on package.json deps + proxy.ts migration",
+          "current_focus": "Next.js 16.2.4 upgrade completed and merged to main. Ready for deploy.",
         "active_milestone": "chore/upgrade-nextjs-16",
-        "next_priority": "Execute ng16_002: Update package.json deps (next 16.2.4, react 19.2.0, sharp, types)",
+        "next_priority": "Deploy to Vercel: git checkout main && vercel --prod",
         "blockers": "feat_auth_backend_008: Supabase site down, blocked until resolved (separate track)",
-        "health": "Moving — Vercel rootDirectory=web configured via API. Old 15.x plan replaced with 16.2.4 upgrade."
+        "health": "All subtasks done. Build verified 17/17 pages. Auth callback cookie bug fixed. proxy.ts migrated."
   },
   "milestones": {
     "active": [
