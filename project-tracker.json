@@ -5,14 +5,14 @@
     "target_date": "2026-07-01",
     "current_week": 6,
     "schedule_status": "on_track",
-    "overall_progress": 55
+    "overall_progress": 58
   },
   "dashboard": {
-          "current_focus": "Next.js 16.2.4 upgrade completed and merged to main. Ready for deploy.",
-        "active_milestone": "chore/upgrade-nextjs-16",
-        "next_priority": "Deploy to Vercel: git checkout main && vercel --prod",
-        "blockers": "feat_auth_backend_008: Supabase site down, blocked until resolved (separate track)",
-        "health": "All subtasks done. Build verified 17/17 pages. Auth callback cookie bug fixed. proxy.ts migrated."
+          "current_focus": "Supabase outage blocking auth. Next: resume feat_auth_backend_008 when site back up.",
+        "active_milestone": "feat_auth_backend",
+        "next_priority": "Verify Vercel deploy health + resolve auth callback when Supabase is available",
+        "blockers": "feat_auth_backend_008: Supabase site down — deploy succeeded but auth flow untestable",
+        "health": "Next.js 16.2.4 upgrade: committed, merged to main, deployed to Vercel (17/17 pages). Pre-existing auth + bookmarks ready but blocked by Supabase outage."
   },
   "milestones": {
     "active": [
@@ -156,107 +156,6 @@
           "Bookmark schema: bookmarks(id uuid PK, user_id FK→auth.users, chapter_id text, chapter_title text, created_at timestamptz)"
         ]
       },
-      {
-        "id": "chore/upgrade-nextjs-16",
-        "title": "Next.js/React Upgrade (15.1.7→16.2.4, react 19.0.0→19.2.0)",
-        "domain": "Infrastructure",
-        "week": 6,
-        "phase": "chore",
-        "drift_days": 0,
-        "is_key_milestone": false,
-        "subtasks": [
-          {
-            "id": "ng16_001",
-            "label": "Set Vercel rootDirectory=web via API (Dashboard equivalent)",
-            "status": "done",
-            "completed_at": "2026-05-10",
-            "completed_by": "nextjs-specialist",
-            "priority": "P0",
-            "context_files": [],
-            "execution_mode": "agent",
-            "depends_on": []
-          },
-          {
-            "id": "ng16_002",
-            "label": "Update package.json deps: next 16.2.4, react 19.2.0, sharp, eslint-config-next 16.2.4, types/node ^22",
-            "status": "in_progress",
-            "priority": "P1",
-            "context_files": ["web/package.json"],
-            "execution_mode": "agent",
-            "depends_on": ["ng16_001"]
-          },
-          {
-            "id": "ng16_003",
-            "label": "Migrate middleware.ts → proxy.ts (next/proxy imports, rename export)",
-            "status": "todo",
-            "priority": "P1",
-            "context_files": ["web/middleware.ts"],
-            "execution_mode": "agent",
-            "depends_on": ["ng16_002"]
-          },
-          {
-            "id": "ng16_004",
-            "label": "Create ESLint flat config (eslint.config.mjs) — next lint removed in v16",
-            "status": "todo",
-            "priority": "P2",
-            "context_files": [],
-            "execution_mode": "agent",
-            "depends_on": ["ng16_002"]
-          },
-          {
-            "id": "ng16_005",
-            "label": "Update tsconfig.json target ES2017→ES2022",
-            "status": "todo",
-            "priority": "P2",
-            "context_files": ["web/tsconfig.json"],
-            "execution_mode": "agent",
-            "depends_on": []
-          },
-          {
-            "id": "ng16_006",
-            "label": "Fix auth callback cookie propagation bug in auth/callback/route.ts",
-            "status": "todo",
-            "priority": "P1",
-            "context_files": ["web/app/auth/callback/route.ts"],
-            "execution_mode": "agent",
-            "depends_on": ["ng16_002"]
-          },
-          {
-            "id": "ng16_007",
-            "label": "Clean up: remove web/.vercel/ (duplicate)",
-            "status": "done",
-            "completed_at": "2026-05-10",
-            "completed_by": "nextjs-specialist",
-            "priority": "P2",
-            "context_files": [],
-            "execution_mode": "agent",
-            "depends_on": []
-          },
-          {
-            "id": "ng16_008",
-            "label": "Install dependencies (pnpm install) + build verify (pnpm build 18/18 pages)",
-            "status": "todo",
-            "priority": "P1",
-            "execution_mode": "agent",
-            "depends_on": ["ng16_002", "ng16_003", "ng16_004", "ng16_005", "ng16_006"]
-          },
-          {
-            "id": "ng16_009",
-            "label": "Test dev mode: all pages, auth, search, bookmarks, progress, sidebar",
-            "status": "todo",
-            "priority": "P1",
-            "execution_mode": "agent",
-            "depends_on": ["ng16_008"]
-          }
-        ],
-        "dependencies": [],
-        "notes": [
-          "Next.js 16.2.4 is latest 16.x with all May 2026 security patches",
-          "Breaking changes: middleware→proxy, next lint removed, Turbopack default, sharp 0.34.5 required",
-          "Auth callback route has pre-existing cookie propagation bug: setAll() only writes to request.cookies, not to NextResponse.redirect()",
-          "Full upgrade plan at web/docs/upgrade-nextjs.md"
-        ]
-      }
     ],
     "backlog": [
       {
@@ -333,6 +232,16 @@
       }
     ],
     "completed": [
+      {
+        "id": "chore/upgrade-nextjs-16",
+        "title": "Next.js/React Upgrade (15.1.7→16.2.4, react 19.0.0→19.2.0)",
+        "completed_at": "2026-05-10",
+        "summary": "Completed all 9 subtasks: Vercel rootDirectory=web, package.json deps updated (next 16.2.4, react 19.2.0, sharp, eslint-config-next), middleware→proxy.ts migration, ESLint flat config, tsconfig ES2022 target, auth callback cookie bug fix, cleanup, build verify (17/17 pages), dev mode test. Committed to chore/upgrade-nextjs, merged to main, deployed to Vercel production (https://bassaer.vercel.app).",
+        "domain": "Infrastructure",
+        "week": 6,
+        "phase": "chore"
+      },
+      {
       {
         "id": "content_word_audit",
         "title": "Word Source vs UI Comparison Audit",
@@ -1934,6 +1843,11 @@
         "action": "Activated chore/upgrade-nextjs milestone — moved from backlog to active. Plan mode: upgrade doc written, tracker configured, branch ready.",
         "agent": "orchestrator",
         "date": "2026-05-09"
+      },
+      {
+        "action": "Completed chore/upgrade-nextjs milestone — all 9 subtasks done. Next.js 15.1.7→16.2.4, React 19.0.0→19.2.0. Committed, merged to main, deployed to Vercel production (https://bassaer.vercel.app). Build verified 17/17 pages. Supabase env vars added to Vercel project.",
+        "agent": "orchestrator",
+        "date": "2026-05-10"
       }
     ],
   "_schema_version": 1
