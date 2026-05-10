@@ -61,9 +61,9 @@ CVE-2026-23870: DoS in React Server Components.
 
 ## Step-by-Step Execution Order
 
-### Subtask 1: Fix IDE "No Next.js version detected"
-- Set VS Code Root Directory to `web/`
-- Or add `.vscode/settings.json` with `"next.rootDir": "web"`
+### Subtask 1: Fix Vercel "No Next.js version detected"
+- Add `vercel.json` at monorepo root with `"rootDirectory": "web"`
+- This tells Vercel to look inside `web/` for the Next.js app
 
 ### Subtask 2: Update `web/package.json` dependencies
 - `next`: `15.1.7` → `15.5.18`

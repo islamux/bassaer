@@ -8,11 +8,11 @@
     "overall_progress": 54
   },
   "dashboard": {
-        "current_focus": "Next.js/React upgrade plan ready — 7 subtasks defined, starting with package version bumps and auth callback fix",
+          "current_focus": "Next.js/React upgrade — Subtask 1 done (vercel.json rootDirectory), next: Subtask 2 (package version bumps)",
         "active_milestone": "chore/upgrade-nextjs",
-        "next_priority": "Execute Subtask 1: Fix IDE \"No Next.js version detected\" error",
+        "next_priority": "Execute Subtask 2: Update package.json deps (next 15.5.18, react 19.0.6)",
         "blockers": "feat_auth_backend_008: Supabase site down, blocked until resolved (separate track)",
-        "health": "Good — upgrade-nextjs.md plan written, milestone activated, branch ready for execution."
+        "health": "Good — Subtask 1 done (vercel.json rootDirectory). Branch deployed to Vercel, 'No Next.js version detected' resolved."
   },
   "milestones": {
     "active": [
@@ -167,11 +167,13 @@
         "subtasks": [
           {
             "id": "upgrade_nextjs_001",
-            "label": "Fix IDE \"No Next.js version detected\" error (VS Code rootDir setting)",
-            "status": "todo",
+            "label": "Add vercel.json with rootDirectory: \"web\" to fix Vercel deployment",
+            "status": "done",
+            "completed_at": "2026-05-10",
+            "completed_by": "nextjs-specialist",
             "priority": "P2",
-            "context_files": [".vscode/settings.json"],
-            "execution_mode": "human",
+            "context_files": ["vercel.json"],
+            "execution_mode": "agent",
             "depends_on": []
           },
           {
