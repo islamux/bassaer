@@ -99,6 +99,19 @@ Get the application running on your own machine in 3 simple steps:
 
 ---
 
+---
+
+## 🚀 Deploy to Vercel
+
+```bash
+pnpm install
+vercel --prod
+```
+
+This project is a pnpm monorepo. The `vercel.json` at the project root sets `"rootDirectory": "web"` so Vercel finds the Next.js application inside the `web/` workspace. No additional configuration is needed.
+
+---
+
 ## 📝 License & Content Rights
 
 The source code for the Web Platform is open-source. However, the textual book content (found in `/web/content/*.md`) belongs wholly to its original author, **Dr. Haitham Talaat**.
