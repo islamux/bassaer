@@ -3,16 +3,16 @@
     "name": "بصائر - Basaar Arabic Digital Book",
     "start_date": "2026-04-22",
     "target_date": "2026-07-01",
-    "current_week": 5,
+    "current_week": 6,
     "schedule_status": "on_track",
-    "overall_progress": 54
+    "overall_progress": 55
   },
   "dashboard": {
-          "current_focus": "Next.js/React upgrade — Subtask 1 done (vercel.json rootDirectory), next: Subtask 2 (package version bumps)",
-        "active_milestone": "chore/upgrade-nextjs",
-        "next_priority": "Execute Subtask 2: Update package.json deps (next 15.5.18, react 19.0.6)",
+          "current_focus": "Next.js/React upgrade to 16.2.4 — vercel rootDirectory set, working on package.json deps + proxy.ts migration",
+        "active_milestone": "chore/upgrade-nextjs-16",
+        "next_priority": "Execute ng16_002: Update package.json deps (next 16.2.4, react 19.2.0, sharp, types)",
         "blockers": "feat_auth_backend_008: Supabase site down, blocked until resolved (separate track)",
-        "health": "Good — Subtask 1 done (vercel.json rootDirectory). Branch deployed to Vercel, 'No Next.js version detected' resolved."
+        "health": "Moving — Vercel rootDirectory=web configured via API. Old 15.x plan replaced with 16.2.4 upgrade."
   },
   "milestones": {
     "active": [
@@ -157,8 +157,8 @@
         ]
       },
       {
-        "id": "chore/upgrade-nextjs",
-        "title": "Next.js/React Upgrade (15.1.7→15.5.18, react 19.0.0→19.0.6)",
+        "id": "chore/upgrade-nextjs-16",
+        "title": "Next.js/React Upgrade (15.1.7→16.2.4, react 19.0.0→19.2.0)",
         "domain": "Infrastructure",
         "week": 6,
         "phase": "chore",
@@ -166,73 +166,93 @@
         "is_key_milestone": false,
         "subtasks": [
           {
-            "id": "upgrade_nextjs_001",
-            "label": "Add vercel.json with rootDirectory: \"web\" to fix Vercel deployment",
+            "id": "ng16_001",
+            "label": "Set Vercel rootDirectory=web via API (Dashboard equivalent)",
             "status": "done",
             "completed_at": "2026-05-10",
             "completed_by": "nextjs-specialist",
-            "priority": "P2",
-            "context_files": ["vercel.json"],
+            "priority": "P0",
+            "context_files": [],
             "execution_mode": "agent",
             "depends_on": []
           },
           {
-            "id": "upgrade_nextjs_002",
-            "label": "Update package.json deps: next 15.1.7→15.5.18, react 19.0.0→19.0.6, types, eslint-config-next",
-            "status": "todo",
+            "id": "ng16_002",
+            "label": "Update package.json deps: next 16.2.4, react 19.2.0, sharp, eslint-config-next 16.2.4, types/node ^22",
+            "status": "in_progress",
             "priority": "P1",
             "context_files": ["web/package.json"],
-            "execution_mode": "human",
+            "execution_mode": "agent",
+            "depends_on": ["ng16_001"]
+          },
+          {
+            "id": "ng16_003",
+            "label": "Migrate middleware.ts → proxy.ts (next/proxy imports, rename export)",
+            "status": "todo",
+            "priority": "P1",
+            "context_files": ["web/middleware.ts"],
+            "execution_mode": "agent",
+            "depends_on": ["ng16_002"]
+          },
+          {
+            "id": "ng16_004",
+            "label": "Create ESLint flat config (eslint.config.mjs) — next lint removed in v16",
+            "status": "todo",
+            "priority": "P2",
+            "context_files": [],
+            "execution_mode": "agent",
+            "depends_on": ["ng16_002"]
+          },
+          {
+            "id": "ng16_005",
+            "label": "Update tsconfig.json target ES2017→ES2022",
+            "status": "todo",
+            "priority": "P2",
+            "context_files": ["web/tsconfig.json"],
+            "execution_mode": "agent",
             "depends_on": []
           },
           {
-            "id": "upgrade_nextjs_003",
+            "id": "ng16_006",
             "label": "Fix auth callback cookie propagation bug in auth/callback/route.ts",
             "status": "todo",
             "priority": "P1",
             "context_files": ["web/app/auth/callback/route.ts"],
-            "execution_mode": "human",
-            "depends_on": ["upgrade_nextjs_002"]
+            "execution_mode": "agent",
+            "depends_on": ["ng16_002"]
           },
           {
-            "id": "upgrade_nextjs_004",
-            "label": "Update tsconfig.json target ES2017→ES2020",
-            "status": "todo",
+            "id": "ng16_007",
+            "label": "Clean up: remove web/.vercel/ (duplicate)",
+            "status": "done",
+            "completed_at": "2026-05-10",
+            "completed_by": "nextjs-specialist",
             "priority": "P2",
-            "context_files": ["web/tsconfig.json"],
-            "execution_mode": "human",
+            "context_files": [],
+            "execution_mode": "agent",
             "depends_on": []
           },
           {
-            "id": "upgrade_nextjs_005",
-            "label": "Update next.config.ts with serverExternalPackages",
-            "status": "todo",
-            "priority": "P2",
-            "context_files": ["web/next.config.ts"],
-            "execution_mode": "human",
-            "depends_on": []
-          },
-          {
-            "id": "upgrade_nextjs_006",
-            "label": "Install dependencies (pnpm install)",
+            "id": "ng16_008",
+            "label": "Install dependencies (pnpm install) + build verify (pnpm build 18/18 pages)",
             "status": "todo",
             "priority": "P1",
-            "execution_mode": "human",
-            "depends_on": ["upgrade_nextjs_002", "upgrade_nextjs_004", "upgrade_nextjs_005"]
+            "execution_mode": "agent",
+            "depends_on": ["ng16_002", "ng16_003", "ng16_004", "ng16_005", "ng16_006"]
           },
           {
-            "id": "upgrade_nextjs_007",
-            "label": "Build verify 18/18 pages (pnpm build)",
+            "id": "ng16_009",
+            "label": "Test dev mode: all pages, auth, search, bookmarks, progress, sidebar",
             "status": "todo",
             "priority": "P1",
-            "execution_mode": "human",
-            "depends_on": ["upgrade_nextjs_003", "upgrade_nextjs_006"]
+            "execution_mode": "agent",
+            "depends_on": ["ng16_008"]
           }
         ],
         "dependencies": [],
         "notes": [
-          "May 7, 2026 coordinated security release: 13 CVEs patched in next@15.5.18+ and react@19.0.6 (CVE-2026-23870 for DoS in React Server Components)",
-          "No 15→16 migration — staying within 15.x for minimal breaking changes",
+          "Next.js 16.2.4 is latest 16.x with all May 2026 security patches",
+          "Breaking changes: middleware→proxy, next lint removed, Turbopack default, sharp 0.34.5 required",
           "Auth callback route has pre-existing cookie propagation bug: setAll() only writes to request.cookies, not to NextResponse.redirect()",
           "Full upgrade plan at web/docs/upgrade-nextjs.md"
         ]

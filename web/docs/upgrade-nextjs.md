@@ -1,98 +1,101 @@
-# Upgrade: Next.js / React to Latest Stable
+# Upgrade: Next.js / React to v16.2.4
 
 ## Current State
 
-| Package | Version | Target |
+| Package | Current | Target |
 |---------|---------|--------|
-| `next` | `15.1.7` | `15.5.18` (latest 15.x with May 2026 security patches) |
-| `react` / `react-dom` | `19.0.0` | `19.0.6` (CVE-2026-23870 fix) |
-| `@types/react` | `19.0.0` | Match react |
-| `@types/react-dom` | `19.0.0` | Match react-dom |
-| `eslint-config-next` | `15.1.7` | `15.5.18` |
-| `@supabase/ssr` | `^0.10.3` | Pin to `0.10.2` (latest published) |
+| `next` | `15.1.7` | `16.2.4` |
+| `react` / `react-dom` | `19.0.0` | `19.2.0` |
+| `@types/react` / `@types/react-dom` | `19.0.0` | Match react 19.x |
+| `eslint-config-next` | `15.1.7` | `16.2.4` |
+| `@types/node` | `^20` | `^22` |
+| `sharp` | — | `^0.34.5` |
+| `@supabase/ssr` | `^0.10.3` | keep |
 
 ## Security Context
 
-May 7, 2026 coordinated security release (13 advisories):
-- **Next.js** `<=15.5.17` affected → upgrade to `15.5.18`
-- **React** `react-server-dom-*` `<=19.0.5` affected → upgrade to `19.0.6`
+May 2026 coordinated security release. Next.js 16.2.4 includes all patches.
 
-CVE-2026-23870: DoS in React Server Components.
+## Breaking Changes (15 → 16)
 
-## Target: `next@15.5.18` (within 15.x, minimal breaking changes)
-
-### Breaking changes across 15.1 → 15.5
-
-| Version | Change | Impact |
-|---------|--------|--------|
-| 15.2 | Async metadata streams (doesn't block paint) | Verify `generateMetadata` still works |
-| 15.2 | i18n config deprecation warning | Not used, no action |
-| 15.3 | Turbopack config moved from `experimental.turbo` → top-level `turbopack` | Not used, no action |
-| 15.3 | `useLinkStatus` hook for loading states | Optional enhancement |
-| 15.4 | Viewport/metadata API separation | Check if `generateMetadata` affected |
-| 15.5 | Security patch | Pin and verify |
+| Change | Impact | Action |
+|--------|--------|--------|
+| `middleware.ts` → `proxy.ts` | HIGH — file rename, import types from `next/proxy`, export name change | Rename file, update imports, rename export |
+| `next lint` removed | MEDIUM — script breaks | Change script to `eslint .`, create flat config |
+| Turbopack default | MEDIUM — verify PostCSS, `fs`, `next/image` | Test build; fallback: `next build --webpack` |
+| Async APIs enforced | LOW — already `await params`, `await cookies()` | Verify no sync access |
+| `next/image` defaults | LOW — home page only | Verify images render |
+| `sharp@0.34.5` required | MEDIUM — add dependency | Add to package.json |
+| Node.js 20.9+ | ✅ v22.17.1 | No action |
 
 ## Risk Assessment
 
-### HIGH (will break if not fixed)
+### HIGH
 
 | File | Issue |
 |------|-------|
-| `web/app/auth/callback/route.ts` lines 15-18 | `setAll()` cookies callback writes to `request.cookies` only, NOT to `NextResponse.redirect()`. Auth session cookies likely lost during OAuth callback. Fix: apply cookies to both request and response. |
+| `web/middleware.ts` → `web/proxy.ts` | Must migrate to `next/proxy` types |
+| `web/app/auth/callback/route.ts` | Cookie bug: `setAll()` doesn't propagate cookies to redirect response |
 
-### MEDIUM (needs attention)
+### MEDIUM
 
 | File | Issue | Action |
 |------|-------|--------|
-| `web/middleware.ts` | Mutable `supabaseResponse` reassignment pattern | Verify after upgrade |
-| `web/app/chapter/[slug]/page.tsx` | `params: Promise<{slug: string}>` + `await params` | Verify this API is stable in 15.5.x |
-| `web/lib/contentLoader.ts` | `fs` module usage in Server Components | May need `serverExternalPackages` in `next.config.ts` |
-| `web/tsconfig.json` | `target: "ES2017"` outdated | Update to `ES2020` |
-| `web/next.config.ts` | Empty config | Add `serverExternalPackages` for future-proofing |
+| `web/lib/contentLoader.ts` | `fs` usage with Turbopack | Verify build |
+| `web/package.json` | `lint` script references removed `next lint` | Change to `eslint .` |
+| `web/` — ESLint config | No config file exists | Create `eslint.config.mjs` |
+| `web/tsconfig.json` | `target: "ES2017"` outdated | Update to `ES2022` |
 
-### LOW (minor)
+### LOW
 
 | File | Issue |
 |------|-------|
-| `web/app/layout.tsx` | Sync `getAllChapters()` call may need `await` if layout becomes async |
-| `web/lib/supabase/server.ts` | `await cookies()` is correct for 15+ but verify API |
-| `web/lib/bookmarks.ts` | Dead code (`isLoggedIn()` exported but never called) |
-| `web/components/Navbar.tsx` | Direct DOM dark mode toggling (not using `next-themes`) |
+| `web/app/page.tsx` | `next/image` default changes (home page only) |
+| `web/lib/contentLoader.ts` | Sync `getAllChapters()` — fine, no change needed |
 
-## Step-by-Step Execution Order
+## Execution Order
 
-### Subtask 1: Fix Vercel "No Next.js version detected"
-- Add `vercel.json` at monorepo root with `"rootDirectory": "web"`
-- This tells Vercel to look inside `web/` for the Next.js app
+### Subtask ng16_001: Set Vercel rootDirectory
+- `vercel api PATCH /v1/projects/... -F rootDirectory=web`
+- NOT via vercel.json (property not supported)
 
-### Subtask 2: Update `web/package.json` dependencies
-- `next`: `15.1.7` → `15.5.18`
-- `react`: `19.0.0` → `19.0.6`
-- `react-dom`: `19.0.0` → `19.0.6`
-- `@types/react`: `19.0.0` → match
-- `@types/react-dom`: `19.0.0` → match
-- `eslint-config-next`: `15.1.7` → `15.5.18`
-- `@supabase/ssr`: `^0.10.3` → `^0.10.2`
+### Subtask ng16_002: Update package.json
+- next 15.1.7 → 16.2.4
+- react/react-dom 19.0.0 → 19.2.0
+- @types/react, @types/react-dom match
+- eslint-config-next 15.1.7 → 16.2.4
+- @types/node ^20 → ^22
+- Add sharp ^0.34.5
+- lint script: next lint → eslint .
+- Remove @supabase/ssr version change (keep ^0.10.3)
 
-### Subtask 3: Fix auth callback cookie propagation bug
-- File: `web/app/auth/callback/route.ts`
-- Apply cookies from `setAll()` to the `NextResponse.redirect()` object
+### Subtask ng16_003: Migrate middleware → proxy
+- Rename middleware.ts → proxy.ts
+- Import from `next/proxy` (not `next/server`)
+- Types: NextRequest → ProxyRequest, NextResponse → ProxyResponse
+- Export: middleware → proxy
 
-### Subtask 4: Update `web/tsconfig.json`
-- `"target": "ES2017"` → `"target": "ES2020"`
+### Subtask ng16_004: Create ESLint flat config
+- Create eslint.config.mjs
+- Use eslint-config-next with FlatCompat
 
-### Subtask 5: Update `web/next.config.ts`
-- Add `serverExternalPackages` config for `fs` usage
+### Subtask ng16_005: Update tsconfig.json
+- target: ES2017 → ES2022
 
-### Subtask 6: Install dependencies and build
-- Run `pnpm install`
-- Run `pnpm build`
-- Verify 18/18 pages
+### Subtask ng16_006: Fix auth callback cookie bug
+- Apply cookies from setAll() to NextResponse.redirect()
 
-### Subtask 7: Test dev mode
-- All 18 pages render (SSG + SSR)
-- Chapter `[slug]` pages resolve correctly
-- Auth callback flow works (magic link sign-in)
+### Subtask ng16_007: Clean up
+- Remove web/.vercel/ (duplicate)
+
+### Subtask ng16_008: Install + Build
+- pnpm install
+- pnpm build (verify 18/18 pages)
+
+### Subtask ng16_009: Test dev mode
+- All 18 pages render
+- Chapter [slug] pages resolve
+- Auth callback flow works
 - Search functionality works
 - Bookmarks persist
 - Reading progress tracking works
@@ -100,9 +103,9 @@ CVE-2026-23870: DoS in React Server Components.
 
 ## Verification Criteria
 
-- [ ] `pnpm dev` starts without errors
-- [ ] `pnpm build` passes 18/18 pages
-- [ ] No TypeScript errors after upgrade
+- [ ] pnpm dev starts without errors
+- [ ] pnpm build passes 18/18 pages
+- [ ] No TypeScript errors
 - [ ] Auth login flow completes (magic link)
 - [ ] Bookmark add/remove works
 - [ ] Search dialog opens and returns results
