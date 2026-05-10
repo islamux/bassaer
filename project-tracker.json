@@ -8,11 +8,11 @@
     "overall_progress": 58
   },
   "dashboard": {
-          "current_focus": "Supabase outage blocking auth. Next: resume feat_auth_backend_008 when site back up.",
-        "active_milestone": "feat_auth_backend",
-        "next_priority": "Verify Vercel deploy health + resolve auth callback when Supabase is available",
-        "blockers": "feat_auth_backend_008: Supabase site down — deploy succeeded but auth flow untestable",
-        "health": "Next.js 16.2.4 upgrade: committed, merged to main, deployed to Vercel (17/17 pages). Pre-existing auth + bookmarks ready but blocked by Supabase outage."
+          "current_focus": "Standardize branch naming: rename 5 non-conforming branches (feature/ → feat/, fix- → fix/, redundant feat_feat).",
+      "active_milestone": "chore/branch-naming-standardize",
+      "next_priority": "bns_001: Rename feature/arabic-linguistic-fix → feat/arabic-linguistic-fix",
+      "blockers": "",
+      "health": "Branch naming cleanup in progress. 5 branches to rename. feat_auth_backend still active separately (Supabase outage)."
   },
   "milestones": {
     "active": [
@@ -154,6 +154,63 @@
           "Free tier: 50K MAU, 500MB DB — sufficient for current scale",
           "localStorage as fallback for anonymous users, sync on login",
           "Bookmark schema: bookmarks(id uuid PK, user_id FK→auth.users, chapter_id text, chapter_title text, created_at timestamptz)"
+        ]
+      },
+      {
+        "id": "chore/branch-naming-standardize",
+        "title": "Branch Naming Standardization (feature/ → feat/, fix- → fix/, feat_feat → auth-backend)",
+        "domain": "Infrastructure",
+        "week": 6,
+        "phase": "chore",
+        "drift_days": 0,
+        "is_key_milestone": false,
+        "subtasks": [
+          {
+            "id": "bns_001",
+            "label": "Rename feature/arabic-linguistic-fix → feat/arabic-linguistic-fix",
+            "status": "todo",
+            "priority": "P2",
+            "execution_mode": "agent",
+            "depends_on": []
+          },
+          {
+            "id": "bns_002",
+            "label": "Rename feature/basaar-digital-reader → feat/basaar-digital-reader",
+            "status": "todo",
+            "priority": "P2",
+            "execution_mode": "agent",
+            "depends_on": ["bns_001"]
+          },
+          {
+            "id": "bns_003",
+            "label": "Rename feature/command-center → refactor/command-center",
+            "status": "todo",
+            "priority": "P2",
+            "execution_mode": "agent",
+            "depends_on": ["bns_002"]
+          },
+          {
+            "id": "bns_004",
+            "label": "Rename fix-spelling-errors → fix/spelling-errors",
+            "status": "todo",
+            "priority": "P2",
+            "execution_mode": "agent",
+            "depends_on": ["bns_003"]
+          },
+          {
+            "id": "bns_005",
+            "label": "Rename feat/feat_auth_backend → feat/auth-backend",
+            "status": "todo",
+            "priority": "P2",
+            "execution_mode": "agent",
+            "depends_on": ["bns_004"]
+          }
+        ],
+        "dependencies": [],
+        "notes": [
+          "Standardizing on Conventional Commits pattern: feat/, fix/, chore/, refactor/",
+          "feature/ → feat/, fix- → fix/, redundant feat_feat prefix removed",
+          "Each rename: git branch -m old new + git push origin --delete old + git push -u origin new"
         ]
       }
     ],
