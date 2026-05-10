@@ -8,11 +8,11 @@
     "overall_progress": 58
   },
   "dashboard": {
-          "current_focus": "Standardize branch naming: rename 5 non-conforming branches (feature/ → feat/, fix- → fix/, redundant feat_feat).",
-      "active_milestone": "chore/branch-naming-standardize",
-      "next_priority": "bns_001: Rename feature/arabic-linguistic-fix → feat/arabic-linguistic-fix",
-      "blockers": "",
-      "health": "Branch naming cleanup in progress. 5 branches to rename. feat_auth_backend still active separately (Supabase outage)."
+          "current_focus": "All branches standardized. Waiting on Supabase for feat_auth_backend_008.",
+      "active_milestone": "feat_auth_backend",
+      "next_priority": "Resume feat_auth_backend_008 when Supabase is back online",
+      "blockers": "feat_auth_backend_008: Supabase site down",
+      "health": "Branch naming cleanup: 5/5 branches renamed and pushed. All feature/* → feat/*, fix- → fix/, feat/feat_ → feat/. All old remote refs deleted."
   },
   "milestones": {
     "active": [
@@ -155,63 +155,6 @@
           "localStorage as fallback for anonymous users, sync on login",
           "Bookmark schema: bookmarks(id uuid PK, user_id FK→auth.users, chapter_id text, chapter_title text, created_at timestamptz)"
         ]
-      },
-      {
-        "id": "chore/branch-naming-standardize",
-        "title": "Branch Naming Standardization (feature/ → feat/, fix- → fix/, feat_feat → auth-backend)",
-        "domain": "Infrastructure",
-        "week": 6,
-        "phase": "chore",
-        "drift_days": 0,
-        "is_key_milestone": false,
-        "subtasks": [
-          {
-            "id": "bns_001",
-            "label": "Rename feature/arabic-linguistic-fix → feat/arabic-linguistic-fix",
-            "status": "todo",
-            "priority": "P2",
-            "execution_mode": "agent",
-            "depends_on": []
-          },
-          {
-            "id": "bns_002",
-            "label": "Rename feature/basaar-digital-reader → feat/basaar-digital-reader",
-            "status": "todo",
-            "priority": "P2",
-            "execution_mode": "agent",
-            "depends_on": ["bns_001"]
-          },
-          {
-            "id": "bns_003",
-            "label": "Rename feature/command-center → refactor/command-center",
-            "status": "todo",
-            "priority": "P2",
-            "execution_mode": "agent",
-            "depends_on": ["bns_002"]
-          },
-          {
-            "id": "bns_004",
-            "label": "Rename fix-spelling-errors → fix/spelling-errors",
-            "status": "todo",
-            "priority": "P2",
-            "execution_mode": "agent",
-            "depends_on": ["bns_003"]
-          },
-          {
-            "id": "bns_005",
-            "label": "Rename feat/feat_auth_backend → feat/auth-backend",
-            "status": "todo",
-            "priority": "P2",
-            "execution_mode": "agent",
-            "depends_on": ["bns_004"]
-          }
-        ],
-        "dependencies": [],
-        "notes": [
-          "Standardizing on Conventional Commits pattern: feat/, fix/, chore/, refactor/",
-          "feature/ → feat/, fix- → fix/, redundant feat_feat prefix removed",
-          "Each rename: git branch -m old new + git push origin --delete old + git push -u origin new"
-        ]
       }
     ],
     "backlog": [
@@ -289,6 +232,15 @@
       }
     ],
     "completed": [
+      {
+        "id": "chore/branch-naming-standardize",
+        "title": "Branch Naming Standardization (feature/ → feat/, fix- → fix/, feat_feat → auth-backend)",
+        "completed_at": "2026-05-10",
+        "summary": "5/5 subtasks done. Renamed: feature/arabic-linguistic-fix → feat/arabic-linguistic-fix, feature/basaar-digital-reader → feat/basaar-digital-reader, feature/command-center → refactor/command-center, fix-spelling-errors → fix/spelling-errors, feat/feat_auth_backend → feat/auth-backend. Old remote refs deleted from origin.",
+        "domain": "Infrastructure",
+        "week": 6,
+        "phase": "chore"
+      },
       {
         "id": "chore/upgrade-nextjs-16",
         "title": "Next.js/React Upgrade (15.1.7→16.2.4, react 19.0.0→19.2.0)",
@@ -1902,6 +1854,11 @@
       },
       {
         "action": "Completed chore/upgrade-nextjs milestone — all 9 subtasks done. Next.js 15.1.7→16.2.4, React 19.0.0→19.2.0. Committed, merged to main, deployed to Vercel production (https://bassaer.vercel.app). Build verified 17/17 pages. Supabase env vars added to Vercel project.",
+        "agent": "orchestrator",
+        "date": "2026-05-10"
+      },
+      {
+        "action": "Completed chore/branch-naming-standardize milestone — 5/5 subtasks done. Renamed: feature/arabic-linguistic-fix→feat/arabic-linguistic-fix, feature/basaar-digital-reader→feat/basaar-digital-reader, feature/command-center→refactor/command-center, fix-spelling-errors→fix/spelling-errors, feat/feat_auth_backend→feat/auth-backend. Old remote refs deleted.",
         "agent": "orchestrator",
         "date": "2026-05-10"
       }
