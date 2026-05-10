@@ -57,6 +57,9 @@ dist/
 .next/
 .ruff_cache/
 
+# Vercel local project config
+.vercel/
+
 # Tool artifacts
 .opencode/
 

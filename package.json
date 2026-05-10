@@ -2,6 +2,9 @@
   "name": "bassaer",
   "version": "1.0.0",
   "private": true,
+  "pnpm": {
+    "onlyBuiltDependencies": ["sharp", "unrs-resolver"]
+  },
   "scripts": {
     "cc": "./scripts/cc-dash.py",
     "cc:watch": "./scripts/cc-dash.py --watch",
