@@ -155,7 +155,7 @@
           "localStorage as fallback for anonymous users, sync on login",
           "Bookmark schema: bookmarks(id uuid PK, user_id FK→auth.users, chapter_id text, chapter_title text, created_at timestamptz)"
         ]
-      },
+      }
     ],
     "backlog": [
       {
@@ -241,7 +241,6 @@
         "week": 6,
         "phase": "chore"
       },
-      {
       {
         "id": "content_word_audit",
         "title": "Word Source vs UI Comparison Audit",
