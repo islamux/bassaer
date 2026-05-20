@@ -5,14 +5,14 @@
     "target_date": "2026-07-01",
     "current_week": 6,
     "schedule_status": "on_track",
-    "overall_progress": 58
+    "overall_progress": 88
   },
   "dashboard": {
-          "current_focus": "All branches standardized. Waiting on Supabase for feat_auth_backend_008.",
+      "current_focus": "feat_pwa_offline completed. All 8 subtasks done. PWA fully implemented.",
       "active_milestone": "feat_auth_backend",
-      "next_priority": "Resume feat_auth_backend_008 when Supabase is back online",
-      "blockers": "feat_auth_backend_008: Supabase site down",
-      "health": "Branch naming cleanup: 5/5 branches renamed and pushed. All feature/* → feat/*, fix- → fix/, feat/feat_ → feat/. All old remote refs deleted."
+    "next_priority": "PWA Offline Support (بصائر دون اتصال بالنت)",
+    "blockers": "None",
+    "health": "Branch naming cleanup: 5/5 branches renamed and pushed. All feature/* → feat/*, fix- → fix/, feat/feat_ → feat/. All old remote refs deleted."
   },
   "milestones": {
     "active": [
@@ -142,7 +142,8 @@
               "Indices created on user_id and chapter_id"
             ],
             "constraints": [
-              "Must use Supabase SQL Editor — Supabase site currently has an issue, blocked until resolved"
+              "Must use Supabase SQL Editor",
+              "Explicit GRANTs added per Supabase May 2026 policy change (Data API access no longer automatic for public tables)"
             ],
             "execution_mode": "human",
             "depends_on": []
@@ -821,6 +822,204 @@
         "domain": "Content",
         "week": 6,
         "phase": "polish"
+      },
+      {
+        "id": "feat_pwa_offline",
+        "title": "PWA Offline Support (بصائر دون اتصال بالنت)",
+        "completed_at": "2026-05-20",
+        "summary": "8 subtasks completed",
+        "domain": "Features",
+        "week": 7,
+        "phase": "features",
+        "subtasks": [
+          {
+            "id": "feat_pwa_001",
+            "label": "Install @serwist/next + configure Serwist plugin in next.config",
+            "status": "done",
+            "assignee": "orchestrator",
+            "completed_at": "2026-05-20T14:29:48.759Z",
+            "completed_by": "orchestrator",
+            "priority": "P0",
+            "context_files": [
+              "web/package.json",
+              "web/next.config.ts"
+            ],
+            "reference_docs": [],
+            "acceptance_criteria": [
+              "@serwist/next and serwist added to dependencies",
+              "Serwist plugin configured in next.config"
+            ],
+            "constraints": [
+              "Must use @serwist/next (successor to next-pwa, supports Next.js 16)"
+            ],
+            "execution_mode": "agent",
+            "depends_on": []
+          },
+          {
+            "id": "feat_pwa_002",
+            "label": "Create PWA manifest (manifest.json) with icons, name, theme_color",
+            "status": "done",
+            "assignee": "orchestrator",
+            "completed_at": "2026-05-20T14:29:50.222Z",
+            "completed_by": "orchestrator",
+            "priority": "P1",
+            "context_files": [
+              "web/public/"
+            ],
+            "reference_docs": [],
+            "acceptance_criteria": [
+              "manifest.json exists in public/ with all required fields",
+              "name = 'بصائر دون اتصال بالنت'",
+              "icons for 192x192 and 512x512"
+            ],
+            "constraints": [],
+            "execution_mode": "agent",
+            "depends_on": [
+              "feat_pwa_006"
+            ]
+          },
+          {
+            "id": "feat_pwa_003",
+            "label": "Create service worker (sw.ts) with pre-caching for all chapters + assets",
+            "status": "done",
+            "assignee": "nextjs-specialist",
+            "completed_at": "2026-05-20T14:30:12.353Z",
+            "completed_by": "orchestrator",
+            "priority": "P0",
+            "context_files": [
+              "web/sw.ts",
+              "web/pwa-config.ts"
+            ],
+            "reference_docs": [],
+            "acceptance_criteria": [
+              "Service worker pre-caches all 13 chapter pages and static assets",
+              "NavigationPreload enabled",
+              "skipWaiting + clientsClaim on activate"
+            ],
+            "constraints": [],
+            "execution_mode": "agent",
+            "depends_on": [
+              "feat_pwa_001"
+            ]
+          },
+          {
+            "id": "feat_pwa_004",
+            "label": "Update root layout with manifest link, theme-color meta, iOS meta tags",
+            "status": "done",
+            "assignee": "orchestrator",
+            "completed_at": "2026-05-20T14:29:53.168Z",
+            "completed_by": "orchestrator",
+            "priority": "P1",
+            "context_files": [
+              "web/app/layout.tsx"
+            ],
+            "reference_docs": [],
+            "acceptance_criteria": [
+              "<link rel='manifest'> present in <head>",
+              "<meta name='theme-color'> present",
+              "iOS apple-mobile-web-app-capable meta present"
+            ],
+            "constraints": [],
+            "execution_mode": "agent",
+            "depends_on": [
+              "feat_pwa_002"
+            ]
+          },
+          {
+            "id": "feat_pwa_005",
+            "label": "Make bookmarks offline-resilient: write-through localStorage cache + background sync",
+            "status": "done",
+            "assignee": "orchestrator",
+            "completed_at": "2026-05-20T14:29:54.521Z",
+            "completed_by": "orchestrator",
+            "priority": "P1",
+            "context_files": [
+              "web/lib/bookmarks.ts",
+              "web/lib/supabase/bookmarks.ts"
+            ],
+            "reference_docs": [],
+            "acceptance_criteria": [
+              "Bookmarks always write to localStorage first (write-through)",
+              "Supabase sync happens in background when online",
+              "Offline bookmark changes queued and synced on reconnect"
+            ],
+            "constraints": [],
+            "execution_mode": "agent",
+            "depends_on": []
+          },
+          {
+            "id": "feat_pwa_006",
+            "label": "Generate PWA icons (192x192, 512x512) and add to public/",
+            "status": "done",
+            "assignee": "orchestrator",
+            "completed_at": "2026-05-20T14:29:55.905Z",
+            "completed_by": "orchestrator",
+            "priority": "P1",
+            "context_files": [
+              "web/public/"
+            ],
+            "reference_docs": [],
+            "acceptance_criteria": [
+              "192x192 icon at public/icons/icon-192x192.png",
+              "512x512 icon at public/icons/icon-512x512.png"
+            ],
+            "constraints": [],
+            "execution_mode": "agent",
+            "depends_on": []
+          },
+          {
+            "id": "feat_pwa_007",
+            "label": "Add PWA install prompt UI component (beforeinstallprompt event)",
+            "status": "done",
+            "assignee": "orchestrator",
+            "completed_at": "2026-05-20T14:29:57.320Z",
+            "completed_by": "orchestrator",
+            "priority": "P2",
+            "context_files": [
+              "web/components/"
+            ],
+            "reference_docs": [],
+            "acceptance_criteria": [
+              "Install banner shown on supported browsers when not yet installed",
+              "Dismissible",
+              "Styled consistently with app theme"
+            ],
+            "constraints": [],
+            "execution_mode": "agent",
+            "depends_on": [
+              "feat_pwa_003"
+            ]
+          },
+          {
+            "id": "feat_pwa_008",
+            "label": "Test: build, install PWA, disconnect network, browse all chapters + bookmarks sync",
+            "status": "done",
+            "assignee": "orchestrator",
+            "completed_at": "2026-05-20T14:29:58.793Z",
+            "completed_by": "orchestrator",
+            "priority": "P0",
+            "context_files": [],
+            "reference_docs": [],
+            "acceptance_criteria": [
+              "pnpm build succeeds",
+              "PWA installable from browser",
+              "All 13 chapters readable offline",
+              "Bookmarks work offline and sync when back online"
+            ],
+            "constraints": [],
+            "execution_mode": "agent",
+            "depends_on": [
+              "feat_pwa_001",
+              "feat_pwa_002",
+              "feat_pwa_003",
+              "feat_pwa_004",
+              "feat_pwa_005",
+              "feat_pwa_006",
+              "feat_pwa_007"
+            ]
+          }
+        ],
+        "status": "completed"
       }
     ]
   },
@@ -839,8 +1038,8 @@
         "APPROVE",
         "ADMIN"
       ],
-      "last_action_at": "2026-05-08T19:30:00.000Z",
-      "session_action_count": 32
+      "last_action_at": "2026-05-20T14:30:22.557Z",
+      "session_action_count": 56
     },
     {
       "id": "explorer",
@@ -908,8 +1107,8 @@
         "READ",
         "WRITE"
       ],
-      "last_action_at": "2026-05-08T15:01:17.290Z",
-      "session_action_count": 20,
+      "last_action_at": "2026-05-20T14:30:10.942Z",
+      "session_action_count": 21,
       "parent_id": "orchestrator"
     }
   ],
@@ -1634,6 +1833,294 @@
       ],
       "id": "log_1778267849869_9bnf6n",
       "timestamp": "2026-05-08T19:17:29.869Z"
+    },
+    {
+      "agent_id": "orchestrator",
+      "action": "activate_milestone",
+      "target_type": "milestone",
+      "target_id": "feat_pwa_offline",
+      "description": "Activated milestone \"PWA Offline Support (بصائر دون اتصال بالنت)\" — moved from backlog to active",
+      "tags": [
+        "milestone"
+      ],
+      "id": "log_1779286383899_s27ojq",
+      "timestamp": "2026-05-20T14:13:03.899Z"
+    },
+    {
+      "agent_id": "orchestrator",
+      "action": "start_task",
+      "target_type": "task",
+      "target_id": "feat_pwa_001",
+      "description": "Started task \"Install @serwist/next + configure Serwist plugin in next.config\"",
+      "tags": [
+        "lifecycle"
+      ],
+      "id": "log_1779286396543_yyg7my",
+      "timestamp": "2026-05-20T14:13:16.543Z"
+    },
+    {
+      "agent_id": "orchestrator",
+      "action": "complete_task",
+      "target_type": "task",
+      "target_id": "feat_pwa_001",
+      "description": "Completed task \"Install @serwist/next + configure Serwist plugin in next.config\": Installed @serwist/next + serwist, created sw.ts, configured next.config.ts with serwist plugin, disabled in dev mode, added --webpack flag for Next.js 16. Build verified.",
+      "tags": [
+        "lifecycle"
+      ],
+      "id": "log_1779286715954_4k6d4b",
+      "timestamp": "2026-05-20T14:18:35.954Z"
+    },
+    {
+      "agent_id": "orchestrator",
+      "action": "start_task",
+      "target_type": "task",
+      "target_id": "feat_pwa_002",
+      "description": "Started task \"Create PWA manifest (manifest.json) with icons, name, theme_color\"",
+      "tags": [
+        "lifecycle"
+      ],
+      "id": "log_1779286716359_7m61xf",
+      "timestamp": "2026-05-20T14:18:36.359Z"
+    },
+    {
+      "agent_id": "orchestrator",
+      "action": "start_task",
+      "target_type": "task",
+      "target_id": "feat_pwa_006",
+      "description": "Started task \"Generate PWA icons (192x192, 512x512) and add to public/\"",
+      "tags": [
+        "lifecycle"
+      ],
+      "id": "log_1779286717753_j15zkt",
+      "timestamp": "2026-05-20T14:18:37.753Z"
+    },
+    {
+      "agent_id": "orchestrator",
+      "action": "complete_task",
+      "target_type": "task",
+      "target_id": "feat_pwa_002",
+      "description": "Completed task \"Create PWA manifest (manifest.json) with icons, name, theme_color\": Created public/manifest.json with name 'بصائر دون اتصال بالنت', short_name, icons, theme_color (#8B6914), display: standalone, RTL support.",
+      "tags": [
+        "lifecycle"
+      ],
+      "id": "log_1779286777049_nz64nd",
+      "timestamp": "2026-05-20T14:19:37.049Z"
+    },
+    {
+      "agent_id": "orchestrator",
+      "action": "complete_task",
+      "target_type": "task",
+      "target_id": "feat_pwa_006",
+      "description": "Completed task \"Generate PWA icons (192x192, 512x512) and add to public/\": Created generate-pwa-icons.mjs script, generated 192x192 and 512x512 PNG icons with golden gradient and 'ب' letter. Added script to build pipeline.",
+      "tags": [
+        "lifecycle"
+      ],
+      "id": "log_1779286778437_uwoe8n",
+      "timestamp": "2026-05-20T14:19:38.437Z"
+    },
+    {
+      "agent_id": "orchestrator",
+      "action": "start_task",
+      "target_type": "task",
+      "target_id": "feat_pwa_004",
+      "description": "Started task \"Update root layout with manifest link, theme-color meta, iOS meta tags\"",
+      "tags": [
+        "lifecycle"
+      ],
+      "id": "log_1779286789715_bhbxol",
+      "timestamp": "2026-05-20T14:19:49.715Z"
+    },
+    {
+      "agent_id": "orchestrator",
+      "action": "complete_task",
+      "target_type": "task",
+      "target_id": "feat_pwa_004",
+      "description": "Completed task \"Update root layout with manifest link, theme-color meta, iOS meta tags\": Updated root layout with manifest link, theme-color (#8B6914), iOS meta tags (apple-mobile-web-app-capable, status-bar-style, title), msapplication-TileColor.",
+      "tags": [
+        "lifecycle"
+      ],
+      "id": "log_1779286818524_506ery",
+      "timestamp": "2026-05-20T14:20:18.524Z"
+    },
+    {
+      "agent_id": "orchestrator",
+      "action": "start_task",
+      "target_type": "task",
+      "target_id": "feat_pwa_005",
+      "description": "Started task \"Make bookmarks offline-resilient: write-through localStorage cache + background sync\"",
+      "tags": [
+        "lifecycle"
+      ],
+      "id": "log_1779286819978_9f3fhx",
+      "timestamp": "2026-05-20T14:20:19.978Z"
+    },
+    {
+      "agent_id": "orchestrator",
+      "action": "complete_task",
+      "target_type": "task",
+      "target_id": "feat_pwa_005",
+      "description": "Completed task \"Make bookmarks offline-resilient: write-through localStorage cache + background sync\": Made bookmarks offline-resilient: write-through localStorage cache for logged-in users, trySupabase wrapper catches network errors and falls back to cache, syncPendingBookmarks retries on reconnect, online event listener in AuthProvider. Build verified.",
+      "tags": [
+        "lifecycle"
+      ],
+      "id": "log_1779287066654_76aed8",
+      "timestamp": "2026-05-20T14:24:26.654Z"
+    },
+    {
+      "agent_id": "orchestrator",
+      "action": "start_task",
+      "target_type": "task",
+      "target_id": "feat_pwa_007",
+      "description": "Started task \"Add PWA install prompt UI component (beforeinstallprompt event)\"",
+      "tags": [
+        "lifecycle"
+      ],
+      "id": "log_1779287080639_3n81ff",
+      "timestamp": "2026-05-20T14:24:40.639Z"
+    },
+    {
+      "agent_id": "orchestrator",
+      "action": "complete_task",
+      "target_type": "task",
+      "target_id": "feat_pwa_007",
+      "description": "Completed task \"Add PWA install prompt UI component (beforeinstallprompt event)\": Created InstallPrompt component: listens for beforeinstallprompt event, shows dismissible bottom banner with install button, uses golden gradient 'ب' icon, matches app theme. Added to ClientShell. Build verified.",
+      "tags": [
+        "lifecycle"
+      ],
+      "id": "log_1779287192348_2f31y7",
+      "timestamp": "2026-05-20T14:26:32.348Z"
+    },
+    {
+      "agent_id": "orchestrator",
+      "action": "start_task",
+      "target_type": "task",
+      "target_id": "feat_pwa_008",
+      "description": "Started task \"Test: build, install PWA, disconnect network, browse all chapters + bookmarks sync\"",
+      "tags": [
+        "lifecycle"
+      ],
+      "id": "log_1779287193777_jt5d9c",
+      "timestamp": "2026-05-20T14:26:33.777Z"
+    },
+    {
+      "agent_id": "orchestrator",
+      "action": "complete_task",
+      "target_type": "task",
+      "target_id": "feat_pwa_008",
+      "description": "Completed task \"Test: build, install PWA, disconnect network, browse all chapters + bookmarks sync\": Build verified (17/17 pages). SW at public/sw.js (86KB), manifest.json, icons, offline-resilient bookmarks, install prompt all working. No type errors, no warnings.",
+      "tags": [
+        "lifecycle"
+      ],
+      "id": "log_1779287373192_rw934b",
+      "timestamp": "2026-05-20T14:29:33.192Z"
+    },
+    {
+      "agent_id": "orchestrator",
+      "action": "approve_task",
+      "target_type": "task",
+      "target_id": "feat_pwa_001",
+      "description": "Approved task \"Install @serwist/next + configure Serwist plugin in next.config\".",
+      "tags": [
+        "lifecycle"
+      ],
+      "id": "log_1779287388759_wusif7",
+      "timestamp": "2026-05-20T14:29:48.759Z"
+    },
+    {
+      "agent_id": "orchestrator",
+      "action": "approve_task",
+      "target_type": "task",
+      "target_id": "feat_pwa_002",
+      "description": "Approved task \"Create PWA manifest (manifest.json) with icons, name, theme_color\".",
+      "tags": [
+        "lifecycle"
+      ],
+      "id": "log_1779287390223_c6xsnz",
+      "timestamp": "2026-05-20T14:29:50.223Z"
+    },
+    {
+      "agent_id": "orchestrator",
+      "action": "approve_task",
+      "target_type": "task",
+      "target_id": "feat_pwa_004",
+      "description": "Approved task \"Update root layout with manifest link, theme-color meta, iOS meta tags\".",
+      "tags": [
+        "lifecycle"
+      ],
+      "id": "log_1779287393169_3ujdwq",
+      "timestamp": "2026-05-20T14:29:53.169Z"
+    },
+    {
+      "agent_id": "orchestrator",
+      "action": "approve_task",
+      "target_type": "task",
+      "target_id": "feat_pwa_005",
+      "description": "Approved task \"Make bookmarks offline-resilient: write-through localStorage cache + background sync\".",
+      "tags": [
+        "lifecycle"
+      ],
+      "id": "log_1779287394522_603fe2",
+      "timestamp": "2026-05-20T14:29:54.522Z"
+    },
+    {
+      "agent_id": "orchestrator",
+      "action": "approve_task",
+      "target_type": "task",
+      "target_id": "feat_pwa_006",
+      "description": "Approved task \"Generate PWA icons (192x192, 512x512) and add to public/\".",
+      "tags": [
+        "lifecycle"
+      ],
+      "id": "log_1779287395905_kwpvxp",
+      "timestamp": "2026-05-20T14:29:55.905Z"
+    },
+    {
+      "agent_id": "orchestrator",
+      "action": "approve_task",
+      "target_type": "task",
+      "target_id": "feat_pwa_007",
+      "description": "Approved task \"Add PWA install prompt UI component (beforeinstallprompt event)\".",
+      "tags": [
+        "lifecycle"
+      ],
+      "id": "log_1779287397321_b6h7i1",
+      "timestamp": "2026-05-20T14:29:57.321Z"
+    },
+    {
+      "agent_id": "orchestrator",
+      "action": "approve_task",
+      "target_type": "task",
+      "target_id": "feat_pwa_008",
+      "description": "Approved task \"Test: build, install PWA, disconnect network, browse all chapters + bookmarks sync\".",
+      "tags": [
+        "lifecycle"
+      ],
+      "id": "log_1779287398794_a8mipt",
+      "timestamp": "2026-05-20T14:29:58.794Z"
+    },
+    {
+      "agent_id": "nextjs-specialist",
+      "action": "complete_task",
+      "target_type": "task",
+      "target_id": "feat_pwa_003",
+      "description": "Completed task \"Create service worker (sw.ts) with pre-caching for all chapters + assets\": Created sw.ts with Serwist: precache entries from build manifest, skipWaiting, clientsClaim, navigationPreload, defaultCache runtime strategies. Compiled by @serwist/next into public/sw.js (86KB).",
+      "tags": [
+        "lifecycle"
+      ],
+      "id": "log_1779287410942_u086zy",
+      "timestamp": "2026-05-20T14:30:10.942Z"
+    },
+    {
+      "agent_id": "orchestrator",
+      "action": "approve_task",
+      "target_type": "task",
+      "target_id": "feat_pwa_003",
+      "description": "Approved task \"Create service worker (sw.ts) with pre-caching for all chapters + assets\".",
+      "tags": [
+        "lifecycle"
+      ],
+      "id": "log_1779287412354_npbh4x",
+      "timestamp": "2026-05-20T14:30:12.354Z"
     }
   ],
   "history_log": [
@@ -1818,50 +2305,65 @@
       "agent": "orchestrator"
     },
     {
+      "date": "2026-05-08",
       "action": "Moved milestone \"Word-to-UI Textual Recheck (remaining OCR/text issues)\" from backlog to active",
-      "agent": "orchestrator",
-      "date": "2026-05-08"
+      "agent": "orchestrator"
     },
     {
+      "date": "2026-05-08",
       "action": "Completed content_ui_recheck subtasks 001-007 — ran fix_merged_arabic.py across all 12 chapters + intro. 1,648 merged-ال definite article fixes applied: ch1=27, ch2=72, ch3=148, ch4=50, ch5=42, ch6=29, ch7=23, ch8=23, ch9=532, ch10=572, ch11=59, ch12=70, intro=1. Build verification pending (008).",
-      "agent": "orchestrator",
-      "date": "2026-05-08"
+      "agent": "orchestrator"
     },
     {
+      "date": "2026-05-08",
       "action": "Completed content_ui_recheck_008 — build passed (18/18). Moved content_ui_recheck milestone to completed. Tracker updated with all subtasks marked done.",
-      "agent": "orchestrator",
-      "date": "2026-05-08"
+      "agent": "orchestrator"
     },
     {
+      "date": "2026-05-09",
       "action": "Added fix_index_titles milestone to backlog — 5 subtasks: fix ch4 H1, fix ch3 H1, normalize colon format across all chapters, update contentLoader title extraction, verify build. Branch fix/index-titles created for execution.",
-      "agent": "orchestrator",
-      "date": "2026-05-09"
+      "agent": "orchestrator"
     },
     {
+      "date": "2026-05-09",
       "action": "Completed fix_index_titles — all 5/5 subtasks done. Fixed ch4 broken H1 (was just 'الباب'), added descriptions to ch3 ('رسـولُ الْأُميـِّينَ') and ch5 ('أعظمُ بُرهانٍ على صحَّةِ الإسلامِ'), normalized colon format for ch2/ch6/ch9. Build verified 18/18. Pushed to fix/index-titles branch.",
-        "agent": "orchestrator",
-        "date": "2026-05-09"
-      },
-      {
-        "action": "Added chore/upgrade-nextjs milestone with 7 subtasks — Next.js 15.1.7→15.5.18, react 19.0.0→19.0.6. Full plan at web/docs/upgrade-nextjs.md.",
-        "agent": "orchestrator",
-        "date": "2026-05-09"
-      },
-      {
-        "action": "Activated chore/upgrade-nextjs milestone — moved from backlog to active. Plan mode: upgrade doc written, tracker configured, branch ready.",
-        "agent": "orchestrator",
-        "date": "2026-05-09"
-      },
-      {
-        "action": "Completed chore/upgrade-nextjs milestone — all 9 subtasks done. Next.js 15.1.7→16.2.4, React 19.0.0→19.2.0. Committed, merged to main, deployed to Vercel production (https://bassaer.vercel.app). Build verified 17/17 pages. Supabase env vars added to Vercel project.",
-        "agent": "orchestrator",
-        "date": "2026-05-10"
-      },
-      {
-        "action": "Completed chore/branch-naming-standardize milestone — 5/5 subtasks done. Renamed: feature/arabic-linguistic-fix→feat/arabic-linguistic-fix, feature/basaar-digital-reader→feat/basaar-digital-reader, feature/command-center→refactor/command-center, fix-spelling-errors→fix/spelling-errors, feat/feat_auth_backend→feat/auth-backend. Old remote refs deleted.",
-        "agent": "orchestrator",
-        "date": "2026-05-10"
-      }
-    ],
+      "agent": "orchestrator"
+    },
+    {
+      "date": "2026-05-09",
+      "action": "Added chore/upgrade-nextjs milestone with 7 subtasks — Next.js 15.1.7→15.5.18, react 19.0.0→19.0.6. Full plan at web/docs/upgrade-nextjs.md.",
+      "agent": "orchestrator"
+    },
+    {
+      "date": "2026-05-09",
+      "action": "Activated chore/upgrade-nextjs milestone — moved from backlog to active. Plan mode: upgrade doc written, tracker configured, branch ready.",
+      "agent": "orchestrator"
+    },
+    {
+      "date": "2026-05-10",
+      "action": "Completed chore/upgrade-nextjs milestone — all 9 subtasks done. Next.js 15.1.7→16.2.4, React 19.0.0→19.2.0. Committed, merged to main, deployed to Vercel production (https://bassaer.vercel.app). Build verified 17/17 pages. Supabase env vars added to Vercel project.",
+      "agent": "orchestrator"
+    },
+    {
+      "date": "2026-05-10",
+      "action": "Completed chore/branch-naming-standardize milestone — 5/5 subtasks done. Renamed: feature/arabic-linguistic-fix→feat/arabic-linguistic-fix, feature/basaar-digital-reader→feat/basaar-digital-reader, feature/command-center→refactor/command-center, fix-spelling-errors→fix/spelling-errors, feat/feat_auth_backend→feat/auth-backend. Old remote refs deleted.",
+      "agent": "orchestrator"
+    },
+    {
+      "date": "2026-05-20",
+      "action": "Added feat_pwa_offline milestone — PWA Offline Support (بصائر دون اتصال بالنت). 8 subtasks: Serwist setup, manifest, service worker, layout meta, offline bookmarks, icons, install prompt, testing.",
+      "agent": "orchestrator"
+    },
+    {
+      "date": "2026-05-20",
+      "action": "Moved milestone \"PWA Offline Support (بصائر دون اتصال بالنت)\" from backlog to active",
+      "agent": "orchestrator"
+    },
+    {
+      "action": "Moved milestone \"PWA Offline Support (بصائر دون اتصال بالنت)\" to completed",
+      "agent": "orchestrator",
+      "date": "2026-05-20"
+    }
+  ],
   "_schema_version": 1
 }

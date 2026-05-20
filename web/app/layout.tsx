@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Tajawal } from "next/font/google";
 import "./globals.css";
 import ClientShell from "@/components/ClientShell";
@@ -13,6 +13,17 @@ const tajawal = Tajawal({
 export const metadata: Metadata = {
   title: "بصائر - كتاب رقمي",
   description: "المكتبة الرقمية لكتاب بصائر في الكون والحياة والدين",
+  manifest: "/manifest.json",
+  other: {
+    "apple-mobile-web-app-capable": "yes",
+    "apple-mobile-web-app-status-bar-style": "default",
+    "apple-mobile-web-app-title": "بصائر دون اتصال بالنت",
+    "msapplication-TileColor": "#8B6914",
+  },
+};
+
+export const viewport: Viewport = {
+  themeColor: "#8B6914",
 };
 
 export default function RootLayout({

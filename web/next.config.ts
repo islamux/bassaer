@@ -1,7 +1,13 @@
 import type { NextConfig } from "next";
+import withSerwistInit from "@serwist/next";
 
-const nextConfig: NextConfig = {
-  /* config options here */
-};
+const withSerwist = withSerwistInit({
+  swSrc: "sw.ts",
+  swDest: "public/sw.js",
+  reloadOnOnline: true,
+  disable: process.env.NODE_ENV !== "production",
+});
 
-export default nextConfig;
+const nextConfig: NextConfig = {};
+
+export default withSerwist(nextConfig);
