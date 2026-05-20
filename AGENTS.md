@@ -82,3 +82,15 @@ The Basaar project utilizes specialized AI agents to handle different domains of
 2. **Execute Task:** Complete the assigned subtask using the appropriate agent persona.
 3. **Update Tracker:** Once finished, mark the subtask as `done`, append a `history_log` entry, and move the milestone to `completed` if all subtasks are finished.
 4. **Commit & Push:** Commit your changes with a descriptive message and push to the remote repository.
+
+---
+
+## 🌿 GitHub Flow
+
+1. **Add** — `git add <files>`
+2. **Commit** — `git commit -m "<descriptive message>"`
+3. **Push** — `git push -u origin <branch>`
+4. **PR** — create pull request via GitHub CLI or web
+5. **Accept PR** — merge to `main` via GitHub UI
+6. **Keep branch** — do **not** delete the remote branch after merging
+7. **Update local main** — `git checkout main && git pull origin main`

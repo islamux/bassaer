@@ -2,7 +2,7 @@
 
 import { createContext, useContext, useEffect, useState, useCallback } from "react";
 import { createClient } from "./client";
-import { mergeLocalToSupabase } from "../bookmarks";
+import { mergeLocalToSupabase, syncPendingBookmarks } from "../bookmarks";
 import type { User, Session } from "@supabase/supabase-js";
 
 interface AuthState {
@@ -41,10 +41,17 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       setUser(session?.user ?? null);
       if (event === "SIGNED_IN") {
         mergeLocalToSupabase();
+        syncPendingBookmarks();
       }
     });
 
-    return () => subscription.unsubscribe();
+    const handleOnline = () => syncPendingBookmarks();
+    window.addEventListener("online", handleOnline);
+
+    return () => {
+      subscription.unsubscribe();
+      window.removeEventListener("online", handleOnline);
+    };
   }, []);
 
   const signInWithMagicLink = useCallback(async (email: string) => {

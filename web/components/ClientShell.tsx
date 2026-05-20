@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import Navbar from "./Navbar";
 import SearchDialog from "./SearchDialog";
+import InstallPrompt from "./InstallPrompt";
 import { AuthProvider } from "@/lib/supabase/auth-context";
 import type { ChapterMeta } from "@/lib/contentLoader";
 
@@ -29,6 +30,7 @@ export default function ClientShell({ chapters, children }: ClientShellProps) {
     <AuthProvider>
       <Navbar chapters={chapters} onSearchOpen={() => setIsSearchOpen(true)} />
       <SearchDialog isOpen={isSearchOpen} onClose={() => setIsSearchOpen(false)} />
+      <InstallPrompt />
       <div className="min-h-screen pt-16">
         {children}
       </div>

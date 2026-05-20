@@ -62,6 +62,7 @@ dist/
 
 # Tool artifacts
 .opencode/
+.cc-backups/
 
 # Python virtual environments
 venv/
