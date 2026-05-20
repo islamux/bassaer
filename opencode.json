@@ -1,0 +1,10 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "plugin": ["superpowers@git+https://github.com/obra/superpowers.git"],
+  "command": {
+    "github_flow": {
+      "template": "Execute the GitHub Flow: 1) git add <files>, 2) git commit -m \"<message>\", 3) git push -u origin <current-branch>, 4) create a PR via GitHub CLI or web, 5) accept/merge the PR to main, 6) keep the branch (do NOT delete remote branch), 7) git checkout main && git pull origin main to update local main.",
+      "description": "Execute full GitHub Flow: add, commit, push, PR, merge, keep branch, update local main"
+    }
+  }
+}
