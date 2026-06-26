@@ -34,7 +34,12 @@ export default function RootLayout({
   const chapters = getAllChapters();
 
   return (
-    <html lang="ar" dir="rtl" className={tajawal.variable}>
+    <html lang="ar" dir="rtl" className={tajawal.variable} suppressHydrationWarning>
+      <head>
+        <script dangerouslySetInnerHTML={{
+          __html: `(function(){var t=localStorage.getItem("theme");if(t==="dark"||(!t&&window.matchMedia("(prefers-color-scheme: dark)").matches))document.documentElement.classList.add("dark")})()`
+        }} />
+      </head>
       <body className={`${tajawal.className} bg-[var(--background)] text-[var(--foreground)] antialiased transition-colors duration-300`}>
         <ClientShell chapters={chapters}>
           {children}

@@ -60,6 +60,10 @@ dist/
 # Vercel local project config
 .vercel/
 
+# Session / planning artifacts
+session-*.md
+new-project.md
+
 # Tool artifacts
 .opencode/
 .cc-backups/
