@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import Link from "next/link";
 import { Moon, Sun, Search, Menu } from "lucide-react";
 import { ChapterMeta } from "@/lib/contentLoader";
@@ -14,17 +14,11 @@ interface NavbarProps {
 }
 
 export default function Navbar({ chapters, onSearchOpen }: NavbarProps) {
-  const [isDark, setIsDark] = useState(false);
+  const [isDark, setIsDark] = useState(() => {
+    if (typeof window === "undefined") return false;
+    return document.documentElement.classList.contains("dark");
+  });
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  
-  useEffect(() => {
-    // Check system pref or localStorage
-    if (localStorage.getItem("theme") === "dark" || 
-        (!("theme" in localStorage) && window.matchMedia("(prefers-color-scheme: dark)").matches)) {
-      document.documentElement.classList.add("dark");
-      setIsDark(true);
-    }
-  }, []);
 
   const toggleTheme = () => {
     if (isDark) {
