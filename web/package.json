@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev --webpack",
-    "build": "node scripts/generate-search-data.mjs && node scripts/generate-pwa-icons.mjs && next build --webpack",
+    "build": "next build --webpack",
     "start": "next start",
     "lint": "eslint ."
   },
