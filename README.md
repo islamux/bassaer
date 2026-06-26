@@ -92,9 +92,6 @@ Get the application running on your own machine in 3 simple steps:
 │   ├── lib/                      # Utilities, content loader, bookmarks, Supabase clients
 │   ├── supabase/migrations/      # SQL migration files
 │   └── docs/                     # Documentation (cc-commands, supabase-setup, audit reports)
-├── command-center-mcp/           # MCP server for AI tracker access
-├── command-center-shared/        # Shared TypeScript types
-└── command-center-tui/           # Terminal UI for command center
 ```
 
 ---

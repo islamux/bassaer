@@ -9,10 +9,8 @@ Welcome to the **Basaar Command Center**. This document is the single source of 
 The project has been restructured into a monorepo to safely orchestrate multiple sub-projects from a single root directory.
 
 * **`/` (Root):** Contains the orchestration configuration (`package.json`, `pnpm-workspace.yaml`), the central `project-tracker.json`, and this runbook.
-* **`/command-center`**: The React/Electron desktop application used to visualize the Swim Lane, Task Board, and Agent Hub.
-* **`/command-center-mcp`**: The Model Context Protocol (MCP) server used to programmatically expose Command Center data to AI models.
-* **`/web`**: The main Next.js web application (clean root — only `package.json` and `tsconfig.json`). Contains `app/`, `components/`, `lib/`, `docs/`, and `supabase/migrations/`.
-* **`/scripts`**: Python utility scripts (e.g., `cc-dash.py` for terminal UI dashboards, OCR fix scripts, recovery archive).
+* **`/web`**: The main Next.js web application. Contains `app/`, `components/`, `lib/`, `docs/`, and `supabase/migrations/`.
+* **`/scripts`**: Python utility scripts (e.g., `cc-dash.py` for terminal UI dashboards, OCR fix scripts).
 
 > **CRITICAL RULE:** All Command Center CLI commands **must** be executed from the **root directory** (`/media/islamux/Variety/JavaScriptProjects/bassaer/`). Do not run them from within `/web`.
 
