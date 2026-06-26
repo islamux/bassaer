@@ -61,13 +61,13 @@ Get the application running on your own machine in 3 simple steps:
 3. **Start the development server:**
 
    ```bash
-   pnpm web:dev
+   pnpm dev
    ```
 
 4. **Start reading!** Open your browser and navigate to:
    [http://localhost:3000](http://localhost:3000)
 
-> **Note:** This is a pnpm monorepo. Use `pnpm` (not npm) for all package management. See `web/docs/supabase-setup.md` to configure Supabase auth.
+> See `docs/supabase-setup.md` to configure Supabase auth.
 
 ---
 
@@ -75,16 +75,18 @@ Get the application running on your own machine in 3 simple steps:
 
 ```text
 /
-├── pnpm-workspace.yaml           # pnpm monorepo config
+├── app/                          # Next.js App Router (layout, pages, auth callback)
+├── components/                   # UI (Navbar, Sidebar, BookmarkButton, AuthButton, etc.)
+├── lib/                          # Utilities, content loader, bookmarks, Supabase clients
+├── content/                      # Arabic book chapters (.md files)
+├── public/                       # Static assets, chapter images, manifest
+├── supabase/                     # SQL migration files
+├── scripts/                      # Python utilities (extraction, diff)
+├── docs/                         # Documentation (supabase-setup, audit reports)
 ├── package.json
-├── AGENTS.md                     # AI agent guide
-├── scripts/                      # Python utilities
-├── web/                          # Next.js application
-│   ├── app/                      # Layouts, pages, auth callback
-│   ├── components/               # UI (Navbar, Sidebar, BookmarkButton, AuthButton, etc.)
-│   ├── lib/                      # Utilities, content loader, bookmarks, Supabase clients
-│   ├── supabase/migrations/      # SQL migration files
-│   └── docs/                     # Documentation (supabase-setup, audit reports)
+├── next.config.ts
+├── tsconfig.json
+└── AGENTS.md                     # AI agent guide
 ```
 
 ---
@@ -98,10 +100,10 @@ pnpm install
 vercel --prod
 ```
 
-This project is a pnpm monorepo. The `vercel.json` at the project root sets `"rootDirectory": "web"` so Vercel finds the Next.js application inside the `web/` workspace. No additional configuration is needed.
+No additional configuration is needed.
 
 ---
 
 ## 📝 License & Content Rights
 
-The source code for the Web Platform is open-source. However, the textual book content (found in `/web/content/*.md`) belongs wholly to its original author, **Dr. Haitham Talaat**.
+The source code for the Web Platform is open-source. However, the textual book content (found in `content/*.md`) belongs wholly to its original author, **Dr. Haitham Talaat**.
