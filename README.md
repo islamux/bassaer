@@ -61,13 +61,13 @@ Get the application running on your own machine in 3 simple steps:
 3. **Start the development server:**
 
    ```bash
-   pnpm web:dev
+   pnpm dev
    ```
 
 4. **Start reading!** Open your browser and navigate to:
    [http://localhost:3000](http://localhost:3000)
 
-> **Note:** This is a pnpm monorepo. Use `pnpm` (not npm) for all package management. See `web/docs/supabase-setup.md` to configure Supabase auth.
+> See `docs/supabase-setup.md` to configure Supabase auth.
 
 ---
 
@@ -75,26 +75,18 @@ Get the application running on your own machine in 3 simple steps:
 
 ```text
 /
-├── project-tracker.json          # Central project management tracker
-├── pnpm-workspace.yaml           # pnpm monorepo config
-├── package.json                  # Root orchestration (cc:* commands)
-├── AGENTS.md                     # AI agent runbook & CLI guide
-├── scripts/                      # Python utilities
-│   ├── cc-dash.py                # Terminal dashboard
-│   ├── fix_lam_alif.py           # OCR fix scripts
-│   ├── fix_blank_lines.py
-│   ├── fix_footnotes.py
-│   ├── fix_ya_suffix.py
-│   └── recovery/                 # Archived chapter recovery scripts
-├── web/                          # Next.js application
-│   ├── app/                      # Layouts, pages, auth callback
-│   ├── components/               # UI (Navbar, Sidebar, BookmarkButton, AuthButton, etc.)
-│   ├── lib/                      # Utilities, content loader, bookmarks, Supabase clients
-│   ├── supabase/migrations/      # SQL migration files
-│   └── docs/                     # Documentation (cc-commands, supabase-setup, audit reports)
-├── command-center-mcp/           # MCP server for AI tracker access
-├── command-center-shared/        # Shared TypeScript types
-└── command-center-tui/           # Terminal UI for command center
+├── app/                          # Next.js App Router (layout, pages, auth callback)
+├── components/                   # UI (Navbar, Sidebar, BookmarkButton, AuthButton, etc.)
+├── lib/                          # Utilities, content loader, bookmarks, Supabase clients
+├── content/                      # Arabic book chapters (.md files)
+├── public/                       # Static assets, chapter images, manifest
+├── supabase/                     # SQL migration files
+├── scripts/                      # Python utilities (extraction, diff)
+├── docs/                         # Documentation (supabase-setup, audit reports)
+├── package.json
+├── next.config.ts
+├── tsconfig.json
+└── AGENTS.md                     # AI agent guide
 ```
 
 ---
@@ -108,10 +100,10 @@ pnpm install
 vercel --prod
 ```
 
-This project is a pnpm monorepo. The `vercel.json` at the project root sets `"rootDirectory": "web"` so Vercel finds the Next.js application inside the `web/` workspace. No additional configuration is needed.
+No additional configuration is needed.
 
 ---
 
 ## 📝 License & Content Rights
 
-The source code for the Web Platform is open-source. However, the textual book content (found in `/web/content/*.md`) belongs wholly to its original author, **Dr. Haitham Talaat**.
+The source code for the Web Platform is open-source. However, the textual book content (found in `content/*.md`) belongs wholly to its original author, **Dr. Haitham Talaat**.

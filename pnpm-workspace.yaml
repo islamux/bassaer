@@ -1,4 +1,0 @@
-packages:
-  - "web"
-  - "command-center-mcp"
-  - "command-center-tui"
