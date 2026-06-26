@@ -5,10 +5,5 @@
   "pnpm": {
     "onlyBuiltDependencies": ["sharp", "unrs-resolver"]
   },
-  "scripts": {
-    "cc": "./scripts/cc-dash.py",
-    "cc:watch": "./scripts/cc-dash.py --watch",
-    "cc:update": "./scripts/cc-dash.py update",
-    "cc:log": "./scripts/cc-dash.py log"
-  }
+  "scripts": {}
 }

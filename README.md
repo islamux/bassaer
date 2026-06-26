@@ -75,23 +75,16 @@ Get the application running on your own machine in 3 simple steps:
 
 ```text
 /
-├── project-tracker.json          # Central project management tracker
 ├── pnpm-workspace.yaml           # pnpm monorepo config
-├── package.json                  # Root orchestration (cc:* commands)
-├── AGENTS.md                     # AI agent runbook & CLI guide
+├── package.json
+├── AGENTS.md                     # AI agent guide
 ├── scripts/                      # Python utilities
-│   ├── cc-dash.py                # Terminal dashboard
-│   ├── fix_lam_alif.py           # OCR fix scripts
-│   ├── fix_blank_lines.py
-│   ├── fix_footnotes.py
-│   ├── fix_ya_suffix.py
-│   └── recovery/                 # Archived chapter recovery scripts
 ├── web/                          # Next.js application
 │   ├── app/                      # Layouts, pages, auth callback
 │   ├── components/               # UI (Navbar, Sidebar, BookmarkButton, AuthButton, etc.)
 │   ├── lib/                      # Utilities, content loader, bookmarks, Supabase clients
 │   ├── supabase/migrations/      # SQL migration files
-│   └── docs/                     # Documentation (cc-commands, supabase-setup, audit reports)
+│   └── docs/                     # Documentation (supabase-setup, audit reports)
 ```
 
 ---
