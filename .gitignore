@@ -1,19 +1,32 @@
-# Node.js
+# Dependencies
 node_modules/
+/.pnpm-store
 
-# Build output
+# Next.js
+/.next/
+/out/
+
+# Build outputs
+/dist/
 .out/
 .dist/
 
+# Environments
+.env*.local
+
+# Vercel
+.vercel
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+venv/
+.venv/
+.cc-venv/
+
 # Logs
 *.log
-
-# Environment files
-.env
-.env.local
-.env.development
-.env.test
-.env.production
 
 # IDE
 .vscode/
@@ -39,11 +52,6 @@ npm-debug.log*
 # pnpm
 .pnpm-store
 
-# Python
-__pycache__/
-*.py[cod]
-*$py.class
-
 # Scripts output
 *.sh
 *.bash
@@ -52,19 +60,12 @@ __pycache__/
 _docs/
 _build/
 
-# Build output directories
-dist/
-.next/
-.ruff_cache/
-
-# Vercel local project config
-.vercel/
+# Session / planning artifacts
+session-*.md
+new-project.md
 
 # Tool artifacts
 .opencode/
-.cc-backups/
 
-# Python virtual environments
-venv/
-.cc-venv/
-.venv/
+# Project Specific
+audit_report.json
