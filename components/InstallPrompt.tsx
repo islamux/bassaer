@@ -3,8 +3,13 @@
 import { useState, useEffect } from "react";
 import { Download, X } from "lucide-react";
 
+interface BeforeInstallPromptEvent extends Event {
+  prompt: () => Promise<void>;
+  userChoice: Promise<{ outcome: "accepted" | "dismissed" }>;
+}
+
 export default function InstallPrompt() {
-  const [deferredPrompt, setDeferredPrompt] = useState<any>(null);
+  const [deferredPrompt, setDeferredPrompt] = useState<BeforeInstallPromptEvent | null>(null);
   const [show, setShow] = useState(false);
   const [installed, setInstalled] = useState(false);
 
@@ -12,7 +17,7 @@ export default function InstallPrompt() {
     if (typeof window === "undefined") return;
 
     const isStandalone = window.matchMedia("(display-mode: standalone)").matches
-      || (window.navigator as any).standalone === true;
+      || (window.navigator as Navigator & { standalone?: boolean }).standalone === true;
     if (isStandalone) {
       setInstalled(true);
       return;
@@ -20,7 +25,7 @@ export default function InstallPrompt() {
 
     const handleBeforeInstall = (e: Event) => {
       e.preventDefault();
-      setDeferredPrompt(e);
+      setDeferredPrompt(e as BeforeInstallPromptEvent);
       setShow(true);
     };
 
