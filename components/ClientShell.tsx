@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import Navbar from "./Navbar";
 import SearchDialog from "./SearchDialog";
 import InstallPrompt from "./InstallPrompt";
+import Footer from "./Footer";
 import { AuthProvider } from "@/lib/supabase/auth-context";
 import type { ChapterMeta } from "@/lib/contentLoader";
 
@@ -33,6 +34,7 @@ export default function ClientShell({ chapters, children }: ClientShellProps) {
       <InstallPrompt />
       <div className="min-h-screen pt-16">
         {children}
+        <Footer />
       </div>
     </AuthProvider>
   );
