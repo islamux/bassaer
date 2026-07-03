@@ -44,7 +44,7 @@ export async function getBookmarks(): Promise<Bookmark[]> {
         .select("chapter_id, chapter_title, created_at")
         .order("created_at", { ascending: false })
         .then(({ data }) =>
-          (data || []).map((row: any) => ({
+          (data || []).map((row: { chapter_id: string; chapter_title: string; created_at: string }) => ({
             chapterId: row.chapter_id,
             chapterTitle: row.chapter_title,
             timestamp: new Date(row.created_at).getTime(),

@@ -6,6 +6,11 @@ import { Search, X, ArrowUpDown } from "lucide-react";
 import type { SearchDocument, SearchResult } from "@/lib/search";
 import { extractExcerpt } from "@/lib/search";
 
+interface SearchIndex {
+  search: (query: string, options?: { enrich?: boolean; limit?: number }) => Promise<Array<{ result: Array<{ id: string; doc: SearchDocument }> }>>;
+  add: (doc: SearchDocument) => void;
+}
+
 interface SearchDialogProps {
   isOpen: boolean;
   onClose: () => void;
@@ -17,7 +22,7 @@ export default function SearchDialog({ isOpen, onClose }: SearchDialogProps) {
   const [isReady, setIsReady] = useState(false);
   const [selectedIndex, setSelectedIndex] = useState(-1);
   const inputRef = useRef<HTMLInputElement>(null);
-  const indexRef = useRef<any>(null);
+  const indexRef = useRef<SearchIndex | null>(null);
   const docsRef = useRef<SearchDocument[]>([]);
 
   useEffect(() => {
@@ -38,7 +43,7 @@ export default function SearchDialog({ isOpen, onClose }: SearchDialogProps) {
         const docs: SearchDocument[] = await res.json();
         docsRef.current = docs;
 
-        const index = new (FlexSearch.Document as any)({
+        const index = new FlexSearch.Document({
           document: {
             id: "id",
             index: ["title", "content"],
@@ -46,10 +51,10 @@ export default function SearchDialog({ isOpen, onClose }: SearchDialogProps) {
           },
           tokenize: "forward",
           cache: true,
-        });
+        }) as unknown as SearchIndex;
 
         for (const doc of docs) {
-          index.add(doc as any);
+          index.add(doc);
         }
 
         indexRef.current = index;
@@ -68,7 +73,7 @@ export default function SearchDialog({ isOpen, onClose }: SearchDialogProps) {
       return;
     }
 
-    const raw: any[] = await indexRef.current.search(q, {
+    const raw = await indexRef.current.search(q, {
       enrich: true,
       limit: 20,
     });
