@@ -1,7 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 
-const contentDirectory = path.resolve(process.cwd(), '..', 'content', 'chapters');
+const contentDirectory = path.resolve(process.cwd(), 'content', 'chapters');
 
 export interface ChapterMeta {
   id: string;
