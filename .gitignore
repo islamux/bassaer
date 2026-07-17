@@ -10,6 +10,7 @@ node_modules/
 /dist/
 .out/
 .dist/
+tsconfig.tsbuildinfo
 
 # Environments
 .env*.local
