@@ -21,18 +21,22 @@ export default function SearchDialog({ isOpen, onClose }: SearchDialogProps) {
   const [results, setResults] = useState<SearchResult[]>([]);
   const [isReady, setIsReady] = useState(false);
   const [selectedIndex, setSelectedIndex] = useState(-1);
+  const [prevIsOpen, setPrevIsOpen] = useState(isOpen);
   const inputRef = useRef<HTMLInputElement>(null);
   const indexRef = useRef<SearchIndex | null>(null);
   const docsRef = useRef<SearchDocument[]>([]);
 
-  useEffect(() => {
+  if (prevIsOpen !== isOpen) {
+    setPrevIsOpen(isOpen);
     if (!isOpen) {
       setQuery("");
       setResults([]);
       setSelectedIndex(-1);
-      return;
     }
-    inputRef.current?.focus();
+  }
+
+  useEffect(() => {
+    if (isOpen) inputRef.current?.focus();
   }, [isOpen]);
 
   useEffect(() => {
