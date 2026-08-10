@@ -11,17 +11,14 @@ interface BeforeInstallPromptEvent extends Event {
 export default function InstallPrompt() {
   const [deferredPrompt, setDeferredPrompt] = useState<BeforeInstallPromptEvent | null>(null);
   const [show, setShow] = useState(false);
-  const [installed, setInstalled] = useState(false);
+  const [installed, setInstalled] = useState(() =>
+    typeof window !== "undefined" &&
+    (window.matchMedia("(display-mode: standalone)").matches ||
+      (window.navigator as Navigator & { standalone?: boolean }).standalone === true)
+  );
 
   useEffect(() => {
     if (typeof window === "undefined") return;
-
-    const isStandalone = window.matchMedia("(display-mode: standalone)").matches
-      || (window.navigator as Navigator & { standalone?: boolean }).standalone === true;
-    if (isStandalone) {
-      setInstalled(true);
-      return;
-    }
 
     const handleBeforeInstall = (e: Event) => {
       e.preventDefault();

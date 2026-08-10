@@ -8,6 +8,8 @@
     "prebuild": "node scripts/build-search-index.mjs",
     "start": "next start",
     "lint": "eslint .",
+    "typecheck": "tsc --noEmit",
+    "test:static": "tsc --noEmit && eslint .",
     "test": "vitest run",
     "test:watch": "vitest",
     "test:e2e": "playwright test"

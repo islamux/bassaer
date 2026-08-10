@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { Bookmark as BookmarkIcon, BookmarkX } from "lucide-react";
 import { getBookmarks, removeBookmark, type Bookmark } from "@/lib/bookmarks";
@@ -8,26 +8,24 @@ import { getBookmarks, removeBookmark, type Bookmark } from "@/lib/bookmarks";
 export default function BookmarkedChapters() {
   const [bookmarks, setBookmarks] = useState<Bookmark[]>([]);
 
-  const load = useCallback(async () => {
-    setBookmarks(await getBookmarks());
+  useEffect(() => {
+    let cancelled = false;
+    const refresh = () => getBookmarks().then((b) => { if (!cancelled) setBookmarks(b); });
+    refresh();
+    window.addEventListener("storage", refresh);
+    window.addEventListener("bookmarks-updated", refresh);
+    return () => {
+      cancelled = true;
+      window.removeEventListener("storage", refresh);
+      window.removeEventListener("bookmarks-updated", refresh);
+    };
   }, []);
 
-  useEffect(() => {
-    load();
-    const handle = () => load();
-    window.addEventListener("storage", handle);
-    window.addEventListener("bookmarks-updated", handle);
-    return () => {
-      window.removeEventListener("storage", handle);
-      window.removeEventListener("bookmarks-updated", handle);
-    };
-  }, [load]);
-
-  const handleRemove = useCallback(async (chapterId: string) => {
+  const handleRemove = async (chapterId: string) => {
     await removeBookmark(chapterId);
-    await load();
+    setBookmarks(await getBookmarks());
     window.dispatchEvent(new Event("bookmarks-updated"));
-  }, [load]);
+  };
 
   if (bookmarks.length === 0) return null;
 

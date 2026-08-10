@@ -12,13 +12,24 @@ interface BookmarkButtonProps {
 export default function BookmarkButton({ chapterId, chapterTitle }: BookmarkButtonProps) {
   const [active, setActive] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [prevChapter, setPrevChapter] = useState(chapterId);
+
+  if (prevChapter !== chapterId) {
+    setPrevChapter(chapterId);
+    setActive(false);
+    setLoading(true);
+  }
 
   useEffect(() => {
-    setLoading(true);
+    let cancelled = false;
     isBookmarked(chapterId).then((val) => {
+      if (cancelled) return;
       setActive(val);
       setLoading(false);
     });
+    return () => {
+      cancelled = true;
+    };
   }, [chapterId]);
 
   const handleToggle = useCallback(async () => {

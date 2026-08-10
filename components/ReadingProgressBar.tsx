@@ -1,10 +1,14 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 import { getChapterProgress, saveChapterProgress } from "@/lib/readingProgress";
 
 interface ReadingProgressBarProps {
   chapterId: string;
+}
+
+function emptySubscribe() {
+  return () => {};
 }
 
 export default function ReadingProgressBar({ chapterId }: ReadingProgressBarProps) {
@@ -12,10 +16,16 @@ export default function ReadingProgressBar({ chapterId }: ReadingProgressBarProp
   const barRef = useRef<HTMLDivElement>(null);
   const ticking = useRef(false);
 
-  useEffect(() => {
-    const saved = getChapterProgress(chapterId);
-    if (saved) setProgress(saved.scrollPercentage);
-  }, [chapterId]);
+  const savedProgress = useSyncExternalStore(
+    emptySubscribe,
+    () => getChapterProgress(chapterId)?.scrollPercentage ?? 0,
+    () => 0
+  );
+  const [prevSaved, setPrevSaved] = useState(0);
+  if (prevSaved !== savedProgress) {
+    setPrevSaved(savedProgress);
+    setProgress(savedProgress);
+  }
 
   useEffect(() => {
     const el = barRef.current;
