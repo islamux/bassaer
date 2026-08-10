@@ -3,7 +3,6 @@
 import { useState } from "react";
 import { useAuth } from "@/lib/supabase/auth-context";
 import { User, LogOut } from "lucide-react";
-import { mergeLocalToSupabase } from "@/lib/bookmarks";
 
 export default function UserMenu() {
   const { user, signOut } = useAuth();
@@ -16,15 +15,10 @@ export default function UserMenu() {
     setOpen(false);
   };
 
-  const handleOpen = () => {
-    mergeLocalToSupabase();
-    setOpen(!open);
-  };
-
   return (
     <div className="relative">
       <button
-        onClick={handleOpen}
+        onClick={() => setOpen(o => !o)}
         className="p-2 rounded-full hover:bg-[var(--muted)] text-[var(--muted-foreground)] transition-colors"
         aria-label="قائمة المستخدم"
       >

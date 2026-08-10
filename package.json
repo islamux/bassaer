@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "next dev --webpack",
     "build": "next build --webpack",
+    "prebuild": "node scripts/build-search-index.mjs",
     "start": "next start",
     "lint": "eslint .",
     "test": "vitest run",

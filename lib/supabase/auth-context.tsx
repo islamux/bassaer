@@ -1,8 +1,8 @@
 "use client";
 
-import { createContext, useContext, useEffect, useState, useCallback, useRef } from "react";
+import { createContext, useContext, useEffect, useState, useCallback } from "react";
 import { createClient } from "./client";
-import { mergeLocalToSupabase, syncPendingBookmarks } from "../bookmarks";
+import { stageLocalBookmarksForSync, syncPendingBookmarks } from "../bookmarks";
 import type { User, Session } from "@supabase/supabase-js";
 
 type SupabaseClient = ReturnType<typeof createClient>;
@@ -12,7 +12,6 @@ interface AuthState {
   session: Session | null;
   loading: boolean;
   signInWithMagicLink: (email: string) => Promise<{ error?: string }>;
-  signInWithGoogle: () => Promise<void>;
   signOut: () => Promise<void>;
 }
 
@@ -21,7 +20,6 @@ const AuthContext = createContext<AuthState>({
   session: null,
   loading: true,
   signInWithMagicLink: async () => ({}),
-  signInWithGoogle: async () => {},
   signOut: async () => {},
 });
 
@@ -29,11 +27,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
   const [session, setSession] = useState<Session | null>(null);
   const [loading, setLoading] = useState(true);
-  const supabaseRef = useRef<SupabaseClient | null>(null);
-  if (!supabaseRef.current && typeof window !== "undefined") {
-    supabaseRef.current = createClient();
-  }
-  const supabase = supabaseRef.current;
+  const [supabase] = useState<SupabaseClient | null>(() =>
+    typeof window === "undefined" ? null : createClient()
+  );
 
   useEffect(() => {
     if (!supabase) return;
@@ -47,7 +43,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       setSession(session);
       setUser(session?.user ?? null);
       if (event === "SIGNED_IN") {
-        mergeLocalToSupabase();
+        stageLocalBookmarksForSync();
         syncPendingBookmarks();
       }
     });
@@ -67,14 +63,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     return error ? { error: error.message } : {};
   }, [supabase]);
 
-  const signInWithGoogle = useCallback(async () => {
-    if (!supabase) return;
-    await supabase.auth.signInWithOAuth({
-      provider: "google",
-      options: { redirectTo: `${window.location.origin}/auth/callback` },
-    });
-  }, [supabase]);
-
   const signOut = useCallback(async () => {
     if (!supabase) return;
     await supabase.auth.signOut();
@@ -83,7 +71,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   }, [supabase]);
 
   return (
-    <AuthContext.Provider value={{ user, session, loading, signInWithMagicLink, signInWithGoogle, signOut }}>
+    <AuthContext.Provider value={{ user, session, loading, signInWithMagicLink, signOut }}>
       {children}
     </AuthContext.Provider>
   );

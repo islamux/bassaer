@@ -34,7 +34,7 @@ This project was engineered in two phases:
    - **Framework:** Next.js 15 (React 19).
    - **Styling:** Tailwind CSS v4.
    - **Markdown Rendering:** `react-markdown` + `remark-gfm` to perfectly parse and display chapter content into rich HTML format (including `<blockquote>` for notes and `<h2>` for sub-questions).
-   - **Search:** FlexSearch 0.8 with build-time index generation.
+   - **Search:** FlexSearch 0.8. The search corpus (`public/search-data.json`) is generated at build time from the chapter markdown (`scripts/build-search-index.mjs`, wired to `prebuild`); the FlexSearch index itself is built client-side when the search dialog opens.
    - **Auth & Storage:** Supabase (Auth + PostgreSQL with RLS).
 
 > **Note:** The actual `ar-basaar.pdf` file has been stripped from the repository history to keep the Git bundle lightning fast (< 1MB) rather than carrying a 50MB binary blob.
