@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useSyncExternalStore } from "react";
 import Link from "next/link";
 import { Moon, Sun, Search, Menu } from "lucide-react";
 import { ChapterMeta } from "@/lib/contentLoader";
@@ -13,24 +13,23 @@ interface NavbarProps {
   onSearchOpen?: () => void;
 }
 
+function subscribeTheme(notify: () => void) {
+  window.addEventListener("basaar-theme-change", notify);
+  return () => window.removeEventListener("basaar-theme-change", notify);
+}
+
 export default function Navbar({ chapters, onSearchOpen }: NavbarProps) {
-  const [isDark, setIsDark] = useState(false);
+  const isDark = useSyncExternalStore(
+    subscribeTheme,
+    () => document.documentElement.classList.contains("dark"),
+    () => false
+  );
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-  useEffect(() => {
-    setIsDark(document.documentElement.classList.contains("dark"));
-  }, []);
-
   const toggleTheme = () => {
-    if (isDark) {
-      document.documentElement.classList.remove("dark");
-      localStorage.setItem("theme", "light");
-      setIsDark(false);
-    } else {
-      document.documentElement.classList.add("dark");
-      localStorage.setItem("theme", "dark");
-      setIsDark(true);
-    }
+    document.documentElement.classList.toggle("dark", !isDark);
+    localStorage.setItem("theme", isDark ? "light" : "dark");
+    window.dispatchEvent(new Event("basaar-theme-change"));
   };
 
   return (
