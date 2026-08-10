@@ -10,7 +10,9 @@ export interface Bookmark {
   timestamp: number;
 }
 
-function getLocalStorage(key: string): Bookmark[] {
+type SupabaseClient = ReturnType<typeof createClient>;
+
+function readStorage(key: string): Bookmark[] {
   if (typeof window === "undefined") return [];
   try {
     const raw = localStorage.getItem(key);
@@ -20,131 +22,141 @@ function getLocalStorage(key: string): Bookmark[] {
   }
 }
 
-function setLocalStorage(key: string, bookmarks: Bookmark[]) {
+function writeStorage(key: string, bookmarks: Bookmark[]) {
   if (typeof window === "undefined") return;
   localStorage.setItem(key, JSON.stringify(bookmarks));
 }
 
-async function trySupabase<T>(fn: () => T | PromiseLike<T>): Promise<{ ok: true; data: T } | { ok: false }> {
+function filterOut(list: Bookmark[], chapterId: string): Bookmark[] {
+  return list.filter((b) => b.chapterId !== chapterId);
+}
+
+async function resolveAuth(): Promise<{ client: SupabaseClient; session: Awaited<ReturnType<SupabaseClient["auth"]["getSession"]>>["data"]["session"] }> {
+  const client = createClient();
   try {
-    const data = await fn();
-    return { ok: true, data };
-  } catch {
+    const { data } = await client.auth.getSession();
+    return { client, session: data.session };
+  } catch (error) {
+    console.warn("bookmarks: getSession failed, treating user as logged out", error);
+    return { client, session: null };
+  }
+}
+
+async function runDb<T>(op: () => PromiseLike<T>): Promise<{ ok: true; data: T } | { ok: false }> {
+  try {
+    return { ok: true, data: await op() };
+  } catch (error) {
+    console.warn("bookmarks: database request failed, using local fallback", error);
     return { ok: false };
   }
 }
 
-export async function getBookmarks(): Promise<Bookmark[]> {
-  const supabase = createClient();
-  const session = await trySupabase(() => supabase.auth.getSession().then((r) => r.data.session));
-  if (session.ok && session.data) {
-    const result = await trySupabase(() =>
-      supabase
-        .from("bookmarks")
-        .select("chapter_id, chapter_title, created_at")
-        .order("created_at", { ascending: false })
-        .then(({ data }) =>
-          (data || []).map((row: { chapter_id: string; chapter_title: string; created_at: string }) => ({
-            chapterId: row.chapter_id,
-            chapterTitle: row.chapter_title,
-            timestamp: new Date(row.created_at).getTime(),
-          }))
-        )
-    );
-    if (result.ok) {
-      setLocalStorage(CACHE_KEY, result.data);
-      return result.data;
-    }
-    const cached = getLocalStorage(CACHE_KEY);
-    if (cached.length > 0) return cached;
-  }
-  return getLocalStorage(STORAGE_KEY);
+function removeFromLocalStores(chapterId: string) {
+  writeStorage(CACHE_KEY, filterOut(readStorage(CACHE_KEY), chapterId));
+  writeStorage(STORAGE_KEY, filterOut(readStorage(STORAGE_KEY), chapterId));
 }
 
-async function writeThroughToggle(chapterId: string, chapterTitle: string, action: "toggle" | "add" | "remove"): Promise<Bookmark[]> {
-  const supabase = createClient();
-  const all = getLocalStorage(CACHE_KEY);
-  const anonymous = getLocalStorage(STORAGE_KEY);
-  const session = await trySupabase(() => supabase.auth.getSession().then((r) => r.data.session));
-  const isLoggedIn = session.ok && !!session.data;
+function addToLocalStores(entry: Bookmark) {
+  writeStorage(CACHE_KEY, [entry, ...readStorage(CACHE_KEY)]);
+  writeStorage(STORAGE_KEY, [entry, ...readStorage(STORAGE_KEY)]);
+}
 
-  if (action === "remove") {
-    if (isLoggedIn) {
-      setLocalStorage(CACHE_KEY, all.filter((b) => b.chapterId !== chapterId));
-      await trySupabase(() => supabase.from("bookmarks").delete().eq("chapter_id", chapterId));
-    }
-    setLocalStorage(STORAGE_KEY, anonymous.filter((b) => b.chapterId !== chapterId));
-    return getBookmarks();
+export async function getBookmarks(): Promise<Bookmark[]> {
+  const { client, session } = await resolveAuth();
+  if (!session) return readStorage(STORAGE_KEY);
+
+  const result = await runDb(() =>
+    client
+      .from("bookmarks")
+      .select("chapter_id, chapter_title, created_at")
+      .order("created_at", { ascending: false })
+      .then(({ data }) =>
+        (data || []).map((row: { chapter_id: string; chapter_title: string; created_at: string }) => ({
+          chapterId: row.chapter_id,
+          chapterTitle: row.chapter_title,
+          timestamp: new Date(row.created_at).getTime(),
+        }))
+      )
+  );
+  if (result.ok) {
+    writeStorage(CACHE_KEY, result.data);
+    return result.data;
   }
+  const cached = readStorage(CACHE_KEY);
+  return cached.length > 0 ? cached : readStorage(STORAGE_KEY);
+}
 
-  const exists = all.find((b) => b.chapterId === chapterId) || anonymous.find((b) => b.chapterId === chapterId);
+export async function toggleBookmark(chapterId: string, chapterTitle: string): Promise<Bookmark[]> {
+  const { client, session } = await resolveAuth();
+  const exists =
+    readStorage(CACHE_KEY).some((b) => b.chapterId === chapterId) ||
+    readStorage(STORAGE_KEY).some((b) => b.chapterId === chapterId);
+
   if (exists) {
-    if (isLoggedIn) {
-      setLocalStorage(CACHE_KEY, all.filter((b) => b.chapterId !== chapterId));
-      await trySupabase(() => supabase.from("bookmarks").delete().eq("chapter_id", chapterId));
-    }
-    setLocalStorage(STORAGE_KEY, anonymous.filter((b) => b.chapterId !== chapterId));
+    removeFromLocalStores(chapterId);
+    if (session) await runDb(() => client.from("bookmarks").delete().eq("chapter_id", chapterId));
   } else {
     const entry: Bookmark = { chapterId, chapterTitle, timestamp: Date.now() };
-    if (isLoggedIn) {
-      setLocalStorage(CACHE_KEY, [entry, ...all]);
-      const result = await trySupabase(() => supabase.from("bookmarks").insert({ chapter_id: chapterId, chapter_title: chapterTitle }));
-      if (!result.ok) {
-        setLocalStorage(PENDING_SYNC_KEY, [...getLocalStorage(PENDING_SYNC_KEY), entry]);
-      }
+    addToLocalStores(entry);
+    if (session) {
+      const inserted = await runDb(() =>
+        client.from("bookmarks").insert({
+          user_id: session.user.id,
+          chapter_id: chapterId,
+          chapter_title: chapterTitle,
+        })
+      );
+      if (!inserted.ok) writeStorage(PENDING_SYNC_KEY, [...readStorage(PENDING_SYNC_KEY), entry]);
     }
-    setLocalStorage(STORAGE_KEY, [entry, ...anonymous]);
   }
   return getBookmarks();
 }
 
-export async function toggleBookmark(chapterId: string, chapterTitle: string): Promise<Bookmark[]> {
-  return writeThroughToggle(chapterId, chapterTitle, "toggle");
-}
-
 export async function removeBookmark(chapterId: string): Promise<Bookmark[]> {
-  return writeThroughToggle(chapterId, "", "remove");
+  const { client, session } = await resolveAuth();
+  if (session) await runDb(() => client.from("bookmarks").delete().eq("chapter_id", chapterId));
+  removeFromLocalStores(chapterId);
+  return getBookmarks();
 }
 
 export async function isBookmarked(chapterId: string): Promise<boolean> {
-  const supabase = createClient();
-  const session = await trySupabase(() => supabase.auth.getSession().then((r) => r.data.session));
-  if (session.ok && session.data) {
-    const result = await trySupabase(() => supabase.from("bookmarks").select("id").eq("chapter_id", chapterId).single());
-    if (result.ok) return !!result.data;
-    const cached = getLocalStorage(CACHE_KEY);
+  const { client, session } = await resolveAuth();
+  if (session) {
+    const result = await runDb(() =>
+      client.from("bookmarks").select("id").eq("chapter_id", chapterId).maybeSingle()
+    );
+    if (result.ok) return result.data !== null;
+    const cached = readStorage(CACHE_KEY);
     if (cached.length > 0) return cached.some((b) => b.chapterId === chapterId);
   }
-  return getLocalStorage(STORAGE_KEY).some((b) => b.chapterId === chapterId);
+  return readStorage(STORAGE_KEY).some((b) => b.chapterId === chapterId);
 }
 
 export async function syncPendingBookmarks(): Promise<void> {
-  const supabase = createClient();
-  const session = await trySupabase(() => supabase.auth.getSession().then((r) => r.data.session));
-  if (!(session.ok && session.data)) return;
+  const { client, session } = await resolveAuth();
+  if (!session) return;
 
-  const pending = getLocalStorage(PENDING_SYNC_KEY);
+  const pending = readStorage(PENDING_SYNC_KEY);
   if (pending.length === 0) return;
 
   for (const b of pending) {
-    await trySupabase(() =>
-      supabase.from("bookmarks").upsert(
-        { chapter_id: b.chapterId, chapter_title: b.chapterTitle },
+    await runDb(() =>
+      client.from("bookmarks").upsert(
+        { user_id: session.user.id, chapter_id: b.chapterId, chapter_title: b.chapterTitle },
         { onConflict: "user_id,chapter_id" }
       )
     );
   }
-  setLocalStorage(PENDING_SYNC_KEY, []);
-  const fresh = await getBookmarks();
-  setLocalStorage(CACHE_KEY, fresh);
+  writeStorage(PENDING_SYNC_KEY, []);
+  writeStorage(CACHE_KEY, await getBookmarks());
 }
 
-export function mergeLocalToSupabase(): void {
-  const local = getLocalStorage(STORAGE_KEY);
+export function stageLocalBookmarksForSync(): void {
+  const local = readStorage(STORAGE_KEY);
   if (local.length === 0) return;
-  const cached = getLocalStorage(CACHE_KEY);
+  const cached = readStorage(CACHE_KEY);
   const merged = [...local, ...cached.filter((c) => !local.some((l) => l.chapterId === c.chapterId))];
-  setLocalStorage(CACHE_KEY, merged);
-  setLocalStorage(PENDING_SYNC_KEY, [...getLocalStorage(PENDING_SYNC_KEY), ...local]);
-  setLocalStorage(STORAGE_KEY, []);
+  writeStorage(CACHE_KEY, merged);
+  writeStorage(PENDING_SYNC_KEY, [...readStorage(PENDING_SYNC_KEY), ...local]);
+  writeStorage(STORAGE_KEY, []);
 }

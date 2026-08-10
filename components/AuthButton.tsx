@@ -1,28 +1,26 @@
 "use client";
 
-import { useState, useCallback } from "react";
+import { useState } from "react";
 import { useAuth } from "@/lib/supabase/auth-context";
 import { LogIn, Mail, Loader2 } from "lucide-react";
-import { createClient } from "@/lib/supabase/client";
 
 export default function AuthButton() {
-  const { user, loading } = useAuth();
+  const { user, loading, signInWithMagicLink } = useAuth();
   const [showLogin, setShowLogin] = useState(false);
   const [email, setEmail] = useState("");
   const [sent, setSent] = useState(false);
   const [error, setError] = useState("");
 
-  const handleMagicLink = useCallback(async (e: React.FormEvent) => {
+  const handleMagicLink = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
-    const supabase = createClient();
-    const { error: err } = await supabase.auth.signInWithOtp({ email });
-    if (err) {
-      setError(err.message);
+    const { error: errMsg } = await signInWithMagicLink(email);
+    if (errMsg) {
+      setError(errMsg);
     } else {
       setSent(true);
     }
-  }, [email]);
+  };
 
   if (loading) {
     return (

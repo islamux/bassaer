@@ -15,11 +15,11 @@ interface NavbarProps {
 
 export default function Navbar({ chapters, onSearchOpen }: NavbarProps) {
   const [isDark, setIsDark] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   useEffect(() => {
     setIsDark(document.documentElement.classList.contains("dark"));
   }, []);
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const toggleTheme = () => {
     if (isDark) {

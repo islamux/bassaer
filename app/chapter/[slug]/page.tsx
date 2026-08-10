@@ -1,4 +1,5 @@
 import { notFound } from "next/navigation";
+import Link from "next/link";
 import { getAllChapters, getChapterData } from "@/lib/contentLoader";
 import Sidebar from "@/components/Sidebar";
 import BookmarkButton from "@/components/BookmarkButton";
@@ -62,20 +63,19 @@ export default async function ChapterPage({ params }: { params: Promise<{ slug: 
             </ReactMarkdown>
           </article>
           
-          {/* Navigation Between Chapters */}
           <div className="mt-16 pt-8 border-t border-[var(--border)] flex justify-between items-center text-sm font-medium">
             {prevChapter ? (
-              <a href={`/chapter/${prevChapter.id}`} className="flex flex-col items-end gap-1 hover:text-[var(--primary)] transition-colors p-4 border rounded-xl border-[var(--border)] hover:border-[var(--primary)] bg-[var(--background)]">
+              <Link href={`/chapter/${prevChapter.id}`} className="flex flex-col items-end gap-1 hover:text-[var(--primary)] transition-colors p-4 border rounded-xl border-[var(--border)] hover:border-[var(--primary)] bg-[var(--background)]">
                 <span className="text-[var(--muted-foreground)]">السابق</span>
                 <span className="text-[var(--foreground)]">{prevChapter.title}</span>
-              </a>
+              </Link>
             ) : <div />}
             
             {nextChapter ? (
-              <a href={`/chapter/${nextChapter.id}`} className="flex flex-col items-start gap-1 hover:text-[var(--primary)] transition-colors p-4 border rounded-xl border-[var(--border)] hover:border-[var(--primary)] bg-[var(--background)]">
+              <Link href={`/chapter/${nextChapter.id}`} className="flex flex-col items-start gap-1 hover:text-[var(--primary)] transition-colors p-4 border rounded-xl border-[var(--border)] hover:border-[var(--primary)] bg-[var(--background)]">
                 <span className="text-[var(--muted-foreground)]">التالي</span>
                 <span className="text-[var(--foreground)]">{nextChapter.title}</span>
-              </a>
+              </Link>
             ) : <div />}
           </div>
           </ErrorBoundary>
