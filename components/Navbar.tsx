@@ -5,8 +5,6 @@ import Link from "next/link";
 import { Moon, Sun, Search, Menu } from "lucide-react";
 import { ChapterMeta } from "@/lib/contentLoader";
 import MobileMenu from "./MobileMenu";
-import AuthButton from "./AuthButton";
-import UserMenu from "./UserMenu";
 
 interface NavbarProps {
   chapters: ChapterMeta[];
@@ -44,17 +42,15 @@ export default function Navbar({ chapters, onSearchOpen }: NavbarProps) {
           </div>
           
           <div className="flex items-center gap-4">
-            <button 
+            <button
               onClick={onSearchOpen}
               className="p-2 rounded-full hover:bg-[var(--muted)] text-[var(--muted-foreground)] transition-colors"
               aria-label="بحث في الكتاب"
             >
               <Search className="w-5 h-5" />
             </button>
-            <UserMenu />
-            <AuthButton />
-            <button 
-              onClick={toggleTheme} 
+            <button
+              onClick={toggleTheme}
               className="p-2 rounded-full hover:bg-[var(--muted)] text-[var(--muted-foreground)] transition-colors"
               aria-label={isDark ? "تفعيل الوضع الفاتح" : "تفعيل الوضع الداكن"}
             >

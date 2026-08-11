@@ -9,24 +9,9 @@ const withSerwist = withSerwistInit({
 });
 
 const nextConfig: NextConfig = {
-  async headers() {
-    return [
-      {
-        source: "/(.*)",
-        headers: [
-          { key: "X-Content-Type-Options", value: "nosniff" },
-          { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
-          { key: "X-Frame-Options", value: "DENY" },
-        ],
-      },
-      {
-        source: "/search-data.json",
-        headers: [
-          { key: "Cache-Control", value: "public, max-age=31536000, immutable" },
-        ],
-      },
-    ];
-  },
+  output: "export",
+  trailingSlash: true,
+  images: { unoptimized: true },
 };
 
 export default withSerwist(nextConfig);
