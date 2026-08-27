@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef, useCallback } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { Search, X, ArrowUpDown } from "lucide-react";
 import type { SearchDocument, SearchResult } from "@/lib/search";
 import { extractExcerpt } from "@/lib/search";
@@ -17,6 +18,7 @@ interface SearchDialogProps {
 }
 
 export default function SearchDialog({ isOpen, onClose }: SearchDialogProps) {
+  const router = useRouter();
   const [query, setQuery] = useState("");
   const [results, setResults] = useState<SearchResult[]>([]);
   const [isReady, setIsReady] = useState(false);
@@ -126,6 +128,7 @@ export default function SearchDialog({ isOpen, onClose }: SearchDialogProps) {
       return;
     }
     if (e.key === "Enter" && selectedIndex >= 0 && results[selectedIndex]) {
+      router.push(`/chapter/${results[selectedIndex].slug}`);
       onClose();
       return;
     }
