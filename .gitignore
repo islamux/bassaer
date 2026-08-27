@@ -10,6 +10,7 @@ node_modules/
 /dist/
 .out/
 .dist/
+/public/sw.js
 tsconfig.tsbuildinfo
 
 # Environments
