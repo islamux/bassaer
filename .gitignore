@@ -67,6 +67,7 @@ new-project.md
 
 # Tool artifacts
 .opencode/
+graphify-out/
 
 # Project Specific
 audit_report.json
