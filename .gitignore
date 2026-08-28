@@ -10,6 +10,7 @@ node_modules/
 /dist/
 .out/
 .dist/
+/public/sw.js
 tsconfig.tsbuildinfo
 
 # Environments
@@ -67,6 +68,7 @@ new-project.md
 
 # Tool artifacts
 .opencode/
+graphify-out/
 
 # Project Specific
 audit_report.json
