@@ -16,6 +16,7 @@
   },
   "dependencies": {
     "@serwist/next": "^9.5.11",
+    "@tailwindcss/typography": "^0.5.20",
     "flexsearch": "^0.8.212",
     "lucide-react": "^0.460.0",
     "next": "16.2.10",

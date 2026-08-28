@@ -10,7 +10,6 @@
 | `eslint-config-next` | `15.1.7` | `16.2.4` |
 | `@types/node` | `^20` | `^22` |
 | `sharp` | — | `^0.34.5` |
-| `@supabase/ssr` | `^0.10.3` | keep |
 
 ## Security Context
 
@@ -67,7 +66,6 @@ May 2026 coordinated security release. Next.js 16.2.4 includes all patches.
 - @types/node ^20 → ^22
 - Add sharp ^0.34.5
 - lint script: next lint → eslint .
-- Remove @supabase/ssr version change (keep ^0.10.3)
 
 ### Subtask ng16_003: Migrate middleware → proxy
 - Rename middleware.ts → proxy.ts
@@ -117,3 +115,9 @@ May 2026 coordinated security release. Next.js 16.2.4 includes all patches.
 ```
 chore/upgrade-nextjs
 ```
+
+## Status
+
+The upgrade is complete. The shipped version is `next@16.2.10` (the "Target" of `16.2.4` in the Current State table above was the plan's interim target; the dependency landed on `16.2.10`). React is `19.2.7`, `eslint-config-next` `16.2.10`.
+
+The content above is a historical record of the 15 → 16 upgrade plan and its execution order, written at upgrade time. Shortly after, the auth/server-auth layer was removed in the static-export migration (commit `5f0ced6`): the `middleware`→`proxy` migration, the auth callback, the SSR cookie handling, and the associated dependency no longer exist in the current tree, and the app now ships as a purely static export (`output: "export"`) on Hostinger shared hosting. Any references to middleware, route-handler cookie flow, or SSR-session security above describe that abandoned architecture and are **historical notes, not the current state**.
