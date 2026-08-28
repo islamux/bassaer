@@ -26,8 +26,8 @@ Instead of a static PDF viewer, this project transforms the entire book into a f
 This project was engineered in two phases:
 
 1. **Extraction (Python):**
-   - Uses `PyMuPDF (fitz)` and Regular Expressions.
-   - Extracts page-by-page text from the Arabic PDF.
+   - Uses `python-docx` and Regular Expressions.
+   - Extracts text from the Arabic DOCX source chapters.
    - Automatically segments text into 13 logical Markdown (`.md`) files based on heading hierarchies.
 2. **Web Platform (TypeScript/React):**
    - **Framework:** Next.js 16 (React 19), fully static export (`output: "export"`).
@@ -36,7 +36,7 @@ This project was engineered in two phases:
    - **Search:** FlexSearch 0.8. The search corpus (`public/search-data.json`) is generated at build time from the chapter markdown (`scripts/build-search-index.mjs`, wired to `prebuild`); the FlexSearch index itself is built client-side when the search dialog opens.
    - **Bookmarks:** `localStorage`-persisted (client-side only, synced across tabs via a `bookmarks-updated` CustomEvent).
 
-> **Note:** The actual `ar-basaar.pdf` file has been stripped from the repository history to keep the Git bundle lightning fast (< 1MB) rather than carrying a 50MB binary blob.
+> **Note:** The actual `ar-basaar.docx` file has been stripped from the repository history to keep the Git bundle lightning fast (< 1MB) rather than carrying the book's binary source.
 
 ---
 
