@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>بصّارة — العرض التقديمي</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@200;300;400;500;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #fdfbf7;
+      --fg: #2c2416;
+      --primary: #8b5a2b;
+      --primary-light: #c18850;
+      --muted: #a89279;
+      --accent: #8B6914;
+      --code-bg: #f5efe4;
+    }
+
+    .dark {
+      --bg: #121212;
+      --fg: #e8e0d0;
+      --primary: #c18850;
+      --muted: #8b7a60;
+      --code-bg: #1a1a1a;
+    }
+
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: "Tajawal", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--fg);
+      overflow: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── Slide ── */
+    .slide {
+      width: 100vw;
+      height: 100vh;
+      display: none;
+      padding: 6vh 8vw;
+      position: relative;
+      overflow: hidden;
+      background: var(--bg);
+      color: var(--fg);
+    }
+
+    .slide.active {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    /* Manuscript margin — RTL vertical rule on right edge */
+    .slide::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      right: 3vw;
+      width: 2px;
+      height: 100%;
+      background: var(--primary);
+      opacity: 0.3;
+    }
+
+    /* ── Typography ── */
+    h1 { font-size: 2.5rem; font-weight: 700; line-height: 1.3; }
+    h2 { font-size: 1.8rem; font-weight: 600; line-height: 1.4; }
+    h3 { font-size: 1.3rem; font-weight: 500; line-height: 1.4; }
+    p  { font-size: 1.1rem; font-weight: 400; line-height: 1.7; }
+
+    code {
+      font-size: 0.95rem;
+      font-family: ui-monospace, "Cascadia Code", "Fira Code", monospace;
+    }
+
+    pre, code {
+      background: var(--code-bg);
+      padding: 0.25em 0.5em;
+      border-radius: 4px;
+      font-family: ui-monospace, "Cascadia Code", "Fira Code", monospace;
+    }
+
+    pre {
+      padding: 1em 1.5em;
+      overflow-x: auto;
+      direction: ltr;
+      text-align: left;
+    }
+
+    /* ── Slide number ── */
+    .slide-number {
+      position: fixed;
+      bottom: 2vh;
+      left: 2vw;
+      font-size: 0.8rem;
+      font-family: ui-monospace, "Cascadia Code", "Fira Code", monospace;
+      color: var(--muted);
+      z-index: 50;
+      user-select: none;
+    }
+
+    /* ── Controls bar ── */
+    .controls {
+      position: fixed;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 0.5rem;
+      padding: 0.75rem 1.25rem;
+      background: rgba(253, 251, 247, 0.85);
+      backdrop-filter: blur(8px);
+      border-radius: 1rem 1rem 0 0;
+      z-index: 60;
+      transition: opacity 0.3s ease;
+    }
+
+    .dark .controls {
+      background: rgba(18, 18, 18, 0.85);
+    }
+
+    .controls button {
+      background: none;
+      border: 1px solid var(--muted);
+      color: var(--fg);
+      font-size: 0.85rem;
+      padding: 0.4em 0.8em;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background 0.2s, color 0.2s;
+      font-family: inherit;
+    }
+
+    .controls button:hover,
+    .controls button:focus-visible {
+      background: var(--primary);
+      color: var(--bg);
+      border-color: var(--primary);
+    }
+
+    .controls button:active {
+      transform: scale(0.95);
+    }
+
+    /* ── Overview panel ── */
+    .overview {
+      position: fixed;
+      inset: 0;
+      z-index: 100;
+      background: var(--bg);
+      display: none;
+      padding: 4vh 4vw;
+      overflow-y: auto;
+    }
+
+    .overview.open {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 1rem;
+    }
+
+    .overview .overview-item {
+      border: 2px solid transparent;
+      border-radius: 8px;
+      padding: 1rem;
+      cursor: pointer;
+      background: var(--code-bg);
+      transition: border-color 0.2s, transform 0.2s;
+      font-size: 0.85rem;
+      color: var(--fg);
+    }
+
+    .overview .overview-item:hover {
+      border-color: var(--primary-light);
+      transform: translateY(-2px);
+    }
+
+    .overview .overview-item.active-thumb {
+      border-color: var(--primary);
+    }
+
+    /* ── Notes panel ── */
+    .notes-panel {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: var(--code-bg);
+      color: var(--fg);
+      padding: 1rem 2rem;
+      transform: translateY(100%);
+      transition: transform 0.3s ease;
+      z-index: 70;
+      max-height: 35vh;
+      overflow-y: auto;
+      font-size: 0.95rem;
+      line-height: 1.6;
+      border-top: 2px solid var(--primary);
+    }
+
+    .notes-panel.visible {
+      transform: translateY(0);
+    }
+
+    /* ── Reduced motion ── */
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation: none !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+      }
+    }
+
+    /* ── Print ── */
+    @media print {
+      .slide {
+        display: block !important;
+        page-break-after: always;
+        height: auto;
+        min-height: 100vh;
+      }
+      .controls, .notes-panel, .overview {
+        display: none !important;
+      }
+    }
+
+    /* ── Responsive ── */
+    @media (max-width: 768px) {
+      h1 { font-size: 1.8rem; }
+      h2 { font-size: 1.4rem; }
+      h3 { font-size: 1.1rem; }
+      p  { font-size: 1rem; }
+      .slide { padding: 8vh 6vw; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Slide 1: Title -->
+  <section class="slide active" data-slide="1" data-notes="مرحباً بالجميع، هذا العرض عن منصة بصّارة الرقمية للكتب.">
+    <h1>بصّارة</h1>
+    <h3>منصة رقمية للكتب العربية</h3>
+    <p style="margin-top: 1rem; color: var(--muted);">العرض التقديمي — ٢٠٢٦</p>
+  </section>
+
+  <!-- Slide 2: Content -->
+  <section class="slide" data-slide="2" data-notes="هنا نشرح الفكرة الأساسية للمنصة وكيف تخدم القارئ العربي.">
+    <h2>لماذا بصّارة؟</h2>
+    <p style="margin-top: 1rem;">منصة تجمع الكتب الرقمية العربية في مكان واحد، مع بحث ذكي وتجربة قراءة مريحة.</p>
+  </section>
+
+  <!-- Slide 3: Closing -->
+  <section class="slide" data-slide="3" data-notes="شكراً لحسن الاستماع. هل لديكم أي أسئلة؟">
+    <h1>شكراً لكم</h1>
+    <p style="margin-top: 1rem; color: var(--muted);">بصّارة — اقرأ أكثر، بحث أقل</p>
+  </section>
+
+  <!-- Overview panel -->
+  <div id="overview" class="overview" data-overview></div>
+
+  <!-- Notes panel -->
+  <aside class="notes-panel" data-notes></aside>
+
+  <!-- Controls bar -->
+  <nav class="controls" aria-label="التنقل">
+    <button aria-label="الشريحة الأولى" onclick="goTo(1)">🥇</button>
+    <button aria-label="الشريحة السابقة" onclick="goTo(current - 1)">▶</button>
+    <button aria-label="إظهار/إخفاء الملخص" onclick="toggleOverview()">⊞</button>
+    <button aria-label="إظهار/إخفاء الملاحظات" onclick="toggleNotes()">📝</button>
+    <button aria-label="الشريحة التالية" onclick="goTo(current + 1)">◀</button>
+    <button aria-label="الشريحة الأخيرة" onclick="goTo(total)">🏁</button>
+    <button aria-label="وضع الشاشة الكاملة" onclick="toggleFullscreen()">⛶</button>
+  </nav>
+
+  <!-- Slide number -->
+  <div class="slide-number"></div>
+
+  <script>
+    let current = 1;
+    let total = 0;
+    const slides = document.querySelectorAll("[data-slide]");
+    total = slides.length;
+
+    function goTo(n) {
+      if (n < 1 || n > total) return;
+      document.querySelectorAll(".slide.active").forEach(s => s.classList.remove("active"));
+      current = n;
+      const target = document.querySelector(`[data-slide="${n}"]`);
+      if (target) {
+        target.classList.add("active");
+        document.querySelector(".slide-number").textContent = `${n} / ${total}`;
+        location.hash = n;
+        updateOverviewHighlight();
+        updateNotes();
+      }
+    }
+
+    function toggleFullscreen() {
+      if (!document.fullscreenElement) {
+        document.documentElement.requestFullscreen().catch(() => {});
+      } else {
+        document.exitFullscreen().catch(() => {});
+      }
+    }
+
+    function toggleNotes() {
+      document.querySelector(".notes-panel").classList.toggle("visible");
+    }
+
+    function updateNotes() {
+      const panel = document.querySelector(".notes-panel");
+      const activeSlide = document.querySelector(".slide.active");
+      const noteText = activeSlide ? activeSlide.getAttribute("data-notes") || activeSlide.dataset.notes || "" : "";
+      panel.textContent = noteText;
+    }
+
+    function toggleOverview() {
+      document.getElementById("overview").classList.toggle("open");
+    }
+
+    function updateOverviewHighlight() {
+      document.querySelectorAll(".overview-item").forEach(item => {
+        item.classList.toggle("active-thumb", parseInt(item.dataset.slide) === current);
+      });
+    }
+
+    function buildOverview() {
+      const container = document.getElementById("overview");
+      slides.forEach(slide => {
+        const item = document.createElement("div");
+        item.className = "overview-item";
+        item.dataset.slide = slide.dataset.slide;
+        const h2 = slide.querySelector("h1, h2");
+        item.textContent = h2 ? h2.textContent : `الشريحة ${slide.dataset.slide}`;
+        item.addEventListener("click", () => {
+          goTo(parseInt(item.dataset.slide));
+          document.getElementById("overview").classList.remove("open");
+        });
+        container.appendChild(item);
+      });
+    }
+
+    // Keyboard navigation (RTL-aware)
+    document.addEventListener("keydown", e => {
+      if (e.target.tagName === "INPUT" || e.target.tagName === "TEXTAREA") return;
+
+      const overviewOpen = document.getElementById("overview").classList.contains("open");
+
+      if (e.key === "Escape") {
+        document.getElementById("overview").classList.remove("open");
+        return;
+      }
+
+      if (overviewOpen) return;
+
+      switch (e.key) {
+        case "ArrowLeft":  e.preventDefault(); goTo(current + 1); break;
+        case "ArrowRight": e.preventDefault(); goTo(current - 1); break;
+        case " ":
+        case "PageDown":   e.preventDefault(); goTo(current + 1); break;
+        case "PageUp":     e.preventDefault(); goTo(current - 1); break;
+        case "Home":       e.preventDefault(); goTo(1); break;
+        case "End":        e.preventDefault(); goTo(total); break;
+        case "f":
+        case "F":          toggleFullscreen(); break;
+        case "n":
+        case "N":          toggleNotes(); break;
+        case "g":
+        case "G":
+        case "i":
+        case "I":          toggleOverview(); break;
+      }
+    });
+
+    // Touch / swipe support (RTL-aware)
+    let touchStartX = 0;
+    let touchStartY = 0;
+
+    document.addEventListener("touchstart", e => {
+      touchStartX = e.changedTouches[0].screenX;
+      touchStartY = e.changedTouches[0].screenY;
+    }, { passive: true });
+
+    document.addEventListener("touchend", e => {
+      const dx = e.changedTouches[0].screenX - touchStartX;
+      const dy = e.changedTouches[0].screenY - touchStartY;
+      if (Math.abs(dx) < 50 || Math.abs(dy) > Math.abs(dx)) return;
+      // RTL: swipe left = prev, swipe right = next
+      if (dx > 0) goTo(current - 1);
+      else        goTo(current + 1);
+    }, { passive: true });
+
+    // Initial numbering (synchronous so it renders immediately on load)
+    document.querySelector(".slide-number").textContent = `1 / ${total}`;
+
+    // Init on DOM ready
+    document.addEventListener("DOMContentLoaded", () => {
+      buildOverview();
+
+      const hash = parseInt(location.hash.replace("#", ""));
+      if (hash && hash >= 1 && hash <= total) {
+        goTo(hash);
+      } else {
+        goTo(1);
+      }
+    });
+  </script>
+</body>
+</html>
