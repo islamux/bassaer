@@ -338,7 +338,7 @@
   </section>
 
   <!-- ══════════ 7 · Thesis · Consequences ══════════ -->
-  <section class="slide" data-slide="7" data-section="thesis" data-notes="عواقب «الكتاب بيانات» عملياً — ثلاث نتائج معمارية.\n(a) إمكانية النشر على أي خادم ثابت بدل خادم ديناميكي.\n(b) الواجهة تملك كل التفاعلية على الجهاز (بحث، إشارات، وضع ليلي) عبر مكونات client-side.\n(c) الحساب يتم عند البناء لا عند الطلب؛ لا حاجة لخوادم في زمن التشغيل؛ البيتا تُحضَّر مسبقاً.\nالمرجع: next.config.ts:12 (output: \"export\")، next.config.ts:13-14 (trailingSlash و unoptimized images).">
+  <section class="slide" data-slide="7" data-section="thesis" data-notes="عواقب «الكتاب بيانات» عملياً — ثلاث نتائج معمارية.\n(a) إمكانية النشر على أي خادم ثابت بدل خادم ديناميكي.\n(b) الواجهة تملك كل التفاعلية على الجهاز (بحث، إشارات، وضع ليلي) عبر مكونات client-side.\n(c) الحساب يتم عند البناء لا عند الطلب؛ لا حاجة لخوادم في زمن التشغيل؛ الصفحات تُحضَّر مسبقاً.\nالمرجع: next.config.ts:12 (output: \"export\")، next.config.ts:13-14 (trailingSlash و unoptimized images).">
     <h1>ما عواقب هذا القرار المعماري؟</h1>
     <div class="slide-body">
       <ol style="font-size:1.15rem; line-height:2.1; padding-inline-start:1.2rem;">
@@ -665,7 +665,7 @@ useSyncExternalStore(<br>
     </div>
   </section>
 
-  <section class="slide" data-slide="20" data-section="deep-dive" data-notes="خط البناء في scripts/build-search-index.mjs:\n:8-14 toSearchContent() تصفّي الأسطر التي تبدأ بـ # أو >، ثم تضغط المسافات المتعددة.\n:17-41 main() تقرأ ملفات Markdown من content/chapters/، تستخرج العنوان من السطر الأول (#)، وتصدر JSON بتهيكل id/title/content/slug.\nالحجم: 1,753,076 bait (~1.7 MB) / 13 مستندًا.\npublic/.htaccess يضبط Cache-Control: public, max-age=31536000, immutable على search-data.json.\nالمؤشر: الـ 1.7 MB تُشحن لكل زائر — بديل عن البحث على الخادم.">
+  <section class="slide" data-slide="20" data-section="deep-dive" data-notes="خط البناء في scripts/build-search-index.mjs:\n:8-14 toSearchContent() تصفّي الأسطر التي تبدأ بـ # أو >، ثم تضغط المسافات المتعددة.\n:17-41 main() تقرأ ملفات Markdown من content/chapters/، تستخرج العنوان من السطر الأول (#)، وتصدر JSON بهيكل id/title/content/slug.\nالحجم: 1,753,076 بايت (~1.7 MB) / 13 مستندًا.\npublic/.htaccess يضبط Cache-Control: public, max-age=31536000, immutable على search-data.json.\nالمؤشر: الـ 1.7 MB تُشحن لكل زائر — بديل عن البحث على الخادم.">
     <h1>بيانات البحث تُبنى مسبقاً</h1>
     <div class="slide-body">
       <div style="background:var(--code-bg); padding:1.2em; border-radius:8px; font-family:monospace; font-size:0.8rem; direction:ltr; text-align:left; line-height:1.55; margin-bottom:1rem;">
@@ -694,7 +694,7 @@ useSyncExternalStore(<br>
     </div>
   </section>
 
-  <section class="slide" data-slide="21" data-section="deep-dive" data-notes="FlexSearch.Document في SearchDialog.tsx:52-60: index:[\"title\",\"content\"], store:[\"title\",\"content\"], tokenize:\"forward\".\nالтонكز للإمام يعني أن كل كلمة تُفهرس بجميع بدائلها البادئة — بما فيها أداة التعريف Arabic definite article الـ al-.\nالمثال المُتحقق: «المكتب» (بادئة «المكتبة» بما فيها al-) ← يطابق «المكتبة». لم يتحقق «مكتب» أو «كتاب» كبدائل.\nالتخفيض: Set في SearchDialog.tsx:87-95 يزيل التكرار عبر معرف المستند (يبحث في title و content بشكل منفصل).\nالقيمة الحقيقية: التوسيم للإمام + أداة التعريف تعني أن البحث القصير بلا أداة قد لا يطابق — هذا حقيقي ومحترم.">
+  <section class="slide" data-slide="21" data-section="deep-dive" data-notes="FlexSearch.Document في SearchDialog.tsx:52-60: index:[\"title\",\"content\"], store:[\"title\",\"content\"], tokenize:\"forward\".\nإعداد tokenize:\"forward\" يعني الفهرسة بالبادئات: أن كل كلمة تُفهرس بجميع بدائلها البادئة — بما فيها أداة التعريف العربية الـ al-.\nالمثال المُتحقق: «المكتب» (بادئة «المكتبة» بما فيها al-) ← يطابق «المكتبة». لم يتحقق «مكتب» أو «كتاب» كبدائل.\nإزالة التكرار: Set في SearchDialog.tsx:87-95 يزيل التكرار عبر معرف المستند (يبحث في title و content بشكل منفصل).\nالقيمة الحقيقية: الفهرسة بالبادئات مع أداة التعريف تعني أن البحث القصير بلا أداة قد لا يطابق — هذا قيد حقيقي وليس ميزة مبالغاً فيها.">
     <h1>كيف يعمل البحث بالعربية؟</h1>
     <div class="slide-body">
       <div style="display:flex; gap:2rem; font-size:0.92rem;">
@@ -710,11 +710,11 @@ useSyncExternalStore(<br>
 &nbsp;&nbsp;tokenize: <span style="color:var(--accent);">"forward"</span>,<br>
 });
           </div>
-          <p style="color:var(--muted); font-size:0.82rem;">بحث على عنوان + محتوى، تخفيض عبر Set حسب المعرف.</p>
+          <p style="color:var(--muted); font-size:0.82rem;">بحث على عنوان + محتوى، إزالة التكرار عبر Set حسب المعرف.</p>
         </div>
         <div style="flex:1;">
           <div style="background:var(--code-bg); padding:1.2em; border-radius:8px; text-align:center;">
-            <p style="font-size:1.1rem; margin-bottom:0.5rem;">التونكز للإمام = أداة التعريف</p>
+            <p style="font-size:1.1rem; margin-bottom:0.5rem;"><span style="direction:ltr; unicode-bidi:embed;">tokenize:"forward"</span> = فهرس بالبادئات</p>
             <p style="font-size:0.9rem; direction:ltr; font-family:monospace; margin-bottom:0.3rem;">
               <span style="color:var(--primary);">«المكتب»</span> ⊂ <span style="color:var(--accent);">«المكتبة»</span>
             </p>
