@@ -1,0 +1,1251 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>بصّارة — العرض التقديمي</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@200;300;400;500;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #fdfbf7;
+      --fg: #2c2416;
+      --primary: #8b5a2b;
+      --primary-light: #c18850;
+      --muted: #a89279;
+      --accent: #8B6914;
+      --code-bg: #f5efe4;
+    }
+
+    .dark {
+      --bg: #121212;
+      --fg: #e8e0d0;
+      --primary: #c18850;
+      --muted: #8b7a60;
+      --code-bg: #1a1a1a;
+    }
+
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: "Tajawal", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--fg);
+      overflow: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── Slide ── */
+    .slide {
+      width: 100vw;
+      height: 100vh;
+      display: none;
+      padding: 6vh 8vw;
+      position: relative;
+      overflow: hidden;
+      background: var(--bg);
+      color: var(--fg);
+    }
+
+    .slide.active {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    /* Manuscript margin — RTL vertical rule on right edge */
+    .slide::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      right: 3vw;
+      width: 2px;
+      height: 100%;
+      background: var(--primary);
+      opacity: 0.3;
+    }
+
+    /* ── Typography ── */
+    h1 { font-size: 2.5rem; font-weight: 700; line-height: 1.3; }
+    h2 { font-size: 1.8rem; font-weight: 600; line-height: 1.4; }
+    h3 { font-size: 1.3rem; font-weight: 500; line-height: 1.4; }
+    p  { font-size: 1.1rem; font-weight: 400; line-height: 1.7; }
+
+    code {
+      font-size: 0.95rem;
+      font-family: ui-monospace, "Cascadia Code", "Fira Code", monospace;
+    }
+
+    pre, code {
+      background: var(--code-bg);
+      padding: 0.25em 0.5em;
+      border-radius: 4px;
+      font-family: ui-monospace, "Cascadia Code", "Fira Code", monospace;
+    }
+
+    pre {
+      padding: 1em 1.5em;
+      overflow-x: auto;
+      direction: ltr;
+      text-align: left;
+    }
+
+    /* ── Slide number ── */
+    .slide-number {
+      position: fixed;
+      bottom: 2vh;
+      left: 2vw;
+      font-size: 0.8rem;
+      font-family: ui-monospace, "Cascadia Code", "Fira Code", monospace;
+      color: var(--muted);
+      z-index: 50;
+      user-select: none;
+    }
+
+    /* ── Controls bar ── */
+    .controls {
+      position: fixed;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 0.5rem;
+      padding: 0.75rem 1.25rem;
+      background: rgba(253, 251, 247, 0.85);
+      backdrop-filter: blur(8px);
+      border-radius: 1rem 1rem 0 0;
+      z-index: 60;
+      transition: opacity 0.3s ease;
+    }
+
+    .dark .controls {
+      background: rgba(18, 18, 18, 0.85);
+    }
+
+    .controls button {
+      background: none;
+      border: 1px solid var(--muted);
+      color: var(--fg);
+      font-size: 0.85rem;
+      padding: 0.4em 0.8em;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background 0.2s, color 0.2s;
+      font-family: inherit;
+    }
+
+    .controls button:hover,
+    .controls button:focus-visible {
+      background: var(--primary);
+      color: var(--bg);
+      border-color: var(--primary);
+    }
+
+    .controls button:active {
+      transform: scale(0.95);
+    }
+
+    /* ── Overview panel ── */
+    .overview {
+      position: fixed;
+      inset: 0;
+      z-index: 100;
+      background: var(--bg);
+      display: none;
+      padding: 4vh 4vw;
+      overflow-y: auto;
+    }
+
+    .overview.open {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 1rem;
+    }
+
+    .overview .overview-item {
+      border: 2px solid transparent;
+      border-radius: 8px;
+      padding: 1rem;
+      cursor: pointer;
+      background: var(--code-bg);
+      transition: border-color 0.2s, transform 0.2s;
+      font-size: 0.85rem;
+      color: var(--fg);
+    }
+
+    .overview .overview-item:hover {
+      border-color: var(--primary-light);
+      transform: translateY(-2px);
+    }
+
+    .overview .overview-item.active-thumb {
+      border-color: var(--primary);
+    }
+
+    /* ── Notes panel ── */
+    .notes-panel {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: var(--code-bg);
+      color: var(--fg);
+      padding: 1rem 2rem;
+      transform: translateY(100%);
+      transition: transform 0.3s ease;
+      z-index: 70;
+      max-height: 35vh;
+      overflow-y: auto;
+      font-size: 0.95rem;
+      line-height: 1.6;
+      border-top: 2px solid var(--primary);
+    }
+
+    .notes-panel.visible {
+      transform: translateY(0);
+    }
+
+    /* ── Reduced motion ── */
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation: none !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+      }
+    }
+
+    /* ── Print ── */
+    @media print {
+      .slide {
+        display: block !important;
+        page-break-after: always;
+        height: auto;
+        min-height: 100vh;
+      }
+      .controls, .notes-panel, .overview {
+        display: none !important;
+      }
+    }
+
+    /* ── Responsive ── */
+    @media (max-width: 768px) {
+      h1 { font-size: 1.8rem; }
+      h2 { font-size: 1.4rem; }
+      h3 { font-size: 1.1rem; }
+      p  { font-size: 1rem; }
+      .slide { padding: 8vh 6vw; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ══════════ 1 · Opening · Title ══════════ -->
+  <section class="slide active" data-slide="1" data-section="opening" data-notes="افتتاحية العرض. بصائر مشروع يحوّل كتاباً PDF ضخماً (أكثر من 900 صفحة) إلى منصة قراءة رقمية تفاعلية. هذه الجلسة تهدف إلى فهم حقيقي للمشروع، لا مجرد عرض شرائح.\nالمرجع: README.md:13-20 (ميزات المنصة)، README.md:1-6 (تعريف المنصة واسم الكتاب).">
+    <h1>بصائر: من كتاب PDF إلى منصة قراءة رقمية</h1>
+    <div class="slide-body">
+      <blockquote style="margin-top: 1.2rem; padding-inline-start: 1rem; border-inline-start: 3px solid var(--primary); color: var(--muted); font-size: 1.3rem;">
+        «بصائر في الكون والحياة والدين» — د. هيثم طلعت
+      </blockquote>
+      <p style="margin-top: 0.8rem; color: var(--muted);">نحو فهمٍ حقيقيٍّ للمشروع.</p>
+    </div>
+  </section>
+
+  <!-- ══════════ 2 · Opening · Agenda ══════════ -->
+  <section class="slide" data-slide="2" data-section="opening" data-notes="جدول الأعمال مبني على ميزانية الوقت: الافتتاح 5، الأطروحة 4، القرارات 7، النموذج الذهني 4، المنتج 5، الغوص العميق 13، العرض الحي 11، المفاضلات 4، خارطة الطريق 3، الخاتمة 4. المجموع 60 دقيقة.">
+    <h1>جدول الأعمال: عشرة أقسام في ستين دقيقة</h1>
+    <div class="slide-body">
+      <table style="width:100%; border-collapse: collapse; font-size: 1.1rem;">
+        <thead>
+          <tr>
+            <th style="text-align:right; padding:0.5em; border-bottom:2px solid var(--primary);">القسم</th>
+            <th style="text-align:right; padding:0.5em; border-bottom:2px solid var(--primary);">الدقائق</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td style="padding:0.4em 0.5em; border-bottom:1px solid var(--muted);">الافتتاح</td><td>5</td></tr>
+          <tr><td style="padding:0.4em 0.5em; border-bottom:1px solid var(--muted);">الأطروحة</td><td>4</td></tr>
+          <tr><td style="padding:0.4em 0.5em; border-bottom:1px solid var(--muted);">القرارات</td><td>7</td></tr>
+          <tr><td style="padding:0.4em 0.5em; border-bottom:1px solid var(--muted);">النموذج الذهني</td><td>4</td></tr>
+          <tr><td style="padding:0.4em 0.5em; border-bottom:1px solid var(--muted);">المنتج</td><td>5</td></tr>
+          <tr><td style="padding:0.4em 0.5em; border-bottom:1px solid var(--muted);">الغوص العميق</td><td>13</td></tr>
+          <tr><td style="padding:0.4em 0.5em; border-bottom:1px solid var(--muted);">العرض الحي</td><td>11</td></tr>
+          <tr><td style="padding:0.4em 0.5em; border-bottom:1px solid var(--muted);">المفاضلات</td><td>4</td></tr>
+          <tr><td style="padding:0.4em 0.5em; border-bottom:1px solid var(--muted);">خارطة الطريق</td><td>3</td></tr>
+          <tr><td style="padding:0.4em 0.5em; border-bottom:1px solid var(--muted);">الخاتمة</td><td>4</td></tr>
+          <tr><td style="padding:0.5em; font-weight:700; border-top:2px solid var(--primary);">المجموع</td><td style="font-weight:700; border-top:2px solid var(--primary);">60</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ══════════ 3 · Product · Overview ══════════ -->
+  <section class="slide" data-slide="3" data-section="product" data-notes="نظرة سريعة على مخرجات المشروع. كل البيانات تحققت من المصدر:\n13 فصلاً في content/chapters (intro + chapter-1..12) — تم التحقق: ls content/chapters | wc -l = 13.\n522 صورة في public/images — تم التحقق: find public/images -type f | wc -l = 522.\nالبحث النصي الكامل عبر FlexSearch، إشارات مرجعية في localStorage، وضع ليلي/نهاري، اتجاه RTL، وPWA.\nالمرجع: README.md:1-6 (تعريف المنصة واسم الكتاب).">
+    <h1>ما الذي يقدّمه المشروع للقارئ؟</h1>
+    <div class="slide-body">
+      <ul style="list-style:none; padding:0; font-size:1.15rem; line-height:2;">
+        <li>📚 ١٣ فصلاً منظّماً (المقدمة + ١٢ فصلاً)</li>
+        <li>🖼️ ٥٢٢ صورة موزّعة على الفصول</li>
+        <li>🔍 بحث نصي كامل (FlexSearch) مع دعم RTL</li>
+        <li>🔖 إشارات مرجعية محلية + وضع ليلي/نهاري + PWA</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ══════════ 4 · Product · Problem ══════════ -->
+  <section class="slide" data-slide="4" data-section="product" data-notes="التحويل من PDF إلى ويب. الكتاب الأصلي PDF يتجاوز 900 صفحة (يُذكر في README.md:13). المقارنة بين الحالتين قبل/بعد.\nقبل: PDF صعب البحث والتنقل ولا يعمل دون اتصال بسهولة. بعد: ويب قابل للفهرسة، قابل للحفظ، يعمل دون اتصال (PWA)، وتنسيق عربي RTL أصيل.\nالمرجع: README.md:7 (بدل عارض PDF ثابت)، README.md:13-20 (الميزات).">
+    <h1>ما المشكلة التي يحلّها المشروع؟</h1>
+    <div class="slide-body">
+      <table style="width:100%; border-collapse: collapse; font-size:1.1rem;">
+        <thead>
+          <tr>
+            <th style="text-align:right; padding:0.5em; border-bottom:2px solid var(--primary);">قبل (PDF)</th>
+            <th style="text-align:right; padding:0.5em; border-bottom:2px solid var(--primary);">بعد (ويب)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td style="padding:0.4em 0.5em; border-bottom:1px solid var(--muted);">+٩٠٠ صفحة ثابتة</td><td style="padding:0.4em 0.5em; border-bottom:1px solid var(--muted);">قابل للبحث والفهرسة</td></tr>
+          <tr><td style="padding:0.4em 0.5em; border-bottom:1px solid var(--muted);">بحث وتنقل صعبان</td><td style="padding:0.4em 0.5em; border-bottom:1px solid var(--muted);">إشارات مرجعية وفصول مرتبة</td></tr>
+          <tr><td style="padding:0.4em 0.5em; border-bottom:1px solid var(--muted);">قراءة دون اتصال مرهقة</td><td style="padding:0.4em 0.5em; border-bottom:1px solid var(--muted);">يعمل دون اتصال (PWA)</td></tr>
+          <tr><td style="padding:0.4em 0.5em;">تنسيق عربي محدود</td><td style="padding:0.4em 0.5em;">طباعة عربية RTL أصيلة (Tajawal)</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ══════════ 5 · Opening · Glance ══════════ -->
+  <section class="slide" data-slide="5" data-section="opening" data-notes="شريحة النظرة السريعة. نعرض العنوان المحلي للمشروع.\nرابط المحاكاة محلي: http://localhost:3000. يُشغَّل بأمر next dev أو بعد البناء الثابت عبر أي خادم ثابت.\nالعرض الحي الكامل المرفق بالصور والتشغيل التفاعلي سيُقدَّم في الشريحة 30 ضمن قسم «العرض الحي».\nالمرجع: package.json scripts (dev / build / start).">
+    <h1>أين يُعاين المستمع المشروع الآن؟</h1>
+    <div class="slide-body">
+      <p style="font-size:1.6rem; font-family: ui-monospace, monospace; direction:ltr; text-align:left; color:var(--primary);" data-dir="ltr">http://localhost:3000</p>
+      <p style="margin-top:1rem; color:var(--muted);">العرض الحيّ موجود في الشريحة ٣٠.</p>
+    </div>
+  </section>
+
+  <!-- ══════════ 6 · Thesis ══════════ -->
+  <section class="slide" data-slide="6" data-section="thesis" data-notes="الأطروحة الأساسية: الكتاب بعد المعالجة يُعامَل كبيانات منظمة لا كمستندات جامدة.\nالمصدر تحوّل من DOCX إلى فصول Markdown منفصلة (content/chapters)، فيصبح المحتوى قابلاً للبحث والفهرسة والبرمجة.\nالمرجع: scripts/docx_to_md.py (الاستخراج بـ python-docx + Regex)، README.md:28-30 (مرحلة الاستخراج).">
+    <h1>كيف ننظر إلى الكتاب بعد التحويل؟</h1>
+    <div class="slide-body">
+      <blockquote style="margin-top:0.5rem; padding:1.2rem; background:var(--code-bg); border-inline-start:4px solid var(--primary); font-size:1.4rem; font-weight:700;">
+        «الكتاب بياناتٌ لا مستندات»
+      </blockquote>
+      <p style="margin-top:1.2rem;">المحتوى يُفكَّك إلى ١٣ فصلاً من Markdown منفصلة، فيصبح قابلاً للبحث والفهرسة والبناء — كل ذلك قبل أن تلمسه الواجهة.</p>
+    </div>
+  </section>
+
+  <!-- ══════════ 7 · Thesis · Consequences ══════════ -->
+  <section class="slide" data-slide="7" data-section="thesis" data-notes="عواقب «الكتاب بيانات» عملياً — ثلاث نتائج معمارية.\n(a) إمكانية النشر على أي خادم ثابت بدل خادم ديناميكي.\n(b) الواجهة تملك كل التفاعلية على الجهاز (بحث، إشارات، وضع ليلي) عبر مكونات client-side.\n(c) الحساب يتم عند البناء لا عند الطلب؛ لا حاجة لخوادم في زمن التشغيل؛ الصفحات تُحضَّر مسبقاً.\nالمرجع: next.config.ts:12 (output: \"export\")، next.config.ts:13-14 (trailingSlash و unoptimized images).">
+    <h1>ما عواقب هذا القرار المعماري؟</h1>
+    <div class="slide-body">
+      <ol style="font-size:1.15rem; line-height:2.1; padding-inline-start:1.2rem;">
+        <li>قابل للنشر على أي مُستضيف ثابت (لا خادم ديناميكي).</li>
+        <li>العميل يملك التفاعلية: بحث وإشارات ووضع ليلي داخل المتصفح.</li>
+        <li>الحساب عند البناء (SSG) يغني عن الخوادم في زمن التشغيل.</li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- ══════════ 8 · Decisions · Two-phase pipeline ══════════ -->
+  <section class="slide" data-slide="8" data-section="decisions" data-notes="القرار الأول: خط إنتاج من مرحلتين.\nالمرحلة الأولى (Python): python-docx + Regex لاستخراج النص والصور من مصدر DOCX وتحويله إلى فصول Markdown (scripts/docx_to_md.py، scripts/inject_docx_images.py).\nالمرحلة الثانية: منصة TypeScript (Next.js) تستهلك الفصول من content/chapters.\nبذلك يُفصَل المحتوى عن الواجهة. المفاضلة: تحتاج مهارتين (Python + TS)، لكن المحتوى يصبح مستقلًا وقابلًا لإعادة الاستخدام.\nالتحقق: content/chapters يحتوي 13 ملف .md (intro + chapter-1..12).">
+    <h1>لماذا فصلنا المعالجة عن الواجهة؟</h1>
+    <div class="slide-body">
+      <div style="display:flex; flex-direction:column; gap:1rem; font-size:1.15rem; text-align:center;">
+        <div style="padding:0.8em; background:var(--code-bg); border-radius:8px;">Python — python-docx + Regex</div>
+        <div style="align-self:center; color:var(--primary);">↓</div>
+        <div style="padding:0.8em; background:var(--code-bg); border-radius:8px;" data-dir="ltr">content/chapters/ · 13 ملف .md</div>
+        <div style="align-self:center; color:var(--primary);">↓</div>
+        <div style="padding:0.8em; background:var(--code-bg); border-radius:8px;">منصة TypeScript (Next.js)</div>
+      </div>
+      <p style="margin-top:1.2rem; color:var(--muted);">مفاضلة صريحة: تحتاج مهارتين، لكن المحتوى ينفصل عن الواجهة.</p>
+    </div>
+  </section>
+
+  <!-- ══════════ 9 · Decisions · Static export vs SSR ══════════ -->
+  <section class="slide" data-slide="9" data-section="decisions" data-notes="القرار الثاني: التصدير الثابت بدل SSR.\nالمكاسب: صفر تكلفة استضافة، متوافق مع Apache/المستضيفات الثابتة، سرعة تحميل فورية.\nالتكاليف: لا مسارات خادم (server routes)، لا بيانات في زمن حقيقي، البحث يعمل في المتصفح (client-side) فقط.\nالتحقق: next.config.ts:12 output: \"export\" مع trailingSlash و images.unoptimized (الأسطر 13-14).">
+    <h1>لماذا التصدير الثابت دون SSR؟</h1>
+    <div class="slide-body">
+      <table style="width:100%; border-collapse: collapse; font-size:1.1rem;">
+        <thead>
+          <tr>
+            <th style="text-align:right; padding:0.5em; border-bottom:2px solid var(--primary);">البُعد</th>
+            <th style="text-align:right; padding:0.5em; border-bottom:2px solid var(--primary);">التصدير الثابت</th>
+            <th style="text-align:right; padding:0.5em; border-bottom:2px solid var(--primary);">SSR</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td style="padding:0.4em 0.5em; border-bottom:1px solid var(--muted); font-weight:600;">المكاسب</td>
+            <td style="padding:0.4em 0.5em; border-bottom:1px solid var(--muted);">صفر تكلفة استضافة · متوافق مع Apache</td>
+            <td style="padding:0.4em 0.5em; border-bottom:1px solid var(--muted);">بيانات طازجة عند كل طلب</td>
+          </tr>
+          <tr>
+            <td style="padding:0.4em 0.5em; font-weight:600;">التكاليف</td>
+            <td style="padding:0.4em 0.5em;">لا مسارات خادم · لا بيانات حية · بحث client-side</td>
+            <td style="padding:0.4em 0.5em;">استضافة مكلفة · إعداد خادم</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ══════════ 10 · Decisions · Removed auth ══════════ -->
+  <section class="slide" data-slide="10" data-section="decisions" data-notes="القرار الثالث: حذف المصادقة نهائياً.\nتمت إزالة AuthProvider و middleware و Supabase نهائياً — راجع سجل git: git log --oneline | grep -i supabase يُظهر عدة التزامات منها «docs: refresh to static-export architecture (drop supabase)» و«chore: remove inert supabase migration remnant».\nانضباط النطاق: الإشارات المحلية على الجهاز (localStorage) بدل المزامنة السحابية.\nبقايا: .env.local ما زال يحوي متغيرات Supabase غير المستخدمة NEXT_PUBLIC_SUPABASE_URL و NEXT_PUBLIC_SUPABASE_ANON_KEY (أسماء فقط — لا نعرض القيم). هذه بقايا تنظيف لا تُستدعى في الكود.">
+    <h1>لماذا حذفنا تسجيل الدخول؟</h1>
+    <div class="slide-body">
+      <ul style="list-style:none; padding:0; font-size:1.15rem; line-height:2.1;">
+        <li>❌ حُذف AuthProvider و middleware و Supabase نهائياً</li>
+        <li>🎯 انضباط النطاق: كتاب يُقرأ دون حسابات</li>
+        <li>🔖 إشارات مرجعية محلية (localStorage) بدل مزامنة سحابية</li>
+        <li>🗂️ بقايا .env.local: متغيرات Supabase غير مستخدمة</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ══════════ 11 · Decisions · Prebuilt search ══════════ -->
+  <section class="slide" data-slide="11" data-section="decisions" data-notes="القرار الرابع: فهرس بحث مُجهَّز مسبقاً + فهرس عميل.\nالخط أنابيب: عند البناء، scripts/build-search-index.mjs (يُستدعى عبر prebuild في package.json) يقرأ content/chapters ويكتب public/search-data.json.\nالقياس: الملف 1,753,076 بايت (~1.7MB) ويحتوي 13 مستنداً (تم التحقق: node -e والحجم ls -la).\nالعميل يبني فهرس FlexSearch عند التحميل في useEffect — راجع components/SearchDialog.tsx:44-73 (fetch + new FlexSearch.Document + index.add).\nالمفاضلة: تنزيل ~1.7MB مقابل عدم الحاجة لأي خادم بحث.">
+    <h1>كيف نبحث بدون خادم؟</h1>
+    <div class="slide-body">
+      <div style="display:flex; flex-direction:column; gap:1rem; font-size:1.1rem; text-align:center;">
+        <div style="padding:0.8em; background:var(--code-bg); border-radius:8px;" data-dir="ltr">prebuild → scripts/build-search-index.mjs</div>
+        <div style="align-self:center; color:var(--primary);">↓</div>
+        <div style="padding:0.8em; background:var(--code-bg); border-radius:8px;" data-dir="ltr">public/search-data.json · ~1.7MB · 13 مستنداً</div>
+        <div style="align-self:center; color:var(--primary);">↓</div>
+        <div style="padding:0.8em; background:var(--code-bg); border-radius:8px;">العميل يبني فهرس FlexSearch عند التحميل</div>
+      </div>
+      <p style="margin-top:1.2rem; color:var(--muted);">مفاضلة صريحة: 1.7MB تُنزَّل مقابل غياب خادم البحث كلياً.</p>
+    </div>
+  </section>
+
+  <!-- ══════════ 12 · Decisions · Serwist PWA + .htaccess ══════════ -->
+  <section class="slide" data-slide="12" data-section="decisions" data-notes="القرار الخامس: Serwist PWA + .htaccess.\nخدمة العامل (Serwist) للقراءة دون اتصال — sw.ts:5-11 (Serwist مع precacheEntries و navigationPreload). معطّلة في التطوير: next.config.ts:8 (disable: NODE_ENV !== \"production\").\n.htaccess: كاش ثابت مع رؤوس أمان — public/.htaccess (Cache-Control immutable لـ search-data.json + X-Content-Type-Options + Referrer-Policy + X-Frame-Options).\nالحد المعروف: لا توجد صفحة fallback مخصصة عند انقطاع الشبكة (لا offline fallback page). القيد مُعلَن صراحةً في الشريحة.">
+    <h1>كيف نقرأ دون اتصال؟</h1>
+    <div class="slide-body">
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:1.2rem; font-size:1.05rem;">
+        <div style="padding:1em; background:var(--code-bg); border-radius:8px;">
+          <strong>Serwist (SW)</strong>
+          <ul style="margin-top:0.6em; padding-inline-start:1.1em;">
+            <li>قراءة دون اتصال (precache)</li>
+            <li>معطّل في التطوير: <code>disable</code></li>
+          </ul>
+        </div>
+        <div style="padding:1em; background:var(--code-bg); border-radius:8px;">
+          <strong>.htaccess</strong>
+          <ul style="margin-top:0.6em; padding-inline-start:1.1em;">
+            <li>كاش دائم <code>immutable</code></li>
+            <li>رؤوس أمان (nosniff, frame, referrer)</li>
+          </ul>
+        </div>
+      </div>
+      <p style="margin-top:1.2rem;">حدّ معروف: لا توجد صفحة fallback مخصصة لانقطاع الشبكة.</p>
+    </div>
+  </section>
+
+  <!-- ══════════ 13 · Mental Model · Data flow (SVG, RTL) ══════════ -->
+  <section class="slide" data-slide="13" data-section="mental-model" data-notes="الشريحة المحورية: النموذج الذهني الكامل لتدفق البيانات، يُقرأ من اليمين إلى اليسار (RTL).\ncontent/*.md → [prebuild + SSG] → out/ + search-data.json → [SW precache] → [React hydration] → بيانات محلية.\nالمفاتيح المحلية تحققت من المصدر: theme في app/layout.tsx:39-41 (سكربت مضمّن) و Navbar.tsx:27-31؛ basaar-bookmarks في lib/bookmarks.ts:1؛ basaar-reading-progress في lib/readingProgress.ts:1.\nالأحداث: basaar-theme-change (Navbar.tsx:30) و bookmarks-updated، و storage.\nوضع الليلي يستخدم useSyncExternalStore (Navbar.tsx:20-24).">
+    <h1>كيف تتدفق البيانات في النظام؟</h1>
+    <div class="slide-body">
+      <svg viewBox="0 0 1000 300" style="width:100%; max-width:940px; margin:0 auto; display:block;" role="img" aria-label="مخطط تدفق البيانات في بصائر">
+        <defs>
+          <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+            <path d="M 0 0 L 10 5 L 0 10 z" fill="#c18850"/>
+          </marker>
+        </defs>
+        <rect x="820" y="30" width="150" height="60" rx="8" fill="#f5efe4" stroke="#c18850"/>
+        <text x="895" y="66" text-anchor="middle" font-size="13" fill="#8b5a2b">content/*.md</text>
+        <line x1="820" y1="60" x2="800" y2="60" stroke="#c18850" stroke-width="2" marker-end="url(#arrow)"/>
+        <rect x="600" y="30" width="180" height="60" rx="8" fill="#f5efe4" stroke="#8b5a2b"/>
+        <text x="690" y="58" text-anchor="middle" font-size="13" fill="#2c2416">prebuild + SSG</text>
+        <text x="690" y="76" text-anchor="middle" font-size="10" fill="#a89279">build.js · next build</text>
+        <line x1="600" y1="60" x2="580" y2="60" stroke="#c18850" stroke-width="2" marker-end="url(#arrow)"/>
+        <rect x="400" y="30" width="160" height="60" rx="8" fill="#f5efe4" stroke="#8b5a2b"/>
+        <text x="480" y="66" text-anchor="middle" font-size="13" fill="#2c2416">out/ + search-data.json</text>
+        <line x1="400" y1="60" x2="380" y2="60" stroke="#c18850" stroke-width="2" marker-end="url(#arrow)"/>
+        <rect x="230" y="30" width="130" height="60" rx="8" fill="#f5efe4" stroke="#c18850"/>
+        <text x="295" y="58" text-anchor="middle" font-size="12" fill="#2c2416">SW precache</text>
+        <text x="295" y="76" text-anchor="middle" font-size="10" fill="#a89279">Serwist</text>
+        <line x1="230" y1="60" x2="210" y2="60" stroke="#c18850" stroke-width="2" marker-end="url(#arrow)"/>
+        <rect x="40" y="30" width="150" height="60" rx="8" fill="#f5efe4" stroke="#8b5a2b"/>
+        <text x="115" y="66" text-anchor="middle" font-size="13" fill="#2c2416">React hydration</text>
+        <line x1="440" y1="180" x2="430" y2="135" stroke="#a89279" stroke-width="2" marker-end="url(#arrow)"/>
+        <rect x="30" y="180" width="200" height="90" rx="8" fill="#fdfbf7" stroke="#a89279"/>
+        <text x="130" y="205" text-anchor="middle" font-size="12" fill="#8b5a2b">localStorage</text>
+        <text x="130" y="226" text-anchor="middle" font-size="11" fill="#2c2416">theme · basaar-bookmarks</text>
+        <text x="130" y="242" text-anchor="middle" font-size="11" fill="#2c2416">basaar-reading-progress</text>
+        <text x="130" y="258" text-anchor="middle" font-size="10" fill="#a89279">أحداث: basaar-theme-change · bookmarks-updated · storage</text>
+      </svg>
+    </div>
+  </section>
+
+  <!-- ══════════ 14 · Product · Home page ══════════ -->
+  <section class="slide" data-slide="14" data-section="product" data-notes="الوصف الوظيفي للصفحة الرئيسية.\nالتحقق: app/page.tsx:13-29 (hero مع زر «ابدأ القراءة» رابط إلى أول فصل) و app/page.tsx:31-48 (شبكة فصول «محتويات الكتاب»).\nالشريط الجانبي (فهرس المحتويات) للشاشات الكبيرة فقط: components/Sidebar.tsx (hidden lg:block في السطر 10، aria-label في 11).\nأزرار السابق/التالي في نهاية الفصل: app/chapter/[slug]/page.tsx:66-80.">
+    <h1>بمَ يبدأ القارئ رحلته؟</h1>
+    <div class="slide-body">
+      <ul style="list-style:none; padding:0; font-size:1.15rem; line-height:2.2;">
+        <li>🏠 واجهة البطل (hero) مع زر «ابدأ القراءة» يفتح أول فصل</li>
+        <li>⬇️ شبكة فصول «محتويات الكتاب» تلي البطل</li>
+        <li>📑 فهرس محتويات جانبي ثابت على سطح المكتب (Sidebar)</li>
+        <li>↔️ أزرار «السابق / التالي» في نهاية كل فصل</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ══════════ 15 · Product · Search UX ══════════ -->
+  <section class="slide" data-slide="15" data-section="product" data-notes="اختصارات لوحة المفاتيح للبحث.\nالتحقق: فتح البحث عبر Ctrl+K مضبوط في components/ClientShell.tsx:18-27 (e.ctrlKey && e.key === \"k\").\nالتنقل داخل حوار البحث في components/SearchDialog.tsx:115-135 (Escape إغلاق، ArrowDown/ArrowUp تنقل، Enter يفتح النتيجة المحددة).\nالتقسيم بادئة (forward tokenization): components/SearchDialog.tsx:58 (tokenize: \"forward\") يعني أن الجزء البادئ من الكلمة يطابقها، مثل بحث «المكتب» يطابق «المكتبة» (بما فيها أداة التعريف).\nملاحظة دقة: المثال المضبوط تجريبياً هو «المكتب» → «المكتبة»؛ أما «مكتب» بلا أداة تعريف فلا يطابق «المكتبة»، وكذلك «كتاب» ليست بادئة «المكتبة» فلم تحقق نتيجة. اختبرتُ ذلك مع مكتبة FlexSearch الفعلية.">
+    <h1>كيف تنقّل في نتائج البحث؟</h1>
+    <div class="slide-body">
+      <table style="width:100%; border-collapse: collapse; font-size:1.1rem;">
+        <thead>
+          <tr>
+            <th style="text-align:right; padding:0.5em; border-bottom:2px solid var(--primary);">الاختصار</th>
+            <th style="text-align:right; padding:0.5em; border-bottom:2px solid var(--primary);">الفعل</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td style="padding:0.4em 0.5em; border-bottom:1px solid var(--muted);"><kbd>Ctrl</kbd>+<kbd>K</kbd></td><td style="padding:0.4em 0.5em; border-bottom:1px solid var(--muted);">فتح/إغلاق البحث</td></tr>
+          <tr><td style="padding:0.4em 0.5em; border-bottom:1px solid var(--muted);"><kbd>↑</kbd> <kbd>↓</kbd></td><td style="padding:0.4em 0.5em; border-bottom:1px solid var(--muted);">التنقل في النتائج</td></tr>
+          <tr><td style="padding:0.4em 0.5em; border-bottom:1px solid var(--muted);"><kbd>Enter</kbd></td><td style="padding:0.4em 0.5em; border-bottom:1px solid var(--muted);">فتح النتيجة المحددة</td></tr>
+          <tr><td style="padding:0.4em 0.5em;"><kbd>Esc</kbd></td><td style="padding:0.4em 0.5em;">إغلاق البحث</td></tr>
+        </tbody>
+      </table>
+      <p style="margin-top:1.2rem; color:var(--muted);">تقسيم بادئة: بحث «المكتب» يطابق «المكتبة».</p>
+    </div>
+  </section>
+
+  <!-- ══════════ 16 · Product · Local features ══════════ -->
+  <section class="slide" data-slide="16" data-section="product" data-notes="الميزات المحلية في ثلاثة أعمدة: مفتاح التخزين، الحدث، والاستمرارية.\nالإشارات المرجعية: المفتاح basaar-bookmarks في lib/bookmarks.ts:1، الحدث bookmarks-updated (يُطلق عند التبديل في مكوّن الإشارات).\nتقدم القراءة: المفتاح basaar-reading-progress في lib/readingProgress.ts:1.\nالوضع: المفتاح theme في app/layout.tsx:39-41 (سكربت مضمّن) وفي components/Navbar.tsx:27-31 (تبديل + حدث basaar-theme-change في السطر 30).\nحدث storage (عبر المتصفح) والاستمرارية عبر localStorage؛ وضع الليلي يستمع عبر useSyncExternalStore (Navbar.tsx:20-24).">
+    <h1>أين تُحفظ بيانات القارئ المحلية؟</h1>
+    <div class="slide-body">
+      <table style="width:100%; border-collapse: collapse; font-size:1rem;">
+        <thead>
+          <tr>
+            <th style="text-align:right; padding:0.5em; border-bottom:2px solid var(--primary);">الميزة</th>
+            <th style="text-align:right; padding:0.5em; border-bottom:2px solid var(--primary);">المفتاح</th>
+            <th style="text-align:right; padding:0.5em; border-bottom:2px solid var(--primary);">الحدث</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td style="padding:0.4em 0.5em; border-bottom:1px solid var(--muted);">الإشارات المرجعية</td>
+            <td style="padding:0.4em 0.5em; border-bottom:1px solid var(--muted);" data-dir="ltr">basaar-bookmarks</td>
+            <td style="padding:0.4em 0.5em; border-bottom:1px solid var(--muted);" data-dir="ltr">bookmarks-updated</td>
+          </tr>
+          <tr>
+            <td style="padding:0.4em 0.5em; border-bottom:1px solid var(--muted);">تقدم القراءة</td>
+            <td style="padding:0.4em 0.5em; border-bottom:1px solid var(--muted);" data-dir="ltr">basaar-reading-progress</td>
+            <td style="padding:0.4em 0.5em; border-bottom:1px solid var(--muted);" data-dir="ltr">storage</td>
+          </tr>
+          <tr>
+            <td style="padding:0.4em 0.5em;">الوضع (ليلي/نهاري)</td>
+            <td style="padding:0.4em 0.5em;" data-dir="ltr">theme</td>
+            <td style="padding:0.4em 0.5em;" data-dir="ltr">basaar-theme-change</td>
+          </tr>
+        </tbody>
+      </table>
+      <p style="margin-top:1.2rem; color:var(--muted);">كلها محفوظة في localStorage على جهاز القارئ — لا خادم.</p>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════════════════
+       Deep Dive + Hydration + Security + Testing (Slides 17–29)
+       ═══════════════════════════════════════════════════════════════════ -->
+
+  <section class="slide" data-slide="17" data-section="deep-dive" data-notes="بنية الملفات: app/ تحتوي 6 ملفات: layout.tsx (الجذر)، page.tsx (الصفحة الرئيسية)، chapter/[slug]/page.tsx (الأقسام)، not-found.tsx، sitemap.ts، globals.css.\ngenerateStaticParams() في app/chapter/[slug]/page.tsx:11-16 تُعيد جميع معرفات الأقسام.\nparams نوع Promise<{slug}> ويُحل بـ await (صيغة Next.js 16): :33-34.\nالمشروع يستخدم output: export أي SSG بالكامل — لا يوجد خادم حي.">
+    <h1>كيف يبني المشروع صفحات الأقسام؟</h1>
+    <div class="slide-body">
+      <div style="display:flex; gap:2rem; font-size:0.95rem;">
+        <div style="flex:0.8;">
+          <div style="background:var(--code-bg); padding:1em; border-radius:8px; font-family:monospace; font-size:0.82rem; direction:ltr; text-align:left; line-height:1.6;">
+<span style="color:var(--muted);">app/</span>
+├── layout.tsx
+├── page.tsx
+├── <span style="color:var(--primary);">chapter/[slug]/page.tsx</span>
+├── not-found.tsx
+├── sitemap.ts
+└── globals.css
+          </div>
+        </div>
+        <div style="flex:1.2;">
+          <div style="background:var(--code-bg); padding:1em; border-radius:8px; font-family:monospace; font-size:0.8rem; direction:ltr; text-align:left; line-height:1.5; margin-bottom:0.8rem;">
+<span style="color:var(--muted);">// chapter/[slug]/page.tsx:11-16</span><br>
+<span style="color:var(--primary);">export async function</span> <span style="color:var(--accent);">generateStaticParams</span>() {<br>
+&nbsp;&nbsp;<span style="color:var(--primary);">const</span> chapters = getAllChapters();<br>
+&nbsp;&nbsp;<span style="color:var(--primary);">return</span> chapters.map(ch => ({<br>
+&nbsp;&nbsp;&nbsp;&nbsp;slug: ch.id<br>
+&nbsp;&nbsp;}));<br>
+}<br>
+<br>
+<span style="color:var(--muted);">// :33-34 — params مصفوفة وعودية</span><br>
+<span style="color:var(--primary);">export default async function</span> ChapterPage({<br>
+&nbsp;&nbsp;params: <span style="color:var(--accent);">Promise</span>&lt;{ slug: string }&gt;<br>
+}) {<br>
+&nbsp;&nbsp;<span style="color:var(--primary);">const</span> { slug } = <span style="color:var(--primary);">await</span> params;<br>
+          </div>
+          <p style="color:var(--muted); font-size:0.85rem;">Next.js 16: params نوع Promise يُحل بـ await في المكوّن.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide" data-slide="18" data-section="deep-dive" data-notes="الفصل بين مكوّنات الخادم والعميل مبني على وجود \"use client\" في أعلى الملف.\nمكوّنات الخادم (بدون directive): Sidebar.tsx، Footer.tsx، layout.tsx، page.tsx، chapter/[slug]/page.tsx، sitemap.ts.\nمكوّنات العميل (9 ملفات): ClientShell، Navbar، MobileMenu، SearchDialog، BookmarkButton، BookmarkedChapters، ReadingProgressBar، InstallPrompt، ErrorBoundary.\nملاحظة مهمة: output: \"export\" يعني أن جميع الصفحات SSG — لا يوجد \"تقديم خادم\" حقيقي عند الطلب. \"خادم\" تعني فقط كود يُشغّل أثناء البناء في Node.js.">
+    <h1>أين يعمل كل مكوّن؟</h1>
+    <div class="slide-body">
+      <div style="display:flex; gap:2rem; font-size:0.95rem;">
+        <div style="flex:1; border-right:2px solid var(--primary); padding-right:1.5rem;">
+          <h3 style="color:var(--primary); margin-bottom:0.8rem;">خادم (بدون "use client")</h3>
+          <ul style="list-style:none; font-size:0.88rem; line-height:1.8;">
+            <li>layout.tsx</li>
+            <li>page.tsx</li>
+            <li>chapter/[slug]/page.tsx</li>
+            <li>Sidebar.tsx</li>
+            <li>Footer.tsx</li>
+            <li>sitemap.ts</li>
+          </ul>
+          <p style="color:var(--muted); font-size:0.8rem; margin-top:0.8rem;">كود يُشغّل في بناء Node.js فقط (SSG).</p>
+        </div>
+        <div style="flex:1; padding-left:1.5rem;">
+          <h3 style="color:var(--accent); margin-bottom:0.8rem;">عميل ("use client")</h3>
+          <ul style="list-style:none; font-size:0.88rem; line-height:1.8;">
+            <li>ClientShell</li>
+            <li>Navbar</li>
+            <li>MobileMenu</li>
+            <li>SearchDialog</li>
+            <li>BookmarkButton</li>
+            <li>BookmarkedChapters</li>
+            <li>ReadingProgressBar</li>
+            <li>InstallPrompt</li>
+            <li>ErrorBoundary</li>
+          </ul>
+          <p style="color:var(--muted); font-size:0.8rem; margin-top:0.8rem;">9 مكوّنات — تفاعل + حالة + تأثيرات.</p>
+        </div>
+      </div>
+      <p style="margin-top:1rem; font-size:0.82rem; color:var(--muted);">output: "export" في next.config.ts — كل شيء يُصَدّر كـ HTML ثابت.</p>
+    </div>
+  </section>
+
+  <section class="slide" data-slide="19" data-section="deep-dive" data-notes="لا يوجد متجر (Context، Redux، Zustand). الحالة موزّعة في ثلاثة أنماط:\n1. DOM-as-store للوضع الليلي: useSyncExternalStore في Navbar.tsx:20-24 يقرأ class \"dark\" من <html>. اللقطة الافتراضية للخادم () => false تضمن التوافق أثناء hydration.\n2. localStorage + أحداث.window للفواصل: bookmarks-updated (BookmarkButton.tsx:40)، و storage عبر المتصفح (BookmarkedChapters.tsx:15-16).\n3. useSyncExternalStore لتقدم القراءة: ReadingProgressBar.tsx:19-23 مع () => 0 ك DefaultValue للخادم.\nالمؤشر: لا يوجد React Context في المشروع بالكامل — خطأً مقصودًا للبساطة. البديل: لا مزامنة عبر الأجهزة.">
+    <h1>الحالة بدون متجر مركزي</h1>
+    <div class="slide-body">
+      <div style="display:flex; gap:2rem; font-size:0.92rem;">
+        <div style="flex:1; background:var(--code-bg); padding:1em; border-radius:8px;">
+          <h4 style="color:var(--primary); margin-bottom:0.6rem;">DOM = المتجر</h4>
+          <p style="font-size:0.82rem; direction:ltr; text-align:left; font-family:monospace; line-height:1.5;">
+useSyncExternalStore(<br>
+&nbsp;&nbsp;subscribeTheme, // يسمع basaar-theme-change<br>
+&nbsp;&nbsp;() => document.documentElement.classList.contains("dark"),<br>
+&nbsp;&nbsp;() => false // لقطة الخادم<br>
+)<br>
+          </p>
+          <p style="color:var(--muted); font-size:0.78rem;">Navbar.tsx:20-24</p>
+        </div>
+        <div style="flex:1; background:var(--code-bg); padding:1em; border-radius:8px;">
+          <h4 style="color:var(--primary); margin-bottom:0.6rem;">localStorage + أحداث</h4>
+          <p style="font-size:0.82rem; direction:ltr; text-align:left; font-family:monospace; line-height:1.5;">
+window.addEventListener(<br>
+&nbsp;&nbsp;"bookmarks-updated", refresh<br>
+);<br>
+window.addEventListener(<br>
+&nbsp;&nbsp;"storage", refresh<br>
+);<br>
+          </p>
+          <p style="color:var(--muted); font-size:0.78rem;">BookmarkedChapters.tsx:15-16</p>
+        </div>
+      </div>
+      <div style="margin-top:1rem; background:var(--code-bg); padding:0.8em 1em; border-radius:8px; font-size:0.82rem; direction:ltr; text-align:left; font-family:monospace; line-height:1.5;">
+useSyncExternalStore(<br>
+&nbsp;&nbsp;emptySubscribe,<br>
+&nbsp;&nbsp;() => getChapterProgress(id)?.scrollPercentage ?? 0,<br>
+&nbsp;&nbsp;() => 0 // لقطة الخادم<br>
+);<span style="color:var(--muted);"> // ReadingProgressBar.tsx:19-23</span>
+      </div>
+      <p style="margin-top:0.8rem; font-size:0.82rem; color:var(--muted);">لا Context، لا Redux، لا Zustand — مقصود. لا مزامنة عبر الأجهزة.</p>
+    </div>
+  </section>
+
+  <section class="slide" data-slide="20" data-section="deep-dive" data-notes="خط البناء في scripts/build-search-index.mjs:\n:8-14 toSearchContent() تصفّي الأسطر التي تبدأ بـ # أو >، ثم تضغط المسافات المتعددة.\n:17-41 main() تقرأ ملفات Markdown من content/chapters/، تستخرج العنوان من السطر الأول (#)، وتصدر JSON بهيكل id/title/content/slug.\nالحجم: 1,753,076 بايت (~1.7 MB) / 13 مستندًا.\npublic/.htaccess يضبط Cache-Control: public, max-age=31536000, immutable على search-data.json.\nالمؤشر: الـ 1.7 MB تُشحن لكل زائر — بديل عن البحث على الخادم.">
+    <h1>بيانات البحث تُبنى مسبقاً</h1>
+    <div class="slide-body">
+      <div style="background:var(--code-bg); padding:1.2em; border-radius:8px; font-family:monospace; font-size:0.8rem; direction:ltr; text-align:left; line-height:1.55; margin-bottom:1rem;">
+<span style="color:var(--muted);">// scripts/build-search-index.mjs:8-14</span><br>
+<span style="color:var(--primary);">function</span> <span style="color:var(--accent);">toSearchContent</span>(raw) {<br>
+&nbsp;&nbsp;<span style="color:var(--primary);">return</span> raw<br>
+&nbsp;&nbsp;&nbsp;&nbsp;.split("\n")<br>
+&nbsp;&nbsp;&nbsp;&nbsp;.filter(line =&gt; !line.startsWith("#") &amp;&amp; !line.startsWith("&gt;"))<br>
+&nbsp;&nbsp;&nbsp;&nbsp;.join(" ")<br>
+&nbsp;&nbsp;&nbsp;&nbsp;.replace(/\s+/g, " ")<br>
+&nbsp;&nbsp;&nbsp;&nbsp;.trim();<br>
+}
+      </div>
+      <div style="display:flex; gap:1.5rem; font-size:0.9rem;">
+        <div style="flex:1;">
+          <p><strong>المدخل:</strong> content/chapters/*.md</p>
+          <p><strong>العملية:</strong> تصفية (#، >) ← ضغط مسافات ← JSON</p>
+          <p><strong>الإخراج:</strong> public/search-data.json</p>
+        </div>
+        <div style="flex:1;">
+          <p><strong>الحجم:</strong> <span data-dir="ltr">1.75 MB</span> / <span data-dir="ltr">13</span> مستند</p>
+          <p><strong>التخزين المؤقت:</strong> <span data-dir="ltr">immutable, max-age=31536000</span></p>
+          <p><strong>التعليق:</strong> يُشحن لكل زائر (vs. بحث خادم)</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide" data-slide="21" data-section="deep-dive" data-notes="FlexSearch.Document في SearchDialog.tsx:52-60: index:[\"title\",\"content\"], store:[\"title\",\"content\"], tokenize:\"forward\".\nإعداد tokenize:\"forward\" يعني الفهرسة بالبادئات: أن كل كلمة تُفهرس بجميع بدائلها البادئة — بما فيها أداة التعريف العربية الـ al-.\nالمثال المُتحقق: «المكتب» (بادئة «المكتبة» بما فيها al-) ← يطابق «المكتبة». لم يتحقق «مكتب» أو «كتاب» كبدائل.\nإزالة التكرار: Set في SearchDialog.tsx:87-95 يزيل التكرار عبر معرف المستند (يبحث في title و content بشكل منفصل).\nالقيمة الحقيقية: الفهرسة بالبادئات مع أداة التعريف تعني أن البحث القصير بلا أداة قد لا يطابق — هذا قيد حقيقي وليس ميزة مبالغاً فيها.">
+    <h1>كيف يعمل البحث بالعربية؟</h1>
+    <div class="slide-body">
+      <div style="display:flex; gap:2rem; font-size:0.92rem;">
+        <div style="flex:1.3;">
+          <div style="background:var(--code-bg); padding:1em; border-radius:8px; font-family:monospace; font-size:0.78rem; direction:ltr; text-align:left; line-height:1.5; margin-bottom:0.8rem;">
+<span style="color:var(--muted);">// SearchDialog.tsx:52-60</span><br>
+<span style="color:var(--primary);">const</span> index = <span style="color:var(--primary);">new</span> FlexSearch.Document({<br>
+&nbsp;&nbsp;document: {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;id: "id",<br>
+&nbsp;&nbsp;&nbsp;&nbsp;index: [<span style="color:var(--accent);">"title"</span>, <span style="color:var(--accent);">"content"</span>],<br>
+&nbsp;&nbsp;&nbsp;&nbsp;store: [<span style="color:var(--accent);">"title"</span>, <span style="color:var(--accent);">"content"</span>],<br>
+&nbsp;&nbsp;},<br>
+&nbsp;&nbsp;tokenize: <span style="color:var(--accent);">"forward"</span>,<br>
+});
+          </div>
+          <p style="color:var(--muted); font-size:0.82rem;">بحث على عنوان + محتوى، إزالة التكرار عبر Set حسب المعرف.</p>
+        </div>
+        <div style="flex:1;">
+          <div style="background:var(--code-bg); padding:1.2em; border-radius:8px; text-align:center;">
+            <p style="font-size:1.1rem; margin-bottom:0.5rem;"><span style="direction:ltr; unicode-bidi:embed;">tokenize:"forward"</span> = فهرس بالبادئات</p>
+            <p style="font-size:0.9rem; direction:ltr; font-family:monospace; margin-bottom:0.3rem;">
+              <span style="color:var(--primary);">«المكتب»</span> ⊂ <span style="color:var(--accent);">«المكتبة»</span>
+            </p>
+            <p style="font-size:0.85rem; color:var(--muted);">ينطبق ✓</p>
+            <hr style="border-color:var(--border); margin:0.8rem 0;">
+            <p style="font-size:0.88rem; direction:ltr; font-family:monospace; margin-bottom:0.3rem;">
+              <span style="color:var(--primary);">«مكتب»</span> ⊄ <span style="color:var(--muted);">«المكتبة»</span>
+            </p>
+            <p style="font-size:0.85rem; color:var(--muted);">لا ينطبق — لا أداة تعريف ✗</p>
+          </div>
+        </div>
+      </div>
+      <p style="margin-top:0.8rem; font-size:0.82rem; color:var(--muted);">القاعدة: البحث القصير بدون أداة تعريف قد لا يُعطي نتيجة — هذا قيد حقيقي.</p>
+    </div>
+  </section>
+
+  <section class="slide" data-slide="22" data-section="deep-dive" data-notes="التصدير الثابت (output: export في next.config.ts:12) يعني أن كل الصفحات جاهزة — لا زمن تحميل للخادم عند التنقل.\n FlexSearch يُحمّل عبر dynamic import في SearchDialog.tsx:46 (await import(\"flexsearch\")) — لا يُحمّل إلا عند فتح حوار البحث.\nImages: unoptimized: true في next.config.ts:14 — الصور (522 صورة في public/images/) تُقدّم كما هي بدون تحسين بنائي (sharp غير مستخدم).\nالمؤشر: لا يوجد تحسين صور على مستوى الحزمة — الصور تُرسل بحجمها الأصلي.">
+    <h1>ميزانية الأداء والحدود</h1>
+    <div class="slide-body">
+      <table style="width:100%; border-collapse:collapse; font-size:0.9rem;">
+        <thead>
+          <tr>
+            <th style="text-align:right; padding:0.5em; border-bottom:2px solid var(--primary);">المقياس</th>
+            <th style="text-align:right; padding:0.5em; border-bottom:2px solid var(--primary);">القيمة</th>
+            <th style="text-align:right; padding:0.5em; border-bottom:2px solid var(--primary);">المصدر</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td style="padding:0.4em 0.5em; border-bottom:1px solid var(--muted);">أداء التنقل</td>
+            <td style="padding:0.4em 0.5em; border-bottom:1px solid var(--muted);">تقريباً صفري</td>
+            <td style="padding:0.4em 0.5em; border-bottom:1px solid var(--muted); font-size:0.82rem;">HTML مُصدّر مسبقاً (SSG)</td>
+          </tr>
+          <tr>
+            <td style="padding:0.4em 0.5em; border-bottom:1px solid var(--muted);"> FlexSearch</td>
+            <td style="padding:0.4em 0.5em; border-bottom:1px solid var(--muted);">حمّل عند الحاجة</td>
+            <td style="padding:0.4em 0.5em; border-bottom:1px solid var(--muted); font-size:0.82rem;">SearchDialog.tsx:46</td>
+          </tr>
+          <tr>
+            <td style="padding:0.4em 0.5em; border-bottom:1px solid var(--muted);">الصور</td>
+            <td style="padding:0.4em 0.5em; border-bottom:1px solid var(--muted);">بدون تحسين بنائي</td>
+            <td style="padding:0.4em 0.5em; border-bottom:1px solid var(--muted); font-size:0.82rem;">next.config.ts:14</td>
+          </tr>
+          <tr>
+            <td style="padding:0.4em 0.5em;">sharp</td>
+            <td style="padding:0.4em 0.5em;">مثبت لكن غير مستخدم</td>
+            <td style="padding:0.4em 0.5em; font-size:0.82rem;">unoptimized: true</td>
+          </tr>
+        </tbody>
+      </table>
+      <p style="margin-top:1rem; font-size:0.85rem; color:var(--muted);">522 صورة تُقدّم كما هي — لا تحسين حجم أو صيغة.</p>
+    </div>
+  </section>
+
+  <section class="slide" data-slide="23" data-section="deep-dive" data-notes="sw.ts يستخدم Serwist مع defaultCache من @serwist/next/worker.\n.defaultCache تعطي: CacheFirst + SWR للموارد الثابتة، NetworkFirst للتنقل.\nskipWaiting + clientsClaim يُنشّطان الخادم فوراً.\nlimitation: لا يوجد setCatchHandler أو صفحة offline مخصصة — إذا فشل الخادم في تحميل صفحة، لا يوجد بديل محلي.\nالوضع التطويري: next.config.ts:8 — الخادم معطّل في غير بيئة الإنتاج (disable: NODE_ENV !== \"production\").">
+    <h1>ما الذي يخزّنه الخادم؟</h1>
+    <div class="slide-body">
+      <div style="display:flex; gap:2rem; font-size:0.9rem;">
+        <div style="flex:1;">
+          <h3 style="color:var(--primary); margin-bottom:0.6rem;">مُخزّن</h3>
+          <ul style="list-style:none; line-height:1.8; font-size:0.85rem;">
+            <li>■ الملفات الثابتة (HTML, CSS, JS)</li>
+            <li>■ الصور والموروثات</li>
+            <li>■ search-data.json</li>
+            <li>■ صفحات التنقل — NetworkFirst</li>
+          </ul>
+        </div>
+        <div style="flex:1;">
+          <h3 style="color:var(--muted); margin-bottom:0.6rem;">غير مُخزّن</h3>
+          <ul style="list-style:none; line-height:1.8; font-size:0.85rem; color:var(--muted);">
+            <li>○ صفحة offline مخصصة</li>
+            <li>○ موارد من أطراف ثالثة</li>
+            <li>○ أي شيء من خادم حي</li>
+          </ul>
+        </div>
+      </div>
+      <div style="margin-top:1rem; background:var(--code-bg); padding:0.8em 1em; border-radius:8px; font-family:monospace; font-size:0.78rem; direction:ltr; text-align:left; line-height:1.5;">
+<span style="color:var(--muted);">// sw.ts:5-11</span><br>
+<span style="color:var(--primary);">const</span> serwist = <span style="color:var(--primary);">new</span> Serwist({<br>
+&nbsp;&nbsp;precacheEntries: __SW_MANIFEST,<br>
+&nbsp;&nbsp;skipWaiting: <span style="color:var(--accent);">true</span>,<br>
+&nbsp;&nbsp;clientsClaim: <span style="color:var(--accent);">true</span>,<br>
+&nbsp;&nbsp;navigationPreload: <span style="color:var(--accent);">true</span>,<br>
+&nbsp;&nbsp;runtimeCaching: defaultCache,<br>
+});<br>
+      </div>
+      <p style="margin-top:0.8rem; font-size:0.82rem; color:var(--muted);">بدون setCatchHandler — لا صفحة offline احتياطية.</p>
+    </div>
+  </section>
+
+  <section class="slide" data-slide="24" data-section="deep-dive" data-notes="الخطوة الأولى: الخادم (أو بناء SSG) يحسب HTML. في chapter/[slug]/page.tsx:33-35، getChapterData() تقرأ من نظام الملفات في الخادم فقط.\nالخطوة الثانية: HTML يصل المتصفح ويُقدّم قبل تحميل حزمة JavaScript — المحتوى مرئي فوراً. لا يوجد window أو localStorage في الخادم.\nالخطوة الثالثة: أول عرض عميلي يجب أن يُنتج الشجرة نفسها التي أنتجها الخادم — React لا يمكنها إرفاق الحالة بأمان إذا اختلفت الشجرتان.\nهذا هو أساس مشكلة hydration mismatch: إذا قرأ الخادم قيمة مختلفة عن العميل، ستظهر في واجهة المستخدم.">
+    <h1>المرحلة ١-٣: من الخادم إلى أول عرض</h1>
+    <div class="slide-body">
+      <div style="display:flex; gap:1.5rem; font-size:0.92rem;">
+        <div style="flex:1; background:var(--code-bg); padding:1.2em; border-radius:8px; text-align:center;">
+          <div style="font-size:2rem; margin-bottom:0.3rem;">①</div>
+          <h4 style="color:var(--primary); margin-bottom:0.5rem;">الخادم يحسب HTML</h4>
+          <p style="font-size:0.82rem; color:var(--muted);">chapter/[slug]/page.tsx:33-35</p>
+          <p style="font-size:0.8rem; direction:ltr; font-family:monospace; margin-top:0.5rem;">
+            getAllChapters()<br>getChapterData(slug)
+          </p>
+          <p style="font-size:0.78rem; color:var(--muted); margin-top:0.3rem;">لا window — لا localStorage</p>
+        </div>
+        <div style="flex:0.2; display:flex; align-items:center; justify-content:center; font-size:1.5rem; color:var(--primary);">→</div>
+        <div style="flex:1; background:var(--code-bg); padding:1.2em; border-radius:8px; text-align:center;">
+          <div style="font-size:2rem; margin-bottom:0.3rem;">②</div>
+          <h4 style="color:var(--primary); margin-bottom:0.5rem;">HTML يصل المتصفح</h4>
+          <p style="font-size:0.82rem; color:var(--muted);">يُقدّم قبل حزمة JS</p>
+          <p style="font-size:0.8rem; margin-top:0.5rem;">المحتوى مرئي فوراً</p>
+        </div>
+        <div style="flex:0.2; display:flex; align-items:center; justify-content:center; font-size:1.5rem; color:var(--primary);">→</div>
+        <div style="flex:1; background:var(--code-bg); padding:1.2em; border-radius:8px; text-align:center;">
+          <div style="font-size:2rem; margin-bottom:0.3rem;">③</div>
+          <h4 style="color:var(--primary); margin-bottom:0.5rem;">أول عرض عميلي</h4>
+          <p style="font-size:0.82rem; color:var(--muted);">يجب أن يُنتج الشجرة نفسها</p>
+          <p style="font-size:0.8rem; margin-top:0.5rem;">إلا → hydration mismatch</p>
+        </div>
+      </div>
+      <p style="margin-top:1rem; font-size:0.85rem; color:var(--muted);">القاعدة: الخادم لا يمكنه الوصول إلى window — والمحتوى لا يعرف الوضع المحلي.</p>
+    </div>
+  </section>
+
+  <section class="slide" data-slide="25" data-section="deep-dive" data-notes="الخطوة الرابعة: hydration ≠ CSR. React لا تُنشئ DOM من الصفر — تُرفّق الحالة والأحداث على DOM الموجود.\nالخطوة الخامسة: بعد الإرفاق وقبل التثبيت (commit)، useEffect يعمل — يمكنه قراءة window/localStorage وتحديث الحالة في العرض التالي.\nمثال حقيقي في BookmarkButton.tsx: الحالة الأولية active=false, loading=true (سطور 13-14) — يعرض شاحنًا في كلا العرضين. useEffect (سطور 23-33) يقرأ isBookmarked() مع flag cancelled، ثم يُحدّث الحالة. هذا نمط صحيح — لا يُسبب hydration mismatch.">
+    <h1>المرحلة ٤-٥: إرفاق الحالة ثم التأثيرات</h1>
+    <div class="slide-body">
+      <div style="display:flex; gap:2rem; font-size:0.92rem;">
+        <div style="flex:1; background:var(--code-bg); padding:1.2em; border-radius:8px; text-align:center;">
+          <div style="font-size:2rem; margin-bottom:0.3rem;">④</div>
+          <h4 style="color:var(--primary); margin-bottom:0.5rem;">إرفاق الحالة</h4>
+          <p style="font-size:0.85rem;">React تُرفّق DOM الحالي</p>
+          <p style="font-size:0.85rem;">أحداث + حالة كليّة</p>
+          <p style="font-size:0.82rem; color:var(--muted); margin-top:0.3rem;">ليس CSR من DOM فارغ</p>
+        </div>
+        <div style="flex:1; background:var(--code-bg); padding:1.2em; border-radius:8px; text-align:center;">
+          <div style="font-size:2rem; margin-bottom:0.3rem;">⑤</div>
+          <h4 style="color:var(--primary); margin-bottom:0.5rem;">useEffect بعد التثبيت</h4>
+          <p style="font-size:0.85rem;">يمكنه قراءة window</p>
+          <p style="font-size:0.85rem;">يُحدّث الحالة في العرض التالي</p>
+        </div>
+      </div>
+      <div style="margin-top:1rem; background:var(--code-bg); padding:1em 1.2em; border-radius:8px; font-family:monospace; font-size:0.78rem; direction:ltr; text-align:left; line-height:1.55;">
+<span style="color:var(--muted);">// BookmarkButton.tsx:13-14 — الحالة الأولية</span><br>
+<span style="color:var(--primary);">const</span> [active, setActive] = useState(<span style="color:var(--accent);">false</span>);<br>
+<span style="color:var(--primary);">const</span> [loading, setLoading] = useState(<span style="color:var(--accent);">true</span>);<br>
+<br>
+<span style="color:var(--muted);">// :23-33 — useEffect يقرأ localStorage</span><br>
+useEffect(() =&gt; {<br>
+&nbsp;&nbsp;<span style="color:var(--primary);">let</span> cancelled = <span style="color:var(--accent);">false</span>;<br>
+&nbsp;&nbsp;isBookmarked(chapterId).then((val) =&gt; {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:var(--primary);">if</span> (cancelled) <span style="color:var(--primary);">return</span>;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;setActive(val);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;setLoading(<span style="color:var(--accent);">false</span>);<br>
+&nbsp;&nbsp;});<br>
+}, [chapterId]);
+      </div>
+      <p style="margin-top:0.8rem; font-size:0.82rem; color:var(--muted);">الشاحن يظهر في كلا العرضين — لا تعارض. الحالة الفعلية تأتي بعد useEffect.</p>
+    </div>
+  </section>
+
+  <section class="slide" data-slide="26" data-section="deep-dive" data-notes="النمط الخاطئ: قراءة localStorage.getItem(\"theme\") أثناء العرض الأولي — الخادم يُنتج \"light\"، العميل يقرأ \"dark\" → mismatch.\nالنتيجة العملية للاختلاف (نقطة 7): يحذّر React في وحدة التحكم، يتجاهل HTML الخادم ويُعيد معالجة الشجرة، وقد يَمسح أو يعدّل DOM المتوقع → عناصر وامضة أو حالة مفاجئة.\nمثال حقيقي في المستودع: InstallPrompt.tsx:14-18 يستخدم useState lazy init يقرأ window.matchMedia(\"(display-mode: standalone)\") — الخادم يُنتج false، العميل المستقل يُنتج true.\nيوجد هنا حارس صريح typeof window !== \"undefined\" في السطر 15 (لا يمنع الاختلاف لكن يمنع الانهيار)، والسبب في عدم ظهور mismatch في الواجهة: show=false في البداية لذلك يعرض null في كلا العرضين (سطر 54: if (installed || !show) return null).\nهذه سلامة ظرفية لموقف محدود — ليست النمط المعتمد للوضع الليلي. الاعتماد الصحيح: useSyncExternalStore في Navbar.tsx:20-24 الذي يضمن التوافق.">
+    <h1>المرحلة ٦-٧: النمط الخاطئ والحقيقي</h1>
+    <div class="slide-body">
+      <div style="display:flex; gap:2rem; font-size:0.88rem;">
+        <div style="flex:1; border:2px solid #c0392b; padding:1em; border-radius:8px;">
+          <h3 style="color:#c0392b; margin-bottom:0.6rem;">نمط خاطئ</h3>
+          <div style="background:var(--code-bg); padding:0.8em; border-radius:6px; font-family:monospace; font-size:0.78rem; direction:ltr; text-align:left; line-height:1.5;">
+<span style="color:var(--primary);">const</span> [theme, setTheme] = useState(<br>
+&nbsp;&nbsp;<span style="color:var(--accent);">localStorage.getItem("theme")</span><br>
+);<br>
+          </div>
+          <p style="font-size:0.82rem; color:#c0392b; margin-top:0.5rem;">الخادم: null ← العميل: "dark"</p>
+          <p style="font-size:0.82rem; color:#c0392b;">= hydration mismatch</p>
+          <p style="font-size:0.78rem; color:var(--muted); margin-top:0.3rem;">النتيجة: تحذير في وحدة التحكم + React يتجاهل HTML الخادم ويعيد معالجة الشجرة + DOM مفاجئ</p>
+        </div>
+        <div style="flex:1; border:2px solid var(--accent); padding:1em; border-radius:8px;">
+          <h3 style="color:var(--accent); margin-bottom:0.6rem;">حقيقي في المستودع</h3>
+          <div style="background:var(--code-bg); padding:0.8em; border-radius:6px; font-family:monospace; font-size:0.76rem; direction:ltr; text-align:left; line-height:1.5;">
+<span style="color:var(--muted);">// InstallPrompt.tsx:14-18 — لقطة مبسّطة</span><br>
+<span style="color:var(--primary);">const</span> [installed, setInstalled] = useState(<br>
+&nbsp;&nbsp;() =&gt; <span style="color:var(--accent);">typeof window !== "undefined"</span> &amp;&amp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;window.matchMedia(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"(display-mode: standalone)"<br>
+&nbsp;&nbsp;&nbsp;&nbsp;).matches<br>
+);<br>
+          </div>
+          <p style="font-size:0.82rem; color:var(--accent); margin-top:0.5rem;">لا خطأ: show=false → يعرض null</p>
+          <p style="font-size:0.78rem; color:var(--muted);">حارس typeof window في السطر 15 + show=false — سلامة ظرفية لا تُنسخ للوضع الليلي</p>
+        </div>
+      </div>
+      <p style="margin-top:1rem; font-size:0.85rem; color:var(--muted);">الدرس: التوافق العرضي لا تجعله نمطاً. استخدم useSyncExternalStore أو typeof window guards.</p>
+    </div>
+  </section>
+
+  <section class="slide" data-slide="27" data-section="deep-dive" data-notes="4 أنماط صحيحة في المستودع:\nA: سكربت مضمّن قبل React + suppressHydrationWarning على <html> — layout.tsx:37-41 (السكربت يقرأ localStorage ويضيف \"dark\" قبل hydration، و attribute يسمح بالتعديل).\nB: useSyncExternalStore مع لقطة الخادم — Navbar.tsx:20-24 (() => false) و ReadingProgressBar.tsx:19-23 (() => 0). React تضمن hydration بلقطة الخادم ثم إعادة العرض بلقطة العميل → الاستعادة بعد التثبيت دون مسح (no clobbering).\nC: حالة أولية محايدة (شاحن)، قراءة حقيقية في useEffect — BookmarkButton.tsx:13-14, 23-33.\nD: typeof window === \"undefined\" guards — lib/bookmarks.ts:10-11 و lib/readingProgress.ts:10-11.\nالتمييز: mismatch في العرض الأولي = خطأ. تحديث بعد useEffect = متوقع/صحيح. لا تخلط بينهما.\nالدلالة العملية (نقطة 10): الاستعادة بعد التثبيت (default-before-mount ثم restore-after-mount دون مسح) يضمنه النمط B عبر useSyncExternalStore في الكود نفسه — لا يوجد اختبار وحدة مخصص يثبت سلوك الاستعادة هذا. bookmarks.test.ts (6 اختبارات) يثبت شيئاً أضيق: كروت localStorage النقي (الحالة الأولية الفارغة، toggle add/remove، isBookmarked، remove، التكرارات) — وليس سلوك hydration. لا نبالغ في الادعاء.">
+    <h1>المرحلة ٨-١٠: الأنماط الصحيحة في بصائر</h1>
+    <div class="slide-body">
+      <table style="width:100%; border-collapse:collapse; font-size:0.85rem;">
+        <thead>
+          <tr>
+            <th style="text-align:right; padding:0.4em; border-bottom:2px solid var(--primary);">النمط</th>
+            <th style="text-align:right; padding:0.4em; border-bottom:2px solid var(--primary);">الملف</th>
+            <th style="text-align:right; padding:0.4em; border-bottom:2px solid var(--primary);">الفكرة</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td style="padding:0.35em 0.4em; border-bottom:1px solid var(--muted); font-weight:bold;">A</td>
+            <td style="padding:0.35em 0.4em; border-bottom:1px solid var(--muted); font-family:monospace; font-size:0.8rem;">layout.tsx:37-41</td>
+            <td style="padding:0.35em 0.4em; border-bottom:1px solid var(--muted);">سكربت مضمّن + suppressHydrationWarning</td>
+          </tr>
+          <tr>
+            <td style="padding:0.35em 0.4em; border-bottom:1px solid var(--muted); font-weight:bold;">B</td>
+            <td style="padding:0.35em 0.4em; border-bottom:1px solid var(--muted); font-family:monospace; font-size:0.8rem;">Navbar.tsx:20-24<br>ReadingProgressBar.tsx:19-23</td>
+            <td style="padding:0.35em 0.4em; border-bottom:1px solid var(--muted);">useSyncExternalStore + لقطة خادم</td>
+          </tr>
+          <tr>
+            <td style="padding:0.35em 0.4em; border-bottom:1px solid var(--muted); font-weight:bold;">C</td>
+            <td style="padding:0.35em 0.4em; border-bottom:1px solid var(--muted); font-family:monospace; font-size:0.8rem;">BookmarkButton.tsx:13-14,23-33</td>
+            <td style="padding:0.35em 0.4em; border-bottom:1px solid var(--muted);">شاحن أولي ← قراءة في useEffect</td>
+          </tr>
+          <tr>
+            <td style="padding:0.35em 0.4em; font-weight:bold;">D</td>
+            <td style="padding:0.35em 0.4em; font-family:monospace; font-size:0.8rem;">lib/bookmarks.ts:10-11<br>lib/readingProgress.ts:10-11</td>
+            <td style="padding:0.35em 0.4em;">typeof window === "undefined" guard</td>
+          </tr>
+        </tbody>
+      </table>
+      <p style="margin-top:0.8rem; font-size:0.85rem; color:var(--muted);">التمييز: mismatch في العرض الأولي = خطأ. تحديث بعد useEffect = متوقع.</p>
+      <p style="font-size:0.82rem; color:var(--muted);">bookmarks.test.ts يثبت كروت localStorage (الحالة الفارغة ← toggle ← isBookmarked ← remove ← تكرارات — 6 اختبارات). الاستعادة بعد التثبيت يضمنها النمط B — لا اختبار مخصص لسلوك hydration.</p>
+    </div>
+  </section>
+
+  <section class="slide" data-slide="28" data-section="deep-dive" data-notes="الموقع الثابت = سطح هجوم ضئيل: لا نقاط نهاية حيّة، لا قاعدة بيانات، لا أسرار مُرسلة للعميل. المتغير الوحيد على العميل هو NEXT_PUBLIC_BASE_URL (sitemap).\npublic/.htaccess: X-Frame-Options DENY، X-Content-Type-Options nosniff، Referrer-Policy strict-origin-when-cross-origin.\nحقوق المحتوى: الكود مفتوح المصدر، لكن محتوى الكتاب يخص د. هيثم طلعت (ملاحظة الرخصة في README).\nملاحظة مهمة: لا يوجد CSP header — هذا فجوة معروفة يجب إضافتها.\nلا يمكن الادعاء بـ \"أمان كامل\" — لا توجد فحوصات أمان، لا Pentest، لا Rate Limiting (لا حاجة له في موقع ثابت).">
+    <h1>نموذج التهديدات والأمان</h1>
+    <div class="slide-body">
+      <div style="font-size:0.9rem;">
+        <div style="background:var(--code-bg); padding:1em 1.2em; border-radius:8px; margin-bottom:1rem;">
+          <h4 style="color:var(--primary); margin-bottom:0.5rem;">سطح الهجوم</h4>
+          <ul style="list-style:none; line-height:1.7;">
+            <li>✓ لا نقاط نهاية حيّة — لا خادم حيّ</li>
+            <li>✓ لا قاعدة بيانات — لا SQL Injection</li>
+            <li>✓ لا أسرار مُرسلة للعميل — NEXT_PUBLIC_BASE_URL فقط</li>
+          </ul>
+        </div>
+        <div style="display:flex; gap:1.5rem;">
+          <div style="flex:1; background:var(--code-bg); padding:1em; border-radius:8px;">
+            <h4 style="color:var(--primary); margin-bottom:0.5rem;">public/.htaccess</h4>
+            <ul style="list-style:none; font-size:0.82rem; line-height:1.6;">
+              <li>■ X-Frame-Options: DENY</li>
+              <li>■ X-Content-Type-Options: nosniff</li>
+              <li>■ Referrer-Policy: strict-origin-when-cross-origin</li>
+            </ul>
+          </div>
+          <div style="flex:1; border:2px solid #c0392b; padding:1em; border-radius:8px;">
+            <h4 style="color:#c0392b; margin-bottom:0.5rem;">فجوة معروفة</h4>
+            <ul style="list-style:none; font-size:0.82rem; line-height:1.6;">
+              <li>✗ لا يوجد Content-Security-Policy</li>
+            </ul>
+            <p style="font-size:0.8rem; color:var(--muted); margin-top:0.3rem;">يجب إضافته لاحقاً</p>
+          </div>
+        </div>
+        <p style="margin-top:0.8rem; font-size:0.82rem; color:var(--muted);">الكود مفتوح المصدر — محتوى الكتاب يخص د. هيثم طلعت.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide" data-slide="29" data-section="deep-dive" data-notes="الاختبارات: 22 اختبار وحدة في 4 ملفات (bookmarks 6، contentLoader 5، readingProgress 5، search 6) — lib/__tests__/.\n16 اختبار e2e في 6 ملفات (chapter 5، home 3، search 3، navigation 2، pwa 2، theme 1) — e2e/.\nvitest.setup.ts يستورد @testing-library/jest-dom/vitest، لكن لا يوجد ملف *.test.tsx — لا اختبارات مكوّنات.\nالثغرات: لا اختبارات مكوّنات رغم تثبيت RTL + jest-dom. لا اختبارات offline e2e. لا اختبارات hydration mismatch.\nvitest.config.ts: include: [\"**/*.test.{ts,tsx}\"] — يدعم TSX لكن لا ملفات.\nالتأطير: هذا ليس عيباً — بل وعي واقعي بالحدود. قياس سلوك hydration في بيئة SSG أمر صعب.">
+    <h1>الاختبارات: ما الذي يُغطّى وما لا يُغطّى؟</h1>
+    <div class="slide-body">
+      <div style="display:flex; gap:2rem; font-size:0.88rem;">
+        <div style="flex:1;">
+          <h3 style="color:var(--primary); margin-bottom:0.6rem;">مُختبر</h3>
+          <div style="line-height:1.8;">
+            <p style="font-size:0.82rem; color:var(--muted);">وحدة (22 / 4 ملفات)</p>
+            <ul style="list-style:none; font-size:0.82rem; margin-bottom:0.5rem;">
+              <li>• bookmarks — 6</li>
+              <li>• contentLoader — 5</li>
+              <li>• readingProgress — 5</li>
+              <li>• search — 6</li>
+            </ul>
+            <p style="font-size:0.82rem; color:var(--muted);">e2e (16 / 6 ملفات)</p>
+            <ul style="list-style:none; font-size:0.82rem;">
+              <li>• chapter — 5</li>
+              <li>• home — 3</li>
+              <li>• search — 3</li>
+              <li>• navigation — 2</li>
+              <li>• pwa — 2</li>
+              <li>• theme — 1</li>
+            </ul>
+          </div>
+        </div>
+        <div style="flex:1; border:2px solid #c0392b; padding:1em; border-radius:8px;">
+          <h3 style="color:#c0392b; margin-bottom:0.6rem;">غير مُختبر</h3>
+          <ul style="list-style:none; line-height:1.8;">
+            <li>✗ لا اختبارات مكوّنات (*.test.tsx)</li>
+            <li style="font-size:0.8rem; color:var(--muted);">RTL + jest-dom مُثبّت لكن غير مستخدم</li>
+            <li>✗ لا اختبارات offline e2e</li>
+            <li>✗ لا اختبارات hydration mismatch</li>
+          </ul>
+          <p style="font-size:0.8rem; color:var(--muted); margin-top:0.5rem;">vitest.config.ts يدعم *.tsx لكن لا ملفات موجودة.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ 30 · Demo · Divider ══════════ -->
+  <section class="slide" data-slide="30" data-section="demo" data-notes="شريحة فاصلة قبل العرض الحي. المدة الإجمالية 11 دقيقة، يمكن اختصارها إلى 6 دقائق بالتركيز على البحث والتنقل.\nالمرجع: demo-script.md (سكربت العرض الحي). لا مراجع مصدرية ثقيلة هنا — هذه شريحة تقسيم.">
+    <h1>عرض حي</h1>
+    <div class="slide-body" style="text-align:center; display:flex; flex-direction:column; align-items:center; justify-content:center;">
+      <p style="font-size:2.8rem; font-weight:700; color:var(--primary); margin-bottom:0.5rem;">عرض حي</p>
+      <p style="font-size:1.2rem; color:var(--muted);">١١ دقيقة — يمكن اختصارها إلى ٦ دقائق</p>
+      <p style="margin-top:1.5rem; font-size:0.9rem; color:var(--muted);">المرجع: demo-script.md</p>
+    </div>
+  </section>
+
+  <!-- ══════════ 31 · Trade-offs ══════════ -->
+  <section class="slide" data-slide="31" data-section="trade-offs" data-notes="المفاضلات: ما اكتسبناه وما دفعناه. كل سطر مُوثَّق بالمرجع.\n١. صفر تكلفة استضافة (next.config.ts:12 output: export) ← لا مسارات خادم ولا بيانات حية.\n٢. قراءة دون اتصال عبر Serwist (sw.ts) ← لا صفحة offline احتياطية (sw.ts بدون setCatchHandler).\n٣. بحث عميلي سريع عبر FlexSearch (SearchDialog.tsx:52-60) ← تنزيل 1.75 MB search-data.json لكل زائر.\n٤. طباعة عربية RTL بخط Tajawal ← المحتوى محلي على الجهاز فقط، لا مزامنة سحابية.\n٥. أمان عبر سطح ثابت + .htaccess (X-Frame-Options, nosniff) ← لا يوجد CSP header (فجوة معروفة).\n٦. حفظ bookmarks و progress و theme في localStorage ← غير مُزامَن عبر الأجهزة ولا مدعوم بخادم.\nالتحقق من كل ادعاء: next.config.ts:12,14 / sw.ts (بدون setCatchHandler) / search-data.json 1753076 بايت / .htaccess (بدون CSP) / lib/bookmarks.ts:1, lib/readingProgress.ts:1, Navbar.tsx:27-31.">
+    <h1>ما الذي اكتسبناه وما الذي دفعناه؟</h1>
+    <div class="slide-body">
+      <table style="width:100%; border-collapse:collapse; font-size:0.88rem;">
+        <thead>
+          <tr>
+            <th style="text-align:right; padding:0.5em; border-bottom:2px solid var(--primary); width:50%;">الاكتساب</th>
+            <th style="text-align:right; padding:0.5em; border-bottom:2px solid var(--primary); width:50%;">الثمن</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td style="padding:0.4em 0.5em; border-bottom:1px solid var(--muted);">صفر تكلفة استضافة — تصدير ثابت</td>
+            <td style="padding:0.4em 0.5em; border-bottom:1px solid var(--muted);">لا مسارات خادم — لا بيانات حية</td>
+          </tr>
+          <tr>
+            <td style="padding:0.4em 0.5em; border-bottom:1px solid var(--muted);">قراءة دون اتصال (Serwist PWA)</td>
+            <td style="padding:0.4em 0.5em; border-bottom:1px solid var(--muted);">لا صفحة offline احتياطية (sw.ts)</td>
+          </tr>
+          <tr>
+            <td style="padding:0.4em 0.5em; border-bottom:1px solid var(--muted);">بحث عميلي سريع (FlexSearch)</td>
+            <td style="padding:0.4em 0.5em; border-bottom:1px solid var(--muted);">1.75 MB تُنزَّل لكل زائر</td>
+          </tr>
+          <tr>
+            <td style="padding:0.4em 0.5em; border-bottom:1px solid var(--muted);">طباعة عربية RTL (Tajawal)</td>
+            <td style="padding:0.4em 0.5em; border-bottom:1px solid var(--muted);">المحتوى محلي فقط — لا مزامنة سحابية</td>
+          </tr>
+          <tr>
+            <td style="padding:0.4em 0.5em; border-bottom:1px solid var(--muted);">أمان عبر سطح ثابت + .htaccess</td>
+            <td style="padding:0.4em 0.5em; border-bottom:1px solid var(--muted);">لا يوجد CSP header</td>
+          </tr>
+          <tr>
+            <td style="padding:0.4em 0.5em;">bookmarks و progress و theme في localStorage</td>
+            <td style="padding:0.4em 0.5em;">غير مُزامَن عبر الأجهزة — لا خادم</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ══════════ 32 · Roadmap ══════════ -->
+  <section class="slide" data-slide="32" data-section="roadmap" data-notes="خارطة الطريق مُرتَّبة حسب المخاطر (الأكثر هشاشة أولاً) لا حسب الرغبة.\n١. صفحة offline احتياطية — مخاطرة عالية: sw.ts (سطور 5-11) لا يحتوي setCatchHandler. عند فشل تحميل صفحة غير مُخزّنة، لا يوجد بديل محلي → خطأ الشبكة بدلاً من محتوى.\n٢. اختبارات مكوّنات — RTL + jest-dom مُثبّتان (vitest.setup.ts سطر 1)، لكن لا يوجد ملف *.test.tsx في المشروع. vitest.config.ts يدعم *.tsx لكن لا ملفات.\n٣. خط أنابيب تحسين الصور — 522 صورة في public/images تُقدّم بدون تحسين. sharp مثبت في package.json لكن next.config.ts:14 يضع unoptimized: true فيُعطّله.\n٤. حجم فهرس البحث — 1,753,076 بايت (~1.75 MB) يُنزَّل لكل زائر. يمكن تحسينه بالضغط أو التصفية.\n٥. تنظيف متغيرات .env.local — بقايا NEXT_PUBLIC_SUPABASE_URL و NEXT_PUBLIC_SUPABASE_ANON_KEY (غير مستخدمة في أي كود، تم التحقق عبر grep).">
+    <h1>خارطة الطريق: مُرتَّبة حسب المخاطر</h1>
+    <div class="slide-body">
+      <ol style="font-size:1rem; line-height:2.2; padding-inline-start:1.2rem;">
+        <li><strong>صفحة offline احتياطية</strong> <span style="color:#c0392b;">— عالية:</span> sw.ts لا يحتوي setCatchHandler</li>
+        <li><strong>اختبارات مكوّنات</strong> <span style="color:#e67e22;">— متوسطة:</span> RTL + jest-dom مُثبّت لكن لا ملفات *.test.tsx</li>
+        <li><strong>تحسين الصور</strong> <span style="color:#e67e22;">— متوسطة:</span> 522 صورة بدون تحسين — sharp مُعطّل</li>
+        <li><strong>ضغط فهرس البحث</strong> <span style="color:var(--accent);">— منخفضة:</span> 1.75 MB تُنزَّل لكل زائر</li>
+        <li><strong>تنظيف .env.local</strong> <span style="color:var(--accent);">— منخفضة:</span> بقايا Supabase env vars غير مستخدمة</li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- ══════════ 33 · Closing ══════════ -->
+  <section class="slide" data-slide="33" data-section="closing" data-notes="الخاتمة: بصائر ليس مجرد تحويل من PDF إلى ويب — بل إعادة تصميم المحتوى كبيانات منظمة.\nاقتباس الإغلاق: بصائر: الكتاب ليس صورة PDF، بل بنية بيانات — والهندسة تعكس هذه الفكرة.\nالمراجع: qa-guide.md (دليل الأسئلة المفتوحة). لا مراجع مصدرية ثقيلة — هذه شريحة إغلاق.">
+    <h1>الكتاب بنية بيانات لا صورة</h1>
+    <div class="slide-body" style="display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center;">
+      <blockquote style="max-width:700px; padding:1.5rem 2rem; background:var(--code-bg); border-inline-start:4px solid var(--primary); font-size:1.4rem; font-weight:700; line-height:1.6;">
+        «بصائر: الكتاب ليس صورة PDF، بل بنية بيانات — والهندسة تعكس هذه الفكرة.»
+      </blockquote>
+      <p style="margin-top:2rem; font-size:1.3rem; font-weight:600;">أسئلة مفتوحة؟</p>
+      <p style="margin-top:1rem; font-size:0.9rem; color:var(--muted);">المرجع: qa-guide.md</p>
+    </div>
+  </section>
+
+  <!-- Overview panel -->
+  <div id="overview" class="overview" data-overview></div>
+
+  <!-- Notes panel -->
+  <aside class="notes-panel" data-notes></aside>
+
+  <!-- Controls bar -->
+  <nav class="controls" aria-label="التنقل">
+    <button aria-label="الشريحة الأولى" onclick="goTo(1)">🥇</button>
+    <button aria-label="الشريحة السابقة" onclick="goTo(current - 1)">▶</button>
+    <button aria-label="إظهار/إخفاء الملخص" onclick="toggleOverview()">⊞</button>
+    <button aria-label="إظهار/إخفاء الملاحظات" onclick="toggleNotes()">📝</button>
+    <button aria-label="الشريحة التالية" onclick="goTo(current + 1)">◀</button>
+    <button aria-label="الشريحة الأخيرة" onclick="goTo(total)">🏁</button>
+    <button aria-label="وضع الشاشة الكاملة" onclick="toggleFullscreen()">⛶</button>
+  </nav>
+
+  <!-- Slide number -->
+  <div class="slide-number"></div>
+
+  <script>
+    let current = 1;
+    let total = 0;
+    const slides = document.querySelectorAll("[data-slide]");
+    total = slides.length;
+
+    function goTo(n) {
+      if (n < 1 || n > total) return;
+      document.querySelectorAll(".slide.active").forEach(s => s.classList.remove("active"));
+      current = n;
+      const target = document.querySelector(`[data-slide="${n}"]`);
+      if (target) {
+        target.classList.add("active");
+        document.querySelector(".slide-number").textContent = `${n} / ${total}`;
+        location.hash = n;
+        updateOverviewHighlight();
+        updateNotes();
+      }
+    }
+
+    function toggleFullscreen() {
+      if (!document.fullscreenElement) {
+        document.documentElement.requestFullscreen().catch(() => {});
+      } else {
+        document.exitFullscreen().catch(() => {});
+      }
+    }
+
+    function toggleNotes() {
+      document.querySelector(".notes-panel").classList.toggle("visible");
+    }
+
+    function updateNotes() {
+      const panel = document.querySelector(".notes-panel");
+      const activeSlide = document.querySelector(".slide.active");
+      const noteText = activeSlide ? activeSlide.getAttribute("data-notes") || activeSlide.dataset.notes || "" : "";
+      panel.textContent = noteText;
+    }
+
+    function toggleOverview() {
+      document.getElementById("overview").classList.toggle("open");
+    }
+
+    function updateOverviewHighlight() {
+      document.querySelectorAll(".overview-item").forEach(item => {
+        item.classList.toggle("active-thumb", parseInt(item.dataset.slide) === current);
+      });
+    }
+
+    function buildOverview() {
+      const container = document.getElementById("overview");
+      slides.forEach(slide => {
+        const item = document.createElement("div");
+        item.className = "overview-item";
+        item.dataset.slide = slide.dataset.slide;
+        const h2 = slide.querySelector("h1, h2");
+        item.textContent = h2 ? h2.textContent : `الشريحة ${slide.dataset.slide}`;
+        item.addEventListener("click", () => {
+          goTo(parseInt(item.dataset.slide));
+          document.getElementById("overview").classList.remove("open");
+        });
+        container.appendChild(item);
+      });
+    }
+
+    // Keyboard navigation (RTL-aware)
+    document.addEventListener("keydown", e => {
+      if (e.target.tagName === "INPUT" || e.target.tagName === "TEXTAREA") return;
+
+      const overviewOpen = document.getElementById("overview").classList.contains("open");
+
+      if (e.key === "Escape") {
+        document.getElementById("overview").classList.remove("open");
+        return;
+      }
+
+      if (overviewOpen) return;
+
+      switch (e.key) {
+        case "ArrowLeft":  e.preventDefault(); goTo(current + 1); break;
+        case "ArrowRight": e.preventDefault(); goTo(current - 1); break;
+        case " ":
+        case "PageDown":   e.preventDefault(); goTo(current + 1); break;
+        case "PageUp":     e.preventDefault(); goTo(current - 1); break;
+        case "Home":       e.preventDefault(); goTo(1); break;
+        case "End":        e.preventDefault(); goTo(total); break;
+        case "f":
+        case "F":          toggleFullscreen(); break;
+        case "n":
+        case "N":          toggleNotes(); break;
+        case "g":
+        case "G":
+        case "i":
+        case "I":          toggleOverview(); break;
+      }
+    });
+
+    // Touch / swipe support (RTL-aware)
+    let touchStartX = 0;
+    let touchStartY = 0;
+
+    document.addEventListener("touchstart", e => {
+      touchStartX = e.changedTouches[0].screenX;
+      touchStartY = e.changedTouches[0].screenY;
+    }, { passive: true });
+
+    document.addEventListener("touchend", e => {
+      const dx = e.changedTouches[0].screenX - touchStartX;
+      const dy = e.changedTouches[0].screenY - touchStartY;
+      if (Math.abs(dx) < 50 || Math.abs(dy) > Math.abs(dx)) return;
+      // RTL: swipe left = prev, swipe right = next
+      if (dx > 0) goTo(current - 1);
+      else        goTo(current + 1);
+    }, { passive: true });
+
+    // Initial numbering (synchronous so it renders immediately on load)
+    document.querySelector(".slide-number").textContent = `1 / ${total}`;
+
+    // Init on DOM ready
+    document.addEventListener("DOMContentLoaded", () => {
+      buildOverview();
+
+      const hash = parseInt(location.hash.replace("#", ""));
+      if (hash && hash >= 1 && hash <= total) {
+        goTo(hash);
+      } else {
+        goTo(1);
+      }
+    });
+  </script>
+</body>
+</html>
