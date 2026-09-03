@@ -1,0 +1,1251 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Basaar — Technical Presentation</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@200;300;400;500;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #fdfbf7;
+      --fg: #2c2416;
+      --primary: #8b5a2b;
+      --primary-light: #c18850;
+      --muted: #a89279;
+      --accent: #8B6914;
+      --code-bg: #f5efe4;
+    }
+
+    .dark {
+      --bg: #121212;
+      --fg: #e8e0d0;
+      --primary: #c18850;
+      --muted: #8b7a60;
+      --code-bg: #1a1a1a;
+    }
+
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: "Tajawal", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--fg);
+      overflow: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── Slide ── */
+    .slide {
+      width: 100vw;
+      height: 100vh;
+      display: none;
+      padding: 6vh 8vw;
+      position: relative;
+      overflow: hidden;
+      background: var(--bg);
+      color: var(--fg);
+    }
+
+    .slide.active {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    /* Manuscript margin — LTR vertical rule on left edge */
+    .slide::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 3vw;
+      width: 2px;
+      height: 100%;
+      background: var(--primary);
+      opacity: 0.3;
+    }
+
+    /* ── Typography ── */
+    h1 { font-size: 2.5rem; font-weight: 700; line-height: 1.3; }
+    h2 { font-size: 1.8rem; font-weight: 600; line-height: 1.4; }
+    h3 { font-size: 1.3rem; font-weight: 500; line-height: 1.4; }
+    p  { font-size: 1.1rem; font-weight: 400; line-height: 1.7; }
+
+    code {
+      font-size: 0.95rem;
+      font-family: ui-monospace, "Cascadia Code", "Fira Code", monospace;
+    }
+
+    pre, code {
+      background: var(--code-bg);
+      padding: 0.25em 0.5em;
+      border-radius: 4px;
+      font-family: ui-monospace, "Cascadia Code", "Fira Code", monospace;
+    }
+
+    pre {
+      padding: 1em 1.5em;
+      overflow-x: auto;
+      direction: ltr;
+      text-align: left;
+    }
+
+    /* ── Slide number ── */
+    .slide-number {
+      position: fixed;
+      bottom: 2vh;
+      left: 2vw;
+      font-size: 0.8rem;
+      font-family: ui-monospace, "Cascadia Code", "Fira Code", monospace;
+      color: var(--muted);
+      z-index: 50;
+      user-select: none;
+    }
+
+    /* ── Controls bar ── */
+    .controls {
+      position: fixed;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 0.5rem;
+      padding: 0.75rem 1.25rem;
+      background: rgba(253, 251, 247, 0.85);
+      backdrop-filter: blur(8px);
+      border-radius: 1rem 1rem 0 0;
+      z-index: 60;
+      transition: opacity 0.3s ease;
+    }
+
+    .dark .controls {
+      background: rgba(18, 18, 18, 0.85);
+    }
+
+    .controls button {
+      background: none;
+      border: 1px solid var(--muted);
+      color: var(--fg);
+      font-size: 0.85rem;
+      padding: 0.4em 0.8em;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background 0.2s, color 0.2s;
+      font-family: inherit;
+    }
+
+    .controls button:hover,
+    .controls button:focus-visible {
+      background: var(--primary);
+      color: var(--bg);
+      border-color: var(--primary);
+    }
+
+    .controls button:active {
+      transform: scale(0.95);
+    }
+
+    /* ── Overview panel ── */
+    .overview {
+      position: fixed;
+      inset: 0;
+      z-index: 100;
+      background: var(--bg);
+      display: none;
+      padding: 4vh 4vw;
+      overflow-y: auto;
+    }
+
+    .overview.open {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 1rem;
+    }
+
+    .overview .overview-item {
+      border: 2px solid transparent;
+      border-radius: 8px;
+      padding: 1rem;
+      cursor: pointer;
+      background: var(--code-bg);
+      transition: border-color 0.2s, transform 0.2s;
+      font-size: 0.85rem;
+      color: var(--fg);
+    }
+
+    .overview .overview-item:hover {
+      border-color: var(--primary-light);
+      transform: translateY(-2px);
+    }
+
+    .overview .overview-item.active-thumb {
+      border-color: var(--primary);
+    }
+
+    /* ── Notes panel ── */
+    .notes-panel {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: var(--code-bg);
+      color: var(--fg);
+      padding: 1rem 2rem;
+      transform: translateY(100%);
+      transition: transform 0.3s ease;
+      z-index: 70;
+      max-height: 35vh;
+      overflow-y: auto;
+      font-size: 0.95rem;
+      line-height: 1.6;
+      border-top: 2px solid var(--primary);
+    }
+
+    .notes-panel.visible {
+      transform: translateY(0);
+    }
+
+    /* ── Reduced motion ── */
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation: none !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+      }
+    }
+
+    /* ── Print ── */
+    @media print {
+      .slide {
+        display: block !important;
+        page-break-after: always;
+        height: auto;
+        min-height: 100vh;
+      }
+      .controls, .notes-panel, .overview {
+        display: none !important;
+      }
+    }
+
+    /* ── Responsive ── */
+    @media (max-width: 768px) {
+      h1 { font-size: 1.8rem; }
+      h2 { font-size: 1.4rem; }
+      h3 { font-size: 1.1rem; }
+      p  { font-size: 1rem; }
+      .slide { padding: 8vh 6vw; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ══════════ 1 · Opening · Title ══════════ -->
+  <section class="slide active" data-slide="1" data-section="opening" data-notes="Opening of the presentation. Basaar is a project that transforms a large PDF book (over 900 pages) into an interactive digital reading platform. This session aims for a genuine understanding of the project, not just a slide show.\nReference: README.md:13-20 (platform features), README.md:1-6 (platform definition and book name).">
+    <h1>Basaar: From a PDF Book to a Digital Reading Platform</h1>
+    <div class="slide-body">
+      <blockquote style="margin-top: 1.2rem; padding-inline-start: 1rem; border-inline-start: 3px solid var(--primary); color: var(--muted); font-size: 1.3rem;">
+        "Basaar fi al-Kawn wal-Hayat wal-Deen" — Dr. Haitham Talaat
+      </blockquote>
+      <p style="margin-top: 0.8rem; color: var(--muted);">Toward a genuine understanding of the project.</p>
+    </div>
+  </section>
+
+  <!-- ══════════ 2 · Opening · Agenda ══════════ -->
+  <section class="slide" data-slide="2" data-section="opening" data-notes="The agenda is based on a time budget: Opening 5, Thesis 4, Decisions 7, Mental Model 4, Product 5, Deep Dive 13, Live Demo 11, Trade-offs 4, Roadmap 3, Closing 4. Total 60 minutes.">
+    <h1>Agenda: Ten Sections in Sixty Minutes</h1>
+    <div class="slide-body">
+      <table style="width:100%; border-collapse: collapse; font-size: 1.1rem;">
+        <thead>
+          <tr>
+            <th style="text-align:left; padding:0.5em; border-bottom:2px solid var(--primary);">Section</th>
+            <th style="text-align:left; padding:0.5em; border-bottom:2px solid var(--primary);">Minutes</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td style="padding:0.4em 0.5em; border-bottom:1px solid var(--muted);">Opening</td><td>5</td></tr>
+          <tr><td style="padding:0.4em 0.5em; border-bottom:1px solid var(--muted);">Thesis</td><td>4</td></tr>
+          <tr><td style="padding:0.4em 0.5em; border-bottom:1px solid var(--muted);">Decisions</td><td>7</td></tr>
+          <tr><td style="padding:0.4em 0.5em; border-bottom:1px solid var(--muted);">Mental Model</td><td>4</td></tr>
+          <tr><td style="padding:0.4em 0.5em; border-bottom:1px solid var(--muted);">Product</td><td>5</td></tr>
+          <tr><td style="padding:0.4em 0.5em; border-bottom:1px solid var(--muted);">Deep Dive</td><td>13</td></tr>
+          <tr><td style="padding:0.4em 0.5em; border-bottom:1px solid var(--muted);">Live Demo</td><td>11</td></tr>
+          <tr><td style="padding:0.4em 0.5em; border-bottom:1px solid var(--muted);">Trade-offs</td><td>4</td></tr>
+          <tr><td style="padding:0.4em 0.5em; border-bottom:1px solid var(--muted);">Roadmap</td><td>3</td></tr>
+          <tr><td style="padding:0.4em 0.5em; border-bottom:1px solid var(--muted);">Closing</td><td>4</td></tr>
+          <tr><td style="padding:0.5em; font-weight:700; border-top:2px solid var(--primary);">Total</td><td style="font-weight:700; border-top:2px solid var(--primary);">60</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ══════════ 3 · Product · Overview ══════════ -->
+  <section class="slide" data-slide="3" data-section="product" data-notes="A quick look at the project outputs. All data verified from source:\n13 chapters in content/chapters (intro + chapter-1..12) — verified: ls content/chapters | wc -l = 13.\n522 images in public/images — verified: find public/images -type f | wc -l = 522.\nFull-text search via FlexSearch, local bookmarks in localStorage, dark/light mode, RTL direction, and PWA.\nReference: README.md:1-6 (platform definition and book name).">
+    <h1>What Does the Project Offer Readers?</h1>
+    <div class="slide-body">
+      <ul style="list-style:none; padding:0; font-size:1.15rem; line-height:2;">
+        <li>📚 13 organized chapters (Introduction + 12 chapters)</li>
+        <li>🖼️ 522 images distributed across chapters</li>
+        <li>🔍 Full-text search (FlexSearch) with RTL support</li>
+        <li>🔖 Local bookmarks + dark/light mode + PWA</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ══════════ 4 · Product · Problem ══════════ -->
+  <section class="slide" data-slide="4" data-section="product" data-notes="Transforming from PDF to web. The original PDF book exceeds 900 pages (mentioned in README.md:13). Comparison between before/after states.\nBefore: PDF with hard search and navigation, difficult offline reading. After: Web that is indexable, saveable, works offline (PWA), with authentic Arabic RTL formatting.\nReference: README.md:7 (instead of a static PDF viewer), README.md:13-20 (features).">
+    <h1>What Problem Does the Project Solve?</h1>
+    <div class="slide-body">
+      <table style="width:100%; border-collapse: collapse; font-size: 1.1rem;">
+        <thead>
+          <tr>
+            <th style="text-align:left; padding:0.5em; border-bottom:2px solid var(--primary);">Before (PDF)</th>
+            <th style="text-align:left; padding:0.5em; border-bottom:2px solid var(--primary);">After (Web)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td style="padding:0.4em 0.5em; border-bottom:1px solid var(--muted);">900+ static pages</td><td style="padding:0.4em 0.5em; border-bottom:1px solid var(--muted);">Searchable and indexable</td></tr>
+          <tr><td style="padding:0.4em 0.5em; border-bottom:1px solid var(--muted);">Hard search and navigation</td><td style="padding:0.4em 0.5em; border-bottom:1px solid var(--muted);">Bookmarks and organized chapters</td></tr>
+          <tr><td style="padding:0.4em 0.5em; border-bottom:1px solid var(--muted);">Exhausting offline reading</td><td style="padding:0.4em 0.5em; border-bottom:1px solid var(--muted);">Works offline (PWA)</td></tr>
+          <tr><td style="padding:0.4em 0.5em;">Limited Arabic formatting</td><td style="padding:0.4em 0.5em;">Authentic Arabic RTL rendering (Tajawal)</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ══════════ 5 · Opening · Glance ══════════ -->
+  <section class="slide" data-slide="5" data-section="opening" data-notes="Quick preview slide. We show the local URL for the project.\nLocal simulation URL: http://localhost:3000. Run with next dev or after static build via any static server.\nThe full live demo with images and interactive playback is on slide 30 in the \"Live Demo\" section.\nReference: package.json scripts (dev / build / start).">
+    <h1>Where Can You Preview the Project Now?</h1>
+    <div class="slide-body">
+      <p style="font-size:1.6rem; font-family: ui-monospace, monospace; direction:ltr; text-align:left; color:var(--primary);" data-dir="ltr">http://localhost:3000</p>
+      <p style="margin-top:1rem; color:var(--muted);">The live demo is on slide 30.</p>
+    </div>
+  </section>
+
+  <!-- ══════════ 6 · Thesis ══════════ -->
+  <section class="slide" data-slide="6" data-section="thesis" data-notes="Core thesis: after processing, the book is treated as structured data, not rigid documents.\nThe source was converted from DOCX to separate Markdown chapters (content/chapters), making the content searchable, indexable, and programmable.\nReference: scripts/docx_to_md.py (extraction via python-docx + Regex), README.md:28-30 (extraction phase).">
+    <h1>How Do We View the Book After Conversion?</h1>
+    <div class="slide-body">
+      <blockquote style="margin-top:0.5rem; padding:1.2rem; background:var(--code-bg); border-inline-start:4px solid var(--primary); font-size:1.4rem; font-weight:700;">
+        "The book is data, not documents"
+      </blockquote>
+      <p style="margin-top:1.2rem;">The content is broken down into 13 separate Markdown chapters, making it searchable, indexable, and buildable — all before the UI touches it.</p>
+    </div>
+  </section>
+
+  <!-- ══════════ 7 · Thesis · Consequences ══════════ -->
+  <section class="slide" data-slide="7" data-section="thesis" data-notes="Consequences of \"the book is data\" in practice — three architectural results.\n(a) Can deploy to any static host instead of a dynamic server.\n(b) The UI owns all interactivity on the device (search, bookmarks, dark mode) via client-side components.\n(c) Computation happens at build time, not at request time; no servers needed at runtime; pages are pre-rendered.\nReference: next.config.ts:12 (output: \"export\"), next.config.ts:13-14 (trailingSlash and unoptimized images).">
+    <h1>What Are the Architectural Consequences?</h1>
+    <div class="slide-body">
+      <ol style="font-size:1.15rem; line-height:2.1; padding-inline-start:1.2rem;">
+        <li>Deployable to any static host (no dynamic server needed).</li>
+        <li>The client owns interactivity: search, bookmarks, and dark mode run in the browser.</li>
+        <li>Build-time computation (SSG) eliminates runtime servers.</li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- ══════════ 8 · Decisions · Two-phase pipeline ══════════ -->
+  <section class="slide" data-slide="8" data-section="decisions" data-notes="Decision one: a two-phase pipeline.\nPhase one (Python): python-docx + Regex to extract text and images from a DOCX source, converting it to Markdown chapters (scripts/docx_to_md.py, scripts/inject_docx_images.py).\nPhase two: a TypeScript platform (Next.js) consumes the chapters from content/chapters.\nThis separates content from the interface. Trade-off: requires two skill sets (Python + TS), but the content becomes independent and reusable.\nVerification: content/chapters contains 13 .md files (intro + chapter-1..12).">
+    <h1>Why Did We Separate Processing from the Interface?</h1>
+    <div class="slide-body">
+      <div style="display:flex; flex-direction:column; gap:1rem; font-size:1.15rem; text-align:center;">
+        <div style="padding:0.8em; background:var(--code-bg); border-radius:8px;">Python — python-docx + Regex</div>
+        <div style="align-self:center; color:var(--primary);">↓</div>
+        <div style="padding:0.8em; background:var(--code-bg); border-radius:8px;" data-dir="ltr">content/chapters/ · 13 .md files</div>
+        <div style="align-self:center; color:var(--primary);">↓</div>
+        <div style="padding:0.8em; background:var(--code-bg); border-radius:8px;">TypeScript Platform (Next.js)</div>
+      </div>
+      <p style="margin-top:1.2rem; color:var(--muted);">An explicit trade-off: requires two skill sets, but content becomes decoupled from the interface.</p>
+    </div>
+  </section>
+
+  <!-- ══════════ 9 · Decisions · Static export vs SSR ══════════ -->
+  <section class="slide" data-slide="9" data-section="decisions" data-notes="Decision two: static export instead of SSR.\nGains: zero hosting cost, compatible with Apache/static hosts, instant load speed.\nCosts: no server routes, no real-time data, search runs client-side only.\nVerification: next.config.ts:12 output: \"export\" with trailingSlash and images.unoptimized (lines 13-14).">
+    <h1>Why Static Export Instead of SSR?</h1>
+    <div class="slide-body">
+      <table style="width:100%; border-collapse: collapse; font-size: 1.1rem;">
+        <thead>
+          <tr>
+            <th style="text-align:left; padding:0.5em; border-bottom:2px solid var(--primary);">Dimension</th>
+            <th style="text-align:left; padding:0.5em; border-bottom:2px solid var(--primary);">Static Export</th>
+            <th style="text-align:left; padding:0.5em; border-bottom:2px solid var(--primary);">SSR</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td style="padding:0.4em 0.5em; border-bottom:1px solid var(--muted); font-weight:600;">Gains</td>
+            <td style="padding:0.4em 0.5em; border-bottom:1px solid var(--muted);">Zero hosting cost · Compatible with Apache</td>
+            <td style="padding:0.4em 0.5em; border-bottom:1px solid var(--muted);">Fresh data on every request</td>
+          </tr>
+          <tr>
+            <td style="padding:0.4em 0.5em; font-weight:600;">Costs</td>
+            <td style="padding:0.4em 0.5em;">No server routes · No live data · Client-side search</td>
+            <td style="padding:0.4em 0.5em;">Expensive hosting · Server setup required</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ══════════ 10 · Decisions · Removed auth ══════════ -->
+  <section class="slide" data-slide="10" data-section="decisions" data-notes="Decision three: authentication removed entirely.\nAuthProvider, middleware, and Supabase were fully removed — check git log: git log --oneline | grep -i supabase shows several commits including \"docs: refresh to static-export architecture (drop supabase)\" and \"chore: remove inert supabase migration remnant\".\nScope discipline: local bookmarks on the device (localStorage) instead of cloud sync.\nRemnants: .env.local still contains unused Supabase variables NEXT_PUBLIC_SUPABASE_URL and NEXT_PUBLIC_SUPABASE_ANON_KEY (names only — values not shown). These are cleanup remnants not invoked in code.">
+    <h1>Why Did We Remove Authentication?</h1>
+    <div class="slide-body">
+      <ul style="list-style:none; padding:0; font-size:1.15rem; line-height:2.1;">
+        <li>❌ AuthProvider, middleware, and Supabase fully removed</li>
+        <li>🎯 Scope discipline: a book read without accounts</li>
+        <li>🔖 Local bookmarks (localStorage) instead of cloud sync</li>
+        <li>🗂️ .env.local remnants: unused Supabase variables</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ══════════ 11 · Decisions · Prebuilt search ══════════ -->
+  <section class="slide" data-slide="11" data-section="decisions" data-notes="Decision four: pre-built search index + client-side index.\nThe pipeline: at build time, scripts/build-search-index.mjs (invoked via prebuild in package.json) reads content/chapters and writes public/search-data.json.\nMeasurement: the file is 1,753,076 bytes (~1.7 MB) and contains 13 documents (verified: node -e and ls -la).\nThe client builds a FlexSearch index on load in useEffect — see components/SearchDialog.tsx:44-73 (fetch + new FlexSearch.Document + index.add).\nTrade-off: downloading ~1.7 MB vs. not needing any search server.">
+    <h1>How Do We Search Without a Server?</h1>
+    <div class="slide-body">
+      <div style="display:flex; flex-direction:column; gap:1rem; font-size:1.1rem; text-align:center;">
+        <div style="padding:0.8em; background:var(--code-bg); border-radius:8px;" data-dir="ltr">prebuild → scripts/build-search-index.mjs</div>
+        <div style="align-self:center; color:var(--primary);">↓</div>
+        <div style="padding:0.8em; background:var(--code-bg); border-radius:8px;" data-dir="ltr">public/search-data.json · ~1.7 MB · 13 documents</div>
+        <div style="align-self:center; color:var(--primary);">↓</div>
+        <div style="padding:0.8em; background:var(--code-bg); border-radius:8px;">Client builds FlexSearch index on load</div>
+      </div>
+      <p style="margin-top:1.2rem; color:var(--muted);">An explicit trade-off: 1.7 MB downloaded in exchange for zero search server.</p>
+    </div>
+  </section>
+
+  <!-- ══════════ 12 · Decisions · Serwist PWA + .htaccess ══════════ -->
+  <section class="slide" data-slide="12" data-section="decisions" data-notes="Decision five: Serwist PWA + .htaccess.\nService worker (Serwist) for offline reading — sw.ts:5-11 (Serwist with precacheEntries and navigationPreload). Disabled in development: next.config.ts:8 (disable: NODE_ENV !== \"production\").\n.htaccess: static cache with security headers — public/.htaccess (Cache-Control immutable for search-data.json + X-Content-Type-Options + Referrer-Policy + X-Frame-Options).\nKnown limitation: no dedicated fallback page for offline — no offline fallback page. This constraint is explicitly noted on the slide.">
+    <h1>How Do We Read Offline?</h1>
+    <div class="slide-body">
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:1.2rem; font-size:1.05rem;">
+        <div style="padding:1em; background:var(--code-bg); border-radius:8px;">
+          <strong>Serwist (SW)</strong>
+          <ul style="margin-top:0.6em; padding-inline-start:1.1em;">
+            <li>Offline reading (precache)</li>
+            <li>Disabled in development: <code>disable</code></li>
+          </ul>
+        </div>
+        <div style="padding:1em; background:var(--code-bg); border-radius:8px;">
+          <strong>.htaccess</strong>
+          <ul style="margin-top:0.6em; padding-inline-start:1.1em;">
+            <li>Permanent cache <code>immutable</code></li>
+            <li>Security headers (nosniff, frame, referrer)</li>
+          </ul>
+        </div>
+      </div>
+      <p style="margin-top:1.2rem;">Known limitation: no dedicated offline fallback page.</p>
+    </div>
+  </section>
+
+  <!-- ══════════ 13 · Mental Model · Data flow (SVG) ══════════ -->
+  <section class="slide" data-slide="13" data-section="mental-model" data-notes="Key slide: the complete mental model for data flow, read left-to-right (LTR).\ncontent/*.md → [prebuild + SSG] → out/ + search-data.json → [SW precache] → [React hydration] → local data.\nLocal keys verified from source: theme in app/layout.tsx:39-41 (inline script) and Navbar.tsx:27-31; basaar-bookmarks in lib/bookmarks.ts:1; basaar-reading-progress in lib/readingProgress.ts:1.\nEvents: basaar-theme-change (Navbar.tsx:30), bookmarks-updated, and storage.\nDark mode uses useSyncExternalStore (Navbar.tsx:20-24).">
+    <h1>How Does Data Flow Through the System?</h1>
+    <div class="slide-body">
+      <svg viewBox="0 0 1000 300" style="width:100%; max-width:940px; margin:0 auto; display:block;" role="img" aria-label="Basaar data flow diagram">
+        <defs>
+          <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+            <path d="M 0 0 L 10 5 L 0 10 z" fill="#c18850"/>
+          </marker>
+        </defs>
+        <rect x="820" y="30" width="150" height="60" rx="8" fill="#f5efe4" stroke="#c18850"/>
+        <text x="895" y="66" text-anchor="middle" font-size="13" fill="#8b5a2b">content/*.md</text>
+        <line x1="820" y1="60" x2="800" y2="60" stroke="#c18850" stroke-width="2" marker-end="url(#arrow)"/>
+        <rect x="600" y="30" width="180" height="60" rx="8" fill="#f5efe4" stroke="#8b5a2b"/>
+        <text x="690" y="58" text-anchor="middle" font-size="13" fill="#2c2416">prebuild + SSG</text>
+        <text x="690" y="76" text-anchor="middle" font-size="10" fill="#a89279">build.js · next build</text>
+        <line x1="600" y1="60" x2="580" y2="60" stroke="#c18850" stroke-width="2" marker-end="url(#arrow)"/>
+        <rect x="400" y="30" width="160" height="60" rx="8" fill="#f5efe4" stroke="#8b5a2b"/>
+        <text x="480" y="66" text-anchor="middle" font-size="13" fill="#2c2416">out/ + search-data.json</text>
+        <line x1="400" y1="60" x2="380" y2="60" stroke="#c18850" stroke-width="2" marker-end="url(#arrow)"/>
+        <rect x="230" y="30" width="130" height="60" rx="8" fill="#f5efe4" stroke="#c18850"/>
+        <text x="295" y="58" text-anchor="middle" font-size="12" fill="#2c2416">SW precache</text>
+        <text x="295" y="76" text-anchor="middle" font-size="10" fill="#a89279">Serwist</text>
+        <line x1="230" y1="60" x2="210" y2="60" stroke="#c18850" stroke-width="2" marker-end="url(#arrow)"/>
+        <rect x="40" y="30" width="150" height="60" rx="8" fill="#f5efe4" stroke="#8b5a2b"/>
+        <text x="115" y="66" text-anchor="middle" font-size="13" fill="#2c2416">React hydration</text>
+        <line x1="440" y1="180" x2="430" y2="135" stroke="#a89279" stroke-width="2" marker-end="url(#arrow)"/>
+        <rect x="30" y="180" width="200" height="90" rx="8" fill="#fdfbf7" stroke="#a89279"/>
+        <text x="130" y="205" text-anchor="middle" font-size="12" fill="#8b5a2b">localStorage</text>
+        <text x="130" y="226" text-anchor="middle" font-size="11" fill="#2c2416">theme · basaar-bookmarks</text>
+        <text x="130" y="242" text-anchor="middle" font-size="11" fill="#2c2416">basaar-reading-progress</text>
+        <text x="130" y="258" text-anchor="middle" font-size="10" fill="#a89279">Events: basaar-theme-change · bookmarks-updated · storage</text>
+      </svg>
+    </div>
+  </section>
+
+  <!-- ══════════ 14 · Product · Home page ══════════ -->
+  <section class="slide" data-slide="14" data-section="product" data-notes="Functional description of the home page.\nVerification: app/page.tsx:13-29 (hero with \"Start Reading\" button linking to the first chapter) and app/page.tsx:31-48 (chapter grid \"Book Contents\").\nThe sidebar (table of contents) is for large screens only: components/Sidebar.tsx (hidden lg:block on line 10, aria-label on 11).\nPrev/Next buttons at the end of each chapter: app/chapter/[slug]/page.tsx:66-80.">
+    <h1>Where Does the Reader Begin Their Journey?</h1>
+    <div class="slide-body">
+      <ul style="list-style:none; padding:0; font-size:1.15rem; line-height:2.2;">
+        <li>🏠 Hero section with a "Start Reading" button that opens the first chapter</li>
+        <li>⬇️ Chapter grid "Book Contents" below the hero</li>
+        <li>📑 Persistent table of contents sidebar on desktop</li>
+        <li>↔️ "Previous / Next" buttons at the end of each chapter</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ══════════ 15 · Product · Search UX ══════════ -->
+  <section class="slide" data-slide="15" data-section="product" data-notes="Keyboard shortcuts for search.\nVerification: search opens with Ctrl+K, wired in components/ClientShell.tsx:18-27 (e.ctrlKey && e.key === \"k\").\nNavigation within the search dialog in components/SearchDialog.tsx:115-135 (Escape closes, ArrowDown/ArrowUp navigates, Enter opens the selected result).\nForward tokenization: components/SearchDialog.tsx:58 (tokenize: \"forward\") means that the prefix of a word matches it — for example, searching \"المكتب\" matches \"المكتبة\" (including the definite article).\nPrecision note: the verified example is \"المكتب\" → \"المكتبة\"; however, \"مكتب\" without the definite article does NOT match \"المكتبة\", and neither does \"كتاب\" since it is not a prefix of \"المكتبة\". Tested with the actual FlexSearch library.">
+    <h1>How Do You Navigate Search Results?</h1>
+    <div class="slide-body">
+      <table style="width:100%; border-collapse: collapse; font-size: 1.1rem;">
+        <thead>
+          <tr>
+            <th style="text-align:left; padding:0.5em; border-bottom:2px solid var(--primary);">Shortcut</th>
+            <th style="text-align:left; padding:0.5em; border-bottom:2px solid var(--primary);">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td style="padding:0.4em 0.5em; border-bottom:1px solid var(--muted);"><kbd>Ctrl</kbd>+<kbd>K</kbd></td><td style="padding:0.4em 0.5em; border-bottom:1px solid var(--muted);">Open/close search</td></tr>
+          <tr><td style="padding:0.4em 0.5em; border-bottom:1px solid var(--muted);"><kbd>↑</kbd> <kbd>↓</kbd></td><td style="padding:0.4em 0.5em; border-bottom:1px solid var(--muted);">Navigate results</td></tr>
+          <tr><td style="padding:0.4em 0.5em; border-bottom:1px solid var(--muted);"><kbd>Enter</kbd></td><td style="padding:0.4em 0.5em; border-bottom:1px solid var(--muted);">Open selected result</td></tr>
+          <tr><td style="padding:0.4em 0.5em;"><kbd>Esc</kbd></td><td style="padding:0.4em 0.5em;">Close search</td></tr>
+        </tbody>
+      </table>
+      <p style="margin-top:1.2rem; color:var(--muted);">Forward tokenization: searching "المكتب" matches "المكتبة".</p>
+    </div>
+  </section>
+
+  <!-- ══════════ 16 · Product · Local features ══════════ -->
+  <section class="slide" data-slide="16" data-section="product" data-notes="Local features in three columns: storage key, event, and persistence.\nBookmarks: key basaar-bookmarks in lib/bookmarks.ts:1, event bookmarks-updated (fired when toggled in the bookmark component).\nReading progress: key basaar-reading-progress in lib/readingProgress.ts:1.\nTheme: key theme in app/layout.tsx:39-41 (inline script) and in components/Navbar.tsx:27-31 (toggle + event basaar-theme-change on line 30).\nStorage event (via browser) and persistence through localStorage; dark mode listens via useSyncExternalStore (Navbar.tsx:20-24).">
+    <h1>Where Is the Reader's Local Data Stored?</h1>
+    <div class="slide-body">
+      <table style="width:100%; border-collapse: collapse; font-size:1rem;">
+        <thead>
+          <tr>
+            <th style="text-align:left; padding:0.5em; border-bottom:2px solid var(--primary);">Feature</th>
+            <th style="text-align:left; padding:0.5em; border-bottom:2px solid var(--primary);">Key</th>
+            <th style="text-align:left; padding:0.5em; border-bottom:2px solid var(--primary);">Event</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td style="padding:0.4em 0.5em; border-bottom:1px solid var(--muted);">Bookmarks</td>
+            <td style="padding:0.4em 0.5em; border-bottom:1px solid var(--muted);" data-dir="ltr">basaar-bookmarks</td>
+            <td style="padding:0.4em 0.5em; border-bottom:1px solid var(--muted);" data-dir="ltr">bookmarks-updated</td>
+          </tr>
+          <tr>
+            <td style="padding:0.4em 0.5em; border-bottom:1px solid var(--muted);">Reading Progress</td>
+            <td style="padding:0.4em 0.5em; border-bottom:1px solid var(--muted);" data-dir="ltr">basaar-reading-progress</td>
+            <td style="padding:0.4em 0.5em; border-bottom:1px solid var(--muted);" data-dir="ltr">storage</td>
+          </tr>
+          <tr>
+            <td style="padding:0.4em 0.5em;">Theme (dark/light)</td>
+            <td style="padding:0.4em 0.5em;" data-dir="ltr">theme</td>
+            <td style="padding:0.4em 0.5em;" data-dir="ltr">basaar-theme-change</td>
+          </tr>
+        </tbody>
+      </table>
+      <p style="margin-top:1.2rem; color:var(--muted);">All stored in localStorage on the reader's device — no server.</p>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════════════════
+       Deep Dive + Hydration + Security + Testing (Slides 17–29)
+       ═══════════════════════════════════════════════════════════════════ -->
+
+  <section class="slide" data-slide="17" data-section="deep-dive" data-notes="File structure: app/ contains 6 files: layout.tsx (root), page.tsx (home page), chapter/[slug]/page.tsx (sections), not-found.tsx, sitemap.ts, globals.css.\ngenerateStaticParams() in app/chapter/[slug]/page.tsx:11-16 returns all section IDs.\nparams is type Promise<{slug}> and resolved with await (Next.js 16 format): lines 33-34.\nThe project uses output: export, meaning full SSG — no live server.">
+    <h1>How Does the Project Build Section Pages?</h1>
+    <div class="slide-body">
+      <div style="display:flex; gap:2rem; font-size:0.95rem;">
+        <div style="flex:0.8;">
+          <div style="background:var(--code-bg); padding:1em; border-radius:8px; font-family:monospace; font-size:0.82rem; direction:ltr; text-align:left; line-height:1.6;">
+<span style="color:var(--muted);">app/</span>
+├── layout.tsx
+├── page.tsx
+├── <span style="color:var(--primary);">chapter/[slug]/page.tsx</span>
+├── not-found.tsx
+├── sitemap.ts
+└── globals.css
+          </div>
+        </div>
+        <div style="flex:1.2;">
+          <div style="background:var(--code-bg); padding:1em; border-radius:8px; font-family:monospace; font-size:0.8rem; direction:ltr; text-align:left; line-height:1.5; margin-bottom:0.8rem;">
+<span style="color:var(--muted);">// chapter/[slug]/page.tsx:11-16</span><br>
+<span style="color:var(--primary);">export async function</span> <span style="color:var(--accent);">generateStaticParams</span>() {<br>
+&nbsp;&nbsp;<span style="color:var(--primary);">const</span> chapters = getAllChapters();<br>
+&nbsp;&nbsp;<span style="color:var(--primary);">return</span> chapters.map(ch => ({<br>
+&nbsp;&nbsp;&nbsp;&nbsp;slug: ch.id<br>
+&nbsp;&nbsp;}));<br>
+}<br>
+<br>
+<span style="color:var(--muted);">// :33-34 — params is a Promise</span><br>
+<span style="color:var(--primary);">export default async function</span> ChapterPage({<br>
+&nbsp;&nbsp;params: <span style="color:var(--accent);">Promise</span>&lt;{ slug: string }&gt;<br>
+}) {<br>
+&nbsp;&nbsp;<span style="color:var(--primary);">const</span> { slug } = <span style="color:var(--primary);">await</span> params;<br>
+          </div>
+          <p style="color:var(--muted); font-size:0.85rem;">Next.js 16: params is type Promise, resolved with await in the component.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide" data-slide="18" data-section="deep-dive" data-notes="Separation between server and client components is based on the presence of \"use client\" at the top of the file.\nServer components (without directive): Sidebar.tsx, Footer.tsx, layout.tsx, page.tsx, chapter/[slug]/page.tsx, sitemap.ts.\nClient components (9 files): ClientShell, Navbar, MobileMenu, SearchDialog, BookmarkButton, BookmarkedChapters, ReadingProgressBar, InstallPrompt, ErrorBoundary.\nImportant note: output: \"export\" means all pages are SSG — no real \"server rendering\" at request time. \"Server\" here means code that runs during the build in Node.js.">
+    <h1>Where Does Each Component Run?</h1>
+    <div class="slide-body">
+      <div style="display:flex; gap:2rem; font-size:0.95rem;">
+        <div style="flex:1; border-right:2px solid var(--primary); padding-right:1.5rem;">
+          <h3 style="color:var(--primary); margin-bottom:0.8rem;">Server (no "use client")</h3>
+          <ul style="list-style:none; font-size:0.88rem; line-height:1.8;">
+            <li>layout.tsx</li>
+            <li>page.tsx</li>
+            <li>chapter/[slug]/page.tsx</li>
+            <li>Sidebar.tsx</li>
+            <li>Footer.tsx</li>
+            <li>sitemap.ts</li>
+          </ul>
+          <p style="color:var(--muted); font-size:0.8rem; margin-top:0.8rem;">Code that runs during Node.js build only (SSG).</p>
+        </div>
+        <div style="flex:1; padding-left:1.5rem;">
+          <h3 style="color:var(--accent); margin-bottom:0.8rem;">Client ("use client")</h3>
+          <ul style="list-style:none; font-size:0.88rem; line-height:1.8;">
+            <li>ClientShell</li>
+            <li>Navbar</li>
+            <li>MobileMenu</li>
+            <li>SearchDialog</li>
+            <li>BookmarkButton</li>
+            <li>BookmarkedChapters</li>
+            <li>ReadingProgressBar</li>
+            <li>InstallPrompt</li>
+            <li>ErrorBoundary</li>
+          </ul>
+          <p style="color:var(--muted); font-size:0.8rem; margin-top:0.8rem;">9 components — interactivity + state + effects.</p>
+        </div>
+      </div>
+      <p style="margin-top:1rem; font-size:0.82rem; color:var(--muted);">output: "export" in next.config.ts — everything is exported as static HTML.</p>
+    </div>
+  </section>
+
+  <section class="slide" data-slide="19" data-section="deep-dive" data-notes="There is no store (Context, Redux, Zustand). State is distributed across three patterns:\n1. DOM-as-store for dark mode: useSyncExternalStore in Navbar.tsx:20-24 reads the \"dark\" class from <html>. The default server snapshot () => false ensures hydration compatibility.\n2. localStorage + window events for bookmarks: bookmarks-updated (BookmarkButton.tsx:40), and storage via the browser (BookmarkedChapters.tsx:15-16).\n3. useSyncExternalStore for reading progress: ReadingProgressBar.tsx:19-23 with () => 0 as the server Default.\nNote: there is no React Context anywhere in the project — deliberately for simplicity. The trade-off: no cross-device sync.">
+    <h1>State Without a Central Store</h1>
+    <div class="slide-body">
+      <div style="display:flex; gap:2rem; font-size:0.92rem;">
+        <div style="flex:1; background:var(--code-bg); padding:1em; border-radius:8px;">
+          <h4 style="color:var(--primary); margin-bottom:0.6rem;">DOM = The Store</h4>
+          <p style="font-size:0.82rem; direction:ltr; text-align:left; font-family:monospace; line-height:1.5;">
+useSyncExternalStore(<br>
+&nbsp;&nbsp;subscribeTheme, // listens to basaar-theme-change<br>
+&nbsp;&nbsp;() => document.documentElement.classList.contains("dark"),<br>
+&nbsp;&nbsp;() => false // server snapshot<br>
+)<br>
+          </p>
+          <p style="color:var(--muted); font-size:0.78rem;">Navbar.tsx:20-24</p>
+        </div>
+        <div style="flex:1; background:var(--code-bg); padding:1em; border-radius:8px;">
+          <h4 style="color:var(--primary); margin-bottom:0.6rem;">localStorage + Events</h4>
+          <p style="font-size:0.82rem; direction:ltr; text-align:left; font-family:monospace; line-height:1.5;">
+window.addEventListener(<br>
+&nbsp;&nbsp;"bookmarks-updated", refresh<br>
+);<br>
+window.addEventListener(<br>
+&nbsp;&nbsp;"storage", refresh<br>
+);<br>
+          </p>
+          <p style="color:var(--muted); font-size:0.78rem;">BookmarkedChapters.tsx:15-16</p>
+        </div>
+      </div>
+      <div style="margin-top:1rem; background:var(--code-bg); padding:0.8em 1em; border-radius:8px; font-size:0.82rem; direction:ltr; text-align:left; font-family:monospace; line-height:1.5;">
+useSyncExternalStore(<br>
+&nbsp;&nbsp;emptySubscribe,<br>
+&nbsp;&nbsp;() => getChapterProgress(id)?.scrollPercentage ?? 0,<br>
+&nbsp;&nbsp;() => 0 // server snapshot<br>
+);<span style="color:var(--muted);"> // ReadingProgressBar.tsx:19-23</span>
+      </div>
+      <p style="margin-top:0.8rem; font-size:0.82rem; color:var(--muted);">No Context, no Redux, no Zustand — deliberately. No cross-device sync.</p>
+    </div>
+  </section>
+
+  <section class="slide" data-slide="20" data-section="deep-dive" data-notes="The build pipeline in scripts/build-search-index.mjs:\n:8-14 toSearchContent() filters lines starting with # or >, then collapses multiple spaces.\n:17-41 main() reads Markdown files from content/chapters/, extracts the title from the first line (#), and outputs JSON with id/title/content/slug structure.\nSize: 1,753,076 bytes (~1.7 MB) / 13 documents.\npublic/.htaccess sets Cache-Control: public, max-age=31536000, immutable on search-data.json.\nNote: the 1.7 MB is shipped to every visitor — an alternative to server-side search.">
+    <h1>Search Data Is Pre-Built</h1>
+    <div class="slide-body">
+      <div style="background:var(--code-bg); padding:1.2em; border-radius:8px; font-family:monospace; font-size:0.8rem; direction:ltr; text-align:left; line-height:1.55; margin-bottom:1rem;">
+<span style="color:var(--muted);">// scripts/build-search-index.mjs:8-14</span><br>
+<span style="color:var(--primary);">function</span> <span style="color:var(--accent);">toSearchContent</span>(raw) {<br>
+&nbsp;&nbsp;<span style="color:var(--primary);">return</span> raw<br>
+&nbsp;&nbsp;&nbsp;&nbsp;.split("\n")<br>
+&nbsp;&nbsp;&nbsp;&nbsp;.filter(line =&gt; !line.startsWith("#") &amp;&amp; !line.startsWith("&gt;"))<br>
+&nbsp;&nbsp;&nbsp;&nbsp;.join(" ")<br>
+&nbsp;&nbsp;&nbsp;&nbsp;.replace(/\s+/g, " ")<br>
+&nbsp;&nbsp;&nbsp;&nbsp;.trim();<br>
+}
+      </div>
+      <div style="display:flex; gap:1.5rem; font-size:0.9rem;">
+        <div style="flex:1;">
+          <p><strong>Input:</strong> content/chapters/*.md</p>
+          <p><strong>Process:</strong> Filter (#, >) ← Collapse spaces ← JSON</p>
+          <p><strong>Output:</strong> public/search-data.json</p>
+        </div>
+        <div style="flex:1;">
+          <p><strong>Size:</strong> <span data-dir="ltr">1.75 MB</span> / <span data-dir="ltr">13</span> documents</p>
+          <p><strong>Cache:</strong> <span data-dir="ltr">immutable, max-age=31536000</span></p>
+          <p><strong>Note:</strong> shipped to every visitor (vs. server search)</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide" data-slide="21" data-section="deep-dive" data-notes="FlexSearch.Document in SearchDialog.tsx:52-60: index:[\"title\",\"content\"], store:[\"title\",\"content\"], tokenize:\"forward\".\nThe forward tokenization setting means indexing by prefixes: every word is indexed by all its prefix variants — including the Arabic definite article al-.\nThe verified example: \"المكتب\" (a prefix of \"المكتبة\" including al-) ← matches \"المكتبة\". \"مكتب\" or \"كتاب\" were not verified as alternatives.\nDeduplication: Set in SearchDialog.tsx:87-95 removes duplicates via document ID (searches title and content separately).\nThe real value: prefix tokenization with the definite article means short queries without the article may not match — this is a real constraint, not an over-hyped feature.">
+    <h1>How Does Search Work in Arabic?</h1>
+    <div class="slide-body">
+      <div style="display:flex; gap:2rem; font-size:0.92rem;">
+        <div style="flex:1.3;">
+          <div style="background:var(--code-bg); padding:1em; border-radius:8px; font-family:monospace; font-size:0.78rem; direction:ltr; text-align:left; line-height:1.5; margin-bottom:0.8rem;">
+<span style="color:var(--muted);">// SearchDialog.tsx:52-60</span><br>
+<span style="color:var(--primary);">const</span> index = <span style="color:var(--primary);">new</span> FlexSearch.Document({<br>
+&nbsp;&nbsp;document: {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;id: "id",<br>
+&nbsp;&nbsp;&nbsp;&nbsp;index: [<span style="color:var(--accent);">"title"</span>, <span style="color:var(--accent);">"content"</span>],<br>
+&nbsp;&nbsp;&nbsp;&nbsp;store: [<span style="color:var(--accent);">"title"</span>, <span style="color:var(--accent);">"content"</span>],<br>
+&nbsp;&nbsp;},<br>
+&nbsp;&nbsp;tokenize: <span style="color:var(--accent);">"forward"</span>,<br>
+});
+          </div>
+          <p style="color:var(--muted); font-size:0.82rem;">Searches title + content, deduplicates via Set by document ID.</p>
+        </div>
+        <div style="flex:1;">
+          <div style="background:var(--code-bg); padding:1.2em; border-radius:8px; text-align:center;">
+            <p style="font-size:1.1rem; margin-bottom:0.5rem;"><span style="direction:ltr; unicode-bidi:embed;">tokenize:"forward"</span> = prefix index</p>
+            <p style="font-size:0.9rem; direction:ltr; font-family:monospace; margin-bottom:0.3rem;">
+              <span style="color:var(--primary);">«المكتب»</span> ⊂ <span style="color:var(--accent);">«المكتبة»</span>
+            </p>
+            <p style="font-size:0.85rem; color:var(--muted);">Matches ✓</p>
+            <hr style="border-color:var(--border); margin:0.8rem 0;">
+            <p style="font-size:0.88rem; direction:ltr; font-family:monospace; margin-bottom:0.3rem;">
+              <span style="color:var(--primary);">«مكتب»</span> ⊄ <span style="color:var(--muted);">«المكتبة»</span>
+            </p>
+            <p style="font-size:0.85rem; color:var(--muted);">No match — missing definite article ✗</p>
+          </div>
+        </div>
+      </div>
+      <p style="margin-top:0.8rem; font-size:0.82rem; color:var(--muted);">Rule: short queries without the definite article may not yield results — a real constraint.</p>
+    </div>
+  </section>
+
+  <section class="slide" data-slide="22" data-section="deep-dive" data-notes="Static export (output: export in next.config.ts:12) means all pages are ready — no server load time when navigating.\nFlexSearch is loaded via dynamic import in SearchDialog.tsx:46 (await import(\"flexsearch\")) — only loaded when the search dialog opens.\nImages: unoptimized: true in next.config.ts:14 — images (522 in public/images/) are served as-is without structural optimization (sharp is not used).\nNote: no image optimization at the bundle level — images are sent at their original size.">
+    <h1>Performance Budget and Limits</h1>
+    <div class="slide-body">
+      <table style="width:100%; border-collapse:collapse; font-size:0.9rem;">
+        <thead>
+          <tr>
+            <th style="text-align:left; padding:0.5em; border-bottom:2px solid var(--primary);">Metric</th>
+            <th style="text-align:left; padding:0.5em; border-bottom:2px solid var(--primary);">Value</th>
+            <th style="text-align:left; padding:0.5em; border-bottom:2px solid var(--primary);">Source</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td style="padding:0.4em 0.5em; border-bottom:1px solid var(--muted);">Navigation speed</td>
+            <td style="padding:0.4em 0.5em; border-bottom:1px solid var(--muted);">Essentially zero</td>
+            <td style="padding:0.4em 0.5em; border-bottom:1px solid var(--muted); font-size:0.82rem;">Pre-rendered HTML (SSG)</td>
+          </tr>
+          <tr>
+            <td style="padding:0.4em 0.5em; border-bottom:1px solid var(--muted);">FlexSearch</td>
+            <td style="padding:0.4em 0.5em; border-bottom:1px solid var(--muted);">Lazy-loaded on demand</td>
+            <td style="padding:0.4em 0.5em; border-bottom:1px solid var(--muted); font-size:0.82rem;">SearchDialog.tsx:46</td>
+          </tr>
+          <tr>
+            <td style="padding:0.4em 0.5em; border-bottom:1px solid var(--muted);">Images</td>
+            <td style="padding:0.4em 0.5em; border-bottom:1px solid var(--muted);">No structural optimization</td>
+            <td style="padding:0.4em 0.5em; border-bottom:1px solid var(--muted); font-size:0.82rem;">next.config.ts:14</td>
+          </tr>
+          <tr>
+            <td style="padding:0.4em 0.5em;">sharp</td>
+            <td style="padding:0.4em 0.5em;">Installed but unused</td>
+            <td style="padding:0.4em 0.5em; font-size:0.82rem;">unoptimized: true</td>
+          </tr>
+        </tbody>
+      </table>
+      <p style="margin-top:1rem; font-size:0.85rem; color:var(--muted);">522 images served as-is — no size or format optimization.</p>
+    </div>
+  </section>
+
+  <section class="slide" data-slide="23" data-section="deep-dive" data-notes="sw.ts uses Serwist with defaultCache from @serwist/next/worker.\n.defaultCache provides: CacheFirst + SWR for static resources, NetworkFirst for navigation.\nskipWaiting + clientsClaim activate the service worker immediately.\nLimitation: no setCatchHandler or dedicated offline page — if the service worker fails to load a page, there is no local fallback.\nDevelopment mode: next.config.ts:8 — service worker disabled in non-production (disable: NODE_ENV !== \"production\").">
+    <h1>What Does the Service Worker Cache?</h1>
+    <div class="slide-body">
+      <div style="display:flex; gap:2rem; font-size:0.9rem;">
+        <div style="flex:1;">
+          <h3 style="color:var(--primary); margin-bottom:0.6rem;">Cached</h3>
+          <ul style="list-style:none; line-height:1.8; font-size:0.85rem;">
+            <li>■ Static files (HTML, CSS, JS)</li>
+            <li>■ Images and fonts</li>
+            <li>■ search-data.json</li>
+            <li>■ Navigation pages — NetworkFirst</li>
+          </ul>
+        </div>
+        <div style="flex:1;">
+          <h3 style="color:var(--muted); margin-bottom:0.6rem;">Not Cached</h3>
+          <ul style="list-style:none; line-height:1.8; font-size:0.85rem; color:var(--muted);">
+            <li>○ Dedicated offline page</li>
+            <li>○ Third-party resources</li>
+            <li>○ Anything from a live server</li>
+          </ul>
+        </div>
+      </div>
+      <div style="margin-top:1rem; background:var(--code-bg); padding:0.8em 1em; border-radius:8px; font-family:monospace; font-size:0.78rem; direction:ltr; text-align:left; line-height:1.5;">
+<span style="color:var(--muted);">// sw.ts:5-11</span><br>
+<span style="color:var(--primary);">const</span> serwist = <span style="color:var(--primary);">new</span> Serwist({<br>
+&nbsp;&nbsp;precacheEntries: __SW_MANIFEST,<br>
+&nbsp;&nbsp;skipWaiting: <span style="color:var(--accent);">true</span>,<br>
+&nbsp;&nbsp;clientsClaim: <span style="color:var(--accent);">true</span>,<br>
+&nbsp;&nbsp;navigationPreload: <span style="color:var(--accent);">true</span>,<br>
+&nbsp;&nbsp;runtimeCaching: defaultCache,<br>
+});<br>
+      </div>
+      <p style="margin-top:0.8rem; font-size:0.82rem; color:var(--muted);">No setCatchHandler — no offline fallback page.</p>
+    </div>
+  </section>
+
+  <section class="slide" data-slide="24" data-section="deep-dive" data-notes="Step one: the server (or SSG build) computes HTML. In chapter/[slug]/page.tsx:33-35, getChapterData() reads from the file system on the server only.\nStep two: HTML reaches the browser and renders before the JavaScript bundle loads — content is visible immediately. No window or localStorage on the server.\nStep three: the first client render must produce the same tree that the server produced — React cannot safely attach state if the two trees differ.\nThis is the root of hydration mismatch: if the server reads a different value than the client, it will appear in the UI.">
+    <h1>Steps 1–3: From Server to First Render</h1>
+    <div class="slide-body">
+      <div style="display:flex; gap:1.5rem; font-size:0.92rem;">
+        <div style="flex:1; background:var(--code-bg); padding:1.2em; border-radius:8px; text-align:center;">
+          <div style="font-size:2rem; margin-bottom:0.3rem;">①</div>
+          <h4 style="color:var(--primary); margin-bottom:0.5rem;">Server Computes HTML</h4>
+          <p style="font-size:0.82rem; color:var(--muted);">chapter/[slug]/page.tsx:33-35</p>
+          <p style="font-size:0.8rem; direction:ltr; font-family:monospace; margin-top:0.5rem;">
+            getAllChapters()<br>getChapterData(slug)
+          </p>
+          <p style="font-size:0.78rem; color:var(--muted); margin-top:0.3rem;">No window — no localStorage</p>
+        </div>
+        <div style="flex:0.2; display:flex; align-items:center; justify-content:center; font-size:1.5rem; color:var(--primary);">→</div>
+        <div style="flex:1; background:var(--code-bg); padding:1.2em; border-radius:8px; text-align:center;">
+          <div style="font-size:2rem; margin-bottom:0.3rem;">②</div>
+          <h4 style="color:var(--primary); margin-bottom:0.5rem;">HTML Reaches Browser</h4>
+          <p style="font-size:0.82rem; color:var(--muted);">Renders before JS bundle loads</p>
+          <p style="font-size:0.8rem; margin-top:0.5rem;">Content visible immediately</p>
+        </div>
+        <div style="flex:0.2; display:flex; align-items:center; justify-content:center; font-size:1.5rem; color:var(--primary);">→</div>
+        <div style="flex:1; background:var(--code-bg); padding:1.2em; border-radius:8px; text-align:center;">
+          <div style="font-size:2rem; margin-bottom:0.3rem;">③</div>
+          <h4 style="color:var(--primary); margin-bottom:0.5rem;">First Client Render</h4>
+          <p style="font-size:0.82rem; color:var(--muted);">Must produce the same tree</p>
+          <p style="font-size:0.8rem; margin-top:0.5rem;">Otherwise → hydration mismatch</p>
+        </div>
+      </div>
+      <p style="margin-top:1rem; font-size:0.85rem; color:var(--muted);">Rule: the server cannot access window — and content is unaware of the local state.</p>
+    </div>
+  </section>
+
+  <section class="slide" data-slide="25" data-section="deep-dive" data-notes="Step four: hydration ≠ CSR. React does not create DOM from scratch — it attaches state and events to the existing DOM.\nStep five: after attach and before commit, useEffect runs — it can read window/localStorage and update state on the next render.\nReal example in BookmarkButton.tsx: initial state active=false, loading=true (lines 13-14) — renders a spinner in both views. useEffect (lines 23-33) reads isBookmarked() with a cancelled flag, then updates state. This is a correct pattern — it does not cause hydration mismatch.">
+    <h1>Steps 4–5: Attaching State, Then Effects</h1>
+    <div class="slide-body">
+      <div style="display:flex; gap:2rem; font-size:0.92rem;">
+        <div style="flex:1; background:var(--code-bg); padding:1.2em; border-radius:8px; text-align:center;">
+          <div style="font-size:2rem; margin-bottom:0.3rem;">④</div>
+          <h4 style="color:var(--primary); margin-bottom:0.5rem;">State Attachment</h4>
+          <p style="font-size:0.85rem;">React attaches to the existing DOM</p>
+          <p style="font-size:0.85rem;">Events + global state</p>
+          <p style="font-size:0.82rem; color:var(--muted); margin-top:0.3rem;">Not CSR from an empty DOM</p>
+        </div>
+        <div style="flex:1; background:var(--code-bg); padding:1.2em; border-radius:8px; text-align:center;">
+          <div style="font-size:2rem; margin-bottom:0.3rem;">⑤</div>
+          <h4 style="color:var(--primary); margin-bottom:0.5rem;">useEffect After Commit</h4>
+          <p style="font-size:0.85rem;">Can read window</p>
+          <p style="font-size:0.85rem;">Updates state on next render</p>
+        </div>
+      </div>
+      <div style="margin-top:1rem; background:var(--code-bg); padding:1em 1.2em; border-radius:8px; font-family:monospace; font-size:0.78rem; direction:ltr; text-align:left; line-height:1.55;">
+<span style="color:var(--muted);">// BookmarkButton.tsx:13-14 — initial state</span><br>
+<span style="color:var(--primary);">const</span> [active, setActive] = useState(<span style="color:var(--accent);">false</span>);<br>
+<span style="color:var(--primary);">const</span> [loading, setLoading] = useState(<span style="color:var(--accent);">true</span>);<br>
+<br>
+<span style="color:var(--muted);">// :23-33 — useEffect reads localStorage</span><br>
+useEffect(() =&gt; {<br>
+&nbsp;&nbsp;<span style="color:var(--primary);">let</span> cancelled = <span style="color:var(--accent);">false</span>;<br>
+&nbsp;&nbsp;isBookmarked(chapterId).then((val) =&gt; {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:var(--primary);">if</span> (cancelled) <span style="color:var(--primary);">return</span>;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;setActive(val);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;setLoading(<span style="color:var(--accent);">false</span>);<br>
+&nbsp;&nbsp;});<br>
+}, [chapterId]);
+      </div>
+      <p style="margin-top:0.8rem; font-size:0.82rem; color:var(--muted);">The spinner shows in both views — no conflict. Actual state arrives after useEffect.</p>
+    </div>
+  </section>
+
+  <section class="slide" data-slide="26" data-section="deep-dive" data-notes="Wrong pattern: reading localStorage.getItem(\"theme\") during the initial render — the server produces \"light\", the client reads \"dark\" → mismatch.\nPractical result of the mismatch (point 7): React warns in the console, discards the server HTML and re-processes the tree, and may clear or modify the expected DOM → flashing elements or surprising state.\nReal example in the repository: InstallPrompt.tsx:14-18 uses lazy useState init that reads window.matchMedia(\"(display-mode: standalone)\") — the server produces false, the standalone client produces true.\nThere is an explicit typeof window !== \"undefined\" guard on line 15 (does not prevent the mismatch but prevents the crash), and the reason the mismatch does not surface in the UI: show=false at the start, so it returns null in both views (line 54: if (installed || !show) return null).\nThis is incidental safety for a limited case — not the pattern to adopt for dark mode. The correct approach: useSyncExternalStore in Navbar.tsx:20-24 which guarantees compatibility.">
+    <h1>Steps 6–7: Wrong vs. Correct Patterns</h1>
+    <div class="slide-body">
+      <div style="display:flex; gap:2rem; font-size:0.88rem;">
+        <div style="flex:1; border:2px solid #c0392b; padding:1em; border-radius:8px;">
+          <h3 style="color:#c0392b; margin-bottom:0.6rem;">Wrong Pattern</h3>
+          <div style="background:var(--code-bg); padding:0.8em; border-radius:6px; font-family:monospace; font-size:0.78rem; direction:ltr; text-align:left; line-height:1.5;">
+<span style="color:var(--primary);">const</span> [theme, setTheme] = useState(<br>
+&nbsp;&nbsp;<span style="color:var(--accent);">localStorage.getItem("theme")</span><br>
+);<br>
+          </div>
+          <p style="font-size:0.82rem; color:#c0392b; margin-top:0.5rem;">Server: null ← Client: "dark"</p>
+          <p style="font-size:0.82rem; color:#c0392b;">= hydration mismatch</p>
+          <p style="font-size:0.78rem; color:var(--muted); margin-top:0.3rem;">Result: console warning + React discards server HTML and re-processes the tree + unexpected DOM</p>
+        </div>
+        <div style="flex:1; border:2px solid var(--accent); padding:1em; border-radius:8px;">
+          <h3 style="color:var(--accent); margin-bottom:0.6rem;">Real in the Repository</h3>
+          <div style="background:var(--code-bg); padding:0.8em; border-radius:6px; font-family:monospace; font-size:0.76rem; direction:ltr; text-align:left; line-height:1.5;">
+<span style="color:var(--muted);">// InstallPrompt.tsx:14-18 — simplified snapshot</span><br>
+<span style="color:var(--primary);">const</span> [installed, setInstalled] = useState(<br>
+&nbsp;&nbsp;() =&gt; <span style="color:var(--accent);">typeof window !== "undefined"</span> &amp;&amp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;window.matchMedia(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"(display-mode: standalone)"<br>
+&nbsp;&nbsp;&nbsp;&nbsp;).matches<br>
+);<br>
+          </div>
+          <p style="font-size:0.82rem; color:var(--accent); margin-top:0.5rem;">No error: show=false → renders null</p>
+          <p style="font-size:0.78rem; color:var(--muted);">typeof window guard on line 15 + show=false — incidental safety, not replicable for dark mode</p>
+        </div>
+      </div>
+      <p style="margin-top:1rem; font-size:0.85rem; color:var(--muted);">Lesson: coincidental compatibility is not a pattern. Use useSyncExternalStore or typeof window guards.</p>
+    </div>
+  </section>
+
+  <section class="slide" data-slide="27" data-section="deep-dive" data-notes="4 correct patterns in the repository:\nA: Inline script before React + suppressHydrationWarning on <html> — layout.tsx:37-41 (the script reads localStorage and adds \"dark\" before hydration, and the attribute permits the modification).\nB: useSyncExternalStore with server snapshot — Navbar.tsx:20-24 (() => false) and ReadingProgressBar.tsx:19-23 (() => 0). React hydrates with the server snapshot then re-renders with the client snapshot → restoration after commit without clobbering.\nC: Neutral initial state (spinner), real read in useEffect — BookmarkButton.tsx:13-14, 23-33.\nD: typeof window === \"undefined\" guards — lib/bookmarks.ts:10-11 and lib/readingProgress.ts:10-11.\nDistinction: mismatch in initial render = bug. Update after useEffect = expected/correct. Do not confuse them.\nPractical implication (point 10): restoration after commit (default-before-mount then restore-after-mount without clobbering) is guaranteed by Pattern B via useSyncExternalStore in the code itself — no dedicated unit test proves this recovery behavior. bookmarks.test.ts (6 tests) proves something narrower: pure localStorage operations (empty initial state, toggle add/remove, isBookmarked, remove, duplicates) — not hydration behavior. We do not over-claim.">
+    <h1>Steps 8–10: Correct Patterns in Basaar</h1>
+    <div class="slide-body">
+      <table style="width:100%; border-collapse:collapse; font-size:0.85rem;">
+        <thead>
+          <tr>
+            <th style="text-align:left; padding:0.4em; border-bottom:2px solid var(--primary);">Pattern</th>
+            <th style="text-align:left; padding:0.4em; border-bottom:2px solid var(--primary);">File</th>
+            <th style="text-align:left; padding:0.4em; border-bottom:2px solid var(--primary);">Idea</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td style="padding:0.35em 0.4em; border-bottom:1px solid var(--muted); font-weight:bold;">A</td>
+            <td style="padding:0.35em 0.4em; border-bottom:1px solid var(--muted); font-family:monospace; font-size:0.8rem;">layout.tsx:37-41</td>
+            <td style="padding:0.35em 0.4em; border-bottom:1px solid var(--muted);">Inline script + suppressHydrationWarning</td>
+          </tr>
+          <tr>
+            <td style="padding:0.35em 0.4em; border-bottom:1px solid var(--muted); font-weight:bold;">B</td>
+            <td style="padding:0.35em 0.4em; border-bottom:1px solid var(--muted); font-family:monospace; font-size:0.8rem;">Navbar.tsx:20-24<br>ReadingProgressBar.tsx:19-23</td>
+            <td style="padding:0.35em 0.4em; border-bottom:1px solid var(--muted);">useSyncExternalStore + server snapshot</td>
+          </tr>
+          <tr>
+            <td style="padding:0.35em 0.4em; border-bottom:1px solid var(--muted); font-weight:bold;">C</td>
+            <td style="padding:0.35em 0.4em; border-bottom:1px solid var(--muted); font-family:monospace; font-size:0.8rem;">BookmarkButton.tsx:13-14,23-33</td>
+            <td style="padding:0.35em 0.4em; border-bottom:1px solid var(--muted);">Neutral initial state ← read in useEffect</td>
+          </tr>
+          <tr>
+            <td style="padding:0.35em 0.4em; font-weight:bold;">D</td>
+            <td style="padding:0.35em 0.4em; font-family:monospace; font-size:0.8rem;">lib/bookmarks.ts:10-11<br>lib/readingProgress.ts:10-11</td>
+            <td style="padding:0.35em 0.4em;">typeof window === "undefined" guard</td>
+          </tr>
+        </tbody>
+      </table>
+      <p style="margin-top:0.8rem; font-size:0.85rem; color:var(--muted);">Distinction: mismatch in initial render = bug. Update after useEffect = expected.</p>
+      <p style="font-size:0.82rem; color:var(--muted);">bookmarks.test.ts proves pure localStorage operations (empty state ← toggle ← isBookmarked ← remove ← duplicates — 6 tests). Restoration after commit is guaranteed by Pattern B — no dedicated hydration behavior test.</p>
+    </div>
+  </section>
+
+  <section class="slide" data-slide="28" data-section="deep-dive" data-notes="A static site = minimal attack surface: no live endpoints, no database, no secrets sent to the client. The only client variable is NEXT_PUBLIC_BASE_URL (sitemap).\npublic/.htaccess: X-Frame-Options DENY, X-Content-Type-Options nosniff, Referrer-Policy strict-origin-when-cross-origin.\nContent rights: the code is open source, but the book content belongs to Dr. Haitham Talaat (note the license in README).\nImportant note: no CSP header — this is a known gap that must be added.\nCannot claim \"complete security\" — no security audits, no Pentest, no Rate Limiting (not needed for a static site).">
+    <h1>Threat Model and Security</h1>
+    <div class="slide-body">
+      <div style="font-size:0.9rem;">
+        <div style="background:var(--code-bg); padding:1em 1.2em; border-radius:8px; margin-bottom:1rem;">
+          <h4 style="color:var(--primary); margin-bottom:0.5rem;">Attack Surface</h4>
+          <ul style="list-style:none; line-height:1.7;">
+            <li>✓ No live endpoints — no live server</li>
+            <li>✓ No database — no SQL Injection</li>
+            <li>✓ No secrets sent to client — NEXT_PUBLIC_BASE_URL only</li>
+          </ul>
+        </div>
+        <div style="display:flex; gap:1.5rem;">
+          <div style="flex:1; background:var(--code-bg); padding:1em; border-radius:8px;">
+            <h4 style="color:var(--primary); margin-bottom:0.5rem;">public/.htaccess</h4>
+            <ul style="list-style:none; font-size:0.82rem; line-height:1.6;">
+              <li>■ X-Frame-Options: DENY</li>
+              <li>■ X-Content-Type-Options: nosniff</li>
+              <li>■ Referrer-Policy: strict-origin-when-cross-origin</li>
+            </ul>
+          </div>
+          <div style="flex:1; border:2px solid #c0392b; padding:1em; border-radius:8px;">
+            <h4 style="color:#c0392b; margin-bottom:0.5rem;">Known Gap</h4>
+            <ul style="list-style:none; font-size:0.82rem; line-height:1.6;">
+              <li>✗ No Content-Security-Policy</li>
+            </ul>
+            <p style="font-size:0.8rem; color:var(--muted); margin-top:0.3rem;">Must be added later</p>
+          </div>
+        </div>
+        <p style="margin-top:0.8rem; font-size:0.82rem; color:var(--muted);">The code is open source — book content belongs to Dr. Haitham Talaat.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide" data-slide="29" data-section="deep-dive" data-notes="Testing: 22 unit tests in 4 files (bookmarks 6, contentLoader 5, readingProgress 5, search 6) — lib/__tests__/.\n16 e2e tests in 6 files (chapter 5, home 3, search 3, navigation 2, pwa 2, theme 1) — e2e/.\nvitest.setup.ts imports @testing-library/jest-dom/vitest, but there is no *.test.tsx file — no component tests.\nGaps: no component tests despite RTL + jest-dom being installed. No offline e2e tests. No hydration mismatch tests.\nvitest.config.ts: include: [\"**/*.test.{ts,tsx}\"] — supports TSX but no files exist.\nFraming: this is not a defect — it is a realistic awareness of boundaries. Measuring hydration behavior in an SSG environment is difficult.">
+    <h1>Testing: What Is Covered and What Is Not?</h1>
+    <div class="slide-body">
+      <div style="display:flex; gap:2rem; font-size:0.88rem;">
+        <div style="flex:1;">
+          <h3 style="color:var(--primary); margin-bottom:0.6rem;">Tested</h3>
+          <div style="line-height:1.8;">
+            <p style="font-size:0.82rem; color:var(--muted);">Unit (22 / 4 files)</p>
+            <ul style="list-style:none; font-size:0.82rem; margin-bottom:0.5rem;">
+              <li>• bookmarks — 6</li>
+              <li>• contentLoader — 5</li>
+              <li>• readingProgress — 5</li>
+              <li>• search — 6</li>
+            </ul>
+            <p style="font-size:0.82rem; color:var(--muted);">E2E (16 / 6 files)</p>
+            <ul style="list-style:none; font-size:0.82rem;">
+              <li>• chapter — 5</li>
+              <li>• home — 3</li>
+              <li>• search — 3</li>
+              <li>• navigation — 2</li>
+              <li>• pwa — 2</li>
+              <li>• theme — 1</li>
+            </ul>
+          </div>
+        </div>
+        <div style="flex:1; border:2px solid #c0392b; padding:1em; border-radius:8px;">
+          <h3 style="color:#c0392b; margin-bottom:0.6rem;">Not Tested</h3>
+          <ul style="list-style:none; line-height:1.8;">
+            <li>✗ No component tests (*.test.tsx)</li>
+            <li style="font-size:0.8rem; color:var(--muted);">RTL + jest-dom installed but unused</li>
+            <li>✗ No offline e2e tests</li>
+            <li>✗ No hydration mismatch tests</li>
+          </ul>
+          <p style="font-size:0.8rem; color:var(--muted); margin-top:0.5rem;">vitest.config.ts supports *.tsx but no files exist.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ 30 · Demo · Divider ══════════ -->
+  <section class="slide" data-slide="30" data-section="demo" data-notes="Divider slide before the live demo. Total duration 11 minutes, can be shortened to 6 minutes by focusing on search and navigation.\nReference: demo-script.md (live demo script). No heavy source references here — this is a section divider.">
+    <h1>Live Demo</h1>
+    <div class="slide-body" style="text-align:center; display:flex; flex-direction:column; align-items:center; justify-content:center;">
+      <p style="font-size:2.8rem; font-weight:700; color:var(--primary); margin-bottom:0.5rem;">Live Demo</p>
+      <p style="font-size:1.2rem; color:var(--muted);">11 minutes — can be shortened to 6 minutes</p>
+      <p style="margin-top:1.5rem; font-size:0.9rem; color:var(--muted);">Reference: demo-script.md</p>
+    </div>
+  </section>
+
+  <!-- ══════════ 31 · Trade-offs ══════════ -->
+  <section class="slide" data-slide="31" data-section="trade-offs" data-notes="Trade-offs: what we gained and what we paid. Each line is documented with a reference.\n1. Zero hosting cost (next.config.ts:12 output: export) ← no server routes and no live data.\n2. Offline reading via Serwist (sw.ts) ← no offline fallback page (sw.ts without setCatchHandler).\n3. Fast client-side search via FlexSearch (SearchDialog.tsx:52-60) ← downloads 1.75 MB search-data.json for every visitor.\n4. Arabic RTL rendering with Tajawal font ← content is local on the device only, no cloud sync.\n5. Security via static surface + .htaccess (X-Frame-Options, nosniff) ← no CSP header (known gap).\n6. Bookmarks, progress, and theme stored in localStorage ← not synchronized across devices, no server backing.\nVerified for each claim: next.config.ts:12,14 / sw.ts (without setCatchHandler) / search-data.json 1753076 bytes / .htaccess (without CSP) / lib/bookmarks.ts:1, lib/readingProgress.ts:1, Navbar.tsx:27-31.">
+    <h1>What Did We Gain and What Did We Pay?</h1>
+    <div class="slide-body">
+      <table style="width:100%; border-collapse:collapse; font-size:0.88rem;">
+        <thead>
+          <tr>
+            <th style="text-align:left; padding:0.5em; border-bottom:2px solid var(--primary); width:50%;">Gain</th>
+            <th style="text-align:left; padding:0.5em; border-bottom:2px solid var(--primary); width:50%;">Cost</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td style="padding:0.4em 0.5em; border-bottom:1px solid var(--muted);">Zero hosting cost — static export</td>
+            <td style="padding:0.4em 0.5em; border-bottom:1px solid var(--muted);">No server routes — no live data</td>
+          </tr>
+          <tr>
+            <td style="padding:0.4em 0.5em; border-bottom:1px solid var(--muted);">Offline reading (Serwist PWA)</td>
+            <td style="padding:0.4em 0.5em; border-bottom:1px solid var(--muted);">No offline fallback page (sw.ts)</td>
+          </tr>
+          <tr>
+            <td style="padding:0.4em 0.5em; border-bottom:1px solid var(--muted);">Fast client-side search (FlexSearch)</td>
+            <td style="padding:0.4em 0.5em; border-bottom:1px solid var(--muted);">1.75 MB downloaded per visitor</td>
+          </tr>
+          <tr>
+            <td style="padding:0.4em 0.5em; border-bottom:1px solid var(--muted);">Arabic RTL rendering (Tajawal)</td>
+            <td style="padding:0.4em 0.5em; border-bottom:1px solid var(--muted);">Content local only — no cloud sync</td>
+          </tr>
+          <tr>
+            <td style="padding:0.4em 0.5em; border-bottom:1px solid var(--muted);">Security via static surface + .htaccess</td>
+            <td style="padding:0.4em 0.5em; border-bottom:1px solid var(--muted);">No CSP header</td>
+          </tr>
+          <tr>
+            <td style="padding:0.4em 0.5em;">Bookmarks, progress, and theme in localStorage</td>
+            <td style="padding:0.4em 0.5em;">Not synchronized across devices — no server</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ══════════ 32 · Roadmap ══════════ -->
+  <section class="slide" data-slide="32" data-section="roadmap" data-notes="The roadmap is ordered by risk (most fragile first), not by preference.\n1. Offline fallback page — high risk: sw.ts (lines 5-11) contains no setCatchHandler. When loading an uncached page fails, there is no local fallback → network error instead of content.\n2. Component tests — RTL + jest-dom are installed (vitest.setup.ts line 1), but no *.test.tsx file exists. vitest.config.ts supports *.tsx but no files.\n3. Image optimization pipeline — 522 images in public/images are served without optimization. sharp is installed in package.json but next.config.ts:14 sets unoptimized: true, disabling it.\n4. Search index size — 1,753,076 bytes (~1.75 MB) downloaded per visitor. Can be improved with compression or filtering.\n5. .env.local cleanup — remnants NEXT_PUBLIC_SUPABASE_URL and NEXT_PUBLIC_SUPABASE_ANON_KEY (unused in any code, verified via grep).">
+    <h1>Roadmap: Ordered by Risk</h1>
+    <div class="slide-body">
+      <ol style="font-size:1rem; line-height:2.2; padding-inline-start:1.2rem;">
+        <li><strong>Offline fallback page</strong> <span style="color:#c0392b;">— High:</span> sw.ts has no setCatchHandler</li>
+        <li><strong>Component tests</strong> <span style="color:#e67e22;">— Medium:</span> RTL + jest-dom installed but no *.test.tsx files</li>
+        <li><strong>Image optimization</strong> <span style="color:#e67e22;">— Medium:</span> 522 images without optimization — sharp disabled</li>
+        <li><strong>Search index compression</strong> <span style="color:var(--accent);">— Low:</span> 1.75 MB downloaded per visitor</li>
+        <li><strong>Clean up .env.local</strong> <span style="color:var(--accent);">— Low:</span> Unused Supabase env var remnants</li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- ══════════ 33 · Closing ══════════ -->
+  <section class="slide" data-slide="33" data-section="closing" data-notes="Closing: Basaar is not just a conversion from PDF to web — it is a redesign of content as structured data.\nClosing quote: Basaar: the book is not a PDF image, but a data structure — and the engineering reflects this idea.\nReferences: qa-guide.md (open questions guide). No heavy source references — this is a closing slide.">
+    <h1>The Book Is a Data Structure, Not an Image</h1>
+    <div class="slide-body" style="display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center;">
+      <blockquote style="max-width:700px; padding:1.5rem 2rem; background:var(--code-bg); border-inline-start:4px solid var(--primary); font-size:1.4rem; font-weight:700; line-height:1.6;">
+        "Basaar: the book is not a PDF image, but a data structure — and the engineering reflects this idea."
+      </blockquote>
+      <p style="margin-top:2rem; font-size:1.3rem; font-weight:600;">Open Questions?</p>
+      <p style="margin-top:1rem; font-size:0.9rem; color:var(--muted);">Reference: qa-guide.md</p>
+    </div>
+  </section>
+
+  <!-- Overview panel -->
+  <div id="overview" class="overview" data-overview></div>
+
+  <!-- Notes panel -->
+  <aside class="notes-panel" data-notes></aside>
+
+  <!-- Controls bar -->
+  <nav class="controls" aria-label="Navigation">
+    <button aria-label="First slide" onclick="goTo(1)">🥇</button>
+    <button aria-label="Previous slide" onclick="goTo(current - 1)">◀</button>
+    <button aria-label="Toggle overview" onclick="toggleOverview()">⊞</button>
+    <button aria-label="Toggle notes" onclick="toggleNotes()">📝</button>
+    <button aria-label="Next slide" onclick="goTo(current + 1)">▶</button>
+    <button aria-label="Last slide" onclick="goTo(total)">🏁</button>
+    <button aria-label="Toggle fullscreen" onclick="toggleFullscreen()">⛶</button>
+  </nav>
+
+  <!-- Slide number -->
+  <div class="slide-number"></div>
+
+  <script>
+    let current = 1;
+    let total = 0;
+    const slides = document.querySelectorAll("[data-slide]");
+    total = slides.length;
+
+    function goTo(n) {
+      if (n < 1 || n > total) return;
+      document.querySelectorAll(".slide.active").forEach(s => s.classList.remove("active"));
+      current = n;
+      const target = document.querySelector(`[data-slide="${n}"]`);
+      if (target) {
+        target.classList.add("active");
+        document.querySelector(".slide-number").textContent = `${n} / ${total}`;
+        location.hash = n;
+        updateOverviewHighlight();
+        updateNotes();
+      }
+    }
+
+    function toggleFullscreen() {
+      if (!document.fullscreenElement) {
+        document.documentElement.requestFullscreen().catch(() => {});
+      } else {
+        document.exitFullscreen().catch(() => {});
+      }
+    }
+
+    function toggleNotes() {
+      document.querySelector(".notes-panel").classList.toggle("visible");
+    }
+
+    function updateNotes() {
+      const panel = document.querySelector(".notes-panel");
+      const activeSlide = document.querySelector(".slide.active");
+      const noteText = activeSlide ? activeSlide.getAttribute("data-notes") || activeSlide.dataset.notes || "" : "";
+      panel.textContent = noteText;
+    }
+
+    function toggleOverview() {
+      document.getElementById("overview").classList.toggle("open");
+    }
+
+    function updateOverviewHighlight() {
+      document.querySelectorAll(".overview-item").forEach(item => {
+        item.classList.toggle("active-thumb", parseInt(item.dataset.slide) === current);
+      });
+    }
+
+    function buildOverview() {
+      const container = document.getElementById("overview");
+      slides.forEach(slide => {
+        const item = document.createElement("div");
+        item.className = "overview-item";
+        item.dataset.slide = slide.dataset.slide;
+        const h2 = slide.querySelector("h1, h2");
+        item.textContent = h2 ? h2.textContent : `Slide ${slide.dataset.slide}`;
+        item.addEventListener("click", () => {
+          goTo(parseInt(item.dataset.slide));
+          document.getElementById("overview").classList.remove("open");
+        });
+        container.appendChild(item);
+      });
+    }
+
+    // Keyboard navigation (LTR-aware)
+    document.addEventListener("keydown", e => {
+      if (e.target.tagName === "INPUT" || e.target.tagName === "TEXTAREA") return;
+
+      const overviewOpen = document.getElementById("overview").classList.contains("open");
+
+      if (e.key === "Escape") {
+        document.getElementById("overview").classList.remove("open");
+        return;
+      }
+
+      if (overviewOpen) return;
+
+      switch (e.key) {
+        case "ArrowRight": e.preventDefault(); goTo(current + 1); break;
+        case "ArrowLeft":  e.preventDefault(); goTo(current - 1); break;
+        case " ":
+        case "PageDown":   e.preventDefault(); goTo(current + 1); break;
+        case "PageUp":     e.preventDefault(); goTo(current - 1); break;
+        case "Home":       e.preventDefault(); goTo(1); break;
+        case "End":        e.preventDefault(); goTo(total); break;
+        case "f":
+        case "F":          toggleFullscreen(); break;
+        case "n":
+        case "N":          toggleNotes(); break;
+        case "g":
+        case "G":
+        case "i":
+        case "I":          toggleOverview(); break;
+      }
+    });
+
+    // Touch / swipe support (LTR-aware)
+    let touchStartX = 0;
+    let touchStartY = 0;
+
+    document.addEventListener("touchstart", e => {
+      touchStartX = e.changedTouches[0].screenX;
+      touchStartY = e.changedTouches[0].screenY;
+    }, { passive: true });
+
+    document.addEventListener("touchend", e => {
+      const dx = e.changedTouches[0].screenX - touchStartX;
+      const dy = e.changedTouches[0].screenY - touchStartY;
+      if (Math.abs(dx) < 50 || Math.abs(dy) > Math.abs(dx)) return;
+      // LTR: swipe left = next, swipe right = prev
+      if (dx > 0) goTo(current + 1);
+      else        goTo(current - 1);
+    }, { passive: true });
+
+    // Initial numbering (synchronous so it renders immediately on load)
+    document.querySelector(".slide-number").textContent = `1 / ${total}`;
+
+    // Init on DOM ready
+    document.addEventListener("DOMContentLoaded", () => {
+      buildOverview();
+
+      const hash = parseInt(location.hash.replace("#", ""));
+      if (hash && hash >= 1 && hash <= total) {
+        goTo(hash);
+      } else {
+        goTo(1);
+      }
+    });
+  </script>
+</body>
+</html>
