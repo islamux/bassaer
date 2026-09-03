@@ -41,7 +41,7 @@
 التحديثات الحية للبيانات. أي تغيير في المحتوى يتطلب إعادة بناء ونشر.
 
 **التحسين المقترح:** إذا احتاج المشروع لاحقاً تحديثات حية، التحويل إلى Next.js
-مع deploy عادي (Node server) أو Edge Functions خيار صعب بدون إعادة هيكلة.
+مع نشر عادي (Node server) أو Edge Functions خيار صعب بدون إعادة هيكلة.
 
 ---
 
@@ -50,7 +50,7 @@
 **الإجابة:**
 هنا لا يوجد خادم عند وقت التشغيل (runtime). الخادم موجود فقط وقت البناء: يقرأ
 ملفات Markdown ويُخرج HTML. بعد النشر، الملفات تُستضاف على CDN فقط — لا Lambda،
-لا数据库، لا طلبات POST. هذا يختلف عن API التقليدي الذي يعالج الطلبات في كل مرة.
+لا قاعدة بيانات، لا طلبات POST. هذا يختلف عن API التقليدي الذي يعالج الطلبات في كل مرة.
 
 **المصدر:** `next.config.ts:12` — `output: "export"` ؛
 `vercel.json:1` — فارغ (لا إعدادات خادم).
@@ -73,10 +73,10 @@
 **المصدر:** `app/chapter/[slug]/page.tsx:11-16` — `generateStaticParams` ؛
 `lib/contentLoader.ts:18-62` — `getAllChapters`.
 
-**التناقص / الحد:** الفصول必须 موجودة في `content/chapters/` وقت البناء. إضافة فصل
+**التناقص / الحد:** الفصول يجب أن تكون موجودة في `content/chapters/` وقت البناء. إضافة فصل
 جديد تتطلب إعادة بناء ونشر.
 
-**التحسين المقترح:** إضافة سكريبت build يتحقق من تكرار IDs الفصول ويُ Layout warning
+**التحسين المقترح:** إضافة سكريبت build يتحقق من تكرار IDs الفصول ويُصدر تحذير Layout
 في حالة وجود تعارض.
 
 ---
@@ -86,7 +86,7 @@
 **الإجابة:**
 الملف `app/not-found.tsx` يعرض صفحة 404 بتصميم عربي متوافق مع RTL. في بيئة
 Apache، يُعاد توجيه الطلبات غير الموجودة إلى `404.html` عبر
-`public/.htaccess:1`. لا يوجد redirect ديناميكي — كل شيء ثابت.
+`public/.htaccess:1`. لا يوجد تحويل ديناميكي — كل شيء ثابت.
 
 **المصدر:** `app/not-found.tsx:3-20` — صفحة 404 ؛
 `public/.htaccess:1` — `ErrorDocument 404 /404.html`.
@@ -128,12 +128,12 @@ Apache، يُعاد توجيه الطلبات غير الموجودة إلى `40
 الخادم (أو مرحلة البناء) يُنتج HTML يحتوي على المحتوى النصي الكامل لكن بدون
 تفاعلية. عند تحميل الصفحة في المتصفح، يُحمَّل JavaScript ويُنشئ React شجرة
 الـ DOM مرة أخرى ويربطها بالأحداث — هذه هي hydration. الفجوة بين HTML الأصلي
-والـ DOM المُنشأ هي source of discrepancy.
+والـ DOM المُنشأ هي مصدر التباين.
 
 **المصدر:** `app/layout.tsx:29-49` — المكون الجذر (Server Component) ؛
-`components/ClientShell.tsx:1-39` — boundary العميل.
+`components/ClientShell.tsx:1-39` — حد العميل.
 
-**التناقص / الحد:** إذا قرأ المكون some data من `localStorage` أثناء render
+**التناقص / الحد:** إذا قرأ المكون بعض البيانات من `localStorage` أثناء render
 الـ server side، القيمة ستكون مختلفة عن العميل → hydration error.
 
 **التحسين المقترح:** استخدام `useSyncExternalStore` مع server snapshot ثابت
@@ -145,7 +145,7 @@ Apache، يُعاد توجيه الطلبات غير الموجودة إلى `40
 
 **الإجابة:**
 يحدث بعد تحميل JavaScript وتنفيذ الدالة الأولى. في هذا التطبيق، يُضاف
-`<script>` في `layout.tsx:39-41` who reads localStorage ويُضيف class "dark"
+`<script>` في `layout.tsx:39-41` الذي يقرأ localStorage ويُضيف class "dark"
  قبل hydration. الـ hydration itself يحدث عندما يُحمَّل React ويربط
 `ClientShell` بالأحداث.
 
@@ -174,8 +174,7 @@ subscribe، getSnapshot (للعميل)، وgetServerSnapshot. المعامل ا�
 **التناقص / الحد:** القيمة `false` تعني أن الثيم الداكن لن يظهر في HTML
 المُقدَّم — المستخدم يرى ومضة (flash) قبل hydration.
 
-**التحسين المقترح:** نفس نمط inline script في `layout.tsx:39-41` يحل这个问题
-.proactively — وهو ما نفعله بالفعل.
+**التحسين المقترح:** نفس نمط inline script في `layout.tsx:39-41` يحل هذه المشكلة بشكل استباقي — وهو ما نفعله بالفعل.
 
 ---
 
@@ -194,7 +193,7 @@ subscribe، getSnapshot (للعميل)، وgetServerSnapshot. المعامل ا�
 المعين — لا يحل اختلافات hydration في أماكن أخرى.
 
 **التحسين المقترح:** استخدام CSS variables مباشرة بدلاً من toggling class
-سي免除 الحاجة لـ suppressHydrationWarning بالكامل.
+سيُلغي الحاجة لـ suppressHydrationWarning بالكامل.
 
 ---
 
@@ -233,17 +232,16 @@ server snapshot = 0 ؛
 **التناقص / الحد:** إذا كان التقدم المحفوظ كبيراً، قد يحدث تأثير بصري ملحوظ
 (parallax في شريط التقدم).
 
-**الמנות المقترحة:** إضافة transition animation سلسة عند تحميل التقدم المحفوظ.
+**التحسين المقترح:** إضافة تأثير حركي سلس عند تحميل التقدم المحفوظ.
 
 ---
 
 ### Q13: هل تفقد الصفحة حالة العرض عند التنقل بين الفصول؟
 
 **الإجابة:**
-لا. التنقل بين الفصول يتم عبر client-side navigation في Next.js، لا يحدث
-full page reload. `ClientShell` يبقى مُحمَّلاً طوال الجلسة. `ReadingProgressBar`
-يعيد حساب التقدم لكل فصل جديد لأنه يقرأ `getChapterProgress(chapterId)` في
-`ReadingProgressBar.tsx:42` — لكنه لا يفقد الحالة العامة.
+لا. التنقل بين الفصول يتم عبر client-side navigation في Next.js، لا يحدث إعادة تحميل الصفحة بالكامل. `ClientShell` يبقى مُحمَّلاً طوال الجلسة. `ReadingProgressBar`
+يعيد حساب التقدم لكل فصل جديد لأنه يستدعي `getChapterProgress(chapterId)` في
+`ReadingProgressBar.tsx:42` (داخل useEffect) — لكنه لا يفقد الحالة العامة.
 
 **المصدر:** `components/ClientShell.tsx:15-38` — الجذر الذي يبقى ثابتاً ؛
 `components/ReadingProgressBar.tsx:30-64` — useEffect يعيد الحساب لكل chapterId.
@@ -266,7 +264,7 @@ index build) → تأخير في أول بحث بعد كل تنقّل.
 البحث يستخدم FlexSearch — مكتبة بحث في العميل (client-side). الفهرس يُبنى
 أثناء تشغيل المكون `SearchDialog` via dynamic import. البحث يستخدم tokenize
 "forward" — يقسم كل كلمة إلى أجزاء من اليسار إلى اليمين. النتائج تظهر
-تقريباً فوراً因为 the index is in-memory.
+تقريباً فوراً لأن الفهرس في الذاكرة.
 
 **المصدر:** `components/SearchDialog.tsx:46` — `const FlexSearch = (await import("flexsearch")).default` ؛
 `components/SearchDialog.tsx:52-60` — إعداد FlexSearch.Document مع `tokenize: "forward"`.
@@ -303,17 +301,17 @@ index build) → تأخير في أول بحث بعد كل تنقّل.
 **الإجابة:**
 البيانات الرئيسية: ملف `search-data.json` بحجم 1,753,076 bytes (~1.7MB)
 يحتوي على كامل المحتوى النصي للكتاب. بالإضافة إلى 522 صورة في
-`public/images/` تُحمَّل حسب الحاجة (lazy loading). ملفات HTML jeder فصل
+`public/images/` تُحمَّل حسب الحاجة (lazy loading). ملفات HTML لكل فصل
 أصغر بكثير (بضع KB).
 
 **المصدر:** `public/search-data.json` — 1,753,076 bytes ؛
-`public/images/` — 522 صورة في مجلدات chapter-*.
+`public/images/` — 522 صورة في مجلدات فصل-*.
 
 **التناقص / الحد:** الـ 1.7MB تُحمَّل في chunk واحد — يؤثر على سرعة أول
 تحميل للصفحة (First Contentful Paint).
 
 **التحسين المقترح:** استخدام Web Worker لتحميل الـ search-data.json في الخلفية
-أو تقسيم المحتوى إلى ملفات أصغر per chapter.
+أو تقسيم المحتوى إلى ملفات أصغر لكل فصل.
 
 ---
 
@@ -322,7 +320,7 @@ index build) → تأخير في أول بحث بعد كل تنقّل.
 **الإجابة:**
 بصراحة: لا يوجد أداة قياس أداء مُعدّة حالياً. المشروع يحتوي على
 `playwright.config.ts` لكن لا يوجد CI يُشغّل Lighthouse أو Web Vitals.
-ال Vergleichات مع الأدوات الخارجة مثل Lighthouse ممكنة يدوياً لكنها
+المقارنات مع الأدوات الخارجة مثل Lighthouse ممكنة يدوياً لكنها
 لم تُدمج في pipeline.
 
 **المصدر:** `playwright.config.ts:1-19` — إعداد Playwright ؛
@@ -362,13 +360,13 @@ import("flexsearch")).default`.
 limit: 20 })` ثم تصفية التكرارات وتحديد الـ excerpt لكل نتيجة. هذا يحدث
 في العميل فقط — لا طلبات شبكة.
 
-**المصدر:** `components/SearchDialog.tsx:75-107` — `doSearch` function ؛
-`components/SearchDialog.tsx:82-85` — `search` call مع `enrich: true, limit: 20`.
+**المصدر:** `components/SearchDialog.tsx:75-107` — الدالة `doSearch` ؛
+`components/SearchDialog.tsx:82-85` — استدعاء `search` مع `enrich: true, limit: 20`.
 
 **التناقص / الحد:** لا يوجد debounce — كل حرف يُعاد حساب البحث بالكامل.
 على المحتوى الكبير (1.7MB index)، قد يحدث تأخر ملحوظ.
 
-**الтинير المقترح:** إضافة debounce بتأخير 150-200ms لتقليل عدد مرات البحث.
+**التحسين المقترح:** إضافة debounce بتأخير 150-200ms لتقليل عدد مرات البحث.
 
 ---
 
@@ -382,8 +380,7 @@ limit: 20 })` ثم تصفية التكرارات وتحديد الـ excerpt ل�
 
 **المصدر:** `components/SearchDialog.tsx:58` — `tokenize: "forward"`.
 
-**التناقص / الحد:** لا يدعم wildcard أو search phrases كاملة. حجم الفهرس
-larger than_tokenize "strict" لكن recall أفضل.
+**التناقص / الحد:** لا يدعم wildcard أو search phrases كاملة. حجم الفهرس أكبر من tokenize "strict" لكن recall أفضل.
 
 **التحسين المقترح:** اختبار tokenize "forward" + "bitmap" من FlexSearch v0.8
 لتحسين الأداء مع الحفاظ على recall.
@@ -399,7 +396,7 @@ larger than_tokenize "strict" لكن recall أفضل.
 **الإجابة:**
 لا. العلامات تُخزَّن في `localStorage` — ذاكرة المتصفح المحلية. الـ event
 `storage` في `BookmarkedChapters.tsx:15` يُسمع فقط بين تبويبات المتصفح
-نفسه (same browser tabs). لا يوجد مزامنة بين الأجهزة أو بين المتصفحات
+نفسه (نفس تبويبات المتصفح). لا يوجد مزامنة بين الأجهزة أو بين المتصفحات
 المختلفة.
 
 **المصدر:** `lib/bookmarks.ts:1` — `localStorage` ؛
@@ -419,7 +416,7 @@ larger than_tokenize "strict" لكن recall أفضل.
 التطبيق مبني على static export (`next.config.ts:12` — `output: "export"`).
 لا يوجد Node.js server عند وقت التشغيل، لا يوجد API Routes، لا يوجد
 قاعدة بيانات. إضافة مزامنة تتطلب بناء backend كامل — JWT auth + database
-+ real-time sync — وهذا خارج نطاق المشروع الحالي.
++ مزامنة فورية — وهذا خارج نطاق المشروع الحالي.
 
 **المصدر:** `next.config.ts:12` — `output: "export"` ؛
 `vercel.json:1` — فارغ (لا إعدادات خادم).
@@ -427,7 +424,7 @@ larger than_tokenize "strict" لكن recall أفضل.
 **التناقص / الحد:** المستخدم يفقد كل bookmarks و التقدم إذا انتقل لمتصفح
 جديد أو مسح بيانات المتصفح.
 
-**الтинير المقترح:** استخدام Cloudflare Workers + D1 كـ backend خفيف للمزامنة
+**التحسين المقترح:** استخدام Cloudflare Workers + D1 كـ backend خفيف للمزامنة
 مع الحفاظ على static export للمحتوى.
 
 ---
@@ -440,7 +437,7 @@ larger than_tokenize "strict" لكن recall أفضل.
    chapterTitle, timestamp}`.
 2. `basaar-reading-progress` (`lib/readingProgress.ts:1`) — مصفوفة من
    `{chapterId, scrollPercentage, updatedAt}`.
-3. `theme` — يتم Чтение/كتابة مباشرة في `Navbar.tsx:29` و
+3. `theme` — يتم القراءة/الكتابة مباشرة في `Navbar.tsx:29` و
    `layout.tsx:40`.
 
 **المصدر:** `lib/bookmarks.ts:1-7` — واجهة Bookmark ؛
@@ -450,7 +447,7 @@ larger than_tokenize "strict" لكن recall أفضل.
 **التناقص / الحد:** لا يوجد تنظيف تلقائي للبيانات القديمة — قد يتراكم حجم
 localStorage مع الوقت.
 
-**ال tinher المقترح:** إضافة TTL (Time-To-Live) لبيانات التقدم القديمة
+**التحسين المقترح:** إضافة TTL (Time-To-Live) لبيانات التقدم القديمة
 (أكثر من 90 يوماً).
 
 ---
@@ -468,7 +465,7 @@ localStorage يعمل دائماً — هو ذاكرة محلية ولا يحت�
 **التناقص / الحد:** إذا لم يزر المستخدم صفحة معينة سابقاً، لن يعمل
 محتوىها offline لأنها ليست في runtime cache.
 
-**الtinher المقترح:** إضافة `setCatchHandler` في service worker لعرض صفحة
+**التحسين المقترح:** إضافة `setCatchHandler` في service worker لعرض صفحة
 offline مخصصة عند فشل الشبكة.
 
 ---
@@ -487,7 +484,7 @@ offline مخصصة عند فشل الشبكة.
 **التناقص / الحد:** المستخدم لا يحصل على أي إشعار عند تحديث المحتوى
 أو ميزة جديدة.
 
-**الtinher المقترح:** إضافة Push Notifications عبر Vercel Edge Functions
+**التحسين المقترح:** إضافة Push Notifications عبر Vercel Edge Functions
 مع subscription endpoint.
 
 ---
@@ -502,12 +499,12 @@ via `defaultCache` في `sw.ts:10`. إذا لم تُزرَّ الصفحة ساب
 محتواها offline.
 
 **المصدر:** `sw.ts:5-11` — Serwist setup مع `precacheEntries` و `runtimeCaching` ؛
-`next.config.ts:4-8` — Serwist config مع `swSrc` و `swDest`.
+`next.config.ts:4-9` — Serwist config مع `swSrc` و `swDest`.
 
 **التناقص / الحد:** المحتوى غير المزار سابقاً لا يعمل offline. لا يوجد
 precaching لكل صفحات الكتاب (13 فصلاً + الرئيسية).
 
-**الtinher المقترح:** إضافة `runtimeCaching` strategy لـ chapter routes
+**التحسين المقترح:** إضافة `runtimeCaching` strategy لـ chapter routes
 مع stale-while-revalidate لتحسين تجربة offline.
 
 ---
@@ -525,7 +522,7 @@ cache، يعرض المتصفح صفحة خطأ عامة وليس صفحة offli
 **التناقص / الحد:** تجربة المستخدم offline غير مكتملة — لا توجد رسالة توضيحية
 أو بديل.
 
-**الtinher المقترح:** إضافة `offline.html` في `public/` و配置 `setCatchHandler`
+**التحسين المقترح:** إضافة `offline.html` في `public/` وإضافة `setCatchHandler`
 في `sw.ts` لعرضه عند فشل الشبكة.
 
 ---
@@ -538,17 +535,17 @@ cache، يعرض المتصفح صفحة خطأ عامة وليس صفحة offli
 
 **الإجابة:**
 التطبيق آمن نسبياً: static-only (لا خادم لاختراقه)، لا secrets في الكود
-(`.env.local` يحتوي Supabase vars غير مستخدمة حالياً)، surface area محدود.
+(`.env.local` يحتوي Supabase vars غير مستخدمة حالياً)، مساحة سطح هجوم محدودة.
 لكن لا يوجد Content-Security-Policy header — `.htaccess` يضع فقط
 `X-Content-Type-Options` و `X-Frame-Options` و `Referrer-Policy`.
 
 **المصدر:** `public/.htaccess:3-7` — Headers المُعدّة (بدون CSP) ؛
-`.env.local:4-9` — Supabase vars (dead code).
+`.env.local:4-9` — Supabase vars (كود ميت).
 
 **التناقص / الحد:** بدون CSP، التطبيق معرّض لـ XSS إذا وُجد ثغرة في
 أي مكتبة تابعة (مثل react-markdown).
 
-**الtinher المقترح:** إضافة CSP header في `.htaccess` و `vercel.json`
+**التحسين المقترح:** إضافة CSP header في `.htaccess` و `vercel.json`
 مع `script-src 'self'` و `style-src 'self' 'unsafe-inline'`.
 
 ---
@@ -557,7 +554,7 @@ cache، يعرض المتصفح صفحة خطأ عامة وليس صفحة offli
 
 **الإجابة:**
 الاستضافة static تعني: لا خادم يتعطل، لا database تتوقف، لا downtime
-بسبب حمل زائد. Vercel CDN موثوق جداً. لكن لا يوجد automated E2E testing
+بسبب حمل زائد. Vercel CDN موثوق جداً. لكن لا يوجد اختبارات E2E آلية
 في CI — اختبارات Playwright موجودة (`e2e/*.spec.ts`) لكن لا يوجد خط
 CI يُشغّلها تلقائياً.
 
@@ -565,10 +562,9 @@ CI يُشغّلها تلقائياً.
 `.github/` — غير موجود (لا CI config) ؛
 `package.json:15` — `"test:e2e": "playwright test"` (موجود يدوياً فقط).
 
-**التناقص / الحد:** لا يوجد مراقبة (monitoring) للإنتاج — لا Sentry، لا
-uptime check. لا يمكننا معرفة إذا كان الموقع يعمل فعلياً.
+**التناقص / الحد:** لا يوجد مراقبة للإنتاج — لا Sentry، لا فحص وقت التشغيل. لا يمكننا معرفة إذا كان الموقع يعمل فعلياً.
 
-**الtinher المقترح:** إضافة GitHub Actions workflow لتشغيل lint + typecheck +
+**التحسين المقترح:** إضافة GitHub Actions workflow لتشغيل lint + typecheck +
 test + build في كل PR.
 
 ---
@@ -588,7 +584,7 @@ test + build في كل PR.
 **التناقص / الحد:** لا يوجد component tests لـ React components. لا يوجد
 snapshot tests. لا يوجد CI pipeline.
 
-**الtinher المقترح:** إضافة:
+**التحسين المقترح:** إضافة:
 1. `@testing-library/react` component tests لكل component رئيسي.
 2. GitHub Actions CI workflow.
 3. Playwright tests في CI.
@@ -603,23 +599,23 @@ snapshot tests. لا يوجد CI pipeline.
 2. Component tests لكل components رئيسية.
 3. صور أفضل (image pipeline مع next/image optimization).
 4. تقليل حجم corpus البحث (تقسيم إلى chunks).
-5. تنظيف dead code (Supabase env vars غير مستخدمة).
+5. تنظيف الكود الميت (Supabase env vars غير مستخدمة).
 
 **ما يجب ألا يُقال:**
-- «التطبيق يعمل بالكامل offline» (المحتوى يحتاج network).
+- «التطبيق يعمل بالكامل offline» (المحتوى يحتاج شبكة).
 - «البحث instant» (هناك تأخير في التحميل الأولي).
 - «يوجد مزامنة بين الأجهزة» (localStorage فقط).
 - «يوجد CI/CD» (لا يوجد GitHub Actions).
 - «التطبيق آمن بالكامل» (لا يوجد CSP).
 
-**المصدر:** `.env.local:4-9` — dead Supabase vars ؛
+**المصدر:** `.env.local:4-9` — Supabase vars ميتة ؛
 `sw.ts:5-13` — بدون offline fallback ؛
 `.github/` — غير موجود.
 
 **التناقص / الحد:** بعض التحسينات تتطلب إعادة هيكلة كبيرة (مثل تقليل corpus
 يتطلب pipeline build جديد).
 
-**الtinher المقترح:** وضع roadmap رسمي في README.md مع أولويات واضحة
+**التحسين المقترح:** وضع roadmap رسمي في README.md مع أولويات واضحة
 ومؤقتات واقعية.
 
 ---
