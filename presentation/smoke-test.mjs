@@ -2,7 +2,23 @@
 import { readFileSync } from "fs";
 import { JSDOM } from "jsdom";
 
-const html = readFileSync("presentation/slides.html", "utf-8");
+// ── Parse flags ──
+const args = process.argv.slice(2);
+
+function flag(name) {
+  return args.includes(`--${name}`);
+}
+function opt(name, fallback) {
+  const i = args.indexOf(`--${name}`);
+  return i !== -1 && i + 1 < args.length ? args[i + 1] : fallback;
+}
+
+const filePath  = opt("file", "presentation/slides.html");
+const lang      = opt("lang", "ar");
+const dir       = opt("dir",  "rtl");
+const minSlides = parseInt(opt("min", "30"), 10);
+
+const html = readFileSync(filePath, "utf-8");
 const dom = new JSDOM(html, { runScripts: "dangerously", pretendVisual: true });
 const { document } = dom.window;
 
@@ -12,15 +28,14 @@ const assert = (label, ok) => {
   else    { fail++; console.error(`  ✗ ${label}`); }
 };
 
-console.log("\n— presentation/smoke-test.mjs —\n");
+console.log(`\n— presentation/smoke-test.mjs — file: ${filePath}\n`);
 
 // 1. Structural basics
-assert("html lang=ar", document.documentElement.getAttribute("lang") === "ar");
-assert("html dir=rtl", document.documentElement.getAttribute("dir") === "rtl");
+assert(`html lang=${lang}`, document.documentElement.getAttribute("lang") === lang);
+assert(`html dir=${dir}`, document.documentElement.getAttribute("dir") === dir);
 
 // 2. Slides exist and are numbered
 const slides = document.querySelectorAll("[data-slide]");
-const minSlides = parseInt(process.argv.includes("--min") ? process.argv[process.argv.indexOf("--min") + 1] : "30", 10);
 assert(`slide count >= ${minSlides} (found ${slides.length})`, slides.length >= minSlides);
 
 // 3. Dynamic numbering rendered (JS writes N/total into .slide-number elements)
