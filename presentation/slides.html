@@ -244,23 +244,309 @@
 </head>
 <body>
 
-  <!-- Slide 1: Title -->
-  <section class="slide active" data-slide="1" data-notes="مرحباً بالجميع، هذا العرض عن منصة بصّارة الرقمية للكتب.">
-    <h1>بصّارة</h1>
-    <h3>منصة رقمية للكتب العربية</h3>
-    <p style="margin-top: 1rem; color: var(--muted);">العرض التقديمي — ٢٠٢٦</p>
+  <!-- ══════════ 1 · Opening · Title ══════════ -->
+  <section class="slide active" data-slide="1" data-section="opening" data-notes="افتتاحية العرض. بصائر مشروع يحوّل كتاباً PDF ضخماً (أكثر من 900 صفحة) إلى منصة قراءة رقمية تفاعلية. هذه الجلسة تهدف إلى فهم حقيقي للمشروع، لا مجرد عرض شرائح.\nالمرجع: README.md:13-20 (ميزات المنصة)، README.md:1-6 (تعريف المنصة واسم الكتاب).">
+    <h1>بصائر: من كتاب PDF إلى منصة قراءة رقمية</h1>
+    <div class="slide-body">
+      <blockquote style="margin-top: 1.2rem; padding-inline-start: 1rem; border-inline-start: 3px solid var(--primary); color: var(--muted); font-size: 1.3rem;">
+        «بصائر في الكون والحياة والدين» — د. هيثم طلعت
+      </blockquote>
+      <p style="margin-top: 0.8rem; color: var(--muted);">نحو فهمٍ حقيقيٍّ للمشروع.</p>
+    </div>
   </section>
 
-  <!-- Slide 2: Content -->
-  <section class="slide" data-slide="2" data-notes="هنا نشرح الفكرة الأساسية للمنصة وكيف تخدم القارئ العربي.">
-    <h2>لماذا بصّارة؟</h2>
-    <p style="margin-top: 1rem;">منصة تجمع الكتب الرقمية العربية في مكان واحد، مع بحث ذكي وتجربة قراءة مريحة.</p>
+  <!-- ══════════ 2 · Opening · Agenda ══════════ -->
+  <section class="slide" data-slide="2" data-section="opening" data-notes="جدول الأعمال مبني على ميزانية الوقت: الافتتاح 5، الأطروحة 4، القرارات 7، النموذج الذهني 4، المنتج 5، الغوص العميق 13، العرض الحي 11، المفاضلات 4، خارطة الطريق 3، الخاتمة 4. المجموع 60 دقيقة.">
+    <h1>جدول الأعمال: عشرة أقسام في ستين دقيقة</h1>
+    <div class="slide-body">
+      <table style="width:100%; border-collapse: collapse; font-size: 1.1rem;">
+        <thead>
+          <tr>
+            <th style="text-align:right; padding:0.5em; border-bottom:2px solid var(--primary);">القسم</th>
+            <th style="text-align:right; padding:0.5em; border-bottom:2px solid var(--primary);">الدقائق</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td style="padding:0.4em 0.5em; border-bottom:1px solid var(--muted);">الافتتاح</td><td>5</td></tr>
+          <tr><td style="padding:0.4em 0.5em; border-bottom:1px solid var(--muted);">الأطروحة</td><td>4</td></tr>
+          <tr><td style="padding:0.4em 0.5em; border-bottom:1px solid var(--muted);">القرارات</td><td>7</td></tr>
+          <tr><td style="padding:0.4em 0.5em; border-bottom:1px solid var(--muted);">النموذج الذهني</td><td>4</td></tr>
+          <tr><td style="padding:0.4em 0.5em; border-bottom:1px solid var(--muted);">المنتج</td><td>5</td></tr>
+          <tr><td style="padding:0.4em 0.5em; border-bottom:1px solid var(--muted);">الغوص العميق</td><td>13</td></tr>
+          <tr><td style="padding:0.4em 0.5em; border-bottom:1px solid var(--muted);">العرض الحي</td><td>11</td></tr>
+          <tr><td style="padding:0.4em 0.5em; border-bottom:1px solid var(--muted);">المفاضلات</td><td>4</td></tr>
+          <tr><td style="padding:0.4em 0.5em; border-bottom:1px solid var(--muted);">خارطة الطريق</td><td>3</td></tr>
+          <tr><td style="padding:0.4em 0.5em; border-bottom:1px solid var(--muted);">الخاتمة</td><td>4</td></tr>
+          <tr><td style="padding:0.5em; font-weight:700; border-top:2px solid var(--primary);">المجموع</td><td style="font-weight:700; border-top:2px solid var(--primary);">60</td></tr>
+        </tbody>
+      </table>
+    </div>
   </section>
 
-  <!-- Slide 3: Closing -->
-  <section class="slide" data-slide="3" data-notes="شكراً لحسن الاستماع. هل لديكم أي أسئلة؟">
-    <h1>شكراً لكم</h1>
-    <p style="margin-top: 1rem; color: var(--muted);">بصّارة — اقرأ أكثر، بحث أقل</p>
+  <!-- ══════════ 3 · Product · Overview ══════════ -->
+  <section class="slide" data-slide="3" data-section="product" data-notes="نظرة سريعة على مخرجات المشروع. كل البيانات تحققت من المصدر:\n13 فصلاً في content/chapters (intro + chapter-1..12) — تم التحقق: ls content/chapters | wc -l = 13.\n522 صورة في public/images — تم التحقق: find public/images -type f | wc -l = 522.\nالبحث النصي الكامل عبر FlexSearch، إشارات مرجعية في localStorage، وضع ليلي/نهاري، اتجاه RTL، وPWA.\nالمرجع: README.md:1-6 (تعريف المنصة واسم الكتاب).">
+    <h1>ما الذي يقدّمه المشروع للقارئ؟</h1>
+    <div class="slide-body">
+      <ul style="list-style:none; padding:0; font-size:1.15rem; line-height:2;">
+        <li>📚 ١٣ فصلاً منظّماً (المقدمة + ١٢ فصلاً)</li>
+        <li>🖼️ ٥٢٢ صورة موزّعة على الفصول</li>
+        <li>🔍 بحث نصي كامل (FlexSearch) مع دعم RTL</li>
+        <li>🔖 إشارات مرجعية محلية + وضع ليلي/نهاري + PWA</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ══════════ 4 · Product · Problem ══════════ -->
+  <section class="slide" data-slide="4" data-section="product" data-notes="التحويل من PDF إلى ويب. الكتاب الأصلي PDF يتجاوز 900 صفحة (يُذكر في README.md:13). المقارنة بين الحالتين قبل/بعد.\nقبل: PDF صعب البحث والتنقل ولا يعمل دون اتصال بسهولة. بعد: ويب قابل للفهرسة، قابل للحفظ، يعمل دون اتصال (PWA)، وتنسيق عربي RTL أصيل.\nالمرجع: README.md:7 (بدل عارض PDF ثابت)، README.md:13-20 (الميزات).">
+    <h1>ما المشكلة التي يحلّها المشروع؟</h1>
+    <div class="slide-body">
+      <table style="width:100%; border-collapse: collapse; font-size:1.1rem;">
+        <thead>
+          <tr>
+            <th style="text-align:right; padding:0.5em; border-bottom:2px solid var(--primary);">قبل (PDF)</th>
+            <th style="text-align:right; padding:0.5em; border-bottom:2px solid var(--primary);">بعد (ويب)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td style="padding:0.4em 0.5em; border-bottom:1px solid var(--muted);">+٩٠٠ صفحة ثابتة</td><td style="padding:0.4em 0.5em; border-bottom:1px solid var(--muted);">قابل للبحث والفهرسة</td></tr>
+          <tr><td style="padding:0.4em 0.5em; border-bottom:1px solid var(--muted);">بحث وتنقل صعبان</td><td style="padding:0.4em 0.5em; border-bottom:1px solid var(--muted);">إشارات مرجعية وفصول مرتبة</td></tr>
+          <tr><td style="padding:0.4em 0.5em; border-bottom:1px solid var(--muted);">قراءة دون اتصال مرهقة</td><td style="padding:0.4em 0.5em; border-bottom:1px solid var(--muted);">يعمل دون اتصال (PWA)</td></tr>
+          <tr><td style="padding:0.4em 0.5em;">تنسيق عربي محدود</td><td style="padding:0.4em 0.5em;">طباعة عربية RTL أصيلة (Tajawal)</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ══════════ 5 · Opening · Glance ══════════ -->
+  <section class="slide" data-slide="5" data-section="opening" data-notes="شريحة النظرة السريعة. نعرض العنوان المحلي للمشروع.\nرابط المحاكاة محلي: http://localhost:3000. يُشغَّل بأمر next dev أو بعد البناء الثابت عبر أي خادم ثابت.\nالعرض الحي الكامل المرفق بالصور والتشغيل التفاعلي سيُقدَّم في الشريحة 30 ضمن قسم «العرض الحي».\nالمرجع: package.json scripts (dev / build / start).">
+    <h1>أين يُعاين المستمع المشروع الآن؟</h1>
+    <div class="slide-body">
+      <p style="font-size:1.6rem; font-family: ui-monospace, monospace; direction:ltr; text-align:left; color:var(--primary);" data-dir="ltr">http://localhost:3000</p>
+      <p style="margin-top:1rem; color:var(--muted);">العرض الحيّ موجود في الشريحة ٣٠.</p>
+    </div>
+  </section>
+
+  <!-- ══════════ 6 · Thesis ══════════ -->
+  <section class="slide" data-slide="6" data-section="thesis" data-notes="الأطروحة الأساسية: الكتاب بعد المعالجة يُعامَل كبيانات منظمة لا كمستندات جامدة.\nالمصدر تحوّل من DOCX إلى فصول Markdown منفصلة (content/chapters)، فيصبح المحتوى قابلاً للبحث والفهرسة والبرمجة.\nالمرجع: scripts/docx_to_md.py (الاستخراج بـ python-docx + Regex)، README.md:28-30 (مرحلة الاستخراج).">
+    <h1>كيف ننظر إلى الكتاب بعد التحويل؟</h1>
+    <div class="slide-body">
+      <blockquote style="margin-top:0.5rem; padding:1.2rem; background:var(--code-bg); border-inline-start:4px solid var(--primary); font-size:1.4rem; font-weight:700;">
+        «الكتاب بياناتٌ لا مستندات»
+      </blockquote>
+      <p style="margin-top:1.2rem;">المحتوى يُفكَّك إلى ١٣ فصلاً من Markdown منفصلة، فيصبح قابلاً للبحث والفهرسة والبناء — كل ذلك قبل أن تلمسه الواجهة.</p>
+    </div>
+  </section>
+
+  <!-- ══════════ 7 · Thesis · Consequences ══════════ -->
+  <section class="slide" data-slide="7" data-section="thesis" data-notes="عواقب «الكتاب بيانات» عملياً — ثلاث نتائج معمارية.\n(a) إمكانية النشر على أي خادم ثابت بدل خادم ديناميكي.\n(b) الواجهة تملك كل التفاعلية على الجهاز (بحث، إشارات، وضع ليلي) عبر مكونات client-side.\n(c) الحساب يتم عند البناء لا عند الطلب؛ لا حاجة لخوادم في زمن التشغيل؛ البيتا تُحضَّر مسبقاً.\nالمرجع: next.config.ts:12 (output: \"export\")، next.config.ts:13-14 (trailingSlash و unoptimized images).">
+    <h1>ما عواقب هذا القرار المعماري؟</h1>
+    <div class="slide-body">
+      <ol style="font-size:1.15rem; line-height:2.1; padding-inline-start:1.2rem;">
+        <li>قابل للنشر على أي مُستضيف ثابت (لا خادم ديناميكي).</li>
+        <li>العميل يملك التفاعلية: بحث وإشارات ووضع ليلي داخل المتصفح.</li>
+        <li>الحساب عند البناء (SSG) يغني عن الخوادم في زمن التشغيل.</li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- ══════════ 8 · Decisions · Two-phase pipeline ══════════ -->
+  <section class="slide" data-slide="8" data-section="decisions" data-notes="القرار الأول: خط إنتاج من مرحلتين.\nالمرحلة الأولى (Python): python-docx + Regex لاستخراج النص والصور من مصدر DOCX وتحويله إلى فصول Markdown (scripts/docx_to_md.py، scripts/inject_docx_images.py).\nالمرحلة الثانية: منصة TypeScript (Next.js) تستهلك الفصول من content/chapters.\nبذلك يُفصَل المحتوى عن الواجهة. المفاضلة: تحتاج مهارتين (Python + TS)، لكن المحتوى يصبح مستقلًا وقابلًا لإعادة الاستخدام.\nالتحقق: content/chapters يحتوي 13 ملف .md (intro + chapter-1..12).">
+    <h1>لماذا فصلنا المعالجة عن الواجهة؟</h1>
+    <div class="slide-body">
+      <div style="display:flex; flex-direction:column; gap:1rem; font-size:1.15rem; text-align:center;">
+        <div style="padding:0.8em; background:var(--code-bg); border-radius:8px;">Python — python-docx + Regex</div>
+        <div style="align-self:center; color:var(--primary);">↓</div>
+        <div style="padding:0.8em; background:var(--code-bg); border-radius:8px;" data-dir="ltr">content/chapters/ · 13 ملف .md</div>
+        <div style="align-self:center; color:var(--primary);">↓</div>
+        <div style="padding:0.8em; background:var(--code-bg); border-radius:8px;">منصة TypeScript (Next.js)</div>
+      </div>
+      <p style="margin-top:1.2rem; color:var(--muted);">مفاضلة صريحة: تحتاج مهارتين، لكن المحتوى ينفصل عن الواجهة.</p>
+    </div>
+  </section>
+
+  <!-- ══════════ 9 · Decisions · Static export vs SSR ══════════ -->
+  <section class="slide" data-slide="9" data-section="decisions" data-notes="القرار الثاني: التصدير الثابت بدل SSR.\nالمكاسب: صفر تكلفة استضافة، متوافق مع Apache/المستضيفات الثابتة، سرعة تحميل فورية.\nالتكاليف: لا مسارات خادم (server routes)، لا بيانات في زمن حقيقي، البحث يعمل في المتصفح (client-side) فقط.\nالتحقق: next.config.ts:12 output: \"export\" مع trailingSlash و images.unoptimized (الأسطر 13-14).">
+    <h1>لماذا التصدير الثابت دون SSR؟</h1>
+    <div class="slide-body">
+      <table style="width:100%; border-collapse: collapse; font-size:1.1rem;">
+        <thead>
+          <tr>
+            <th style="text-align:right; padding:0.5em; border-bottom:2px solid var(--primary);">البُعد</th>
+            <th style="text-align:right; padding:0.5em; border-bottom:2px solid var(--primary);">التصدير الثابت</th>
+            <th style="text-align:right; padding:0.5em; border-bottom:2px solid var(--primary);">SSR</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td style="padding:0.4em 0.5em; border-bottom:1px solid var(--muted); font-weight:600;">المكاسب</td>
+            <td style="padding:0.4em 0.5em; border-bottom:1px solid var(--muted);">صفر تكلفة استضافة · متوافق مع Apache</td>
+            <td style="padding:0.4em 0.5em; border-bottom:1px solid var(--muted);">بيانات طازجة عند كل طلب</td>
+          </tr>
+          <tr>
+            <td style="padding:0.4em 0.5em; font-weight:600;">التكاليف</td>
+            <td style="padding:0.4em 0.5em;">لا مسارات خادم · لا بيانات حية · بحث client-side</td>
+            <td style="padding:0.4em 0.5em;">استضافة مكلفة · إعداد خادم</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ══════════ 10 · Decisions · Removed auth ══════════ -->
+  <section class="slide" data-slide="10" data-section="decisions" data-notes="القرار الثالث: حذف المصادقة نهائياً.\nتمت إزالة AuthProvider و middleware و Supabase نهائياً — راجع سجل git: git log --oneline | grep -i supabase يُظهر عدة التزامات منها «docs: refresh to static-export architecture (drop supabase)» و«chore: remove inert supabase migration remnant».\nانضباط النطاق: الإشارات المحلية على الجهاز (localStorage) بدل المزامنة السحابية.\nبقايا: .env.local ما زال يحوي متغيرات Supabase غير المستخدمة NEXT_PUBLIC_SUPABASE_URL و NEXT_PUBLIC_SUPABASE_ANON_KEY (أسماء فقط — لا نعرض القيم). هذه بقايا تنظيف لا تُستدعى في الكود.">
+    <h1>لماذا حذفنا تسجيل الدخول؟</h1>
+    <div class="slide-body">
+      <ul style="list-style:none; padding:0; font-size:1.15rem; line-height:2.1;">
+        <li>❌ حُذف AuthProvider و middleware و Supabase نهائياً</li>
+        <li>🎯 انضباط النطاق: كتاب يُقرأ دون حسابات</li>
+        <li>🔖 إشارات مرجعية محلية (localStorage) بدل مزامنة سحابية</li>
+        <li>🗂️ بقايا .env.local: متغيرات Supabase غير مستخدمة</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ══════════ 11 · Decisions · Prebuilt search ══════════ -->
+  <section class="slide" data-slide="11" data-section="decisions" data-notes="القرار الرابع: فهرس بحث مُجهَّز مسبقاً + فهرس عميل.\nالخط أنابيب: عند البناء، scripts/build-search-index.mjs (يُستدعى عبر prebuild في package.json) يقرأ content/chapters ويكتب public/search-data.json.\nالقياس: الملف 1,753,076 بايت (~1.7MB) ويحتوي 13 مستنداً (تم التحقق: node -e والحجم ls -la).\nالعميل يبني فهرس FlexSearch عند التحميل في useEffect — راجع components/SearchDialog.tsx:44-73 (fetch + new FlexSearch.Document + index.add).\nالمفاضلة: تنزيل ~1.7MB مقابل عدم الحاجة لأي خادم بحث.">
+    <h1>كيف نبحث بدون خادم؟</h1>
+    <div class="slide-body">
+      <div style="display:flex; flex-direction:column; gap:1rem; font-size:1.1rem; text-align:center;">
+        <div style="padding:0.8em; background:var(--code-bg); border-radius:8px;" data-dir="ltr">prebuild → scripts/build-search-index.mjs</div>
+        <div style="align-self:center; color:var(--primary);">↓</div>
+        <div style="padding:0.8em; background:var(--code-bg); border-radius:8px;" data-dir="ltr">public/search-data.json · ~1.7MB · 13 مستنداً</div>
+        <div style="align-self:center; color:var(--primary);">↓</div>
+        <div style="padding:0.8em; background:var(--code-bg); border-radius:8px;">العميل يبني فهرس FlexSearch عند التحميل</div>
+      </div>
+      <p style="margin-top:1.2rem; color:var(--muted);">مفاضلة صريحة: 1.7MB تُنزَّل مقابل غياب خادم البحث كلياً.</p>
+    </div>
+  </section>
+
+  <!-- ══════════ 12 · Decisions · Serwist PWA + .htaccess ══════════ -->
+  <section class="slide" data-slide="12" data-section="decisions" data-notes="القرار الخامس: Serwist PWA + .htaccess.\nخدمة العامل (Serwist) للقراءة دون اتصال — sw.ts:5-11 (Serwist مع precacheEntries و navigationPreload). معطّلة في التطوير: next.config.ts:8 (disable: NODE_ENV !== \"production\").\n.htaccess: كاش ثابت مع رؤوس أمان — public/.htaccess (Cache-Control immutable لـ search-data.json + X-Content-Type-Options + Referrer-Policy + X-Frame-Options).\nالحد المعروف: لا توجد صفحة fallback مخصصة عند انقطاع الشبكة (لا offline fallback page). القيد مُعلَن صراحةً في الشريحة.">
+    <h1>كيف نقرأ دون اتصال؟</h1>
+    <div class="slide-body">
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:1.2rem; font-size:1.05rem;">
+        <div style="padding:1em; background:var(--code-bg); border-radius:8px;">
+          <strong>Serwist (SW)</strong>
+          <ul style="margin-top:0.6em; padding-inline-start:1.1em;">
+            <li>قراءة دون اتصال (precache)</li>
+            <li>معطّل في التطوير: <code>disable</code></li>
+          </ul>
+        </div>
+        <div style="padding:1em; background:var(--code-bg); border-radius:8px;">
+          <strong>.htaccess</strong>
+          <ul style="margin-top:0.6em; padding-inline-start:1.1em;">
+            <li>كاش دائم <code>immutable</code></li>
+            <li>رؤوس أمان (nosniff, frame, referrer)</li>
+          </ul>
+        </div>
+      </div>
+      <p style="margin-top:1.2rem;">حدّ معروف: لا توجد صفحة fallback مخصصة لانقطاع الشبكة.</p>
+    </div>
+  </section>
+
+  <!-- ══════════ 13 · Mental Model · Data flow (SVG, RTL) ══════════ -->
+  <section class="slide" data-slide="13" data-section="mental-model" data-notes="الشريحة المحورية: النموذج الذهني الكامل لتدفق البيانات، يُقرأ من اليمين إلى اليسار (RTL).\ncontent/*.md → [prebuild + SSG] → out/ + search-data.json → [SW precache] → [React hydration] → بيانات محلية.\nالمفاتيح المحلية تحققت من المصدر: theme في app/layout.tsx:39-41 (سكربت مضمّن) و Navbar.tsx:27-31؛ basaar-bookmarks في lib/bookmarks.ts:1؛ basaar-reading-progress في lib/readingProgress.ts:1.\nالأحداث: basaar-theme-change (Navbar.tsx:30) و bookmarks-updated، و storage.\nوضع الليلي يستخدم useSyncExternalStore (Navbar.tsx:20-24).">
+    <h1>كيف تتدفق البيانات في النظام؟</h1>
+    <div class="slide-body">
+      <svg viewBox="0 0 1000 300" style="width:100%; max-width:940px; margin:0 auto; display:block;" role="img" aria-label="مخطط تدفق البيانات في بصائر">
+        <defs>
+          <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+            <path d="M 0 0 L 10 5 L 0 10 z" fill="#c18850"/>
+          </marker>
+        </defs>
+        <rect x="820" y="30" width="150" height="60" rx="8" fill="#f5efe4" stroke="#c18850"/>
+        <text x="895" y="66" text-anchor="middle" font-size="13" fill="#8b5a2b">content/*.md</text>
+        <line x1="820" y1="60" x2="800" y2="60" stroke="#c18850" stroke-width="2" marker-end="url(#arrow)"/>
+        <rect x="600" y="30" width="180" height="60" rx="8" fill="#f5efe4" stroke="#8b5a2b"/>
+        <text x="690" y="58" text-anchor="middle" font-size="13" fill="#2c2416">prebuild + SSG</text>
+        <text x="690" y="76" text-anchor="middle" font-size="10" fill="#a89279">build.js · next build</text>
+        <line x1="600" y1="60" x2="580" y2="60" stroke="#c18850" stroke-width="2" marker-end="url(#arrow)"/>
+        <rect x="400" y="30" width="160" height="60" rx="8" fill="#f5efe4" stroke="#8b5a2b"/>
+        <text x="480" y="66" text-anchor="middle" font-size="13" fill="#2c2416">out/ + search-data.json</text>
+        <line x1="400" y1="60" x2="380" y2="60" stroke="#c18850" stroke-width="2" marker-end="url(#arrow)"/>
+        <rect x="230" y="30" width="130" height="60" rx="8" fill="#f5efe4" stroke="#c18850"/>
+        <text x="295" y="58" text-anchor="middle" font-size="12" fill="#2c2416">SW precache</text>
+        <text x="295" y="76" text-anchor="middle" font-size="10" fill="#a89279">Serwist</text>
+        <line x1="230" y1="60" x2="210" y2="60" stroke="#c18850" stroke-width="2" marker-end="url(#arrow)"/>
+        <rect x="40" y="30" width="150" height="60" rx="8" fill="#f5efe4" stroke="#8b5a2b"/>
+        <text x="115" y="66" text-anchor="middle" font-size="13" fill="#2c2416">React hydration</text>
+        <line x1="440" y1="180" x2="430" y2="135" stroke="#a89279" stroke-width="2" marker-end="url(#arrow)"/>
+        <rect x="30" y="180" width="200" height="90" rx="8" fill="#fdfbf7" stroke="#a89279"/>
+        <text x="130" y="205" text-anchor="middle" font-size="12" fill="#8b5a2b">localStorage</text>
+        <text x="130" y="226" text-anchor="middle" font-size="11" fill="#2c2416">theme · basaar-bookmarks</text>
+        <text x="130" y="242" text-anchor="middle" font-size="11" fill="#2c2416">basaar-reading-progress</text>
+        <text x="130" y="258" text-anchor="middle" font-size="10" fill="#a89279">أحداث: basaar-theme-change · bookmarks-updated · storage</text>
+      </svg>
+    </div>
+  </section>
+
+  <!-- ══════════ 14 · Product · Home page ══════════ -->
+  <section class="slide" data-slide="14" data-section="product" data-notes="الوصف الوظيفي للصفحة الرئيسية.\nالتحقق: app/page.tsx:13-29 (hero مع زر «ابدأ القراءة» رابط إلى أول فصل) و app/page.tsx:31-48 (شبكة فصول «محتويات الكتاب»).\nالشريط الجانبي (فهرس المحتويات) للشاشات الكبيرة فقط: components/Sidebar.tsx (hidden lg:block في السطر 10، aria-label في 11).\nأزرار السابق/التالي في نهاية الفصل: app/chapter/[slug]/page.tsx:66-80.">
+    <h1>بمَ يبدأ القارئ رحلته؟</h1>
+    <div class="slide-body">
+      <ul style="list-style:none; padding:0; font-size:1.15rem; line-height:2.2;">
+        <li>🏠 واجهة البطل (hero) مع زر «ابدأ القراءة» يفتح أول فصل</li>
+        <li>⬇️ شبكة فصول «محتويات الكتاب» تلي البطل</li>
+        <li>📑 فهرس محتويات جانبي ثابت على سطح المكتب (Sidebar)</li>
+        <li>↔️ أزرار «السابق / التالي» في نهاية كل فصل</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ══════════ 15 · Product · Search UX ══════════ -->
+  <section class="slide" data-slide="15" data-section="product" data-notes="اختصارات لوحة المفاتيح للبحث.\nالتحقق: فتح البحث عبر Ctrl+K مضبوط في components/ClientShell.tsx:18-27 (e.ctrlKey && e.key === \"k\").\nالتنقل داخل حوار البحث في components/SearchDialog.tsx:115-135 (Escape إغلاق، ArrowDown/ArrowUp تنقل، Enter يفتح النتيجة المحددة).\nالتقسيم بادئة (forward tokenization): components/SearchDialog.tsx:58 (tokenize: \"forward\") يعني أن الجزء البادئ من الكلمة يطابقها، مثل بحث «مكتب» يطابق «المكتبة».\nملاحظة دقة: نموذج «كتاب يطابق المكتبة» في المخطط الأصلي غير دقيق لأن «كتاب» ليست بادئة «المكتبة»؛ المثال الصحيح هو «مكتب» → «المكتبة».">
+    <h1>كيف تنقّل في نتائج البحث؟</h1>
+    <div class="slide-body">
+      <table style="width:100%; border-collapse: collapse; font-size:1.1rem;">
+        <thead>
+          <tr>
+            <th style="text-align:right; padding:0.5em; border-bottom:2px solid var(--primary);">الاختصار</th>
+            <th style="text-align:right; padding:0.5em; border-bottom:2px solid var(--primary);">الفعل</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td style="padding:0.4em 0.5em; border-bottom:1px solid var(--muted);"><kbd>Ctrl</kbd>+<kbd>K</kbd></td><td style="padding:0.4em 0.5em; border-bottom:1px solid var(--muted);">فتح/إغلاق البحث</td></tr>
+          <tr><td style="padding:0.4em 0.5em; border-bottom:1px solid var(--muted);"><kbd>↑</kbd> <kbd>↓</kbd></td><td style="padding:0.4em 0.5em; border-bottom:1px solid var(--muted);">التنقل في النتائج</td></tr>
+          <tr><td style="padding:0.4em 0.5em; border-bottom:1px solid var(--muted);"><kbd>Enter</kbd></td><td style="padding:0.4em 0.5em; border-bottom:1px solid var(--muted);">فتح النتيجة المحددة</td></tr>
+          <tr><td style="padding:0.4em 0.5em;"><kbd>Esc</kbd></td><td style="padding:0.4em 0.5em;">إغلاق البحث</td></tr>
+        </tbody>
+      </table>
+      <p style="margin-top:1.2rem; color:var(--muted);">تقسيم بادئة: بحث «مكتب» يطابق «المكتبة».</p>
+    </div>
+  </section>
+
+  <!-- ══════════ 16 · Product · Local features ══════════ -->
+  <section class="slide" data-slide="16" data-section="product" data-notes="الميزات المحلية في ثلاثة أعمدة: مفتاح التخزين، الحدث، والاستمرارية.\nالإشارات المرجعية: المفتاح basaar-bookmarks في lib/bookmarks.ts:1، الحدث bookmarks-updated (يُطلق عند التبديل في مكوّن الإشارات).\nتقدم القراءة: المفتاح basaar-reading-progress في lib/readingProgress.ts:1.\nالوضع: المفتاح theme في app/layout.tsx:39-41 (سكربت مضمّن) وفي components/Navbar.tsx:27-31 (تبديل + حدث basaar-theme-change في السطر 30).\nحدث storage (عبر المتصفح) والاستمرارية عبر localStorage؛ وضع الليلي يستمع عبر useSyncExternalStore (Navbar.tsx:20-24).">
+    <h1>أين تُحفظ بيانات القارئ المحلية؟</h1>
+    <div class="slide-body">
+      <table style="width:100%; border-collapse: collapse; font-size:1rem;">
+        <thead>
+          <tr>
+            <th style="text-align:right; padding:0.5em; border-bottom:2px solid var(--primary);">الميزة</th>
+            <th style="text-align:right; padding:0.5em; border-bottom:2px solid var(--primary);">المفتاح</th>
+            <th style="text-align:right; padding:0.5em; border-bottom:2px solid var(--primary);">الحدث</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td style="padding:0.4em 0.5em; border-bottom:1px solid var(--muted);">الإشارات المرجعية</td>
+            <td style="padding:0.4em 0.5em; border-bottom:1px solid var(--muted);" data-dir="ltr">basaar-bookmarks</td>
+            <td style="padding:0.4em 0.5em; border-bottom:1px solid var(--muted);" data-dir="ltr">bookmarks-updated</td>
+          </tr>
+          <tr>
+            <td style="padding:0.4em 0.5em; border-bottom:1px solid var(--muted);">تقدم القراءة</td>
+            <td style="padding:0.4em 0.5em; border-bottom:1px solid var(--muted);" data-dir="ltr">basaar-reading-progress</td>
+            <td style="padding:0.4em 0.5em; border-bottom:1px solid var(--muted);" data-dir="ltr">storage</td>
+          </tr>
+          <tr>
+            <td style="padding:0.4em 0.5em;">الوضع (ليلي/نهاري)</td>
+            <td style="padding:0.4em 0.5em;" data-dir="ltr">theme</td>
+            <td style="padding:0.4em 0.5em;" data-dir="ltr">basaar-theme-change</td>
+          </tr>
+        </tbody>
+      </table>
+      <p style="margin-top:1.2rem; color:var(--muted);">كلها محفوظة في localStorage على جهاز القارئ — لا خادم.</p>
+    </div>
   </section>
 
   <!-- Overview panel -->
