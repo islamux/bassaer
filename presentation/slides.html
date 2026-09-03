@@ -1020,6 +1020,83 @@ useEffect(() =&gt; {<br>
     </div>
   </section>
 
+  <!-- ══════════ 30 · Demo · Divider ══════════ -->
+  <section class="slide" data-slide="30" data-section="demo" data-notes="شريحة فاصلة قبل العرض الحي. المدة الإجمالية 11 دقيقة، يمكن اختصارها إلى 6 دقائق بالتركيز على البحث والتنقل.\nالمرجع: demo-script.md (سكربت العرض الحي). لا مراجع مصدرية ثقيلة هنا — هذه شريحة تقسيم.">
+    <h1>عرض حي</h1>
+    <div class="slide-body" style="text-align:center; display:flex; flex-direction:column; align-items:center; justify-content:center;">
+      <p style="font-size:2.8rem; font-weight:700; color:var(--primary); margin-bottom:0.5rem;">عرض حي</p>
+      <p style="font-size:1.2rem; color:var(--muted);">١١ دقيقة — يمكن اختصارها إلى ٦ دقائق</p>
+      <p style="margin-top:1.5rem; font-size:0.9rem; color:var(--muted);">المرجع: demo-script.md</p>
+    </div>
+  </section>
+
+  <!-- ══════════ 31 · Trade-offs ══════════ -->
+  <section class="slide" data-slide="31" data-section="trade-offs" data-notes="المفاضلات: ما اكتسبناه وما دفعناه. كل سطر مُوثَّق بالمرجع.\n١. صفر تكلفة استضافة (next.config.ts:12 output: export) ← لا مسارات خادم ولا بيانات حية.\n٢. قراءة دون اتصال عبر Serwist (sw.ts) ← لا صفحة offline احتياطية (sw.ts بدون setCatchHandler).\n٣. بحث عميلي سريع عبر FlexSearch (SearchDialog.tsx:52-60) ← تنزيل 1.75 MB search-data.json لكل زائر.\n٤. طباعة عربية RTL بخط Tajawal ← المحتوى محلي على الجهاز فقط، لا مزامنة سحابية.\n٥. أمان عبر سطح ثابت + .htaccess (X-Frame-Options, nosniff) ← لا يوجد CSP header (فجوة معروفة).\n٦. حفظ bookmarks و progress و theme في localStorage ← غير مُزامَن عبر الأجهزة ولا مدعوم بخادم.\nالتحقق من كل ادعاء: next.config.ts:12,14 / sw.ts (بدون setCatchHandler) / search-data.json 1753076 بايت / .htaccess (بدون CSP) / lib/bookmarks.ts:1, lib/readingProgress.ts:1, Navbar.tsx:27-31.">
+    <h1>ما الذي اكتسبناه وما الذي دفعناه؟</h1>
+    <div class="slide-body">
+      <table style="width:100%; border-collapse:collapse; font-size:0.88rem;">
+        <thead>
+          <tr>
+            <th style="text-align:right; padding:0.5em; border-bottom:2px solid var(--primary); width:50%;">الاكتساب</th>
+            <th style="text-align:right; padding:0.5em; border-bottom:2px solid var(--primary); width:50%;">الثمن</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td style="padding:0.4em 0.5em; border-bottom:1px solid var(--muted);">صفر تكلفة استضافة — تصدير ثابت</td>
+            <td style="padding:0.4em 0.5em; border-bottom:1px solid var(--muted);">لا مسارات خادم — لا بيانات حية</td>
+          </tr>
+          <tr>
+            <td style="padding:0.4em 0.5em; border-bottom:1px solid var(--muted);">قراءة دون اتصال (Serwist PWA)</td>
+            <td style="padding:0.4em 0.5em; border-bottom:1px solid var(--muted);">لا صفحة offline احتياطية (sw.ts)</td>
+          </tr>
+          <tr>
+            <td style="padding:0.4em 0.5em; border-bottom:1px solid var(--muted);">بحث عميلي سريع (FlexSearch)</td>
+            <td style="padding:0.4em 0.5em; border-bottom:1px solid var(--muted);">1.75 MB تُنزَّل لكل زائر</td>
+          </tr>
+          <tr>
+            <td style="padding:0.4em 0.5em; border-bottom:1px solid var(--muted);">طباعة عربية RTL (Tajawal)</td>
+            <td style="padding:0.4em 0.5em; border-bottom:1px solid var(--muted);">المحتوى محلي فقط — لا مزامنة سحابية</td>
+          </tr>
+          <tr>
+            <td style="padding:0.4em 0.5em; border-bottom:1px solid var(--muted);">أمان عبر سطح ثابت + .htaccess</td>
+            <td style="padding:0.4em 0.5em; border-bottom:1px solid var(--muted);">لا يوجد CSP header</td>
+          </tr>
+          <tr>
+            <td style="padding:0.4em 0.5em;">bookmarks و progress و theme في localStorage</td>
+            <td style="padding:0.4em 0.5em;">غير مُزامَن عبر الأجهزة — لا خادم</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ══════════ 32 · Roadmap ══════════ -->
+  <section class="slide" data-slide="32" data-section="roadmap" data-notes="خارطة الطريق مُرتَّبة حسب المخاطر (الأكثر هشاشة أولاً) لا حسب الرغبة.\n١. صفحة offline احتياطية — مخاطرة عالية: sw.ts (سطور 5-11) لا يحتوي setCatchHandler. عند فشل تحميل صفحة غير مُخزّنة، لا يوجد بديل محلي → خطأ الشبكة بدلاً من محتوى.\n٢. اختبارات مكوّنات — RTL + jest-dom مُثبّتان (vitest.setup.ts سطر 1)، لكن لا يوجد ملف *.test.tsx في المشروع. vitest.config.ts يدعم *.tsx لكن لا ملفات.\n٣. خط أنابيب تحسين الصور — 522 صورة في public/images تُقدّم بدون تحسين. sharp مثبت في package.json لكن next.config.ts:14 يضع unoptimized: true فيُعطّله.\n٤. حجم فهرس البحث — 1,753,076 بايت (~1.75 MB) يُنزَّل لكل زائر. يمكن تحسينه بالضغط أو التصفية.\n٥. تنظيف متغيرات .env.local — بقايا NEXT_PUBLIC_SUPABASE_URL و NEXT_PUBLIC_SUPABASE_ANON_KEY (غير مستخدمة في أي كود، تم التحقق عبر grep).">
+    <h1>خارطة الطريق: مُرتَّبة حسب المخاطر</h1>
+    <div class="slide-body">
+      <ol style="font-size:1rem; line-height:2.2; padding-inline-start:1.2rem;">
+        <li><strong>صفحة offline احتياطية</strong> <span style="color:#c0392b;">— عالية:</span> sw.ts لا يحتوي setCatchHandler</li>
+        <li><strong>اختبارات مكوّنات</strong> <span style="color:#e67e22;">— متوسطة:</span> RTL + jest-dom مُثبّت لكن لا ملفات *.test.tsx</li>
+        <li><strong>تحسين الصور</strong> <span style="color:#e67e22;">— متوسطة:</span> 522 صورة بدون تحسين — sharp مُعطّل</li>
+        <li><strong>ضغط فهرس البحث</strong> <span style="color:var(--accent);">— منخفضة:</span> 1.75 MB تُنزَّل لكل زائر</li>
+        <li><strong>تنظيف .env.local</strong> <span style="color:var(--accent);">— منخفضة:</span> بقايا Supabase env vars غير مستخدمة</li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- ══════════ 33 · Closing ══════════ -->
+  <section class="slide" data-slide="33" data-section="closing" data-notes="الخاتمة: بصائر ليس مجرد تحويل من PDF إلى ويب — بل إعادة تصميم المحتوى كبيانات منظمة.\nاقتباس الإغلاق: بصائر: الكتاب ليس صورة PDF، بل بنية بيانات — والهندسة تعكس هذه الفكرة.\nالمراجع: qa-guide.md (دليل الأسئلة المفتوحة). لا مراجع مصدرية ثقيلة — هذه شريحة إغلاق.">
+    <h1>الكتاب بنية بيانات لا صورة</h1>
+    <div class="slide-body" style="display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center;">
+      <blockquote style="max-width:700px; padding:1.5rem 2rem; background:var(--code-bg); border-inline-start:4px solid var(--primary); font-size:1.4rem; font-weight:700; line-height:1.6;">
+        «بصائر: الكتاب ليس صورة PDF، بل بنية بيانات — والهندسة تعكس هذه الفكرة.»
+      </blockquote>
+      <p style="margin-top:2rem; font-size:1.3rem; font-weight:600;">أسئلة مفتوحة؟</p>
+      <p style="margin-top:1rem; font-size:0.9rem; color:var(--muted);">المرجع: qa-guide.md</p>
+    </div>
+  </section>
+
   <!-- Overview panel -->
   <div id="overview" class="overview" data-overview></div>
 
