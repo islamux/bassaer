@@ -494,7 +494,7 @@
   </section>
 
   <!-- ══════════ 15 · Product · Search UX ══════════ -->
-  <section class="slide" data-slide="15" data-section="product" data-notes="اختصارات لوحة المفاتيح للبحث.\nالتحقق: فتح البحث عبر Ctrl+K مضبوط في components/ClientShell.tsx:18-27 (e.ctrlKey && e.key === \"k\").\nالتنقل داخل حوار البحث في components/SearchDialog.tsx:115-135 (Escape إغلاق، ArrowDown/ArrowUp تنقل، Enter يفتح النتيجة المحددة).\nالتقسيم بادئة (forward tokenization): components/SearchDialog.tsx:58 (tokenize: \"forward\") يعني أن الجزء البادئ من الكلمة يطابقها، مثل بحث «مكتب» يطابق «المكتبة».\nملاحظة دقة: نموذج «كتاب يطابق المكتبة» في المخطط الأصلي غير دقيق لأن «كتاب» ليست بادئة «المكتبة»؛ المثال الصحيح هو «مكتب» → «المكتبة».">
+  <section class="slide" data-slide="15" data-section="product" data-notes="اختصارات لوحة المفاتيح للبحث.\nالتحقق: فتح البحث عبر Ctrl+K مضبوط في components/ClientShell.tsx:18-27 (e.ctrlKey && e.key === \"k\").\nالتنقل داخل حوار البحث في components/SearchDialog.tsx:115-135 (Escape إغلاق، ArrowDown/ArrowUp تنقل، Enter يفتح النتيجة المحددة).\nالتقسيم بادئة (forward tokenization): components/SearchDialog.tsx:58 (tokenize: \"forward\") يعني أن الجزء البادئ من الكلمة يطابقها، مثل بحث «المكتب» يطابق «المكتبة» (بما فيها أداة التعريف).\nملاحظة دقة: المثال المضبوط تجريبياً هو «المكتب» → «المكتبة»؛ أما «مكتب» بلا أداة تعريف فلا يطابق «المكتبة»، وكذلك «كتاب» ليست بادئة «المكتبة» فلم تحقق نتيجة. اختبرتُ ذلك مع مكتبة FlexSearch الفعلية.">
     <h1>كيف تنقّل في نتائج البحث؟</h1>
     <div class="slide-body">
       <table style="width:100%; border-collapse: collapse; font-size:1.1rem;">
@@ -511,7 +511,7 @@
           <tr><td style="padding:0.4em 0.5em;"><kbd>Esc</kbd></td><td style="padding:0.4em 0.5em;">إغلاق البحث</td></tr>
         </tbody>
       </table>
-      <p style="margin-top:1.2rem; color:var(--muted);">تقسيم بادئة: بحث «مكتب» يطابق «المكتبة».</p>
+      <p style="margin-top:1.2rem; color:var(--muted);">تقسيم بادئة: بحث «المكتب» يطابق «المكتبة».</p>
     </div>
   </section>
 
