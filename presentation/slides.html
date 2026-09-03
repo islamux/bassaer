@@ -549,6 +549,477 @@
     </div>
   </section>
 
+  <!-- ═══════════════════════════════════════════════════════════════════
+       Deep Dive + Hydration + Security + Testing (Slides 17–29)
+       ═══════════════════════════════════════════════════════════════════ -->
+
+  <section class="slide" data-slide="17" data-section="deep-dive" data-notes="بنية الملفات: app/ تحتوي 6 ملفات: layout.tsx (الجذر)، page.tsx (الصفحة الرئيسية)، chapter/[slug]/page.tsx (الأقسام)، not-found.tsx، sitemap.ts، globals.css.\ngenerateStaticParams() في app/chapter/[slug]/page.tsx:11-16 تُعيد جميع معرفات الأقسام.\nparams نوع Promise<{slug}> ويُحل بـ await (صيغة Next.js 16): :33-34.\nالمشروع يستخدم output: export أي SSG بالكامل — لا يوجد خادم حي.">
+    <h1>كيف يبني المشروع صفحات الأقسام؟</h1>
+    <div class="slide-body">
+      <div style="display:flex; gap:2rem; font-size:0.95rem;">
+        <div style="flex:0.8;">
+          <div style="background:var(--code-bg); padding:1em; border-radius:8px; font-family:monospace; font-size:0.82rem; direction:ltr; text-align:left; line-height:1.6;">
+<span style="color:var(--muted);">app/</span>
+├── layout.tsx
+├── page.tsx
+├── <span style="color:var(--primary);">chapter/[slug]/page.tsx</span>
+├── not-found.tsx
+├── sitemap.ts
+└── globals.css
+          </div>
+        </div>
+        <div style="flex:1.2;">
+          <div style="background:var(--code-bg); padding:1em; border-radius:8px; font-family:monospace; font-size:0.8rem; direction:ltr; text-align:left; line-height:1.5; margin-bottom:0.8rem;">
+<span style="color:var(--muted);">// chapter/[slug]/page.tsx:11-16</span><br>
+<span style="color:var(--primary);">export async function</span> <span style="color:var(--accent);">generateStaticParams</span>() {<br>
+&nbsp;&nbsp;<span style="color:var(--primary);">const</span> chapters = getAllChapters();<br>
+&nbsp;&nbsp;<span style="color:var(--primary);">return</span> chapters.map(ch => ({<br>
+&nbsp;&nbsp;&nbsp;&nbsp;slug: ch.id<br>
+&nbsp;&nbsp;}));<br>
+}<br>
+<br>
+<span style="color:var(--muted);">// :33-34 — params مصفوفة وعودية</span><br>
+<span style="color:var(--primary);">export default async function</span> ChapterPage({<br>
+&nbsp;&nbsp;params: <span style="color:var(--accent);">Promise</span>&lt;{ slug: string }&gt;<br>
+}) {<br>
+&nbsp;&nbsp;<span style="color:var(--primary);">const</span> { slug } = <span style="color:var(--primary);">await</span> params;<br>
+          </div>
+          <p style="color:var(--muted); font-size:0.85rem;">Next.js 16: params نوع Promise يُحل بـ await في المكوّن.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide" data-slide="18" data-section="deep-dive" data-notes="الفصل بين مكوّنات الخادم والعميل مبني على وجود \"use client\" في أعلى الملف.\nمكوّنات الخادم (بدون directive): Sidebar.tsx، Footer.tsx، layout.tsx، page.tsx، chapter/[slug]/page.tsx، sitemap.ts.\nمكوّنات العميل (9 ملفات): ClientShell، Navbar، MobileMenu، SearchDialog، BookmarkButton، BookmarkedChapters، ReadingProgressBar، InstallPrompt، ErrorBoundary.\nملاحظة مهمة: output: \"export\" يعني أن جميع الصفحات SSG — لا يوجد \"تقديم خادم\" حقيقي عند الطلب. \"خادم\" تعني فقط كود يُشغّل أثناء البناء في Node.js.">
+    <h1>أين يعمل كل مكوّن؟</h1>
+    <div class="slide-body">
+      <div style="display:flex; gap:2rem; font-size:0.95rem;">
+        <div style="flex:1; border-right:2px solid var(--primary); padding-right:1.5rem;">
+          <h3 style="color:var(--primary); margin-bottom:0.8rem;">خادم (بدون "use client")</h3>
+          <ul style="list-style:none; font-size:0.88rem; line-height:1.8;">
+            <li>layout.tsx</li>
+            <li>page.tsx</li>
+            <li>chapter/[slug]/page.tsx</li>
+            <li>Sidebar.tsx</li>
+            <li>Footer.tsx</li>
+            <li>sitemap.ts</li>
+          </ul>
+          <p style="color:var(--muted); font-size:0.8rem; margin-top:0.8rem;">كود يُشغّل في بناء Node.js فقط (SSG).</p>
+        </div>
+        <div style="flex:1; padding-left:1.5rem;">
+          <h3 style="color:var(--accent); margin-bottom:0.8rem;">عميل ("use client")</h3>
+          <ul style="list-style:none; font-size:0.88rem; line-height:1.8;">
+            <li>ClientShell</li>
+            <li>Navbar</li>
+            <li>MobileMenu</li>
+            <li>SearchDialog</li>
+            <li>BookmarkButton</li>
+            <li>BookmarkedChapters</li>
+            <li>ReadingProgressBar</li>
+            <li>InstallPrompt</li>
+            <li>ErrorBoundary</li>
+          </ul>
+          <p style="color:var(--muted); font-size:0.8rem; margin-top:0.8rem;">9 مكوّنات — تفاعل + حالة + تأثيرات.</p>
+        </div>
+      </div>
+      <p style="margin-top:1rem; font-size:0.82rem; color:var(--muted);">output: "export" في next.config.ts — كل شيء يُصَدّر كـ HTML ثابت.</p>
+    </div>
+  </section>
+
+  <section class="slide" data-slide="19" data-section="deep-dive" data-notes="لا يوجد متجر (Context، Redux، Zustand). الحالة موزّعة في ثلاثة أنماط:\n1. DOM-as-store للوضع الليلي: useSyncExternalStore في Navbar.tsx:20-24 يقرأ class \"dark\" من <html>. اللقطة الافتراضية للخادم () => false تضمن التوافق أثناء hydration.\n2. localStorage + أحداث.window للفواصل: bookmarks-updated (BookmarkButton.tsx:40)، و storage عبر المتصفح (BookmarkedChapters.tsx:15-16).\n3. useSyncExternalStore لتقدم القراءة: ReadingProgressBar.tsx:19-23 مع () => 0 ك DefaultValue للخادم.\nالمؤشر: لا يوجد React Context في المشروع بالكامل — خطأً مقصودًا للبساطة. البديل: لا مزامنة عبر الأجهزة.">
+    <h1>الحالة بدون متجر مركزي</h1>
+    <div class="slide-body">
+      <div style="display:flex; gap:2rem; font-size:0.92rem;">
+        <div style="flex:1; background:var(--code-bg); padding:1em; border-radius:8px;">
+          <h4 style="color:var(--primary); margin-bottom:0.6rem;">DOM = المتجر</h4>
+          <p style="font-size:0.82rem; direction:ltr; text-align:left; font-family:monospace; line-height:1.5;">
+useSyncExternalStore(<br>
+&nbsp;&nbsp;subscribeTheme, // يسمع basaar-theme-change<br>
+&nbsp;&nbsp;() => document.documentElement.classList.contains("dark"),<br>
+&nbsp;&nbsp;() => false // لقطة الخادم<br>
+)<br>
+          </p>
+          <p style="color:var(--muted); font-size:0.78rem;">Navbar.tsx:20-24</p>
+        </div>
+        <div style="flex:1; background:var(--code-bg); padding:1em; border-radius:8px;">
+          <h4 style="color:var(--primary); margin-bottom:0.6rem;">localStorage + أحداث</h4>
+          <p style="font-size:0.82rem; direction:ltr; text-align:left; font-family:monospace; line-height:1.5;">
+window.addEventListener(<br>
+&nbsp;&nbsp;"bookmarks-updated", refresh<br>
+);<br>
+window.addEventListener(<br>
+&nbsp;&nbsp;"storage", refresh<br>
+);<br>
+          </p>
+          <p style="color:var(--muted); font-size:0.78rem;">BookmarkedChapters.tsx:15-16</p>
+        </div>
+      </div>
+      <div style="margin-top:1rem; background:var(--code-bg); padding:0.8em 1em; border-radius:8px; font-size:0.82rem; direction:ltr; text-align:left; font-family:monospace; line-height:1.5;">
+useSyncExternalStore(<br>
+&nbsp;&nbsp;emptySubscribe,<br>
+&nbsp;&nbsp;() => getChapterProgress(id)?.scrollPercentage ?? 0,<br>
+&nbsp;&nbsp;() => 0 // لقطة الخادم<br>
+);<span style="color:var(--muted);"> // ReadingProgressBar.tsx:19-23</span>
+      </div>
+      <p style="margin-top:0.8rem; font-size:0.82rem; color:var(--muted);">لا Context، لا Redux، لا Zustand — مقصود. لا مزامنة عبر الأجهزة.</p>
+    </div>
+  </section>
+
+  <section class="slide" data-slide="20" data-section="deep-dive" data-notes="خط البناء في scripts/build-search-index.mjs:\n:8-14 toSearchContent() تصفّي الأسطر التي تبدأ بـ # أو >، ثم تضغط المسافات المتعددة.\n:17-41 main() تقرأ ملفات Markdown من content/chapters/، تستخرج العنوان من السطر الأول (#)، وتصدر JSON بتهيكل id/title/content/slug.\nالحجم: 1,753,076 bait (~1.7 MB) / 13 مستندًا.\npublic/.htaccess يضبط Cache-Control: public, max-age=31536000, immutable على search-data.json.\nالمؤشر: الـ 1.7 MB تُشحن لكل زائر — بديل عن البحث على الخادم.">
+    <h1>بيانات البحث تُبنى مسبقاً</h1>
+    <div class="slide-body">
+      <div style="background:var(--code-bg); padding:1.2em; border-radius:8px; font-family:monospace; font-size:0.8rem; direction:ltr; text-align:left; line-height:1.55; margin-bottom:1rem;">
+<span style="color:var(--muted);">// scripts/build-search-index.mjs:8-14</span><br>
+<span style="color:var(--primary);">function</span> <span style="color:var(--accent);">toSearchContent</span>(raw) {<br>
+&nbsp;&nbsp;<span style="color:var(--primary);">return</span> raw<br>
+&nbsp;&nbsp;&nbsp;&nbsp;.split("\n")<br>
+&nbsp;&nbsp;&nbsp;&nbsp;.filter(line =&gt; !line.startsWith("#") &amp;&amp; !line.startsWith("&gt;"))<br>
+&nbsp;&nbsp;&nbsp;&nbsp;.join(" ")<br>
+&nbsp;&nbsp;&nbsp;&nbsp;.replace(/\s+/g, " ")<br>
+&nbsp;&nbsp;&nbsp;&nbsp;.trim();<br>
+}
+      </div>
+      <div style="display:flex; gap:1.5rem; font-size:0.9rem;">
+        <div style="flex:1;">
+          <p><strong>المدخل:</strong> content/chapters/*.md</p>
+          <p><strong>العملية:</strong> تصفية (#، >) ← ضغط مسافات ← JSON</p>
+          <p><strong>الإخراج:</strong> public/search-data.json</p>
+        </div>
+        <div style="flex:1;">
+          <p><strong>الحجم:</strong> <span data-dir="ltr">1.75 MB</span> / <span data-dir="ltr">13</span> مستند</p>
+          <p><strong>التخزين المؤقت:</strong> <span data-dir="ltr">immutable, max-age=31536000</span></p>
+          <p><strong>التعليق:</strong> يُشحن لكل زائر (vs. بحث خادم)</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide" data-slide="21" data-section="deep-dive" data-notes="FlexSearch.Document في SearchDialog.tsx:52-60: index:[\"title\",\"content\"], store:[\"title\",\"content\"], tokenize:\"forward\".\nالтонكز للإمام يعني أن كل كلمة تُفهرس بجميع بدائلها البادئة — بما فيها أداة التعريف Arabic definite article الـ al-.\nالمثال المُتحقق: «المكتب» (بادئة «المكتبة» بما فيها al-) ← يطابق «المكتبة». لم يتحقق «مكتب» أو «كتاب» كبدائل.\nالتخفيض: Set في SearchDialog.tsx:87-95 يزيل التكرار عبر معرف المستند (يبحث في title و content بشكل منفصل).\nالقيمة الحقيقية: التوسيم للإمام + أداة التعريف تعني أن البحث القصير بلا أداة قد لا يطابق — هذا حقيقي ومحترم.">
+    <h1>كيف يعمل البحث بالعربية؟</h1>
+    <div class="slide-body">
+      <div style="display:flex; gap:2rem; font-size:0.92rem;">
+        <div style="flex:1.3;">
+          <div style="background:var(--code-bg); padding:1em; border-radius:8px; font-family:monospace; font-size:0.78rem; direction:ltr; text-align:left; line-height:1.5; margin-bottom:0.8rem;">
+<span style="color:var(--muted);">// SearchDialog.tsx:52-60</span><br>
+<span style="color:var(--primary);">const</span> index = <span style="color:var(--primary);">new</span> FlexSearch.Document({<br>
+&nbsp;&nbsp;document: {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;id: "id",<br>
+&nbsp;&nbsp;&nbsp;&nbsp;index: [<span style="color:var(--accent);">"title"</span>, <span style="color:var(--accent);">"content"</span>],<br>
+&nbsp;&nbsp;&nbsp;&nbsp;store: [<span style="color:var(--accent);">"title"</span>, <span style="color:var(--accent);">"content"</span>],<br>
+&nbsp;&nbsp;},<br>
+&nbsp;&nbsp;tokenize: <span style="color:var(--accent);">"forward"</span>,<br>
+});
+          </div>
+          <p style="color:var(--muted); font-size:0.82rem;">بحث على عنوان + محتوى، تخفيض عبر Set حسب المعرف.</p>
+        </div>
+        <div style="flex:1;">
+          <div style="background:var(--code-bg); padding:1.2em; border-radius:8px; text-align:center;">
+            <p style="font-size:1.1rem; margin-bottom:0.5rem;">التونكز للإمام = أداة التعريف</p>
+            <p style="font-size:0.9rem; direction:ltr; font-family:monospace; margin-bottom:0.3rem;">
+              <span style="color:var(--primary);">«المكتب»</span> ⊂ <span style="color:var(--accent);">«المكتبة»</span>
+            </p>
+            <p style="font-size:0.85rem; color:var(--muted);">ينطبق ✓</p>
+            <hr style="border-color:var(--border); margin:0.8rem 0;">
+            <p style="font-size:0.88rem; direction:ltr; font-family:monospace; margin-bottom:0.3rem;">
+              <span style="color:var(--primary);">«مكتب»</span> ⊄ <span style="color:var(--muted);">«المكتبة»</span>
+            </p>
+            <p style="font-size:0.85rem; color:var(--muted);">لا ينطبق — لا أداة تعريف ✗</p>
+          </div>
+        </div>
+      </div>
+      <p style="margin-top:0.8rem; font-size:0.82rem; color:var(--muted);">القاعدة: البحث القصير بدون أداة تعريف قد لا يُعطي نتيجة — هذا قيد حقيقي.</p>
+    </div>
+  </section>
+
+  <section class="slide" data-slide="22" data-section="deep-dive" data-notes="التصدير الثابت (output: export في next.config.ts:12) يعني أن كل الصفحات جاهزة — لا زمن تحميل للخادم عند التنقل.\n FlexSearch يُحمّل عبر dynamic import في SearchDialog.tsx:46 (await import(\"flexsearch\")) — لا يُحمّل إلا عند فتح حوار البحث.\nImages: unoptimized: true في next.config.ts:14 — الصور (522 صورة في public/images/) تُقدّم كما هي بدون تحسين بنائي (sharp غير مستخدم).\nالمؤشر: لا يوجد تحسين صور على مستوى الحزمة — الصور تُرسل بحجمها الأصلي.">
+    <h1>ميزانية الأداء والحدود</h1>
+    <div class="slide-body">
+      <table style="width:100%; border-collapse:collapse; font-size:0.9rem;">
+        <thead>
+          <tr>
+            <th style="text-align:right; padding:0.5em; border-bottom:2px solid var(--primary);">المقياس</th>
+            <th style="text-align:right; padding:0.5em; border-bottom:2px solid var(--primary);">القيمة</th>
+            <th style="text-align:right; padding:0.5em; border-bottom:2px solid var(--primary);">المصدر</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td style="padding:0.4em 0.5em; border-bottom:1px solid var(--muted);">أداء التنقل</td>
+            <td style="padding:0.4em 0.5em; border-bottom:1px solid var(--muted);">تقريباً صفري</td>
+            <td style="padding:0.4em 0.5em; border-bottom:1px solid var(--muted); font-size:0.82rem;">HTML مُصدّر مسبقاً (SSG)</td>
+          </tr>
+          <tr>
+            <td style="padding:0.4em 0.5em; border-bottom:1px solid var(--muted);"> FlexSearch</td>
+            <td style="padding:0.4em 0.5em; border-bottom:1px solid var(--muted);">حمّل عند الحاجة</td>
+            <td style="padding:0.4em 0.5em; border-bottom:1px solid var(--muted); font-size:0.82rem;">SearchDialog.tsx:46</td>
+          </tr>
+          <tr>
+            <td style="padding:0.4em 0.5em; border-bottom:1px solid var(--muted);">الصور</td>
+            <td style="padding:0.4em 0.5em; border-bottom:1px solid var(--muted);">بدون تحسين بنائي</td>
+            <td style="padding:0.4em 0.5em; border-bottom:1px solid var(--muted); font-size:0.82rem;">next.config.ts:14</td>
+          </tr>
+          <tr>
+            <td style="padding:0.4em 0.5em;">sharp</td>
+            <td style="padding:0.4em 0.5em;">مثبت لكن غير مستخدم</td>
+            <td style="padding:0.4em 0.5em; font-size:0.82rem;">unoptimized: true</td>
+          </tr>
+        </tbody>
+      </table>
+      <p style="margin-top:1rem; font-size:0.85rem; color:var(--muted);">522 صورة تُقدّم كما هي — لا تحسين حجم أو صيغة.</p>
+    </div>
+  </section>
+
+  <section class="slide" data-slide="23" data-section="deep-dive" data-notes="sw.ts يستخدم Serwist مع defaultCache من @serwist/next/worker.\n.defaultCache تعطي: CacheFirst + SWR للموارد الثابتة، NetworkFirst للتنقل.\nskipWaiting + clientsClaim يُنشّطان الخادم فوراً.\nlimitation: لا يوجد setCatchHandler أو صفحة offline مخصصة — إذا فشل الخادم في تحميل صفحة، لا يوجد بديل محلي.\nالوضع التطويري: next.config.ts:8 — الخادم معطّل في غير بيئة الإنتاج (disable: NODE_ENV !== \"production\").">
+    <h1>ما الذي يخزّنه الخادم؟</h1>
+    <div class="slide-body">
+      <div style="display:flex; gap:2rem; font-size:0.9rem;">
+        <div style="flex:1;">
+          <h3 style="color:var(--primary); margin-bottom:0.6rem;">مُخزّن</h3>
+          <ul style="list-style:none; line-height:1.8; font-size:0.85rem;">
+            <li>■ الملفات الثابتة (HTML, CSS, JS)</li>
+            <li>■ الصور والموروثات</li>
+            <li>■ search-data.json</li>
+            <li>■ صفحات التنقل — NetworkFirst</li>
+          </ul>
+        </div>
+        <div style="flex:1;">
+          <h3 style="color:var(--muted); margin-bottom:0.6rem;">غير مُخزّن</h3>
+          <ul style="list-style:none; line-height:1.8; font-size:0.85rem; color:var(--muted);">
+            <li>○ صفحة offline مخصصة</li>
+            <li>○ موارد من أطراف ثالثة</li>
+            <li>○ أي شيء من خادم حي</li>
+          </ul>
+        </div>
+      </div>
+      <div style="margin-top:1rem; background:var(--code-bg); padding:0.8em 1em; border-radius:8px; font-family:monospace; font-size:0.78rem; direction:ltr; text-align:left; line-height:1.5;">
+<span style="color:var(--muted);">// sw.ts:5-11</span><br>
+<span style="color:var(--primary);">const</span> serwist = <span style="color:var(--primary);">new</span> Serwist({<br>
+&nbsp;&nbsp;precacheEntries: __SW_MANIFEST,<br>
+&nbsp;&nbsp;skipWaiting: <span style="color:var(--accent);">true</span>,<br>
+&nbsp;&nbsp;clientsClaim: <span style="color:var(--accent);">true</span>,<br>
+&nbsp;&nbsp;navigationPreload: <span style="color:var(--accent);">true</span>,<br>
+&nbsp;&nbsp;runtimeCaching: defaultCache,<br>
+});<br>
+      </div>
+      <p style="margin-top:0.8rem; font-size:0.82rem; color:var(--muted);">بدون setCatchHandler — لا صفحة offline احتياطية.</p>
+    </div>
+  </section>
+
+  <section class="slide" data-slide="24" data-section="deep-dive" data-notes="الخطوة الأولى: الخادم (أو بناء SSG) يحسب HTML. في chapter/[slug]/page.tsx:33-35، getChapterData() تقرأ من نظام الملفات في الخادم فقط.\nالخطوة الثانية: HTML يصل المتصفح ويُقدّم قبل تحميل حزمة JavaScript — المحتوى مرئي فوراً. لا يوجد window أو localStorage في الخادم.\nالخطوة الثالثة: أول عرض عميلي يجب أن يُنتج الشجرة نفسها التي أنتجها الخادم — React لا يمكنها إرفاق الحالة بأمان إذا اختلفت الشجرتان.\nهذا هو أساس مشكلة hydration mismatch: إذا قرأ الخادم قيمة مختلفة عن العميل، ستظهر في واجهة المستخدم.">
+    <h1>المرحلة ١-٣: من الخادم إلى أول عرض</h1>
+    <div class="slide-body">
+      <div style="display:flex; gap:1.5rem; font-size:0.92rem;">
+        <div style="flex:1; background:var(--code-bg); padding:1.2em; border-radius:8px; text-align:center;">
+          <div style="font-size:2rem; margin-bottom:0.3rem;">①</div>
+          <h4 style="color:var(--primary); margin-bottom:0.5rem;">الخادم يحسب HTML</h4>
+          <p style="font-size:0.82rem; color:var(--muted);">chapter/[slug]/page.tsx:33-35</p>
+          <p style="font-size:0.8rem; direction:ltr; font-family:monospace; margin-top:0.5rem;">
+            getAllChapters()<br>getChapterData(slug)
+          </p>
+          <p style="font-size:0.78rem; color:var(--muted); margin-top:0.3rem;">لا window — لا localStorage</p>
+        </div>
+        <div style="flex:0.2; display:flex; align-items:center; justify-content:center; font-size:1.5rem; color:var(--primary);">→</div>
+        <div style="flex:1; background:var(--code-bg); padding:1.2em; border-radius:8px; text-align:center;">
+          <div style="font-size:2rem; margin-bottom:0.3rem;">②</div>
+          <h4 style="color:var(--primary); margin-bottom:0.5rem;">HTML يصل المتصفح</h4>
+          <p style="font-size:0.82rem; color:var(--muted);">يُقدّم قبل حزمة JS</p>
+          <p style="font-size:0.8rem; margin-top:0.5rem;">المحتوى مرئي فوراً</p>
+        </div>
+        <div style="flex:0.2; display:flex; align-items:center; justify-content:center; font-size:1.5rem; color:var(--primary);">→</div>
+        <div style="flex:1; background:var(--code-bg); padding:1.2em; border-radius:8px; text-align:center;">
+          <div style="font-size:2rem; margin-bottom:0.3rem;">③</div>
+          <h4 style="color:var(--primary); margin-bottom:0.5rem;">أول عرض عميلي</h4>
+          <p style="font-size:0.82rem; color:var(--muted);">يجب أن يُنتج الشجرة نفسها</p>
+          <p style="font-size:0.8rem; margin-top:0.5rem;">إلا → hydration mismatch</p>
+        </div>
+      </div>
+      <p style="margin-top:1rem; font-size:0.85rem; color:var(--muted);">القاعدة: الخادم لا يمكنه الوصول إلى window — والمحتوى لا يعرف الوضع المحلي.</p>
+    </div>
+  </section>
+
+  <section class="slide" data-slide="25" data-section="deep-dive" data-notes="الخطوة الرابعة: hydration ≠ CSR. React لا تُنشئ DOM من الصفر — تُرفّق الحالة والأحداث على DOM الموجود.\nالخطوة الخامسة: بعد الإرفاق وقبل التثبيت (commit)، useEffect يعمل — يمكنه قراءة window/localStorage وتحديث الحالة في العرض التالي.\nمثال حقيقي في BookmarkButton.tsx: الحالة الأولية active=false, loading=true (سطور 13-14) — يعرض شاحنًا في كلا العرضين. useEffect (سطور 23-33) يقرأ isBookmarked() مع flag cancelled، ثم يُحدّث الحالة. هذا نمط صحيح — لا يُسبب hydration mismatch.">
+    <h1>المرحلة ٤-٥: إرفاق الحالة ثم التأثيرات</h1>
+    <div class="slide-body">
+      <div style="display:flex; gap:2rem; font-size:0.92rem;">
+        <div style="flex:1; background:var(--code-bg); padding:1.2em; border-radius:8px; text-align:center;">
+          <div style="font-size:2rem; margin-bottom:0.3rem;">④</div>
+          <h4 style="color:var(--primary); margin-bottom:0.5rem;">إرفاق الحالة</h4>
+          <p style="font-size:0.85rem;">React تُرفّق DOM الحالي</p>
+          <p style="font-size:0.85rem;">أحداث + حالة كليّة</p>
+          <p style="font-size:0.82rem; color:var(--muted); margin-top:0.3rem;">ليس CSR من DOM فارغ</p>
+        </div>
+        <div style="flex:1; background:var(--code-bg); padding:1.2em; border-radius:8px; text-align:center;">
+          <div style="font-size:2rem; margin-bottom:0.3rem;">⑤</div>
+          <h4 style="color:var(--primary); margin-bottom:0.5rem;">useEffect بعد التثبيت</h4>
+          <p style="font-size:0.85rem;">يمكنه قراءة window</p>
+          <p style="font-size:0.85rem;">يُحدّث الحالة في العرض التالي</p>
+        </div>
+      </div>
+      <div style="margin-top:1rem; background:var(--code-bg); padding:1em 1.2em; border-radius:8px; font-family:monospace; font-size:0.78rem; direction:ltr; text-align:left; line-height:1.55;">
+<span style="color:var(--muted);">// BookmarkButton.tsx:13-14 — الحالة الأولية</span><br>
+<span style="color:var(--primary);">const</span> [active, setActive] = useState(<span style="color:var(--accent);">false</span>);<br>
+<span style="color:var(--primary);">const</span> [loading, setLoading] = useState(<span style="color:var(--accent);">true</span>);<br>
+<br>
+<span style="color:var(--muted);">// :23-33 — useEffect يقرأ localStorage</span><br>
+useEffect(() =&gt; {<br>
+&nbsp;&nbsp;<span style="color:var(--primary);">let</span> cancelled = <span style="color:var(--accent);">false</span>;<br>
+&nbsp;&nbsp;isBookmarked(chapterId).then((val) =&gt; {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:var(--primary);">if</span> (cancelled) <span style="color:var(--primary);">return</span>;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;setActive(val);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;setLoading(<span style="color:var(--accent);">false</span>);<br>
+&nbsp;&nbsp;});<br>
+}, [chapterId]);
+      </div>
+      <p style="margin-top:0.8rem; font-size:0.82rem; color:var(--muted);">الشاحن يظهر في كلا العرضين — لا تعارض. الحالة الفعلية تأتي بعد useEffect.</p>
+    </div>
+  </section>
+
+  <section class="slide" data-slide="26" data-section="deep-dive" data-notes="النمط الخاطئ: قراءة localStorage.getItem(\"theme\") أثناء العرض الأولي — الخادم يُنتج \"light\"، العميل يقرأ \"dark\" → mismatch.\nالنتيجة العملية للاختلاف (نقطة 7): يحذّر React في وحدة التحكم، يتجاهل HTML الخادم ويُعيد معالجة الشجرة، وقد يَمسح أو يعدّل DOM المتوقع → عناصر وامضة أو حالة مفاجئة.\nمثال حقيقي في المستودع: InstallPrompt.tsx:14-18 يستخدم useState lazy init يقرأ window.matchMedia(\"(display-mode: standalone)\") — الخادم يُنتج false، العميل المستقل يُنتج true.\nيوجد هنا حارس صريح typeof window !== \"undefined\" في السطر 15 (لا يمنع الاختلاف لكن يمنع الانهيار)، والسبب في عدم ظهور mismatch في الواجهة: show=false في البداية لذلك يعرض null في كلا العرضين (سطر 54: if (installed || !show) return null).\nهذه سلامة ظرفية لموقف محدود — ليست النمط المعتمد للوضع الليلي. الاعتماد الصحيح: useSyncExternalStore في Navbar.tsx:20-24 الذي يضمن التوافق.">
+    <h1>المرحلة ٦-٧: النمط الخاطئ والحقيقي</h1>
+    <div class="slide-body">
+      <div style="display:flex; gap:2rem; font-size:0.88rem;">
+        <div style="flex:1; border:2px solid #c0392b; padding:1em; border-radius:8px;">
+          <h3 style="color:#c0392b; margin-bottom:0.6rem;">نمط خاطئ</h3>
+          <div style="background:var(--code-bg); padding:0.8em; border-radius:6px; font-family:monospace; font-size:0.78rem; direction:ltr; text-align:left; line-height:1.5;">
+<span style="color:var(--primary);">const</span> [theme, setTheme] = useState(<br>
+&nbsp;&nbsp;<span style="color:var(--accent);">localStorage.getItem("theme")</span><br>
+);<br>
+          </div>
+          <p style="font-size:0.82rem; color:#c0392b; margin-top:0.5rem;">الخادم: null ← العميل: "dark"</p>
+          <p style="font-size:0.82rem; color:#c0392b;">= hydration mismatch</p>
+          <p style="font-size:0.78rem; color:var(--muted); margin-top:0.3rem;">النتيجة: تحذير في وحدة التحكم + React يتجاهل HTML الخادم ويعيد معالجة الشجرة + DOM مفاجئ</p>
+        </div>
+        <div style="flex:1; border:2px solid var(--accent); padding:1em; border-radius:8px;">
+          <h3 style="color:var(--accent); margin-bottom:0.6rem;">حقيقي في المستودع</h3>
+          <div style="background:var(--code-bg); padding:0.8em; border-radius:6px; font-family:monospace; font-size:0.76rem; direction:ltr; text-align:left; line-height:1.5;">
+<span style="color:var(--muted);">// InstallPrompt.tsx:14-18 — لقطة مبسّطة</span><br>
+<span style="color:var(--primary);">const</span> [installed, setInstalled] = useState(<br>
+&nbsp;&nbsp;() =&gt; <span style="color:var(--accent);">typeof window !== "undefined"</span> &amp;&amp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;window.matchMedia(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"(display-mode: standalone)"<br>
+&nbsp;&nbsp;&nbsp;&nbsp;).matches<br>
+);<br>
+          </div>
+          <p style="font-size:0.82rem; color:var(--accent); margin-top:0.5rem;">لا خطأ: show=false → يعرض null</p>
+          <p style="font-size:0.78rem; color:var(--muted);">حارس typeof window في السطر 15 + show=false — سلامة ظرفية لا تُنسخ للوضع الليلي</p>
+        </div>
+      </div>
+      <p style="margin-top:1rem; font-size:0.85rem; color:var(--muted);">الدرس: التوافق العرضي لا تجعله نمطاً. استخدم useSyncExternalStore أو typeof window guards.</p>
+    </div>
+  </section>
+
+  <section class="slide" data-slide="27" data-section="deep-dive" data-notes="4 أنماط صحيحة في المستودع:\nA: سكربت مضمّن قبل React + suppressHydrationWarning على <html> — layout.tsx:37-41 (السكربت يقرأ localStorage ويضيف \"dark\" قبل hydration، و attribute يسمح بالتعديل).\nB: useSyncExternalStore مع لقطة الخادم — Navbar.tsx:20-24 (() => false) و ReadingProgressBar.tsx:19-23 (() => 0). React تضمن hydration بلقطة الخادم ثم إعادة العرض بلقطة العميل → الاستعادة بعد التثبيت دون مسح (no clobbering).\nC: حالة أولية محايدة (شاحن)، قراءة حقيقية في useEffect — BookmarkButton.tsx:13-14, 23-33.\nD: typeof window === \"undefined\" guards — lib/bookmarks.ts:10-11 و lib/readingProgress.ts:10-11.\nالتمييز: mismatch في العرض الأولي = خطأ. تحديث بعد useEffect = متوقع/صحيح. لا تخلط بينهما.\nالدلالة العملية (نقطة 10): الاستعادة بعد التثبيت (default-before-mount ثم restore-after-mount دون مسح) يضمنه النمط B عبر useSyncExternalStore في الكود نفسه — لا يوجد اختبار وحدة مخصص يثبت سلوك الاستعادة هذا. bookmarks.test.ts (6 اختبارات) يثبت شيئاً أضيق: كروت localStorage النقي (الحالة الأولية الفارغة، toggle add/remove، isBookmarked، remove، التكرارات) — وليس سلوك hydration. لا نبالغ في الادعاء.">
+    <h1>المرحلة ٨-١٠: الأنماط الصحيحة في بصائر</h1>
+    <div class="slide-body">
+      <table style="width:100%; border-collapse:collapse; font-size:0.85rem;">
+        <thead>
+          <tr>
+            <th style="text-align:right; padding:0.4em; border-bottom:2px solid var(--primary);">النمط</th>
+            <th style="text-align:right; padding:0.4em; border-bottom:2px solid var(--primary);">الملف</th>
+            <th style="text-align:right; padding:0.4em; border-bottom:2px solid var(--primary);">الفكرة</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td style="padding:0.35em 0.4em; border-bottom:1px solid var(--muted); font-weight:bold;">A</td>
+            <td style="padding:0.35em 0.4em; border-bottom:1px solid var(--muted); font-family:monospace; font-size:0.8rem;">layout.tsx:37-41</td>
+            <td style="padding:0.35em 0.4em; border-bottom:1px solid var(--muted);">سكربت مضمّن + suppressHydrationWarning</td>
+          </tr>
+          <tr>
+            <td style="padding:0.35em 0.4em; border-bottom:1px solid var(--muted); font-weight:bold;">B</td>
+            <td style="padding:0.35em 0.4em; border-bottom:1px solid var(--muted); font-family:monospace; font-size:0.8rem;">Navbar.tsx:20-24<br>ReadingProgressBar.tsx:19-23</td>
+            <td style="padding:0.35em 0.4em; border-bottom:1px solid var(--muted);">useSyncExternalStore + لقطة خادم</td>
+          </tr>
+          <tr>
+            <td style="padding:0.35em 0.4em; border-bottom:1px solid var(--muted); font-weight:bold;">C</td>
+            <td style="padding:0.35em 0.4em; border-bottom:1px solid var(--muted); font-family:monospace; font-size:0.8rem;">BookmarkButton.tsx:13-14,23-33</td>
+            <td style="padding:0.35em 0.4em; border-bottom:1px solid var(--muted);">شاحن أولي ← قراءة في useEffect</td>
+          </tr>
+          <tr>
+            <td style="padding:0.35em 0.4em; font-weight:bold;">D</td>
+            <td style="padding:0.35em 0.4em; font-family:monospace; font-size:0.8rem;">lib/bookmarks.ts:10-11<br>lib/readingProgress.ts:10-11</td>
+            <td style="padding:0.35em 0.4em;">typeof window === "undefined" guard</td>
+          </tr>
+        </tbody>
+      </table>
+      <p style="margin-top:0.8rem; font-size:0.85rem; color:var(--muted);">التمييز: mismatch في العرض الأولي = خطأ. تحديث بعد useEffect = متوقع.</p>
+      <p style="font-size:0.82rem; color:var(--muted);">bookmarks.test.ts يثبت كروت localStorage (الحالة الفارغة ← toggle ← isBookmarked ← remove ← تكرارات — 6 اختبارات). الاستعادة بعد التثبيت يضمنها النمط B — لا اختبار مخصص لسلوك hydration.</p>
+    </div>
+  </section>
+
+  <section class="slide" data-slide="28" data-section="deep-dive" data-notes="الموقع الثابت = سطح هجوم ضئيل: لا نقاط نهاية حيّة، لا قاعدة بيانات، لا أسرار مُرسلة للعميل. المتغير الوحيد على العميل هو NEXT_PUBLIC_BASE_URL (sitemap).\npublic/.htaccess: X-Frame-Options DENY، X-Content-Type-Options nosniff، Referrer-Policy strict-origin-when-cross-origin.\nحقوق المحتوى: الكود مفتوح المصدر، لكن محتوى الكتاب يخص د. هيثم طلعت (ملاحظة الرخصة في README).\nملاحظة مهمة: لا يوجد CSP header — هذا فجوة معروفة يجب إضافتها.\nلا يمكن الادعاء بـ \"أمان كامل\" — لا توجد فحوصات أمان، لا Pentest، لا Rate Limiting (لا حاجة له في موقع ثابت).">
+    <h1>نموذج التهديدات والأمان</h1>
+    <div class="slide-body">
+      <div style="font-size:0.9rem;">
+        <div style="background:var(--code-bg); padding:1em 1.2em; border-radius:8px; margin-bottom:1rem;">
+          <h4 style="color:var(--primary); margin-bottom:0.5rem;">سطح الهجوم</h4>
+          <ul style="list-style:none; line-height:1.7;">
+            <li>✓ لا نقاط نهاية حيّة — لا خادم حيّ</li>
+            <li>✓ لا قاعدة بيانات — لا SQL Injection</li>
+            <li>✓ لا أسرار مُرسلة للعميل — NEXT_PUBLIC_BASE_URL فقط</li>
+          </ul>
+        </div>
+        <div style="display:flex; gap:1.5rem;">
+          <div style="flex:1; background:var(--code-bg); padding:1em; border-radius:8px;">
+            <h4 style="color:var(--primary); margin-bottom:0.5rem;">public/.htaccess</h4>
+            <ul style="list-style:none; font-size:0.82rem; line-height:1.6;">
+              <li>■ X-Frame-Options: DENY</li>
+              <li>■ X-Content-Type-Options: nosniff</li>
+              <li>■ Referrer-Policy: strict-origin-when-cross-origin</li>
+            </ul>
+          </div>
+          <div style="flex:1; border:2px solid #c0392b; padding:1em; border-radius:8px;">
+            <h4 style="color:#c0392b; margin-bottom:0.5rem;">فجوة معروفة</h4>
+            <ul style="list-style:none; font-size:0.82rem; line-height:1.6;">
+              <li>✗ لا يوجد Content-Security-Policy</li>
+            </ul>
+            <p style="font-size:0.8rem; color:var(--muted); margin-top:0.3rem;">يجب إضافته لاحقاً</p>
+          </div>
+        </div>
+        <p style="margin-top:0.8rem; font-size:0.82rem; color:var(--muted);">الكود مفتوح المصدر — محتوى الكتاب يخص د. هيثم طلعت.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide" data-slide="29" data-section="deep-dive" data-notes="الاختبارات: 22 اختبار وحدة في 4 ملفات (bookmarks 6، contentLoader 5، readingProgress 5، search 6) — lib/__tests__/.\n16 اختبار e2e في 6 ملفات (chapter 5، home 3، search 3، navigation 2، pwa 2، theme 1) — e2e/.\nvitest.setup.ts يستورد @testing-library/jest-dom/vitest، لكن لا يوجد ملف *.test.tsx — لا اختبارات مكوّنات.\nالثغرات: لا اختبارات مكوّنات رغم تثبيت RTL + jest-dom. لا اختبارات offline e2e. لا اختبارات hydration mismatch.\nvitest.config.ts: include: [\"**/*.test.{ts,tsx}\"] — يدعم TSX لكن لا ملفات.\nالتأطير: هذا ليس عيباً — بل وعي واقعي بالحدود. قياس سلوك hydration في بيئة SSG أمر صعب.">
+    <h1>الاختبارات: ما الذي يُغطّى وما لا يُغطّى؟</h1>
+    <div class="slide-body">
+      <div style="display:flex; gap:2rem; font-size:0.88rem;">
+        <div style="flex:1;">
+          <h3 style="color:var(--primary); margin-bottom:0.6rem;">مُختبر</h3>
+          <div style="line-height:1.8;">
+            <p style="font-size:0.82rem; color:var(--muted);">وحدة (22 / 4 ملفات)</p>
+            <ul style="list-style:none; font-size:0.82rem; margin-bottom:0.5rem;">
+              <li>• bookmarks — 6</li>
+              <li>• contentLoader — 5</li>
+              <li>• readingProgress — 5</li>
+              <li>• search — 6</li>
+            </ul>
+            <p style="font-size:0.82rem; color:var(--muted);">e2e (16 / 6 ملفات)</p>
+            <ul style="list-style:none; font-size:0.82rem;">
+              <li>• chapter — 5</li>
+              <li>• home — 3</li>
+              <li>• search — 3</li>
+              <li>• navigation — 2</li>
+              <li>• pwa — 2</li>
+              <li>• theme — 1</li>
+            </ul>
+          </div>
+        </div>
+        <div style="flex:1; border:2px solid #c0392b; padding:1em; border-radius:8px;">
+          <h3 style="color:#c0392b; margin-bottom:0.6rem;">غير مُختبر</h3>
+          <ul style="list-style:none; line-height:1.8;">
+            <li>✗ لا اختبارات مكوّنات (*.test.tsx)</li>
+            <li style="font-size:0.8rem; color:var(--muted);">RTL + jest-dom مُثبّت لكن غير مستخدم</li>
+            <li>✗ لا اختبارات offline e2e</li>
+            <li>✗ لا اختبارات hydration mismatch</li>
+          </ul>
+          <p style="font-size:0.8rem; color:var(--muted); margin-top:0.5rem;">vitest.config.ts يدعم *.tsx لكن لا ملفات موجودة.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- Overview panel -->
   <div id="overview" class="overview" data-overview></div>
 
