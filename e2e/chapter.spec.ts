@@ -37,6 +37,15 @@ test("emits canonical, open graph and Chapter JSON-LD", async ({ page }) => {
   await page.goto("/chapter/intro/");
   await expect(page.locator('link[rel="canonical"]')).toHaveAttribute("href", /\/chapter\/intro\/$/);
   await expect(page.locator('meta[property="og:title"]')).toHaveCount(1);
+  await expect(page.locator('meta[property="og:image"]')).toHaveAttribute(
+    "content",
+    /\/icons\/icon-512x512\.png$/,
+  );
+  await expect(page.locator('meta[property="og:locale"]')).toHaveAttribute("content", "ar_AR");
+  await expect(page.locator('meta[name="twitter:title"]')).toHaveAttribute(
+    "content",
+    "مقدمة الكتاب",
+  );
   const jsonLd = JSON.parse(
     (await page.locator('script[type="application/ld+json"]').first().textContent()) ?? "{}",
   );
