@@ -16,10 +16,10 @@ test("search returns results for valid query", async ({ page }) => {
   await page.getByRole("button", { name: "بحث في الكتاب" }).click();
   const input = page.locator("input[placeholder='ابحث في الكتاب...']");
   await input.fill("الله");
-  await page.waitForTimeout(1000);
-  const results = page.locator("[role='dialog'] a");
-  const count = await results.count();
-  expect(count).toBeGreaterThan(0);
+  const results = page
+    .getByRole("dialog", { name: "بحث في الكتاب" })
+    .getByRole("option");
+  await expect(results.first()).toBeVisible();
 });
 
 test("search keyboard shortcut Ctrl+K opens dialog", async ({ page }) => {
@@ -49,7 +49,9 @@ test("matches a diacritized query", async ({ page }) => {
   await page.getByRole("button", { name: "بحث في الكتاب" }).click();
   const input = page.locator("input[placeholder='ابحث في الكتاب...']");
   await input.fill("بَصَائِر");
-  await expect(page.locator("[role='dialog'] a").first()).toBeVisible();
+  await expect(
+    page.getByRole("dialog", { name: "بحث في الكتاب" }).getByRole("option").first(),
+  ).toBeVisible();
 });
 
 test("escape closes the dialog even when the input is not focused", async ({ page }) => {
