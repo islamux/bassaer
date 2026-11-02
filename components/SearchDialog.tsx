@@ -100,6 +100,7 @@ export default function SearchDialog({ isOpen, onClose }: SearchDialogProps) {
 
         indexRef.current = index;
         setIsReady(true);
+        setInitError(false);
       } catch (e) {
         console.error("Search init failed:", e);
         initializedRef.current = false;

@@ -43,4 +43,27 @@ describe("SearchDialog index failure", () => {
       timeout: 2000,
     });
   });
+
+  it("clears the error when a later automatic retry succeeds", async () => {
+    fetchMock.mockRejectedValueOnce(new Error("network down"));
+    fetchMock.mockResolvedValue({ ok: true, json: async () => docs });
+
+    const { rerender } = render(<SearchDialog isOpen onClose={() => {}} />);
+
+    expect(await screen.findByText("تعذر تحميل فهرس البحث")).toBeInTheDocument();
+
+    rerender(<SearchDialog isOpen={false} onClose={() => {}} />);
+    rerender(<SearchDialog isOpen onClose={() => {}} />);
+
+    await waitFor(() =>
+      expect(screen.queryByText("تعذر تحميل فهرس البحث")).not.toBeInTheDocument(),
+    );
+
+    const input = screen.getByRole("combobox");
+    fireEvent.change(input, { target: { value: "بصائر" } });
+
+    await waitFor(() => expect(screen.getByRole("option")).toBeInTheDocument(), {
+      timeout: 2000,
+    });
+  });
 });
