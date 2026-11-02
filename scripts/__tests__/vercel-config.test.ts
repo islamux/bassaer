@@ -57,4 +57,13 @@ describe("vercel.json", () => {
       value: "same-origin",
     });
   });
+
+  it("keeps the Apache cache rule for the search index in sync", () => {
+    const htaccess = readFileSync("public/.htaccess", "utf8");
+    const block =
+      htaccess.match(/<Files "search-data\.json">([\s\S]*?)<\/Files>/)?.[1] ?? "";
+
+    expect(block).toContain("must-revalidate");
+    expect(block).not.toContain("immutable");
+  });
 });
