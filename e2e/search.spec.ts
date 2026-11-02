@@ -43,3 +43,11 @@ test("does not download the search index until the dialog opens", async ({ page 
   await page.getByRole("button", { name: "بحث في الكتاب" }).click();
   await expect.poll(() => requests.length).toBe(1);
 });
+
+test("matches a diacritized query", async ({ page }) => {
+  await page.goto("/");
+  await page.getByRole("button", { name: "بحث في الكتاب" }).click();
+  const input = page.locator("input[placeholder='ابحث في الكتاب...']");
+  await input.fill("بَصَائِر");
+  await expect(page.locator("[role='dialog'] a").first()).toBeVisible();
+});
