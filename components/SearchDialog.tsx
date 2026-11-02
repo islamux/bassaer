@@ -7,6 +7,7 @@ import { Search, X, ArrowUpDown } from "lucide-react";
 import type { IndexedSearchDocument, SearchDocument, SearchResult } from "@/lib/search";
 import { extractExcerpt } from "@/lib/search";
 import { normalizeArabic } from "@/lib/arabicText.mjs";
+import { useFocusTrap } from "@/lib/useFocusTrap";
 
 interface SearchIndex {
   search: (query: string, options?: { enrich?: boolean; limit?: number }) => Promise<Array<{ result: Array<{ id: string; doc: SearchDocument }> }>>;
@@ -26,9 +27,12 @@ export default function SearchDialog({ isOpen, onClose }: SearchDialogProps) {
   const [selectedIndex, setSelectedIndex] = useState(-1);
   const [prevIsOpen, setPrevIsOpen] = useState(isOpen);
   const inputRef = useRef<HTMLInputElement>(null);
+  const dialogRef = useRef<HTMLDivElement>(null);
   const indexRef = useRef<SearchIndex | null>(null);
   const docsRef = useRef<SearchDocument[]>([]);
   const initializedRef = useRef(false);
+
+  useFocusTrap(dialogRef, isOpen);
 
   if (prevIsOpen !== isOpen) {
     setPrevIsOpen(isOpen);
@@ -38,6 +42,23 @@ export default function SearchDialog({ isOpen, onClose }: SearchDialogProps) {
       setSelectedIndex(-1);
     }
   }
+
+  useEffect(() => {
+    if (!isOpen) return;
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") onClose();
+    };
+
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    document.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      document.removeEventListener("keydown", handleKeyDown);
+      document.body.style.overflow = previousOverflow;
+    };
+  }, [isOpen, onClose]);
 
   useEffect(() => {
     if (isOpen) inputRef.current?.focus();
@@ -152,6 +173,7 @@ export default function SearchDialog({ isOpen, onClose }: SearchDialogProps) {
       onClick={(e) => { if (e.target === e.currentTarget) onClose(); }}
     >
       <div
+        ref={dialogRef}
         className="w-full max-w-2xl mx-4 bg-[var(--background)] border border-[var(--border)] rounded-2xl shadow-2xl overflow-hidden"
         role="dialog"
         aria-modal="true"
@@ -170,6 +192,11 @@ export default function SearchDialog({ isOpen, onClose }: SearchDialogProps) {
             dir="rtl"
             autoComplete="off"
             spellCheck={false}
+            role="combobox"
+            aria-expanded={results.length > 0}
+            aria-controls="search-results"
+            aria-autocomplete="list"
+            aria-activedescendant={selectedIndex >= 0 ? `search-result-${selectedIndex}` : undefined}
           />
           <button
             onClick={onClose}
@@ -192,11 +219,18 @@ export default function SearchDialog({ isOpen, onClose }: SearchDialogProps) {
           </div>
         )}
 
+        <p aria-live="polite" className="sr-only">
+          {results.length} نتيجة
+        </p>
+
         {results.length > 0 && (
-          <div className="max-h-[60vh] overflow-y-auto">
+          <div id="search-results" role="listbox" aria-label="نتائج البحث" className="max-h-[60vh] overflow-y-auto">
             {results.map((r, i) => (
               <Link
                 key={r.id}
+                id={`search-result-${i}`}
+                role="option"
+                aria-selected={i === selectedIndex}
                 href={`/chapter/${r.slug}`}
                 onClick={onClose}
                 className={`block px-5 py-3.5 border-b border-[var(--border)] last:border-b-0 transition-colors hover:bg-[var(--muted)] ${

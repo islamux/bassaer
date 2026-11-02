@@ -51,3 +51,29 @@ test("matches a diacritized query", async ({ page }) => {
   await input.fill("بَصَائِر");
   await expect(page.locator("[role='dialog'] a").first()).toBeVisible();
 });
+
+test("escape closes the dialog even when the input is not focused", async ({ page }) => {
+  await page.goto("/");
+  await page.keyboard.press("Control+k");
+  await page.getByRole("dialog").click({ position: { x: 5, y: 5 } });
+  await page.keyboard.press("Escape");
+  await expect(page.getByRole("dialog")).not.toBeVisible();
+});
+
+test("locks body scroll while open and restores it on close", async ({ page }) => {
+  await page.goto("/");
+  await page.keyboard.press("Control+k");
+  expect(await page.evaluate(() => document.body.style.overflow)).toBe("hidden");
+  await page.keyboard.press("Escape");
+  expect(await page.evaluate(() => document.body.style.overflow)).toBe("");
+});
+
+test("exposes combobox semantics and tracks the active option", async ({ page }) => {
+  await page.goto("/");
+  await page.keyboard.press("Control+k");
+  const input = page.getByRole("combobox");
+  await input.fill("الله");
+  await page.waitForTimeout(1000);
+  await page.keyboard.press("ArrowDown");
+  await expect(input).toHaveAttribute("aria-activedescendant", /search-result-0/);
+});
