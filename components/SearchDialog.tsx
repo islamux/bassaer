@@ -4,12 +4,15 @@ import { useState, useEffect, useRef, useCallback } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Search, X, ArrowUpDown } from "lucide-react";
-import type { SearchDocument, SearchResult } from "@/lib/search";
+import type { IndexedSearchDocument, SearchDocument, SearchResult } from "@/lib/search";
 import { extractExcerpt } from "@/lib/search";
+import { normalizeArabic } from "@/lib/arabicText.mjs";
+import { useFocusTrap } from "@/lib/useFocusTrap";
+import { useDebouncedValue } from "@/lib/useDebouncedValue";
 
 interface SearchIndex {
   search: (query: string, options?: { enrich?: boolean; limit?: number }) => Promise<Array<{ result: Array<{ id: string; doc: SearchDocument }> }>>;
-  add: (doc: SearchDocument) => void;
+  add: (doc: IndexedSearchDocument) => void;
 }
 
 interface SearchDialogProps {
@@ -22,11 +25,18 @@ export default function SearchDialog({ isOpen, onClose }: SearchDialogProps) {
   const [query, setQuery] = useState("");
   const [results, setResults] = useState<SearchResult[]>([]);
   const [isReady, setIsReady] = useState(false);
+  const [initError, setInitError] = useState(false);
+  const [retryToken, setRetryToken] = useState(0);
   const [selectedIndex, setSelectedIndex] = useState(-1);
   const [prevIsOpen, setPrevIsOpen] = useState(isOpen);
+  const debouncedQuery = useDebouncedValue(query, 150);
   const inputRef = useRef<HTMLInputElement>(null);
+  const dialogRef = useRef<HTMLDivElement>(null);
   const indexRef = useRef<SearchIndex | null>(null);
   const docsRef = useRef<SearchDocument[]>([]);
+  const initializedRef = useRef(false);
+
+  useFocusTrap(dialogRef, isOpen);
 
   if (prevIsOpen !== isOpen) {
     setPrevIsOpen(isOpen);
@@ -38,21 +48,42 @@ export default function SearchDialog({ isOpen, onClose }: SearchDialogProps) {
   }
 
   useEffect(() => {
+    if (!isOpen) return;
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") onClose();
+    };
+
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    document.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      document.removeEventListener("keydown", handleKeyDown);
+      document.body.style.overflow = previousOverflow;
+    };
+  }, [isOpen, onClose]);
+
+  useEffect(() => {
     if (isOpen) inputRef.current?.focus();
   }, [isOpen]);
 
   useEffect(() => {
+    if (!isOpen || initializedRef.current) return;
+    initializedRef.current = true;
+
     async function init() {
-      const FlexSearch = (await import("flexsearch")).default;
       try {
+        const FlexSearch = (await import("flexsearch")).default;
         const res = await fetch("/search-data.json");
+        if (!res.ok) throw new Error(`search-data.json: HTTP ${res.status}`);
         const docs: SearchDocument[] = await res.json();
         docsRef.current = docs;
 
         const index = new FlexSearch.Document({
           document: {
             id: "id",
-            index: ["title", "content"],
+            index: ["titleNormalized", "contentNormalized"],
             store: ["title", "content"],
           },
           tokenize: "forward",
@@ -60,26 +91,31 @@ export default function SearchDialog({ isOpen, onClose }: SearchDialogProps) {
         }) as unknown as SearchIndex;
 
         for (const doc of docs) {
-          index.add(doc);
+          index.add({
+            ...doc,
+            titleNormalized: normalizeArabic(doc.title),
+            contentNormalized: normalizeArabic(doc.content),
+          });
         }
 
         indexRef.current = index;
         setIsReady(true);
+        setInitError(false);
       } catch (e) {
         console.error("Search init failed:", e);
+        initializedRef.current = false;
+        setInitError(true);
       }
     }
-    init();
-  }, []);
+
+    void init();
+  }, [isOpen, retryToken]);
 
   const doSearch = useCallback(async (q: string) => {
-    if (!q.trim() || !indexRef.current) {
-      setResults([]);
-      setSelectedIndex(-1);
-      return;
-    }
+    const normalizedQuery = normalizeArabic(q);
+    if (!normalizedQuery || !indexRef.current) return;
 
-    const raw = await indexRef.current.search(q, {
+    const raw = await indexRef.current.search(normalizedQuery, {
       enrich: true,
       limit: 20,
     });
@@ -107,10 +143,18 @@ export default function SearchDialog({ isOpen, onClose }: SearchDialogProps) {
   }, []);
 
   const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const val = e.target.value;
-    setQuery(val);
-    doSearch(val);
+    const value = e.target.value;
+    setQuery(value);
+    if (!value.trim()) {
+      setResults([]);
+      setSelectedIndex(-1);
+    }
   };
+
+  useEffect(() => {
+    if (!isReady || !debouncedQuery.trim()) return;
+    void doSearch(debouncedQuery);
+  }, [debouncedQuery, isReady, doSearch]);
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === "Escape") {
@@ -142,6 +186,7 @@ export default function SearchDialog({ isOpen, onClose }: SearchDialogProps) {
       onClick={(e) => { if (e.target === e.currentTarget) onClose(); }}
     >
       <div
+        ref={dialogRef}
         className="w-full max-w-2xl mx-4 bg-[var(--background)] border border-[var(--border)] rounded-2xl shadow-2xl overflow-hidden"
         role="dialog"
         aria-modal="true"
@@ -160,6 +205,11 @@ export default function SearchDialog({ isOpen, onClose }: SearchDialogProps) {
             dir="rtl"
             autoComplete="off"
             spellCheck={false}
+            role="combobox"
+            aria-expanded={results.length > 0}
+            aria-controls="search-results"
+            aria-autocomplete="list"
+            aria-activedescendant={selectedIndex >= 0 ? `search-result-${selectedIndex}` : undefined}
           />
           <button
             onClick={onClose}
@@ -170,7 +220,22 @@ export default function SearchDialog({ isOpen, onClose }: SearchDialogProps) {
           </button>
         </div>
 
-        {!isReady && query.trim() && (
+        {initError && (
+          <div className="px-5 py-8 text-center text-sm text-[var(--muted-foreground)]">
+            <p className="mb-4">تعذر تحميل فهرس البحث</p>
+            <button
+              onClick={() => {
+                setInitError(false);
+                setRetryToken((token) => token + 1);
+              }}
+              className="px-4 py-2 rounded-xl bg-[var(--primary)] text-white font-medium hover:opacity-90 transition-opacity"
+            >
+              إعادة المحاولة
+            </button>
+          </div>
+        )}
+
+        {!isReady && !initError && query.trim() && (
           <div className="px-5 py-8 text-center text-sm text-[var(--muted-foreground)]">
             جاري تحميل فهرس البحث...
           </div>
@@ -182,11 +247,18 @@ export default function SearchDialog({ isOpen, onClose }: SearchDialogProps) {
           </div>
         )}
 
+        <p aria-live="polite" className="sr-only">
+          {results.length} نتيجة
+        </p>
+
         {results.length > 0 && (
-          <div className="max-h-[60vh] overflow-y-auto">
+          <div id="search-results" role="listbox" aria-label="نتائج البحث" className="max-h-[60vh] overflow-y-auto">
             {results.map((r, i) => (
               <Link
                 key={r.id}
+                id={`search-result-${i}`}
+                role="option"
+                aria-selected={i === selectedIndex}
                 href={`/chapter/${r.slug}`}
                 onClick={onClose}
                 className={`block px-5 py-3.5 border-b border-[var(--border)] last:border-b-0 transition-colors hover:bg-[var(--muted)] ${

@@ -7,7 +7,7 @@ from docx import Document
 
 DOCX_PATH = 'content/ar-basaar.docx'
 CHAPTERS_DIR = 'content/chapters'
-IMAGES_OUT_DIR = 'web/public/images'
+IMAGES_OUT_DIR = 'public/images'
 
 MAPPINGS = {
     'intro.md': (37, 81),
