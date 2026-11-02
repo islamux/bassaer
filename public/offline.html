@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex" />
+    <title>غير متصل | بصائر</title>
+    <style>
+      :root {
+        --background: #fdfbf7;
+        --foreground: #1f1b16;
+        --muted: #6b6257;
+        --primary: #8b5a2b;
+        --border: #e6ddd0;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 1.5rem;
+        background: var(--background);
+        color: var(--foreground);
+        font-family: "Tajawal", "Segoe UI", system-ui, -apple-system, sans-serif;
+        text-align: center;
+      }
+      main {
+        max-width: 28rem;
+        border: 1px solid var(--border);
+        border-radius: 1rem;
+        padding: 2.5rem 2rem;
+        background: #fff;
+        box-shadow: 0 12px 32px rgb(139 90 43 / 0.08);
+      }
+      h1 {
+        margin: 0 0 0.75rem;
+        font-size: 1.6rem;
+        color: var(--primary);
+      }
+      p {
+        margin: 0 0 1.75rem;
+        line-height: 1.8;
+        color: var(--muted);
+      }
+      a {
+        display: inline-block;
+        padding: 0.75rem 1.75rem;
+        border-radius: 9999px;
+        background: var(--primary);
+        color: #fff;
+        font-weight: 600;
+        text-decoration: none;
+      }
+      a:hover {
+        opacity: 0.9;
+      }
+      @media (prefers-color-scheme: dark) {
+        :root {
+          --background: #0a0a0a;
+          --foreground: #f5f1ea;
+          --muted: #b8b0a4;
+          --border: #2a2622;
+        }
+        main {
+          background: #14110e;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <h1>أنت غير متصل بالإنترنت</h1>
+      <p>
+        تعذّر تحميل هذه الصفحة لأنك غير متصل. الصفحات التي زرتها سابقًا ما زالت
+        متاحة دون اتصال.
+      </p>
+      <a href="/">العودة إلى الكتاب</a>
+    </main>
+  </body>
+</html>

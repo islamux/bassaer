@@ -3,7 +3,7 @@ import { test, expect } from "@playwright/test";
 test("homepage renders book title and chapter grid", async ({ page }) => {
   await page.goto("/");
   await expect(page.locator("h1")).toContainText("بصائر في الكون والحياة والدين");
-  const chapterLinks = page.locator("a[href^='/chapter/']");
+  const chapterLinks = page.locator("main a[href^='/chapter/']");
   const count = await chapterLinks.count();
   expect(count).toBeGreaterThan(0);
 });
@@ -16,7 +16,7 @@ test("homepage has start reading button", async ({ page }) => {
 
 test("homepage chapter cards link to correct chapters", async ({ page }) => {
   await page.goto("/");
-  const firstChapterLink = page.locator("a[href^='/chapter/']").first();
+  const firstChapterLink = page.locator("main a[href^='/chapter/']").first();
   await expect(firstChapterLink).toBeVisible();
   await firstChapterLink.click();
   await expect(page).toHaveURL(/\/chapter\//);

@@ -36,4 +36,12 @@ describe("extractExcerpt", () => {
     const result = extractExcerpt(c, "كلمة البحث");
     expect(result).toContain("كلمة البحث");
   });
+
+  it("finds an excerpt when the query carries diacritics", () => {
+    expect(extractExcerpt("هذا نص بَصَائِر رائع", "بصائر")).toContain("بَصَائِر");
+  });
+
+  it("finds an excerpt when the query uses alef variants", () => {
+    expect(extractExcerpt("قال أحمد إن المكتبة عامرة", "احمد")).toContain("أحمد");
+  });
 });

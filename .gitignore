@@ -72,3 +72,11 @@ graphify-out/
 
 # Project Specific
 audit_report.json
+
+# Large/generated project files
+/content/ar-basaar.docx
+/public/search-data.json
+
+# Playwright artifacts
+/test-results/
+/playwright-report/

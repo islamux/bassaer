@@ -33,10 +33,10 @@ This project was engineered in two phases:
    - **Framework:** Next.js 16 (React 19), fully static export (`output: "export"`).
    - **Styling:** Tailwind CSS v4.
    - **Markdown Rendering:** `react-markdown` + `remark-gfm` to perfectly parse and display chapter content into rich HTML format (including `<blockquote>` for notes and `<h2>` for sub-questions).
-   - **Search:** FlexSearch 0.8. The search corpus (`public/search-data.json`) is generated at build time from the chapter markdown (`scripts/build-search-index.mjs`, wired to `prebuild`); the FlexSearch index itself is built client-side when the search dialog opens.
+   - **Search:** FlexSearch 0.8. The search corpus (`public/search-data.json`) is generated at build time from the chapter markdown (`scripts/build-search-index.mjs`, wired to `prebuild` and `predev`); the FlexSearch index itself is built client-side when the search dialog opens, normalizing Arabic diacritics and letter variants.
    - **Bookmarks:** `localStorage`-persisted (client-side only, synced across tabs via a `bookmarks-updated` CustomEvent).
 
-> **Note:** The actual `ar-basaar.docx` file has been stripped from the repository history to keep the Git bundle lightning fast (< 1MB) rather than carrying the book's binary source.
+> **Note:** The `ar-basaar.docx` source file is not tracked in the repository (it is not needed to build or run the site). `public/search-data.json` is generated, not committed.
 
 ---
 

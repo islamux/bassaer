@@ -3,6 +3,11 @@ import { Tajawal } from "next/font/google";
 import "./globals.css";
 import ClientShell from "@/components/ClientShell";
 import { getAllChapters } from "@/lib/contentLoader";
+import {
+  SITE_URL,
+  SITE_NAME,
+  SITE_DESCRIPTION,
+} from "@/lib/site";
 
 const tajawal = Tajawal({ 
   subsets: ["arabic"],
@@ -11,8 +16,35 @@ const tajawal = Tajawal({
 });
 
 export const metadata: Metadata = {
-  title: "بصائر - كتاب رقمي",
-  description: "المكتبة الرقمية لكتاب بصائر في الكون والحياة والدين",
+  metadataBase: new URL(SITE_URL),
+  title: {
+    default: "بصائر - كتاب رقمي",
+    template: "%s | بصائر",
+  },
+  description: SITE_DESCRIPTION,
+  applicationName: SITE_NAME,
+  authors: [{ name: "د. هيثم طلعت" }],
+  alternates: {
+    canonical: "/",
+  },
+  openGraph: {
+    type: "website",
+    locale: "ar_AR",
+    siteName: SITE_NAME,
+    title: "بصائر - كتاب رقمي",
+    description: SITE_DESCRIPTION,
+    images: ["/icons/icon-512x512.png"],
+  },
+  twitter: {
+    card: "summary",
+    title: "بصائر - كتاب رقمي",
+    description: SITE_DESCRIPTION,
+    images: ["/icons/icon-512x512.png"],
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
   manifest: "/manifest.json",
   other: {
     "apple-mobile-web-app-capable": "yes",
