@@ -10,7 +10,7 @@ const fetchMock = vi.fn();
 
 beforeEach(() => {
   fetchMock.mockReset();
-  fetchMock.mockResolvedValue({ json: async () => [] });
+  fetchMock.mockResolvedValue({ ok: true, json: async () => [] });
   vi.stubGlobal("fetch", fetchMock);
 });
 
