@@ -10,11 +10,16 @@ vi.mock("fs", () => {
   const existsSync = vi.fn((p: string) => p in files || p === dir);
   const readdirSync = vi.fn(() => Object.keys(files).filter(f => f.endsWith('.md')).map(f => f.split('/').pop()!));
   const readFileSync = vi.fn((p: string) => files[p]);
+  const statSync = vi.fn((p: string) => {
+    if (!(p in files)) throw new Error(`ENOENT: no such file or directory, stat '${p}'`);
+    return { mtime: new Date("2026-01-02T03:04:05.000Z") };
+  });
   return {
-    default: { existsSync, readdirSync, readFileSync },
+    default: { existsSync, readdirSync, readFileSync, statSync },
     existsSync,
     readdirSync,
     readFileSync,
+    statSync,
   };
 });
 
@@ -56,5 +61,11 @@ describe("contentLoader", () => {
   it("getChapterData returns null for nonexistent id", async () => {
     const { getChapterData } = await import("@/lib/contentLoader");
     expect(getChapterData("nonexistent")).toBeNull();
+  });
+
+  it("returns the chapter mtime, or null when missing", async () => {
+    const { getChapterUpdatedAt } = await import("@/lib/contentLoader");
+    expect(getChapterUpdatedAt("intro")).toEqual(new Date("2026-01-02T03:04:05.000Z"));
+    expect(getChapterUpdatedAt("missing")).toBeNull();
   });
 });

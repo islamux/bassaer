@@ -76,3 +76,14 @@ export function getChapterData(id: string): Chapter | null {
     content: fileContents
   };
 }
+
+export function getChapterUpdatedAt(id: string): Date | null {
+  const fullPath = path.join(contentDirectory, `${id}.md`);
+  if (!fs.existsSync(fullPath)) return null;
+
+  try {
+    return fs.statSync(fullPath).mtime;
+  } catch {
+    return null;
+  }
+}
