@@ -27,6 +27,7 @@ export default function SearchDialog({ isOpen, onClose }: SearchDialogProps) {
   const inputRef = useRef<HTMLInputElement>(null);
   const indexRef = useRef<SearchIndex | null>(null);
   const docsRef = useRef<SearchDocument[]>([]);
+  const initializedRef = useRef(false);
 
   if (prevIsOpen !== isOpen) {
     setPrevIsOpen(isOpen);
@@ -42,6 +43,9 @@ export default function SearchDialog({ isOpen, onClose }: SearchDialogProps) {
   }, [isOpen]);
 
   useEffect(() => {
+    if (!isOpen || initializedRef.current) return;
+    initializedRef.current = true;
+
     async function init() {
       const FlexSearch = (await import("flexsearch")).default;
       try {
@@ -70,7 +74,7 @@ export default function SearchDialog({ isOpen, onClose }: SearchDialogProps) {
       }
     }
     init();
-  }, []);
+  }, [isOpen]);
 
   const doSearch = useCallback(async (q: string) => {
     if (!q.trim() || !indexRef.current) {
