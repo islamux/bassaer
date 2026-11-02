@@ -14,3 +14,13 @@ test("service worker is registered", async ({ page }) => {
   const hasSW = await page.evaluate(() => "serviceWorker" in navigator);
   expect(hasSW).toBe(true);
 });
+
+test("ships an offline fallback document", async ({ page }) => {
+  await page.goto("/");
+  const sw = await (await page.request.get("/sw.js")).text();
+  expect(sw).toContain("offline.html");
+
+  const res = await page.request.get("/offline.html");
+  expect(res.status()).toBe(200);
+  expect(await res.text()).toContain("غير متصل");
+});
