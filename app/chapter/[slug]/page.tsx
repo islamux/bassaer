@@ -31,6 +31,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   }
 
   const description = `اقرأ ${chapterData.title} من كتاب بصائر.`;
+  const images = ["/icons/icon-512x512.png"];
   return {
     title: chapterData.title,
     description,
@@ -39,10 +40,18 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
     },
     openGraph: {
       type: "article",
+      locale: "ar_AR",
       title: chapterData.title,
       description,
       url: chapterUrl(slug),
       siteName: SITE_NAME,
+      images,
+    },
+    twitter: {
+      card: "summary",
+      title: chapterData.title,
+      description,
+      images,
     },
   };
 }
