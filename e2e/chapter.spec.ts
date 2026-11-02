@@ -14,7 +14,7 @@ test("chapter page has bookmark button", async ({ page }) => {
 
 test("chapter page has prev/next navigation", async ({ page }) => {
   await page.goto("/chapter/chapter-1");
-  const navLinks = page.locator("a[href^='/chapter/']");
+  const navLinks = page.locator("main a[href^='/chapter/']");
   const count = await navLinks.count();
   expect(count).toBeGreaterThanOrEqual(1);
 });
