@@ -4,12 +4,13 @@ import { useState, useEffect, useRef, useCallback } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Search, X, ArrowUpDown } from "lucide-react";
-import type { SearchDocument, SearchResult } from "@/lib/search";
+import type { IndexedSearchDocument, SearchDocument, SearchResult } from "@/lib/search";
 import { extractExcerpt } from "@/lib/search";
+import { normalizeArabic } from "@/lib/arabicText.mjs";
 
 interface SearchIndex {
   search: (query: string, options?: { enrich?: boolean; limit?: number }) => Promise<Array<{ result: Array<{ id: string; doc: SearchDocument }> }>>;
-  add: (doc: SearchDocument) => void;
+  add: (doc: IndexedSearchDocument) => void;
 }
 
 interface SearchDialogProps {
@@ -56,7 +57,7 @@ export default function SearchDialog({ isOpen, onClose }: SearchDialogProps) {
         const index = new FlexSearch.Document({
           document: {
             id: "id",
-            index: ["title", "content"],
+            index: ["titleNormalized", "contentNormalized"],
             store: ["title", "content"],
           },
           tokenize: "forward",
@@ -64,7 +65,11 @@ export default function SearchDialog({ isOpen, onClose }: SearchDialogProps) {
         }) as unknown as SearchIndex;
 
         for (const doc of docs) {
-          index.add(doc);
+          index.add({
+            ...doc,
+            titleNormalized: normalizeArabic(doc.title),
+            contentNormalized: normalizeArabic(doc.content),
+          });
         }
 
         indexRef.current = index;
@@ -77,13 +82,14 @@ export default function SearchDialog({ isOpen, onClose }: SearchDialogProps) {
   }, [isOpen]);
 
   const doSearch = useCallback(async (q: string) => {
-    if (!q.trim() || !indexRef.current) {
+    const normalizedQuery = normalizeArabic(q);
+    if (!normalizedQuery || !indexRef.current) {
       setResults([]);
       setSelectedIndex(-1);
       return;
     }
 
-    const raw = await indexRef.current.search(q, {
+    const raw = await indexRef.current.search(normalizedQuery, {
       enrich: true,
       limit: 20,
     });
