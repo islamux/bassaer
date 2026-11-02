@@ -12,6 +12,7 @@
     "typecheck": "tsc --noEmit",
     "test:static": "tsc --noEmit && eslint .",
     "test": "vitest run",
+    "check:content": "node scripts/check-content-links.mjs",
     "test:watch": "vitest",
     "test:e2e": "playwright test"
   },
