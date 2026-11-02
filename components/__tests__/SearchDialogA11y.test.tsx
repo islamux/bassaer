@@ -14,7 +14,7 @@ const fetchMock = vi.fn();
 
 beforeEach(() => {
   fetchMock.mockReset();
-  fetchMock.mockResolvedValue({ json: async () => docs });
+  fetchMock.mockResolvedValue({ ok: true, json: async () => docs });
   vi.stubGlobal("fetch", fetchMock);
   document.body.style.overflow = "";
 });

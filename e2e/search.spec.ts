@@ -77,3 +77,19 @@ test("exposes combobox semantics and tracks the active option", async ({ page })
   await page.keyboard.press("ArrowDown");
   await expect(input).toHaveAttribute("aria-activedescendant", /search-result-0/);
 });
+
+test.describe("search index failure", () => {
+  test.use({ serviceWorkers: "block" });
+
+  test("shows an error and retries when the index fails to load", async ({ page }) => {
+    await page.route("**/search-data.json", (route) => route.abort());
+    await page.goto("/");
+    await page.getByRole("button", { name: "بحث في الكتاب" }).click();
+    await expect(page.getByText("تعذر تحميل فهرس البحث")).toBeVisible();
+
+    await page.unroute("**/search-data.json");
+    await page.getByRole("button", { name: "إعادة المحاولة" }).click();
+    await page.getByRole("combobox").fill("الله");
+    await expect(page.getByRole("option").first()).toBeVisible();
+  });
+});

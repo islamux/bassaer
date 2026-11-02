@@ -8,6 +8,7 @@ import type { IndexedSearchDocument, SearchDocument, SearchResult } from "@/lib/
 import { extractExcerpt } from "@/lib/search";
 import { normalizeArabic } from "@/lib/arabicText.mjs";
 import { useFocusTrap } from "@/lib/useFocusTrap";
+import { useDebouncedValue } from "@/lib/useDebouncedValue";
 
 interface SearchIndex {
   search: (query: string, options?: { enrich?: boolean; limit?: number }) => Promise<Array<{ result: Array<{ id: string; doc: SearchDocument }> }>>;
@@ -24,8 +25,11 @@ export default function SearchDialog({ isOpen, onClose }: SearchDialogProps) {
   const [query, setQuery] = useState("");
   const [results, setResults] = useState<SearchResult[]>([]);
   const [isReady, setIsReady] = useState(false);
+  const [initError, setInitError] = useState(false);
+  const [retryToken, setRetryToken] = useState(0);
   const [selectedIndex, setSelectedIndex] = useState(-1);
   const [prevIsOpen, setPrevIsOpen] = useState(isOpen);
+  const debouncedQuery = useDebouncedValue(query, 150);
   const inputRef = useRef<HTMLInputElement>(null);
   const dialogRef = useRef<HTMLDivElement>(null);
   const indexRef = useRef<SearchIndex | null>(null);
@@ -69,9 +73,10 @@ export default function SearchDialog({ isOpen, onClose }: SearchDialogProps) {
     initializedRef.current = true;
 
     async function init() {
-      const FlexSearch = (await import("flexsearch")).default;
       try {
+        const FlexSearch = (await import("flexsearch")).default;
         const res = await fetch("/search-data.json");
+        if (!res.ok) throw new Error(`search-data.json: HTTP ${res.status}`);
         const docs: SearchDocument[] = await res.json();
         docsRef.current = docs;
 
@@ -97,18 +102,17 @@ export default function SearchDialog({ isOpen, onClose }: SearchDialogProps) {
         setIsReady(true);
       } catch (e) {
         console.error("Search init failed:", e);
+        initializedRef.current = false;
+        setInitError(true);
       }
     }
-    init();
-  }, [isOpen]);
+
+    void init();
+  }, [isOpen, retryToken]);
 
   const doSearch = useCallback(async (q: string) => {
     const normalizedQuery = normalizeArabic(q);
-    if (!normalizedQuery || !indexRef.current) {
-      setResults([]);
-      setSelectedIndex(-1);
-      return;
-    }
+    if (!normalizedQuery || !indexRef.current) return;
 
     const raw = await indexRef.current.search(normalizedQuery, {
       enrich: true,
@@ -138,10 +142,18 @@ export default function SearchDialog({ isOpen, onClose }: SearchDialogProps) {
   }, []);
 
   const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const val = e.target.value;
-    setQuery(val);
-    doSearch(val);
+    const value = e.target.value;
+    setQuery(value);
+    if (!value.trim()) {
+      setResults([]);
+      setSelectedIndex(-1);
+    }
   };
+
+  useEffect(() => {
+    if (!isReady || !debouncedQuery.trim()) return;
+    void doSearch(debouncedQuery);
+  }, [debouncedQuery, isReady, doSearch]);
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === "Escape") {
@@ -207,7 +219,22 @@ export default function SearchDialog({ isOpen, onClose }: SearchDialogProps) {
           </button>
         </div>
 
-        {!isReady && query.trim() && (
+        {initError && (
+          <div className="px-5 py-8 text-center text-sm text-[var(--muted-foreground)]">
+            <p className="mb-4">تعذر تحميل فهرس البحث</p>
+            <button
+              onClick={() => {
+                setInitError(false);
+                setRetryToken((token) => token + 1);
+              }}
+              className="px-4 py-2 rounded-xl bg-[var(--primary)] text-white font-medium hover:opacity-90 transition-opacity"
+            >
+              إعادة المحاولة
+            </button>
+          </div>
+        )}
+
+        {!isReady && !initError && query.trim() && (
           <div className="px-5 py-8 text-center text-sm text-[var(--muted-foreground)]">
             جاري تحميل فهرس البحث...
           </div>
