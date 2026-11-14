@@ -1,0 +1,199 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#171714">
+<title>دليل مشروع بصائر | Bassaer</title>
+<style>
+:root{color-scheme:dark;--bg:#11120f;--panel:#1a1c17;--panel2:#22251e;--text:#f1eee5;--muted:#b3b5a8;--line:#34382e;--gold:#d7ad68;--gold2:#f0d39b;--green:#9fb58a;--code:#0c0e0b;--shadow:0 18px 55px #0005}
+*{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:90px}body{margin:0;background:radial-gradient(ellipse at 80% 0%,#51402535,transparent 36%),var(--bg);color:var(--text);font-family:system-ui,-apple-system,"Segoe UI",Tahoma,Arial,sans-serif;line-height:1.9}
+a{color:var(--gold2);text-decoration:none}a:hover{text-decoration:underline}.wrap{width:min(1120px,calc(100% - 36px));margin:auto}
+header{padding:18px 0;border-bottom:1px solid var(--line);position:sticky;top:0;background:#11120feF;backdrop-filter:blur(16px);z-index:10}
+.nav{display:flex;align-items:center;justify-content:space-between;gap:16px}.brand{display:flex;align-items:center;gap:12px;font-weight:800}.mark{width:40px;height:40px;border:1px solid #987447;border-radius:13px;display:grid;place-items:center;color:var(--gold);font-size:22px}.navlinks{display:flex;gap:17px;flex-wrap:wrap;font-size:13px;color:var(--muted)}.navlinks a{color:inherit}
+.hero{padding:76px 0 54px;display:grid;grid-template-columns:1.25fr .75fr;gap:38px;align-items:center}.eyebrow{color:var(--gold);font-size:13px;font-weight:700;letter-spacing:.08em}.hero h1{font-size:clamp(38px,6vw,68px);line-height:1.2;margin:12px 0 18px}.hero h1 span{color:var(--gold2)}.lead{font-size:18px;color:var(--muted);max-width:700px}.actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:26px}.btn{padding:10px 17px;border-radius:11px;border:1px solid var(--line);background:var(--panel2);color:var(--text);font-weight:700}.btn.primary{background:var(--gold);color:#21190e;border-color:var(--gold)}.book-art{min-height:280px;border:1px solid #7b633f;border-radius:24px;background:linear-gradient(145deg,#40321e,#191a14 68%);box-shadow:var(--shadow);display:grid;place-items:center;position:relative;overflow:hidden}.book-art:before,.book-art:after{content:"";position:absolute;border:1px solid #d7ad6838;border-radius:50%;width:280px;height:280px}.book-art:after{width:390px;height:390px}.book{position:relative;z-index:1;width:170px;height:220px;border-radius:5px 13px 13px 5px;background:linear-gradient(90deg,#6d4b27,#b68a4d 8%,#342719 10%,#4a3520);box-shadow:15px 18px 35px #0009;display:flex;align-items:center;justify-content:center;text-align:center;padding:18px;color:#f4dfb5;font-size:27px;font-weight:800;border:1px solid #c5a16b}.book small{display:block;font-size:11px;font-weight:500;margin-top:12px;color:#d8c29c}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:8px 0 55px}.stat{background:var(--panel);border:1px solid var(--line);border-radius:15px;padding:18px}.stat strong{display:block;color:var(--gold2);font-size:22px}.stat span{color:var(--muted);font-size:13px}
+section{padding:30px 0 44px;border-top:1px solid var(--line)}.section-head{display:flex;align-items:center;gap:12px;margin-bottom:20px}.num{width:34px;height:34px;border-radius:10px;background:#d7ad681c;color:var(--gold);display:grid;place-items:center;font-weight:800}.section-head h2{font-size:25px;margin:0}.section-intro{color:var(--muted);max-width:850px;margin:-5px 0 22px}
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}.card{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:19px}.card h3{margin:0 0 7px;font-size:17px;color:var(--gold2)}.card p{margin:0;color:var(--muted)}.icon{font-size:21px;margin-left:8px}
+.flow{display:flex;align-items:stretch;gap:10px;flex-wrap:wrap}.step{flex:1;min-width:150px;background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:16px}.step b{display:block;color:var(--gold2)}.arrow{align-self:center;color:var(--gold);font-size:22px}
+.code{direction:ltr;text-align:left;white-space:pre-wrap;background:var(--code);border:1px solid var(--line);border-radius:12px;padding:16px;color:#d8e3cb;font:13px/1.8 ui-monospace,SFMono-Regular,Consolas,monospace;overflow:auto}.tree{font-size:13px}.tag{display:inline-block;padding:3px 9px;border-radius:20px;background:#d7ad6818;color:var(--gold2);font-size:12px;margin:3px}
+.note{border-right:3px solid var(--gold);background:#d7ad6810;padding:15px 18px;border-radius:10px;color:var(--muted)}.warn{border-right-color:#c98a65;background:#c98a6510}
+table{width:100%;border-collapse:collapse;background:var(--panel);border-radius:14px;overflow:hidden}td,th{padding:13px 15px;border-bottom:1px solid var(--line);text-align:right;vertical-align:top}th{color:var(--gold2);background:var(--panel2)}td{color:var(--muted)}
+footer{padding:30px 0 50px;color:var(--muted);font-size:13px;text-align:center}
+@media(max-width:760px){.hero{grid-template-columns:1fr;padding-top:48px}.book-art{min-height:220px}.navlinks{display:none}.grid{grid-template-columns:1fr}.stats{grid-template-columns:1fr}.hero h1{font-size:43px}}
+@media print{header{position:static}.actions{display:none}body{background:#fff;color:#171717}.card,.stat,.step,table{break-inside:avoid;background:#fff;color:#222;border-color:#ccc}.lead,.section-intro,.card p,td,footer{color:#444}.code{color:#222;background:#f4f4f4}}
+</style>
+</head>
+<body>
+<header><div class="wrap nav">
+  <div class="brand"><div class="mark">ب</div><div>BASSAER <span style="color:var(--muted);font-weight:400">/ دليل المشروع</span></div></div>
+  <nav class="navlinks"><a href="#idea">الفكرة</a><a href="#features">المميزات</a><a href="#architecture">كيف يعمل</a><a href="#structure">بنية المشروع</a><a href="#start">التشغيل</a></nav>
+</div></header>
+<main class="wrap">
+<div class="hero">
+ <div>
+  <div class="eyebrow">دليل تعريفي وتعليمي للمطورين</div>
+  <h1>تعرّف إلى مشروع<br><span>بصائر</span></h1>
+  <p class="lead">من كتاب عربي كبير بصيغة PDF إلى تجربة قراءة رقمية منظمة وسريعة. هذا الدليل يشرح المشروع من الصفر، ويعرّفك بأجزائه وكيف تتعاون معاً، دون افتراض خبرة مسبقة في تطوير الويب.</p>
+  <div class="actions"><a class="btn primary" href="https://github.com/islamux/bassaer" target="_blank" rel="noopener">استعراض المستودع ↗</a><a class="btn" href="#start">كيف أشغّله؟</a></div>
+ </div>
+ <div class="book-art" aria-label="رسم توضيحي لكتاب"><div class="book">بصائر<small>في الكون والحياة والدين<br>د. هيثم طلعت</small></div></div>
+</div>
+<div class="stats">
+ <div class="stat"><strong>13 فصلاً</strong><span>محتوى مقسّم إلى ملفات Markdown وفق README</span></div>
+ <div class="stat"><strong>RTL أولاً</strong><span>واجهة قراءة مصممة للنص العربي واتجاهه</span></div>
+ <div class="stat"><strong>Static Export</strong><span>موقع ثابت يمكن استضافته دون خادم Node.js</span></div>
+</div>
+
+<section id="idea">
+ <div class="section-head"><div class="num">01</div><h2>ما فكرة المشروع؟</h2></div>
+ <p class="section-intro">بصائر منصة قراءة رقمية للكتاب العربي «بصائر في الكون والحياة والدين» للدكتور هيثم طلعت. الهدف هو تقديم الكتاب كتجربة ويب مريحة، بدلاً من حصره في ملف PDF طويل يصعب التنقل والبحث داخله.</p>
+ <div class="grid">
+  <article class="card"><h3>المشكلة التي يعالجها</h3><p>الكتاب الطويل يجعل الوصول إلى فصل أو فكرة محددة والعودة إلى موضع القراءة أمراً أقل سهولة، خصوصاً على الهاتف.</p></article>
+  <article class="card"><h3>الحل الذي يقدمه</h3><p>تقسيم المحتوى إلى فصول قابلة للتصفح والبحث، مع أدوات تساعد القارئ على حفظ ما يهمه ومتابعة قراءته.</p></article>
+ </div>
+</section>
+
+<section id="features">
+ <div class="section-head"><div class="num">02</div><h2>ماذا يستطيع القارئ أن يفعل؟</h2></div>
+ <p class="section-intro">هذه هي الوظائف الأساسية كما يصفها المستودع. تخيّلها من منظور شخص يفتح الموقع ويريد قراءة الكتاب.</p>
+ <div class="grid">
+  <article class="card"><h3><span class="icon">📚</span>قراءة الفصول</h3><p>المحتوى مقسّم إلى ملفات Markdown بدلاً من صفحة PDF واحدة. يمكن فتح كل فصل والتنقل بين الفصول المتتابعة.</p></article>
+  <article class="card"><h3><span class="icon">🔎</span>البحث النصي</h3><p>البحث في نصوص الفصول باستخدام FlexSearch. يراعي البحث اختلافات شائعة في كتابة العربية مثل التشكيل وبعض أشكال الحروف.</p></article>
+  <article class="card"><h3><span class="icon">🔖</span>الإشارات المرجعية</h3><p>يمكن حفظ الفصول المهمة والعودة إليها لاحقاً. تُخزّن العلامات في localStorage على جهاز القارئ.</p></article>
+  <article class="card"><h3><span class="icon">🌗</span>الوضع الفاتح والداكن</h3><p>تبديل مظهر القراءة لتقليل إجهاد العين وتوفير تجربة مناسبة لتفضيلات المستخدم.</p></article>
+  <article class="card"><h3><span class="icon">🧭</span>التنقل داخل الكتاب</h3><p>قائمة جانبية للفصول، وروابط للفصل السابق والتالي، لتسهيل الانتقال دون العودة إلى البداية.</p></article>
+  <article class="card"><h3><span class="icon">📱</span>التصميم المتجاوب</h3><p>تتكيف الواجهة مع شاشات الحاسوب والهواتف، مع مراعاة اتجاه الكتابة من اليمين إلى اليسار.</p></article>
+ </div>
+</section>
+
+<section id="architecture">
+ <div class="section-head"><div class="num">03</div><h2>كيف يعمل المشروع؟</h2></div>
+ <p class="section-intro">لفهم التطبيق، افصل بين المحتوى (نص الكتاب) والواجهة (ما يراه القارئ) والأدوات التي تربطهما.</p>
+ <div class="flow">
+  <div class="step"><b>1. ملفات المحتوى</b><span>فصول عربية مكتوبة بصيغة Markdown داخل content/chapters.</span></div>
+  <div class="arrow">←</div>
+  <div class="step"><b>2. طبقة القراءة</b><span>أدوات في lib لتحميل الفصل وتجهيزه للعرض.</span></div>
+  <div class="arrow">←</div>
+  <div class="step"><b>3. واجهة Next.js</b><span>صفحات ومكوّنات React تعرض الفصول وأدوات القراءة.</span></div>
+  <div class="arrow">←</div>
+  <div class="step"><b>4. المتصفح</b><span>القارئ يتصفح ويحفظ العلامات ويبحث محلياً.</span></div>
+ </div>
+ <div style="height:18px"></div>
+ <div class="grid">
+  <article class="card"><h3>ما Markdown؟</h3><p>صيغة نصية بسيطة لكتابة العناوين والفقرات والقوائم والاقتباسات. تخزين الكتاب بهذه الصيغة يجعل المحتوى أسهل في التنظيم والتحرير والتحويل.</p></article>
+  <article class="card"><h3>ما React وNext.js؟</h3><p>React لبناء الواجهة من مكوّنات صغيرة قابلة لإعادة الاستخدام. Next.js إطار ينظم الصفحات والتنقل والبناء والتصدير.</p></article>
+  <article class="card"><h3>ما localStorage؟</h3><p>مساحة تخزين داخل المتصفح تحفظ بيانات بسيطة على الجهاز، مثل قائمة الفصول المحفوظة، دون الحاجة إلى حساب مستخدم أو قاعدة بيانات.</p></article>
+  <article class="card"><h3>ما فهرس البحث؟</h3><p>بيانات مجهزة لتسريع العثور على الكلمات داخل النصوص. يُنشأ ملف بيانات البحث أثناء مراحل ما قبل التشغيل أو البناء، ثم يُستخدم FlexSearch في المتصفح.</p></article>
+ </div>
+ <div style="height:18px"></div>
+ <div class="note"><strong>تدفق البحث باختصار:</strong> تُجمع نصوص الفصول في ملف بيانات بحث مُولّد، وعندما يفتح المستخدم نافذة البحث يُبنى فهرس FlexSearch في جهة العميل. بعد ذلك تُطبّع عبارة البحث العربية لتقليل أثر التشكيل واختلاف بعض الحروف، ثم تُعرض النتائج.</div>
+</section>
+
+<section id="stack">
+ <div class="section-head"><div class="num">04</div><h2>التقنيات المستخدمة</h2></div>
+ <table>
+  <thead><tr><th>التقنية</th><th>وظيفتها في المشروع</th></tr></thead>
+  <tbody>
+   <tr><td><span class="tag">Next.js 16</span></td><td>إطار التطبيق، الصفحات، التوجيه، وعملية البناء والتصدير.</td></tr>
+   <tr><td><span class="tag">React 19</span></td><td>بناء عناصر الواجهة التفاعلية على هيئة مكوّنات.</td></tr>
+   <tr><td><span class="tag">TypeScript</span></td><td>إضافة أنواع للبيانات والدوال للمساعدة في اكتشاف أخطاء البرمجة.</td></tr>
+   <tr><td><span class="tag">Tailwind CSS 4</span></td><td>تنسيق الواجهة باستخدام أصناف CSS جاهزة.</td></tr>
+   <tr><td><span class="tag">react-markdown</span> <span class="tag">remark-gfm</span></td><td>تحويل ملفات Markdown إلى عناصر HTML مع دعم تنسيقات إضافية.</td></tr>
+   <tr><td><span class="tag">FlexSearch</span></td><td>تنفيذ البحث النصي السريع داخل محتوى الفصول.</td></tr>
+   <tr><td><span class="tag">Serwist</span></td><td>دعم خصائص تطبيق الويب التقدمي وخدمة Service Worker وفق إعدادات المشروع.</td></tr>
+   <tr><td><span class="tag">pnpm</span></td><td>إدارة حزم JavaScript وتثبيت اعتماديات المشروع وتشغيل أوامره.</td></tr>
+  </tbody>
+ </table>
+</section>
+
+<section id="structure">
+ <div class="section-head"><div class="num">05</div><h2>التعرّف إلى مجلدات المشروع</h2></div>
+ <p class="section-intro">لا تحتاج إلى فهم كل ملف في البداية. ابدأ بالمجلدات التي تمثل أجزاء التطبيق الأساسية، ثم انتقل إلى ملفات الإعداد والأدوات عند الحاجة.</p>
+ <div class="code tree">bassaer/
+├── app/                  # صفحات Next.js والتخطيط العام
+├── components/           # مكوّنات الواجهة مثل البحث والقائمة الجانبية
+├── content/
+│   └── chapters/          # نصوص فصول الكتاب بصيغة Markdown
+├── lib/                   # منطق التطبيق والأدوات المساعدة
+├── public/                # الصور والملفات الثابتة وملفات PWA
+├── scripts/               # سكربتات تجهيز المحتوى وفهرس البحث
+├── docs/                  # وثائق وملاحظات المشروع
+├── e2e/                   # اختبارات تجربة المستخدم من البداية للنهاية
+├── presentation/          # ملفات/مواد مرتبطة بالعرض التقديمي
+├── package.json           # الاعتماديات والأوامر المتاحة
+├── next.config.ts         # إعدادات Next.js
+├── tsconfig.json          # إعدادات TypeScript
+├── pnpm-lock.yaml         # نسخ الاعتماديات المثبتة
+└── AGENTS.md              # إرشادات العمل لوكلاء البرمجة</div>
+ <div class="note"><strong>ملاحظة:</strong> هذا وصف للمجلدات الرئيسية الظاهرة في المستودع. قد تتغير الملفات أو تتوسع المجلدات مع تطور المشروع؛ افحص محتوياتها الفعلية قبل تعديلها.</div>
+ <div style="height:16px"></div>
+ <div class="grid">
+  <article class="card"><h3>app/ مقابل components/</h3><p>المجلد الأول ينظم الصفحات ومساراتها، أما الثاني فيحتوي أجزاء واجهة يمكن استخدامها داخل أكثر من صفحة.</p></article>
+  <article class="card"><h3>lib/ مقابل scripts/</h3><p>lib يحتوي منطقاً تستخدمه واجهة التطبيق أثناء عملها. scripts يحتوي برامج مساعدة تُشغّل في مهام مثل تجهيز بيانات البحث.</p></article>
+ </div>
+</section>
+
+<section id="start">
+ <div class="section-head"><div class="num">06</div><h2>تشغيل المشروع محلياً</h2></div>
+ <p class="section-intro">المتطلبات الأساسية: Git وNode.js بإصدار متوافق مع المشروع وpnpm. استخدم الطرفية داخل مجلد العمل.</p>
+ <h3 style="color:var(--gold2)">1. استنساخ المستودع</h3>
+ <div class="code">git clone https://github.com/islamux/bassaer.git
+cd bassaer</div>
+ <h3 style="color:var(--gold2)">2. تثبيت الاعتماديات</h3>
+ <div class="code">pnpm install</div>
+ <h3 style="color:var(--gold2)">3. تشغيل خادم التطوير</h3>
+ <div class="code">pnpm dev</div>
+ <p style="color:var(--muted)">افتح المتصفح على <a href="http://localhost:3000" target="_blank" rel="noopener">http://localhost:3000</a>.</p>
+ <div class="note warn"><strong>تنبيه:</strong> لا تعدّل ملفات المحتوى أو إعدادات البناء لمجرد التجربة. ابدأ بتشغيل المشروع واستكشافه، ثم افهم الملف المسؤول عن الميزة قبل تغيير الكود.</div>
+</section>
+
+<section id="build">
+ <div class="section-head"><div class="num">07</div><h2>كيف يتم بناء الموقع ونشره؟</h2></div>
+ <p class="section-intro">المشروع مضبوط على التصدير الثابت (Static Export). هذا يعني أن عملية البناء تنتج ملفات HTML وCSS وJavaScript وموارد ثابتة يمكن تقديمها من استضافة ملفات عادية.</p>
+ <div class="code"># تثبيت الحزم
+pnpm install
+
+# بناء نسخة الإنتاج
+pnpm build</div>
+ <p style="color:var(--muted)">وفق إعدادات المشروع، ينتج البناء مجلد <code dir="ltr">out/</code>. تُرفع محتوياته إلى الاستضافة الثابتة. لا تحتاج الاستضافة إلى تشغيل خادم Next.js وقت تقديم الموقع.</p>
+ <div class="grid">
+  <article class="card"><h3>ما المقصود بـ Static Export؟</h3><p>بدلاً من إنشاء الصفحات على خادم عند كل طلب، تُجهّز ملفات الموقع مسبقاً أثناء البناء، ثم يرسلها خادم الويب إلى الزائر.</p></article>
+  <article class="card"><h3>ما فائدة ذلك؟</h3><p>استضافة أبسط، ومتطلبات تشغيل أقل، وإمكانية نشر الموقع على خدمات استضافة الملفات الثابتة.</p></article>
+ </div>
+</section>
+
+<section id="beginner">
+ <div class="section-head"><div class="num">08</div><h2>مسار مقترح لفهم المشروع كمبتدئ</h2></div>
+ <p class="section-intro">لا تحاول قراءة المستودع كله دفعة واحدة. اتبع هذا الترتيب، وشغّل التطبيق بعد كل مرحلة لتربط ما تقرؤه بما تراه.</p>
+ <div class="grid">
+  <article class="card"><h3>المرحلة الأولى — شاهد التطبيق</h3><p>شغّل المشروع، افتح عدة فصول، جرّب البحث والإشارات المرجعية والوضع الداكن. دوّن ما يحدث عند كل تفاعل.</p></article>
+  <article class="card"><h3>المرحلة الثانية — افهم الصفحات</h3><p>ابدأ من ملفات app/ لتعرف كيف تُبنى الصفحة الرئيسية وصفحة الفصل، وما التخطيط المشترك بينهما.</p></article>
+  <article class="card"><h3>المرحلة الثالثة — افهم المكوّنات</h3><p>افتح components/ وابحث عن المكوّنات التي شاهدتها في الواجهة، مثل شريط التنقل والقائمة والبحث.</p></article>
+  <article class="card"><h3>المرحلة الرابعة — تتبّع البيانات</h3><p>افحص content/chapters/ ثم lib/ لتفهم كيف ينتقل نص الفصل من ملف Markdown إلى واجهة القراءة.</p></article>
+  <article class="card"><h3>المرحلة الخامسة — افهم البحث</h3><p>اقرأ سكربت إنشاء بيانات البحث ثم منطق البحث في lib/ ومكوّن نافذة البحث.</p></article>
+  <article class="card"><h3>المرحلة السادسة — اختبر تغييراً صغيراً</h3><p>نفّذ تعديلاً بصرياً محدوداً، شغّل الفحوصات المناسبة، وتأكد من أن القراءة والبحث والتنقل لم تتأثر.</p></article>
+ </div>
+</section>
+
+<section id="terms">
+ <div class="section-head"><div class="num">09</div><h2>مصطلحات ستقابلها كثيراً</h2></div>
+ <table><thead><tr><th>المصطلح</th><th>المعنى المبسّط</th></tr></thead><tbody>
+ <tr><td>Component</td><td>قطعة مستقلة من الواجهة، مثل زر أو قائمة أو نافذة بحث.</td></tr>
+ <tr><td>App Router</td><td>نظام Next.js لتنظيم الصفحات والمسارات من خلال بنية الملفات داخل app/.</td></tr>
+ <tr><td>Client-side</td><td>كود يعمل داخل متصفح المستخدم بعد تحميل الموقع.</td></tr>
+ <tr><td>Build</td><td>عملية تحويل ملفات المشروع إلى نسخة جاهزة للنشر.</td></tr>
+ <tr><td>Service Worker</td><td>ملف يعمل في المتصفح ويساعد في وظائف PWA مثل التخزين المؤقت والعمل دون اتصال بحسب الإعدادات.</td></tr>
+ <tr><td>Responsive</td><td>تصميم يغيّر ترتيبه وأحجامه ليناسب أحجام الشاشات المختلفة.</td></tr>
+ <tr><td>RTL / LTR</td><td>اتجاه الكتابة من اليمين إلى اليسار / من اليسار إلى اليمين.</td></tr>
+ </tbody></table>
+</section>
+
+<section id="rights">
+ <div class="section-head"><div class="num">10</div><h2>الترخيص وحقوق المحتوى</h2></div>
+ <p class="section-intro">بحسب README في المستودع، الشيفرة المصدرية لمنصة الويب مرخّصة بموجب GPL-3.0. أما نص الكتاب الموجود ضمن ملفات المحتوى فهو ملك لمؤلفه الأصلي الدكتور هيثم طلعت، ولا يعني ترخيص الشيفرة أن نص الكتاب متاح لإعادة الاستخدام بالشروط نفسها.</p>
+ <div class="note">عند إعادة استخدام المشروع أو المساهمة فيه، اقرأ ملف LICENSE وأي إشعارات حقوق مرتبطة بالمحتوى. افصل دائماً بين حقوق البرنامج وحقوق النصوص والصور والمواد المنشورة.</div>
+</section>
+</main>
+<footer><div class="wrap">دليل تعريفي لمشروع بصائر · أُعدّ بالاستناد إلى المستودع العام وملف README · <a href="https://github.com/islamux/bassaer" target="_blank" rel="noopener">github.com/islamux/bassaer</a></div></footer>
+</body></html>
