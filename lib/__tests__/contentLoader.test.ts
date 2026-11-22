@@ -63,6 +63,13 @@ describe("contentLoader", () => {
     expect(getChapterData("nonexistent")).toBeNull();
   });
 
+  it("getChapterData returns null for traversal slug", async () => {
+    const { getChapterData } = await import("@/lib/contentLoader");
+    expect(getChapterData("../etc/passwd")).toBeNull();
+    expect(getChapterData("chapter-1/../../etc/passwd")).toBeNull();
+    expect(getChapterData("chapter-1\\..\\..\\etc\\passwd")).toBeNull();
+  });
+
   it("returns the chapter mtime, or null when missing", async () => {
     const { getChapterUpdatedAt } = await import("@/lib/contentLoader");
     expect(getChapterUpdatedAt("intro")).toEqual(new Date("2026-01-02T03:04:05.000Z"));
