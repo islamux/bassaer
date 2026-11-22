@@ -80,3 +80,11 @@ audit_report.json
 # Playwright artifacts
 /test-results/
 /playwright-report/
+
+# Hardened secrets (Task 5)
+.env
+.env.*
+*.pem
+*.key
+*.p12
+*.pfx

@@ -61,8 +61,24 @@ export function getAllChapters(): ChapterMeta[] {
   });
 }
 
+// Allowlist of valid chapter ids to prevent path traversal.
+const VALID_CHAPTER_ID = /^(intro|chapter-[0-9]+)$/;
+
+function isValidChapterId(id: string): boolean {
+  return typeof id === 'string' && VALID_CHAPTER_ID.test(id);
+}
+
+function safeChapterPath(id: string): string | null {
+  if (!isValidChapterId(id)) return null;
+  const fullPath = path.resolve(contentDirectory, `${id}.md`);
+  // Defense in depth: resolved path must remain inside content directory.
+  if (!fullPath.startsWith(contentDirectory + path.sep)) return null;
+  return fullPath;
+}
+
 export function getChapterData(id: string): Chapter | null {
-  const fullPath = path.join(contentDirectory, `${id}.md`);
+  const fullPath = safeChapterPath(id);
+  if (!fullPath) return null;
   if (!fs.existsSync(fullPath)) return null;
 
   const fileContents = fs.readFileSync(fullPath, 'utf8');
@@ -78,7 +94,8 @@ export function getChapterData(id: string): Chapter | null {
 }
 
 export function getChapterUpdatedAt(id: string): Date | null {
-  const fullPath = path.join(contentDirectory, `${id}.md`);
+  const fullPath = safeChapterPath(id);
+  if (!fullPath) return null;
   if (!fs.existsSync(fullPath)) return null;
 
   try {
